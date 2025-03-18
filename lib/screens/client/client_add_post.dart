@@ -42,6 +42,7 @@ class _ClientAddPostState extends State<ClientAddPost> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
+                      Text(_postListed[index].uid),
                       Text(_postListed[index].description),
                       Text(_postListed[index].service),
                       Text(_postListed[index].date),

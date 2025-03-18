@@ -1,8 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:intl/intl.dart';
-import 'package:depanini/models/post_model.dart';
+// import 'package:depanini/models/post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'package:http/http.dart' as http;
+
+final _auth = FirebaseAuth.instance;
 
 class NewPostScreen extends StatefulWidget {
   const NewPostScreen({super.key});
@@ -28,24 +34,31 @@ class _NewPostScreenState extends State<NewPostScreen> {
   File? _pickImageFile_3;
   File? _pickImageFile_4;
   final _formKey = GlobalKey<FormState>();
-  void _submit() {
+  void _savePost() {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
       _formKey.currentState!.save();
-      Navigator.of(context).pop(
-        PostModel(
-          description: _enteredDescription,
-          service: _enteredDomaine,
-          date:
+      // ***********HTTP Request**************
+      final url = Uri.http('10.0.2.2:3000', 'api/data');
+      http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'uid': _auth.currentUser!.uid,
+          'description': _enteredDescription,
+          'service': _enteredDomaine,
+          'date':
               _selectedDate == null
                   ? 'Aucune date sélectionnée'
                   : formatter.format(_selectedDate!),
-          image1: _pickImageFile_1,
-          image2: _pickImageFile_2,
-          image3: _pickImageFile_3,
-          image4: _pickImageFile_4,
-        ),
+          // 'image1': _pickImageFile_1,
+          // 'image2': _pickImageFile_2,
+          // 'image3': _pickImageFile_3,
+          // 'image4': _pickImageFile_4,
+        }),
       );
+      // *************************************
+      // Navigator.of(context).pop();
     }
   }
 
@@ -356,7 +369,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  ElevatedButton(onPressed: _submit, child: Text('Ajouter')),
+                  ElevatedButton(onPressed: _savePost, child: Text('Ajouter')),
                   SizedBox(height: 10),
                 ],
               ),

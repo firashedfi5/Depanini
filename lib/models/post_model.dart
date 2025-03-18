@@ -2,6 +2,7 @@ import 'dart:io';
 
 class PostModel {
   const PostModel({
+    required this.uid,
     required this.description,
     required this.service,
     required this.date,
@@ -11,6 +12,7 @@ class PostModel {
     this.image4,
   });
 
+  final String uid;
   final String service;
   final String description;
   final String date;
