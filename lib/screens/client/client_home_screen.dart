@@ -91,12 +91,12 @@ class _HomeScreenState extends State<HomeScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text('Home Screen', style: TextStyle(fontSize: 35)),
-            ElevatedButton(
-              onPressed: () {
-                FirebaseAuth.instance.signOut();
-              },
-              child: Text('Logout'),
-            ),
+            // ElevatedButton(
+            //   onPressed: () {
+            //     FirebaseAuth.instance.signOut();
+            //   },
+            //   child: Text('Logout'),
+            // ),
           ],
         ),
       ),
