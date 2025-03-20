@@ -2,14 +2,14 @@ import 'package:depanini/screens/client/new_post_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/models/post_model.dart';
 
-class ClientAddPost extends StatefulWidget {
-  const ClientAddPost({super.key});
+class ClientPostScreen extends StatefulWidget {
+  const ClientPostScreen({super.key});
 
   @override
-  State<ClientAddPost> createState() => _ClientAddPostState();
+  State<ClientPostScreen> createState() => _ClientPostScreenState();
 }
 
-class _ClientAddPostState extends State<ClientAddPost> {
+class _ClientPostScreenState extends State<ClientPostScreen> {
   final List<PostModel> _postListed = [];
   void _addPost() async {
     final newPost = await Navigator.of(

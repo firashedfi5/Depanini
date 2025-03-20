@@ -18,6 +18,33 @@ class NewPostScreen extends StatefulWidget {
 }
 
 class _NewPostScreenState extends State<NewPostScreen> {
+  // **************Cloudinary******************
+  Future<String?> uploadAnnoncesImageToCloudinary(File imageFile) async {
+    final cloudName = "dgdvqiztn";
+    final uploadPreset = "Post_Images";
+
+    final url = "https://api.cloudinary.com/v1_1/$cloudName/image/upload";
+
+    var request =
+        http.MultipartRequest("POST", Uri.parse(url))
+          ..fields['upload_preset'] = uploadPreset
+          ..files.add(
+            await http.MultipartFile.fromPath('file', imageFile.path),
+          );
+
+    var response = await request.send();
+
+    if (response.statusCode == 200) {
+      final responseData = await response.stream.bytesToString();
+      final jsonData = json.decode(responseData);
+      return jsonData['secure_url'];
+    } else {
+      print("Upload failed with status: ${response.statusCode}");
+      return null;
+    }
+  }
+  // ******************************************
+
   final List<String> _domains = [
     'Plomberie',
     'Électricité',
@@ -34,13 +61,39 @@ class _NewPostScreenState extends State<NewPostScreen> {
   File? _pickImageFile_3;
   File? _pickImageFile_4;
   final _formKey = GlobalKey<FormState>();
-  void _savePost() {
+  void _savePost() async {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
       _formKey.currentState!.save();
+      // *************************************
+      // Upload service images if they exist
+      String? uploadedPostImageUrl_1;
+      if (_pickImageFile_1 != null) {
+        uploadedPostImageUrl_1 = await uploadAnnoncesImageToCloudinary(
+          _pickImageFile_1!,
+        );
+      }
+      String? uploadedPostImageUrl_2;
+      if (_pickImageFile_2 != null) {
+        uploadedPostImageUrl_2 = await uploadAnnoncesImageToCloudinary(
+          _pickImageFile_2!,
+        );
+      }
+      String? uploadedPostImageUrl_3;
+      if (_pickImageFile_3 != null) {
+        uploadedPostImageUrl_3 = await uploadAnnoncesImageToCloudinary(
+          _pickImageFile_3!,
+        );
+      }
+      String? uploadedPostImageUrl_4;
+      if (_pickImageFile_4 != null) {
+        uploadedPostImageUrl_4 = await uploadAnnoncesImageToCloudinary(
+          _pickImageFile_4!,
+        );
+      }
       // ***********HTTP Request**************
-      final url = Uri.http('10.0.2.2:3000', 'api/data');
-      http.post(
+      final url = Uri.http('10.0.2.2:3300', 'ajouter-annonces');
+      final response = await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
@@ -51,13 +104,19 @@ class _NewPostScreenState extends State<NewPostScreen> {
               _selectedDate == null
                   ? 'Aucune date sélectionnée'
                   : formatter.format(_selectedDate!),
-          // 'image1': _pickImageFile_1,
-          // 'image2': _pickImageFile_2,
-          // 'image3': _pickImageFile_3,
-          // 'image4': _pickImageFile_4,
+          'imageURL_1': uploadedPostImageUrl_1,
+          'imageURL_2': uploadedPostImageUrl_2,
+          'imageURL_3': uploadedPostImageUrl_3,
+          'imageURL_4': uploadedPostImageUrl_4,
         }),
       );
+      // **********HTTP Response**************
+      print(response.body);
+      print(response.statusCode);
       // *************************************
+      // if (!context.mounted) {
+      //   return;
+      // }
       // Navigator.of(context).pop();
     }
   }
@@ -369,7 +428,13 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     ),
                   ),
                   SizedBox(height: 20),
-                  ElevatedButton(onPressed: _savePost, child: Text('Ajouter')),
+                  ElevatedButton(
+                    onPressed: () {
+                      _savePost();
+                      Navigator.of(context).pop();
+                    },
+                    child: Text('Ajouter'),
+                  ),
                   SizedBox(height: 10),
                 ],
               ),

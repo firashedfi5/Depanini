@@ -1,5 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:depanini/screens/client/client_add_post.dart';
+import 'package:depanini/screens/client/client_post_screen.dart';
 import 'package:depanini/screens/client/client_chat_screen.dart';
 import 'package:depanini/screens/client/client_home_screen.dart';
 import 'package:depanini/screens/client/client_profil_screen.dart';
@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
   final List<Widget> _pages = [
     HomeScreen(),
     SearchScreen(),
-    ClientAddPost(),
+    ClientPostScreen(),
     ChatScreen(),
     ProfilScreen(),
   ];
