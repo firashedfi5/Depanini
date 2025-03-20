@@ -1,7 +1,6 @@
-import 'dart:io';
-
 class PostModel {
   const PostModel({
+    required this.id,
     required this.uid,
     required this.description,
     required this.service,
@@ -12,12 +11,13 @@ class PostModel {
     this.image4,
   });
 
+  final int id;
   final String uid;
   final String service;
   final String description;
   final String date;
-  final File? image1;
-  final File? image2;
-  final File? image3;
-  final File? image4;
+  final String? image1;
+  final String? image2;
+  final String? image3;
+  final String? image4;
 }

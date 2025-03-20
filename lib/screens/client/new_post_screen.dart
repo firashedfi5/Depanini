@@ -93,7 +93,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       }
       // ***********HTTP Request**************
       final url = Uri.http('10.0.2.2:3300', 'ajouter-annonces');
-      final response = await http.post(
+      await http.post(
         url,
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
@@ -111,8 +111,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
         }),
       );
       // **********HTTP Response**************
-      print(response.body);
-      print(response.statusCode);
+      // print(response.body);
+      // print(response.statusCode);
       // *************************************
       // if (!context.mounted) {
       //   return;
