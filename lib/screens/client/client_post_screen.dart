@@ -68,10 +68,12 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
         _isLoading = false;
       });
     } catch (err) {
-      setState(() {
-        _error =
-            'Echec de récupération des données. Veuillez réessayer plus tard.';
-      });
+      if (mounted) {
+        setState(() {
+          _error =
+              'Echec de récupération des données. Veuillez réessayer plus tard.';
+        });
+      }
     }
   }
   // ***********************************************
