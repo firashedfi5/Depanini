@@ -36,7 +36,6 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
     );
     try {
       final response = await http.get(url);
-      // print(response.statusCode);
 
       if (response.statusCode >= 400) {
         setState(() {
@@ -125,10 +124,21 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Text("Annonce num: ${_postListed[index].id}"),
+                        IconButton(
+                          onPressed: () {},
+                          icon: Icon(
+                            Icons.edit_note_outlined,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 30,
+                          ),
+                        ),
+                        // Text("Annonce num: ${_postListed[index].id}"),
                         Text(_postListed[index].description),
                         Text(_postListed[index].service),
-                        Text(_postListed[index].date),
+                        Text(
+                          'Le ${_postListed[index].date}',
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
