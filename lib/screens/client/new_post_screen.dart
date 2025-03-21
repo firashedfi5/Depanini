@@ -110,13 +110,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
           'imageURL_4': uploadedPostImageUrl_4,
         }),
       );
-      // **********HTTP Response**************
-      // print(response.body);
-      // print(response.statusCode);
-      // *************************************
-      // if (!context.mounted) {
-      //   return;
-      // }
       // Navigator.of(context).pop();
     }
   }
@@ -433,6 +426,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                       _savePost();
                       Navigator.of(context).pop();
                     },
+                    // _savePost,
                     child: Text('Ajouter'),
                   ),
                   SizedBox(height: 10),
