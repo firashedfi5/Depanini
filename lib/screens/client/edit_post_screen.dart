@@ -21,13 +21,14 @@ class EditPostScreen extends StatefulWidget {
 
 class _EditPostScreenState extends State<EditPostScreen> {
   // *******************GET Method************************
-  List<PostModel> _postListed = [];
+  // List<PostModel> _postListed = [];
   var _isLoading = true;
   String? _error;
   void _loadPosts() async {
     final url = Uri.http('10.0.2.2:3300', 'modifier-annonces/${widget.id}');
     try {
       final response = await http.get(url);
+      print(response.body);
 
       if (response.statusCode >= 400) {
         setState(() {
@@ -38,6 +39,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
 
       // Decode the JSON response correctly as a List
       final List<dynamic> listData = json.decode(response.body);
+      // print(listData);
 
       final List<PostModel> loadedPosts =
           listData.map((post) {
@@ -53,9 +55,10 @@ class _EditPostScreenState extends State<EditPostScreen> {
               image4: post["imageURL_4"],
             );
           }).toList();
+      // print(loadedPosts);
 
       setState(() {
-        _postListed = loadedPosts;
+        // _postListed = loadedPosts;
         _isLoading = false;
       });
     } catch (err) {
@@ -180,6 +183,11 @@ class _EditPostScreenState extends State<EditPostScreen> {
               key: _formKey,
               child: Column(
                 children: [
+                  ElevatedButton(
+                    onPressed: _loadPosts,
+                    child: Text('Fetch Data'),
+                  ),
+                  SizedBox(height: 20),
                   TextFormField(
                     maxLength: 150,
                     initialValue: widget.id.toString(),
