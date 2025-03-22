@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:depanini/screens/client/edit_post_screen.dart';
 import 'package:depanini/screens/client/new_post_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/models/post_model.dart';
@@ -125,7 +126,17 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => EditPostScreen(
+                                      id: _postListed[index].id,
+                                    ),
+                              ),
+                            );
+                          },
                           icon: Icon(
                             Icons.edit_note_outlined,
                             color: Theme.of(context).colorScheme.primary,
