@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:depanini/screens/client/edit_post_screen.dart';
 import 'package:depanini/screens/client/new_post_screen.dart';
+import 'package:depanini/widgets/image_container.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/models/post_model.dart';
 
@@ -143,7 +144,6 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                             size: 30,
                           ),
                         ),
-                        // Text("Annonce num: ${_postListed[index].id}"),
                         Text(_postListed[index].description),
                         Text(_postListed[index].service),
                         Text(
@@ -154,156 +154,20 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
-                              Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.surfaceContainerHigh,
-                                  image:
-                                      _postListed[index].image1 != null
-                                          ? DecorationImage(
-                                            image: NetworkImage(
-                                              _postListed[index].image1!,
-                                            ),
-                                            fit:
-                                                BoxFit
-                                                    .cover, // Optional: Adjusts the image fit
-                                          )
-                                          : null,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    if (_postListed[index].image1 == null)
-                                      Icon(
-                                        Icons.no_photography_outlined,
-                                        size: 30,
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.primary,
-                                      ),
-                                  ],
-                                ),
+                              ImageContainer(
+                                imageUrl: _postListed[index].image1,
                               ),
                               SizedBox(width: 5),
-                              Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.surfaceContainerHigh,
-                                  image:
-                                      _postListed[index].image2 != null
-                                          ? DecorationImage(
-                                            image: NetworkImage(
-                                              _postListed[index].image2!,
-                                            ),
-                                            fit:
-                                                BoxFit
-                                                    .cover, // Optional: Adjusts the image fit
-                                          )
-                                          : null,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    if (_postListed[index].image2 == null)
-                                      Icon(
-                                        Icons.no_photography_outlined,
-                                        size: 30,
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.primary,
-                                      ),
-                                  ],
-                                ),
+                              ImageContainer(
+                                imageUrl: _postListed[index].image2,
                               ),
                               SizedBox(width: 5),
-                              Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.surfaceContainerHigh,
-                                  image:
-                                      _postListed[index].image3 != null
-                                          ? DecorationImage(
-                                            image: NetworkImage(
-                                              _postListed[index].image3!,
-                                            ),
-                                            fit:
-                                                BoxFit
-                                                    .cover, // Optional: Adjusts the image fit
-                                          )
-                                          : null,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    if (_postListed[index].image3 == null)
-                                      Icon(
-                                        Icons.no_photography_outlined,
-                                        size: 30,
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.primary,
-                                      ),
-                                  ],
-                                ),
+                              ImageContainer(
+                                imageUrl: _postListed[index].image3,
                               ),
                               SizedBox(width: 5),
-                              Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.surfaceContainerHigh,
-                                  image:
-                                      _postListed[index].image4 != null
-                                          ? DecorationImage(
-                                            image: NetworkImage(
-                                              _postListed[index].image4!,
-                                            ),
-                                            fit:
-                                                BoxFit
-                                                    .cover, // Optional: Adjusts the image fit
-                                          )
-                                          : null,
-                                ),
-                                child: Column(
-                                  mainAxisSize: MainAxisSize.min,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    if (_postListed[index].image4 == null)
-                                      Icon(
-                                        Icons.no_photography_outlined,
-                                        size: 30,
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.primary,
-                                      ),
-                                  ],
-                                ),
+                              ImageContainer(
+                                imageUrl: _postListed[index].image4,
                               ),
                             ],
                           ),

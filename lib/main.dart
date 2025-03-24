@@ -11,10 +11,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:json_theme/json_theme.dart';
 import 'dart:convert';
 
-// late final ThemeData lightTheme;
 ThemeData lightTheme = ThemeData();
 ThemeData darkTheme = ThemeData();
-// late final ThemeData darkTheme;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

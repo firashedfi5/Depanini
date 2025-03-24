@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:depanini/widgets/post_image.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:http/http.dart' as http;
@@ -99,17 +99,13 @@ class _NewPostScreenState extends State<NewPostScreen> {
           'uid': _auth.currentUser!.uid,
           'description': _enteredDescription,
           'service': _enteredDomaine,
-          'date':
-              _selectedDate == null
-                  ? 'Aucune date sélectionnée'
-                  : formatter.format(_selectedDate!),
+          'date': _selectedDate == null ? '' : formatter.format(_selectedDate!),
           'imageURL_1': uploadedPostImageUrl_1,
           'imageURL_2': uploadedPostImageUrl_2,
           'imageURL_3': uploadedPostImageUrl_3,
           'imageURL_4': uploadedPostImageUrl_4,
         }),
       );
-      // Navigator.of(context).pop();
     }
   }
 
@@ -229,192 +225,40 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     scrollDirection: Axis.horizontal,
                     child: Row(
                       children: [
-                        InkWell(
-                          onTap: () async {
-                            final pickedImage = await ImagePicker().pickImage(
-                              source: ImageSource.gallery,
-                              imageQuality: 50,
-                              maxWidth: 150,
-                            );
-                            if (pickedImage == null) {
-                              return;
-                            }
+                        PostImage(
+                          pickedImageFile: _pickImageFile_1,
+                          onImagePicked: (file) {
                             setState(() {
-                              _pickImageFile_1 = File(pickedImage.path);
+                              _pickImageFile_1 = file;
                             });
                           },
-                          child: Container(
-                            height: 150,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              color:
-                                  Theme.of(
-                                    context,
-                                  ).colorScheme.surfaceContainerHigh,
-                              image:
-                                  _pickImageFile_1 != null
-                                      ? DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: FileImage(_pickImageFile_1!),
-                                      )
-                                      : null,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (_pickImageFile_1 == null)
-                                  Icon(
-                                    Icons.add_a_photo,
-                                    size: 50,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                  ),
-                              ],
-                            ),
-                          ),
                         ),
                         SizedBox(width: 7),
-                        InkWell(
-                          onTap: () async {
-                            final pickedImage = await ImagePicker().pickImage(
-                              source: ImageSource.gallery,
-                              imageQuality: 50,
-                              maxWidth: 150,
-                            );
-                            if (pickedImage == null) {
-                              return;
-                            }
+                        PostImage(
+                          pickedImageFile: _pickImageFile_2,
+                          onImagePicked: (file) {
                             setState(() {
-                              _pickImageFile_2 = File(pickedImage.path);
+                              _pickImageFile_2 = file;
                             });
                           },
-                          child: Container(
-                            height: 150,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              color:
-                                  Theme.of(
-                                    context,
-                                  ).colorScheme.surfaceContainerHigh,
-                              image:
-                                  _pickImageFile_2 != null
-                                      ? DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: FileImage(_pickImageFile_2!),
-                                      )
-                                      : null,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (_pickImageFile_2 == null)
-                                  Icon(
-                                    Icons.add_a_photo,
-                                    size: 50,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                  ),
-                              ],
-                            ),
-                          ),
                         ),
                         SizedBox(width: 7),
-                        InkWell(
-                          onTap: () async {
-                            final pickedImage = await ImagePicker().pickImage(
-                              source: ImageSource.gallery,
-                              imageQuality: 50,
-                              maxWidth: 150,
-                            );
-                            if (pickedImage == null) {
-                              return;
-                            }
+                        PostImage(
+                          pickedImageFile: _pickImageFile_3,
+                          onImagePicked: (file) {
                             setState(() {
-                              _pickImageFile_3 = File(pickedImage.path);
+                              _pickImageFile_3 = file;
                             });
                           },
-                          child: Container(
-                            height: 150,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              color:
-                                  Theme.of(
-                                    context,
-                                  ).colorScheme.surfaceContainerHigh,
-                              image:
-                                  _pickImageFile_3 != null
-                                      ? DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: FileImage(_pickImageFile_3!),
-                                      )
-                                      : null,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (_pickImageFile_3 == null)
-                                  Icon(
-                                    Icons.add_a_photo,
-                                    size: 50,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                  ),
-                              ],
-                            ),
-                          ),
                         ),
                         SizedBox(width: 7),
-                        InkWell(
-                          onTap: () async {
-                            final pickedImage = await ImagePicker().pickImage(
-                              source: ImageSource.gallery,
-                              imageQuality: 50,
-                              maxWidth: 150,
-                            );
-                            if (pickedImage == null) {
-                              return;
-                            }
+                        PostImage(
+                          pickedImageFile: _pickImageFile_4,
+                          onImagePicked: (file) {
                             setState(() {
-                              _pickImageFile_4 = File(pickedImage.path);
+                              _pickImageFile_4 = file;
                             });
                           },
-                          child: Container(
-                            height: 150,
-                            width: 150,
-                            decoration: BoxDecoration(
-                              color:
-                                  Theme.of(
-                                    context,
-                                  ).colorScheme.surfaceContainerHigh,
-                              image:
-                                  _pickImageFile_4 != null
-                                      ? DecorationImage(
-                                        fit: BoxFit.cover,
-                                        image: FileImage(_pickImageFile_4!),
-                                      )
-                                      : null,
-                              borderRadius: BorderRadius.circular(15),
-                            ),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                if (_pickImageFile_4 == null)
-                                  Icon(
-                                    Icons.add_a_photo,
-                                    size: 50,
-                                    color:
-                                        Theme.of(context).colorScheme.primary,
-                                  ),
-                              ],
-                            ),
-                          ),
                         ),
                       ],
                     ),
