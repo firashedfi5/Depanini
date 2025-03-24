@@ -3,7 +3,7 @@ import 'package:depanini/screens/client/client_post_screen.dart';
 import 'package:depanini/screens/client/client_chat_screen.dart';
 import 'package:depanini/screens/client/client_home_screen.dart';
 import 'package:depanini/screens/client/client_profil_screen.dart';
-import 'package:depanini/screens/client/client_search_screen.dart';
+import 'package:depanini/screens/client/client_diy_screen.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
 
   final List<Widget> _pages = [
     HomeScreen(),
-    SearchScreen(),
+    ClientDiyScreen(),
     ClientPostScreen(),
     ChatScreen(),
     ProfilScreen(),
@@ -43,7 +43,7 @@ class _HomeState extends State<Home> {
         onTap: _navigateGoogleNavbar,
         items: [
           Icon(Icons.home_outlined),
-          Icon(Icons.search),
+          Icon(Icons.tips_and_updates_outlined),
           Icon(Icons.post_add_outlined),
           Icon(Icons.chat_outlined),
           Icon(Icons.account_circle_outlined),

@@ -85,6 +85,11 @@ flutter:
     - assets/images/Mail_sent_rafiki.png
     - assets/images/Mobile_login_bro.png
     - assets/images/Reset_password_bro.png
+    - assets/images/electricite.jpg
+    - assets/images/jardinage.jpg
+    - assets/images/plomberie.jpg
+    - assets/images/mecanique.jpg
+    - assets/images/informatique.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

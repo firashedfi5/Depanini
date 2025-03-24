@@ -86,17 +86,134 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       ),
-      body: Center(
+      body: Padding(
+        padding: const EdgeInsets.only(top: 20, left: 8, right: 8),
         child: Column(
-          mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Home Screen', style: TextStyle(fontSize: 35)),
-            // ElevatedButton(
-            //   onPressed: () {
-            //     FirebaseAuth.instance.signOut();
-            //   },
-            //   child: Text('Logout'),
-            // ),
+            SizedBox(
+              height: 40,
+              width: 350,
+              child: SearchBar(
+                leading: Icon(
+                  Icons.search,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                hintText: 'Search',
+                backgroundColor: WidgetStateProperty.all(
+                  Theme.of(context).brightness == Brightness.dark
+                      ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
+                      : const Color.fromARGB(255, 236, 229, 243),
+                ),
+              ),
+            ),
+            SizedBox(height: 20),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 25,
+                        foregroundImage: AssetImage(
+                          'assets/images/electricite.jpg',
+                        ),
+                      ),
+                      Text(
+                        'Electricité',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 15),
+                  Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 25,
+                        foregroundImage: AssetImage(
+                          'assets/images/jardinage.jpg',
+                        ),
+                      ),
+                      Text(
+                        'Jardinage',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 15),
+                  Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 25,
+                        foregroundImage: AssetImage(
+                          'assets/images/plomberie.jpg',
+                        ),
+                      ),
+                      Text(
+                        'Plomberie',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 15),
+                  Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 25,
+                        foregroundImage: AssetImage(
+                          'assets/images/mecanique.jpg',
+                        ),
+                      ),
+                      Text(
+                        'Mécanique',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 15),
+                  Column(
+                    children: [
+                      CircleAvatar(
+                        radius: 25,
+                        foregroundImage: AssetImage(
+                          'assets/images/informatique.jpg',
+                        ),
+                      ),
+                      Text(
+                        'Infomatique',
+                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(width: 15),
+                  CircleAvatar(
+                    radius: 25,
+                    // foregroundImage: AssetImage('assets/images/'),
+                  ),
+                  SizedBox(width: 15),
+                  CircleAvatar(
+                    radius: 25,
+                    // foregroundImage: AssetImage('assets/images/'),
+                  ),
+                  SizedBox(width: 15),
+                  CircleAvatar(
+                    radius: 25,
+                    // foregroundImage: AssetImage('assets/images/'),
+                  ),
+                ],
+              ),
+            ),
+            ListView.builder(itemBuilder: itemBuilder)
           ],
         ),
       ),

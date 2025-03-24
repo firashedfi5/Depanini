@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:depanini/screens/client/client_account_screen.dart';
+import 'package:depanini/screens/client/profil/client_account_screen.dart';
 import 'package:depanini/theme/theme_provider.dart';
 import 'package:depanini/theme/themes.dart';
 import 'package:flutter/material.dart';

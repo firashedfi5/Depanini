@@ -31,7 +31,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
   DateTime? _selectedDate;
   final formatter = DateFormat.yMd();
 
-  String? _selectedDomain;
+  // String? _selectedDomain;
   var _enteredDescription = '';
   var _enteredDomaine = '';
   File? _pickImageFile_1;
@@ -235,7 +235,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
                             }).toList(),
                         onChanged: (value) {
                           setState(() {
-                            _selectedDomain = value;
+                            // _selectedDomain = value;
                           });
                         },
                         validator: (value) {

@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 // import 'package:depanini/screens/client/edit_post_screen.dart';
-import 'package:depanini/screens/client/new_post_screen.dart';
+import 'package:depanini/screens/client/posts/new_post_screen.dart';
 import 'package:depanini/widgets/image_container.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/models/post_model.dart';
