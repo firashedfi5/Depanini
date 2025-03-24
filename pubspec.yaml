@@ -50,6 +50,8 @@ dependencies:
   curved_navigation_bar: ^1.0.6
   json_theme: ^7.0.0+3
   intl: ^0.20.2
+  provider: ^6.1.2
+  shared_preferences: ^2.5.2
 
 dev_dependencies:
   flutter_test:

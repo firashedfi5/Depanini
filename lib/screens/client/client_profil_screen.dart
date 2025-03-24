@@ -1,19 +1,22 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/client/client_account_screen.dart';
+import 'package:depanini/theme/theme_provider.dart';
+import 'package:depanini/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class ProfilScreen extends StatefulWidget {
+class ProfilScreen extends ConsumerStatefulWidget {
   const ProfilScreen({super.key});
 
   @override
-  State<ProfilScreen> createState() => _ProfilScreenState();
+  ConsumerState<ProfilScreen> createState() => _ProfilScreenState();
 }
 
-class _ProfilScreenState extends State<ProfilScreen> {
+class _ProfilScreenState extends ConsumerState<ProfilScreen> {
   late Stream<DocumentSnapshot> userStream;
   final user = _auth.currentUser!;
 
@@ -25,6 +28,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final themeData = ref.watch(themeProvider);
     return Scaffold(
       body: StreamBuilder<DocumentSnapshot>(
         stream: userStream,
@@ -130,6 +134,38 @@ class _ProfilScreenState extends State<ProfilScreen> {
                                 style: TextStyle(fontSize: 20),
                               ),
                               Icon(Icons.arrow_forward_ios),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 15),
+                      SizedBox(
+                        width: 500,
+                        child: TextButton(
+                          onPressed: () {},
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                'Changer le thème',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                              Switch(
+                                value: themeData == darkTheme,
+                                onChanged: (bool value) {
+                                  ref
+                                      .read(themeProvider.notifier)
+                                      .toggleTheme();
+                                },
+                              ),
+                              // IconButton(
+                              //   icon: Icon(Icons.switch_access_shortcut),
+                              //   onPressed:
+                              //       () =>
+                              //           ref
+                              //               .read(themeProvider.notifier)
+                              //               .toggleTheme(),
+                              // ),
                             ],
                           ),
                         ),

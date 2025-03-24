@@ -31,7 +31,7 @@ class PostImage extends StatelessWidget {
         height: 150,
         width: 150,
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainerHigh,
+          color: Theme.of(context).colorScheme.surfaceContainerHighest,
           image:
               pickedImageFile != null
                   ? DecorationImage(

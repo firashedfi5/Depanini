@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:depanini/screens/client/edit_post_screen.dart';
+// import 'package:depanini/screens/client/edit_post_screen.dart';
 import 'package:depanini/screens/client/new_post_screen.dart';
 import 'package:depanini/widgets/image_container.dart';
 import 'package:flutter/material.dart';
@@ -123,27 +123,36 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                 child: Padding(
                   padding: const EdgeInsets.all(5),
                   child: Card(
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Color.fromARGB(
+                              255,
+                              43,
+                              43,
+                              49,
+                            ) // Dark theme color
+                            : const Color.fromARGB(255, 236, 229, 243),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder:
-                                    (context) => EditPostScreen(
-                                      id: _postListed[index].id,
-                                    ),
-                              ),
-                            );
-                          },
-                          icon: Icon(
-                            Icons.edit_note_outlined,
-                            color: Theme.of(context).colorScheme.primary,
-                            size: 30,
-                          ),
-                        ),
+                        // IconButton(
+                        //   onPressed: () {
+                        //     Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder:
+                        //             (context) => EditPostScreen(
+                        //               id: _postListed[index].id,
+                        //             ),
+                        //       ),
+                        //     );
+                        //   },
+                        //   icon: Icon(
+                        //     Icons.edit_note_outlined,
+                        //     color: Theme.of(context).colorScheme.primary,
+                        //     size: 30,
+                        //   ),
+                        // ),
                         Text(_postListed[index].description),
                         Text(_postListed[index].service),
                         Text(
