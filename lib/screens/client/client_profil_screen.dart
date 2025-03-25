@@ -158,14 +158,6 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
                                       .toggleTheme();
                                 },
                               ),
-                              // IconButton(
-                              //   icon: Icon(Icons.switch_access_shortcut),
-                              //   onPressed:
-                              //       () =>
-                              //           ref
-                              //               .read(themeProvider.notifier)
-                              //               .toggleTheme(),
-                              // ),
                             ],
                           ),
                         ),

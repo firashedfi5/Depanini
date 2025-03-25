@@ -26,7 +26,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
               Icons.search,
               color: Theme.of(context).colorScheme.primary,
             ),
-            hintText: 'Search',
+            hintText: 'Rechercher...',
             backgroundColor: WidgetStateProperty.all(
               Theme.of(context).brightness == Brightness.dark
                   ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
