@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:depanini/models/provider_account_model.dart';
 // import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/widgets/category_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -18,10 +19,11 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // List<ProviderAccountModel> _accountListed = [];
 
-  Future<List<Map<String, dynamic>>> getAllData() async {
+  Future<List<ProviderAccountModel>> getAllData() async {
     final data = await _firestore.collection("prestataires").get();
-    final allData = data.docs.map((doc) => doc.data()).toList();
-    return allData;
+    final snapshot =
+        data.docs.map((doc) => ProviderAccountModel.fromSnapshot(doc)).toList();
+    return snapshot;
   }
 
   late Stream<DocumentSnapshot> userStream;
@@ -200,53 +202,58 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 15),
-              SizedBox(
-                height: 150,
-                width: 400,
-                child: Card(
-                  color:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
-                          : const Color.fromARGB(255, 236, 229, 243),
-                  child: Text('data'),
-                ),
-              ),
-              SizedBox(height: 15),
-              SizedBox(
-                height: 150,
-                width: 400,
-                child: Card(
-                  color:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
-                          : const Color.fromARGB(255, 236, 229, 243),
-                  child: Text('data'),
-                ),
-              ),
-              SizedBox(height: 15),
-              SizedBox(
-                height: 150,
-                width: 400,
-                child: Card(
-                  color:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
-                          : const Color.fromARGB(255, 236, 229, 243),
-                  child: Text('data'),
-                ),
-              ),
-              SizedBox(height: 15),
-              SizedBox(
-                height: 150,
-                width: 400,
-                child: Card(
-                  color:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
-                          : const Color.fromARGB(255, 236, 229, 243),
-                  child: Text('data'),
-                ),
+              SizedBox(height: 20),
+              FutureBuilder<List<ProviderAccountModel>>(
+                future: getAllData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  return ListView.builder(
+                    physics: BouncingScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      return SizedBox(
+                        height: 150,
+                        width: 350,
+                        child: Card(
+                          color:
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Color.fromARGB(
+                                    255,
+                                    43,
+                                    43,
+                                    49,
+                                  ) // Dark theme color
+                                  : const Color.fromARGB(255, 236, 229, 243),
+                          child: Row(
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(15.0),
+                                child: Image.network(
+                                  snapshot.data![index].profilPicture,
+                                  height: 100, // Adjust the height as needed
+                                  width: 100, // Adjust the width as needed
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              Column(
+                                children: [
+                                  Text(snapshot.data![index].username),
+                                  Text(snapshot.data![index].diplome),
+                                  Text(snapshot.data![index].description),
+                                  Text(snapshot.data![index].domaine),
+                                  Text(snapshot.data![index].phoneNumber),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),

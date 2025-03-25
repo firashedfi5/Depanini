@@ -23,7 +23,8 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
   @override
   void initState() {
     super.initState();
-    userStream = _firestore.collection("clients").doc(user.uid).snapshots();
+    userStream =
+        _firestore.collection("prestataires").doc(user.uid).snapshots();
   }
 
   @override
