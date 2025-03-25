@@ -1,10 +1,10 @@
 import 'dart:convert';
 
-// import 'package:depanini/screens/client/edit_post_screen.dart';
 import 'package:depanini/screens/client/posts/new_post_screen.dart';
 import 'package:depanini/widgets/image_container.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/models/post_model.dart';
+import 'dart:developer' as dev;
 
 import 'package:http/http.dart' as http;
 
@@ -84,7 +84,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
       context,
     ).push<PostModel>(MaterialPageRoute(builder: (context) => NewPostScreen()));
     _loadPosts();
-    print("Annonce crée");
+    dev.log("Annonce crée");
   }
 
   void _removePost(PostModel post) {
@@ -93,7 +93,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
     setState(() {
       _postListed.remove(post);
     });
-    print("Annonce supprimé");
+    dev.log("Annonce supprimé");
   }
 
   @override

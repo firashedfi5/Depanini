@@ -4,6 +4,7 @@ import 'package:depanini/widgets/post_image.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer' as dev;
 
 import 'package:http/http.dart' as http;
 
@@ -38,7 +39,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       final jsonData = json.decode(responseData);
       return jsonData['secure_url'];
     } else {
-      print("Upload failed with status: ${response.statusCode}");
+      dev.log("Upload failed with status: ${response.statusCode}");
       return null;
     }
   }

@@ -2,6 +2,7 @@ import 'package:depanini/screens/auth/forget_password_screen.dart';
 import 'package:depanini/screens/auth/signup_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer' as dev;
 
 final _firebase = FirebaseAuth.instance;
 
@@ -32,78 +33,88 @@ class _SigninScreenState extends State<SigninScreen> {
         email: _enteredEmail,
         password: _enteredPassword,
       );
-      print(userCredential);
+      dev.log(userCredential.toString());
     } on FirebaseAuthException catch (error) {
       if (error.code == 'invalid-email') {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Cet email est mal formaté',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
+        if (mounted) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Cet email est mal formaté',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
+              backgroundColor: Colors.red,
             ),
-            backgroundColor: Colors.red,
-          ),
-        );
+          );
+        }
       } else if (error.code == 'user-disabled') {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Ce compte a été désactivé. Veuillez contacter le support.',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
+        if (mounted) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Ce compte a été désactivé. Veuillez contacter le support.',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
+              backgroundColor: Colors.red,
             ),
-            backgroundColor: Colors.red,
-          ),
-        );
+          );
+        }
       } else if (error.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Aucun compte trouvé avec cet email.',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
+        if (mounted) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Aucun compte trouvé avec cet email.',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
+              backgroundColor: Colors.red,
             ),
-            backgroundColor: Colors.red,
-          ),
-        );
+          );
+        }
       } else if (error.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Mot de passe incorrect. Veuillez réessayer.',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
+        if (mounted) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Mot de passe incorrect. Veuillez réessayer.',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
+              backgroundColor: Colors.red,
             ),
-            backgroundColor: Colors.red,
-          ),
-        );
+          );
+        }
       } else {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Une erreur est survenue. Veuillez réessayer.',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
+        if (mounted) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Une erreur est survenue. Veuillez réessayer.',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
+              backgroundColor: Colors.red,
             ),
-            backgroundColor: Colors.red,
-          ),
-        );
+          );
+        }
       }
     }
   }

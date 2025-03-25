@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer' as dev;
 
 import 'package:http/http.dart' as http;
 
@@ -106,7 +107,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
       final jsonData = json.decode(responseData);
       return jsonData['secure_url'];
     } else {
-      print("Upload failed with status: ${response.statusCode}");
+      dev.log("Upload failed with status: ${response.statusCode}");
       return null;
     }
   }

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:depanini/widgets/category_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -65,156 +66,205 @@ class _HomeScreenState extends State<HomeScreen> {
                           : null,
                 ),
                 SizedBox(width: 10),
-                Text.rich(
-                  TextSpan(
-                    text: 'Salut, ', // Normal text
-                    style:
-                        Theme.of(
-                          context,
-                        ).textTheme.titleMedium, // Default style
-                    children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text.rich(
                       TextSpan(
-                        text: userData['Nom d\'utilisateur'], // Bold text
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.bold),
+                        text: 'Salut, ', // Normal text
+                        style:
+                            Theme.of(
+                              context,
+                            ).textTheme.titleMedium, // Default style
+                        children: [
+                          TextSpan(
+                            text: userData['Nom d\'utilisateur'], // Bold text
+                            style: Theme.of(context).textTheme.titleMedium
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.pin_drop_outlined, size: 17),
+                        SizedBox(width: 3),
+                        Text(
+                          'Tunis, Tunisie',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleSmall!.copyWith(fontSize: 13),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             );
           },
         ),
       ),
+
       body: Padding(
         padding: const EdgeInsets.only(top: 20, left: 8, right: 8),
-        child: Column(
-          children: [
-            SizedBox(
-              height: 40,
-              width: 350,
-              child: SearchBar(
-                leading: Icon(
-                  Icons.search,
-                  color: Theme.of(context).colorScheme.primary,
-                ),
-                hintText: 'Search',
-                backgroundColor: WidgetStateProperty.all(
-                  Theme.of(context).brightness == Brightness.dark
-                      ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
-                      : const Color.fromARGB(255, 236, 229, 243),
-                ),
-              ),
-            ),
-            SizedBox(height: 20),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Column(
                 children: [
-                  Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 25,
-                        foregroundImage: AssetImage(
-                          'assets/images/electricite.jpg',
-                        ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Bonjour, que faut-il réparer ?',
+                      textAlign: TextAlign.left,
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.w500,
                       ),
-                      Text(
-                        'Electricité',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                  SizedBox(width: 15),
-                  Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 25,
-                        foregroundImage: AssetImage(
-                          'assets/images/jardinage.jpg',
-                        ),
+                  SizedBox(height: 15),
+                  SizedBox(
+                    height: 40,
+                    // width: 350,
+                    child: SearchBar(
+                      leading: Icon(
+                        Icons.search,
+                        color: Theme.of(context).colorScheme.primary,
                       ),
-                      Text(
-                        'Jardinage',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      hintText: 'Search',
+                      backgroundColor: WidgetStateProperty.all(
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Color.fromARGB(
+                              255,
+                              43,
+                              43,
+                              49,
+                            ) // Dark theme color
+                            : const Color.fromARGB(255, 236, 229, 243),
                       ),
-                    ],
+                    ),
                   ),
-                  SizedBox(width: 15),
-                  Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 25,
-                        foregroundImage: AssetImage(
-                          'assets/images/plomberie.jpg',
-                        ),
+                  SizedBox(height: 20),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Categories',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                        fontWeight: FontWeight.w500,
                       ),
-                      Text(
-                        'Plomberie',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                  SizedBox(width: 15),
-                  Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 25,
-                        foregroundImage: AssetImage(
-                          'assets/images/mecanique.jpg',
+                  SizedBox(height: 10),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        CategoryItem(
+                          imagePath: 'assets/images/electricite.jpg',
+                          label: 'Electricite',
                         ),
-                      ),
-                      Text(
-                        'Mécanique',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.bold,
+                        SizedBox(width: 15),
+                        CategoryItem(
+                          imagePath: 'assets/images/jardinage.jpg',
+                          label: 'Jardinage',
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(width: 15),
-                  Column(
-                    children: [
-                      CircleAvatar(
-                        radius: 25,
-                        foregroundImage: AssetImage(
-                          'assets/images/informatique.jpg',
+                        SizedBox(width: 15),
+                        CategoryItem(
+                          imagePath: 'assets/images/plomberie.jpg',
+                          label: 'Plomberie',
                         ),
-                      ),
-                      Text(
-                        'Infomatique',
-                        style: Theme.of(context).textTheme.bodySmall!.copyWith(
-                          fontWeight: FontWeight.bold,
+                        SizedBox(width: 15),
+                        CategoryItem(
+                          imagePath: 'assets/images/mecanique.jpg',
+                          label: 'Mécanique',
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 15),
+                        CategoryItem(
+                          imagePath: 'assets/images/informatique.jpg',
+                          label: 'Infomatique',
+                        ),
+                        SizedBox(width: 15),
+                        CategoryItem(imagePath: '', label: 'bla bla'),
+                        SizedBox(width: 15),
+                        CategoryItem(imagePath: '', label: 'bla bla'),
+                        SizedBox(width: 15),
+                        CategoryItem(imagePath: '', label: 'bla bla'),
+                      ],
+                    ),
                   ),
-                  SizedBox(width: 15),
-                  CircleAvatar(
-                    radius: 25,
-                    // foregroundImage: AssetImage('assets/images/'),
+                  // ListView.builder(itemBuilder: itemBuilder)
+                  SizedBox(height: 15),
+                  SizedBox(
+                    height: 150,
+                    width: 400,
+                    child: Card(
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Color.fromARGB(
+                                255,
+                                43,
+                                43,
+                                49,
+                              ) // Dark theme color
+                              : const Color.fromARGB(255, 236, 229, 243),
+                      child: Text('data'),
+                    ),
                   ),
-                  SizedBox(width: 15),
-                  CircleAvatar(
-                    radius: 25,
-                    // foregroundImage: AssetImage('assets/images/'),
+                  SizedBox(height: 15),
+                  SizedBox(
+                    height: 150,
+                    width: 400,
+                    child: Card(
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Color.fromARGB(
+                                255,
+                                43,
+                                43,
+                                49,
+                              ) // Dark theme color
+                              : const Color.fromARGB(255, 236, 229, 243),
+                      child: Text('data'),
+                    ),
                   ),
-                  SizedBox(width: 15),
-                  CircleAvatar(
-                    radius: 25,
-                    // foregroundImage: AssetImage('assets/images/'),
+                  SizedBox(height: 15),
+                  SizedBox(
+                    height: 150,
+                    width: 400,
+                    child: Card(
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Color.fromARGB(
+                                255,
+                                43,
+                                43,
+                                49,
+                              ) // Dark theme color
+                              : const Color.fromARGB(255, 236, 229, 243),
+                      child: Text('data'),
+                    ),
+                  ),
+                  SizedBox(height: 15),
+                  SizedBox(
+                    height: 150,
+                    width: 400,
+                    child: Card(
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Color.fromARGB(
+                                255,
+                                43,
+                                43,
+                                49,
+                              ) // Dark theme color
+                              : const Color.fromARGB(255, 236, 229, 243),
+                      child: Text('data'),
+                    ),
                   ),
                 ],
               ),
-            ),
-            ListView.builder(itemBuilder: itemBuilder)
-          ],
+            ],
+          ),
         ),
       ),
     );

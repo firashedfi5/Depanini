@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:developer' as dev;
 
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -72,7 +73,7 @@ class _AccountScreenState extends State<AccountScreen> {
       final jsonData = json.decode(responseData);
       return jsonData['secure_url'];
     } else {
-      print("Upload failed with status: ${response.statusCode}");
+      dev.log("Upload failed with status: ${response.statusCode}");
       return null;
     }
   }
@@ -93,7 +94,10 @@ class _AccountScreenState extends State<AccountScreen> {
       'Numéro de téléphone': _enteredPhoneNumber,
       'Photo de profile': finalImageUrl,
     });
-    Navigator.pop(context);
+    dev.log('Compte mis à jour');
+    if (mounted) {
+      Navigator.pop(context);
+    }
   }
 
   // ****************************
@@ -101,10 +105,7 @@ class _AccountScreenState extends State<AccountScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        // title: Text('Modifier votre compte'),
-        // backgroundColor: const Color.fromARGB(255, 238, 238, 238),
-      ),
+      appBar: AppBar(title: Text('Modifier votre compte')),
       body: FutureBuilder(
         future: userData,
         builder: (context, snapshot) {

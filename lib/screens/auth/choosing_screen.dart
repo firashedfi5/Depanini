@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:developer' as dev;
 
 final _firebase = FirebaseAuth.instance;
 
@@ -46,7 +47,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
       final jsonData = json.decode(responseData);
       return jsonData['secure_url'];
     } else {
-      print("Upload failed with status: ${response.statusCode}");
+      dev.log("Upload failed with status: ${response.statusCode}");
       return null;
     }
   }
@@ -87,21 +88,23 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                         password: userInfo.password!,
                       );
                   // ***********************************
-                  ScaffoldMessenger.of(context).clearSnackBars();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(
-                        'Compte créé avec succès! Un email de vérification vous a été envoyé.',
-                        style: Theme.of(
-                          context,
-                        ).textTheme.titleMedium!.copyWith(
-                          color: Colors.white,
-                          fontWeight: FontWeight.w500,
+                  if (context.mounted) {
+                    ScaffoldMessenger.of(context).clearSnackBars();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Compte créé avec succès! Un email de vérification vous a été envoyé.',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleMedium!.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w500,
+                          ),
                         ),
+                        backgroundColor: Colors.green,
                       ),
-                      backgroundColor: Colors.green,
-                    ),
-                  );
+                    );
+                  }
                   // *****************Firestore*******************
                   await FirebaseFirestore.instance
                       .collection('clients')
@@ -114,49 +117,59 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                         'Photo de profile': uploadedImageUrl,
                       });
                   // ********************************************
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => VerifyEmailScreen(),
-                    ),
-                  );
+                  if (context.mounted) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => VerifyEmailScreen(),
+                      ),
+                    );
+                  }
                 } on FirebaseAuthException catch (error) {
                   if (error.code == 'email-already-in-use') {
-                    ScaffoldMessenger.of(context).clearSnackBars();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Cet e-mail est déjà utilisé. Veuillez vous connecter ou utiliser un autre e-mail.',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium!.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Cet e-mail est déjà utilisé. Veuillez vous connecter ou utiliser un autre e-mail.',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleMedium!.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
+                          backgroundColor: Colors.red,
                         ),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
+                      );
+                    }
                   } else {
-                    ScaffoldMessenger.of(context).clearSnackBars();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Une erreur est survenue. Veuillez réessayer.',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.titleMedium!.copyWith(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).clearSnackBars();
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            'Une erreur est survenue. Veuillez réessayer.',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleMedium!.copyWith(
+                              color: Colors.white,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
+                          backgroundColor: Colors.red,
                         ),
-                        backgroundColor: Colors.red,
-                      ),
-                    );
+                      );
+                    }
                   }
                 }
               },
               child: Card(
+                color:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
+                        : const Color.fromARGB(255, 236, 229, 243),
                 child: Column(
                   children: [
                     Image.asset(
@@ -186,6 +199,10 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                 );
               },
               child: Card(
+                color:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
+                        : const Color.fromARGB(255, 236, 229, 243),
                 child: Column(
                   children: [
                     Image.asset(

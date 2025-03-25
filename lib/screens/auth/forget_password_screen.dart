@@ -27,61 +27,70 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
       await FirebaseAuth.instance.sendPasswordResetEmail(
         email: _emailController.text.trim(),
       );
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Un lien de réinitialisation a été envoyé à votre email.',
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Un lien de réinitialisation a été envoyé à votre email.',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
             ),
+            backgroundColor: Colors.green,
           ),
-          backgroundColor: Colors.green,
-        ),
-      );
+        );
+      }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'invalid-email') {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Cet email est mal formaté',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
+        if (mounted) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Cet email est mal formaté',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
+              backgroundColor: Colors.red,
             ),
-            backgroundColor: Colors.red,
-          ),
-        );
+          );
+        }
       } else if (error.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Aucun compte n\'a été trouvé avec cet email.',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
+        if (mounted) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Aucun compte n\'a été trouvé avec cet email.',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
+              backgroundColor: Colors.red,
             ),
-            backgroundColor: Colors.red,
-          ),
-        );
+          );
+        }
       } else {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              error.message.toString(),
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
+        if (mounted) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                error.message.toString(),
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
+              backgroundColor: Colors.red,
             ),
-            backgroundColor: Colors.red,
-          ),
-        );
+          );
+        }
       }
     }
   }

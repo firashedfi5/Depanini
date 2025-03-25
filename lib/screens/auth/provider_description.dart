@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:developer' as dev;
 
 final _firebase = FirebaseAuth.instance;
 
@@ -70,7 +71,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
       final jsonData = json.decode(responseData);
       return jsonData['secure_url'];
     } else {
-      print("Upload failed with status: ${response.statusCode}");
+      dev.log("Upload failed with status: ${response.statusCode}");
       return null;
     }
   }
@@ -95,7 +96,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
       final jsonData = json.decode(responseData);
       return jsonData['secure_url'];
     } else {
-      print("Upload failed with status: ${response.statusCode}");
+      dev.log("Upload failed with status: ${response.statusCode}");
       return null;
     }
   }
@@ -115,19 +116,21 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
         password: userInfo.password!,
       );
       // ******************************
-      ScaffoldMessenger.of(context).clearSnackBars();
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Compte créé avec succès! Un email de vérification vous a été envoyé.',
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Compte créé avec succès! Un email de vérification vous a été envoyé.',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
             ),
+            backgroundColor: Colors.green,
           ),
-          backgroundColor: Colors.green,
-        ),
-      );
+        );
+      }
 
       var uploadedImageUrl = await uploadImageToCloudinary();
 
@@ -177,39 +180,45 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
             'Photo de travail n°4': uploadedProviderImageUrl_4,
           });
       // ************************************
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => VerifyEmailScreen()),
-      );
+      if (mounted) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => VerifyEmailScreen()),
+        );
+      }
     } on FirebaseAuthException catch (error) {
       if (error.code == 'email-already-in-use') {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Cet e-mail est déjà utilisé. Veuillez vous connecter ou utiliser un autre e-mail.',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
+        if (mounted) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Cet e-mail est déjà utilisé. Veuillez vous connecter ou utiliser un autre e-mail.',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
+              backgroundColor: Colors.red,
             ),
-            backgroundColor: Colors.red,
-          ),
-        );
+          );
+        }
       } else {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Une erreur est survenue. Veuillez réessayer.',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
+        if (mounted) {
+          ScaffoldMessenger.of(context).clearSnackBars();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Une erreur est survenue. Veuillez réessayer.',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
               ),
+              backgroundColor: Colors.red,
             ),
-            backgroundColor: Colors.red,
-          ),
-        );
+          );
+        }
       }
     }
   }
