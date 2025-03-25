@@ -168,7 +168,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
               child: Card(
                 color:
                     Theme.of(context).brightness == Brightness.dark
-                        ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
+                        ? Color.fromARGB(255, 43, 43, 49)
                         : const Color.fromARGB(255, 236, 229, 243),
                 child: Column(
                   children: [
@@ -201,7 +201,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
               child: Card(
                 color:
                     Theme.of(context).brightness == Brightness.dark
-                        ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
+                        ? Color.fromARGB(255, 43, 43, 49)
                         : const Color.fromARGB(255, 236, 229, 243),
                 child: Column(
                   children: [

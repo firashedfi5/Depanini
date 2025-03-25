@@ -126,12 +126,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                   child: Card(
                     color:
                         Theme.of(context).brightness == Brightness.dark
-                            ? Color.fromARGB(
-                              255,
-                              43,
-                              43,
-                              49,
-                            ) // Dark theme color
+                            ? const Color.fromARGB(255, 43, 43, 49)
                             : const Color.fromARGB(255, 236, 229, 243),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

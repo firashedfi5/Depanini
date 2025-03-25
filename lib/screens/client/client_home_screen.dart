@@ -149,7 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   hintText: 'Search',
                   backgroundColor: WidgetStateProperty.all(
                     Theme.of(context).brightness == Brightness.dark
-                        ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
+                        ? const Color.fromARGB(255, 43, 43, 49)
                         : const Color.fromARGB(255, 236, 229, 243),
                   ),
                 ),
@@ -220,12 +220,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Card(
                           color:
                               Theme.of(context).brightness == Brightness.dark
-                                  ? Color.fromARGB(
-                                    255,
-                                    43,
-                                    43,
-                                    49,
-                                  ) // Dark theme color
+                                  ? Color.fromARGB(255, 43, 43, 49)
                                   : const Color.fromARGB(255, 236, 229, 243),
                           child: Row(
                             children: [
@@ -233,8 +228,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 borderRadius: BorderRadius.circular(15.0),
                                 child: Image.network(
                                   snapshot.data![index].profilPicture,
-                                  height: 100, // Adjust the height as needed
-                                  width: 100, // Adjust the width as needed
+                                  height: 100,
+                                  width: 100,
                                   fit: BoxFit.cover,
                                 ),
                               ),
