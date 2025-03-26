@@ -28,10 +28,7 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
     final Uri socialUri = Uri.parse("https://www.$appName.com/$username");
 
     if (await canLaunchUrl(socialUri)) {
-      await launchUrl(
-        socialUri,
-        // mode: LaunchMode.externalApplication
-      );
+      await launchUrl(socialUri, mode: LaunchMode.externalApplication);
     } else {
       dev.log("Could not launch App");
     }
