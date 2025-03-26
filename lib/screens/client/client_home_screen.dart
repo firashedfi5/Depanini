@@ -18,12 +18,12 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  TextEditingController searchController = TextEditingController();
-  @override
-  void dispose() {
-    super.dispose();
-    searchController.dispose();
-  }
+  // TextEditingController searchController = TextEditingController();
+  // @override
+  // void dispose() {
+  //   super.dispose();
+  //   searchController.dispose();
+  // }
 
   Future<List<ProviderAccountModel>> _foundedUsers = Future.value([]);
 
@@ -42,9 +42,9 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     userStream = _firestore.collection("clients").doc(user.uid).snapshots();
     _foundedUsers = getAllData();
-    searchController.addListener(() {
-      searchUsers(); // Trigger the search function whenever the input changes
-    });
+    // searchController.addListener(() {
+    //   searchUsers(); // Trigger the search function whenever the input changes
+    // });
   }
 
   // ***********Search************************
@@ -66,8 +66,9 @@ class _HomeScreenState extends State<HomeScreen> {
     'fleur': 'jardinage',
     'graines': 'jardinage',
   };
-  void searchUsers() {
-    String searchLower = searchController.text.toLowerCase().trim();
+  void searchUsers(String search) {
+    // String searchLower = searchController.text.toLowerCase().trim();
+    String searchLower = search.toLowerCase().trim();
 
     // If search input is empty, return all users
     if (searchLower.isEmpty) {
@@ -204,13 +205,18 @@ class _HomeScreenState extends State<HomeScreen> {
               SizedBox(height: 15),
               SizedBox(
                 height: 40,
-                // width: 350,
                 child: SearchBar(
                   leading: Icon(
                     Icons.search,
                     color: Theme.of(context).colorScheme.primary,
                   ),
-                  controller: searchController,
+                  // controller: searchController,
+                  onChanged: (value) {
+                    searchUsers(value);
+                  },
+                  onSubmitted: (value) {
+                    searchUsers(value);
+                  },
                   hintText: 'Search',
                   backgroundColor: WidgetStateProperty.all(
                     Theme.of(context).brightness == Brightness.dark
@@ -234,24 +240,43 @@ class _HomeScreenState extends State<HomeScreen> {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
-                    CategoryItem(
-                      imagePath: 'assets/images/electricite.jpg',
-                      label: 'Electricite',
-                    ),
-                    SizedBox(width: 15),
-                    CategoryItem(
-                      imagePath: 'assets/images/jardinage.jpg',
-                      label: 'Jardinage',
-                    ),
-                    SizedBox(width: 15),
-                    CategoryItem(
-                      imagePath: 'assets/images/plomberie.jpg',
-                      label: 'Plomberie',
+                    InkWell(
+                      onTap: () {
+                        // searchController.text = 'informatique';
+                        searchUsers('électricité');
+                      },
+                      child: CategoryItem(
+                        imagePath: 'assets/images/electricite.jpg',
+                        label: 'Electricite',
+                      ),
                     ),
                     SizedBox(width: 15),
                     InkWell(
                       onTap: () {
-                        searchController.text = 'mécanique';
+                        // searchController.text = 'informatique';
+                        searchUsers('jardinage');
+                      },
+                      child: CategoryItem(
+                        imagePath: 'assets/images/jardinage.jpg',
+                        label: 'Jardinage',
+                      ),
+                    ),
+                    SizedBox(width: 15),
+                    InkWell(
+                      onTap: () {
+                        // searchController.text = 'informatique';
+                        searchUsers('plomberie');
+                      },
+                      child: CategoryItem(
+                        imagePath: 'assets/images/plomberie.jpg',
+                        label: 'Plomberie',
+                      ),
+                    ),
+                    SizedBox(width: 15),
+                    InkWell(
+                      onTap: () {
+                        // searchController.text = 'mécanique';
+                        searchUsers('mécanique');
                       },
                       child: CategoryItem(
                         imagePath: 'assets/images/mecanique.jpg',
@@ -261,7 +286,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(width: 15),
                     InkWell(
                       onTap: () {
-                        searchController.text = 'informatique';
+                        // searchController.text = 'informatique';
+                        searchUsers('informatique');
                       },
                       child: CategoryItem(
                         imagePath: 'assets/images/informatique.jpg',
