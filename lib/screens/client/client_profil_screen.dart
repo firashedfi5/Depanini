@@ -5,6 +5,9 @@ import 'package:depanini/theme/themes.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
+import 'dart:developer' as dev;
 
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -17,6 +20,24 @@ class ProfilScreen extends ConsumerStatefulWidget {
 }
 
 class _ProfilScreenState extends ConsumerState<ProfilScreen> {
+  // *********Social Media*****************
+  Future<void> openSocial({
+    required String appName,
+    required String username,
+  }) async {
+    final Uri socialUri = Uri.parse("https://www.$appName.com/$username");
+
+    if (await canLaunchUrl(socialUri)) {
+      await launchUrl(
+        socialUri,
+        // mode: LaunchMode.externalApplication
+      );
+    } else {
+      dev.log("Could not launch App");
+    }
+  }
+  // *********Social Media*****************
+
   late Stream<DocumentSnapshot> userStream;
   final user = _auth.currentUser!;
 
@@ -48,141 +69,209 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
           // Extract user data from DocumentSnapshot
           final userData = snapshot.data!.data() as Map<String, dynamic>;
 
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 80),
-                      CircleAvatar(
-                        radius: 75,
-                        foregroundImage:
-                            userData['Photo de profile'] != null
-                                ? NetworkImage(userData['Photo de profile'])
-                                : null,
-                        child:
-                            userData['Photo de profile'] == null
-                                ? const Icon(
-                                  Icons.person,
-                                  size: 70,
-                                  color: Colors.white,
-                                )
-                                : null,
-                      ),
-                      const SizedBox(height: 20),
-                      Text(
-                        userData['Nom d\'utilisateur'],
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                    ],
-                  ),
+          return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SizedBox(
+                child: Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 75,
+                      foregroundImage:
+                          userData['Photo de profile'] != null
+                              ? NetworkImage(userData['Photo de profile'])
+                              : null,
+                      child:
+                          userData['Photo de profile'] == null
+                              ? const Icon(
+                                Icons.person,
+                                size: 70,
+                                color: Colors.white,
+                              )
+                              : null,
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      userData['Nom d\'utilisateur'],
+                      style: Theme.of(context).textTheme.headlineMedium,
+                    ),
+                  ],
                 ),
-                SizedBox(height: 50),
-                SizedBox(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      SizedBox(
-                        width: 500,
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => AccountScreen(),
+              ),
+              SizedBox(height: 50),
+              SizedBox(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SizedBox(
+                      width: 500,
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AccountScreen(),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Modifier le profil',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color:
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge!.color,
                               ),
+                            ),
+                            Icon(Icons.arrow_forward_ios),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    SizedBox(
+                      width: 500,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Support',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color:
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge!.color,
+                              ),
+                            ),
+                            Icon(Icons.arrow_forward_ios),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    SizedBox(
+                      width: 500,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'A propos de nous',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color:
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge!.color,
+                              ),
+                            ),
+                            Icon(Icons.arrow_forward_ios),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 15),
+                    SizedBox(
+                      width: 500,
+                      child: TextButton(
+                        onPressed: () {},
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              'Changer le thème',
+                              style: TextStyle(
+                                fontSize: 20,
+                                color:
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge!.color,
+                              ),
+                            ),
+                            Switch(
+                              value: themeData == darkTheme,
+                              onChanged: (bool value) {
+                                ref.read(themeProvider.notifier).toggleTheme();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    TextButton.icon(
+                      onPressed: () {
+                        FirebaseAuth.instance.signOut();
+                      },
+                      icon: Icon(Icons.logout, color: Colors.red, size: 25),
+                      style: TextButton.styleFrom(),
+                      label: Text(
+                        "Se déconnecter",
+                        style: TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20,
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 35),
+                    Text(
+                      'Suivez-nous',
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            openSocial(appName: 'facebook', username: 'zuck');
+                          },
+                          icon: FaIcon(
+                            FontAwesomeIcons.facebook,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 30,
+                          ),
+                        ),
+                        SizedBox(width: 30),
+                        IconButton(
+                          onPressed: () {
+                            openSocial(
+                              appName: 'instagram',
+                              username: 'elonrmuskk',
                             );
                           },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Modifier le profil',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Icon(Icons.arrow_forward_ios),
-                            ],
+                          icon: FaIcon(
+                            FontAwesomeIcons.instagram,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 30,
                           ),
                         ),
-                      ),
-                      SizedBox(height: 15),
-                      SizedBox(
-                        width: 500,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Support', style: TextStyle(fontSize: 20)),
-                              Icon(Icons.arrow_forward_ios),
-                            ],
+                        SizedBox(width: 20),
+                        IconButton(
+                          onPressed: () {
+                            openSocial(appName: 'x', username: 'elonmusk');
+                          },
+                          icon: FaIcon(
+                            FontAwesomeIcons.twitter,
+                            color: Theme.of(context).colorScheme.primary,
+                            size: 30,
                           ),
                         ),
-                      ),
-                      SizedBox(height: 15),
-                      SizedBox(
-                        width: 500,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'A propos de nous',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Icon(Icons.arrow_forward_ios),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 15),
-                      SizedBox(
-                        width: 500,
-                        child: TextButton(
-                          onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'Changer le thème',
-                                style: TextStyle(fontSize: 20),
-                              ),
-                              Switch(
-                                value: themeData == darkTheme,
-                                onChanged: (bool value) {
-                                  ref
-                                      .read(themeProvider.notifier)
-                                      .toggleTheme();
-                                },
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 40),
-                      TextButton.icon(
-                        onPressed: () {
-                          FirebaseAuth.instance.signOut();
-                        },
-                        icon: Icon(Icons.logout, color: Colors.red),
-                        style: TextButton.styleFrom(),
-                        label: Text(
-                          "Déconnecter",
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 17,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
+                      ],
+                    ),
+                  ],
                 ),
-              ],
-            ),
+              ),
+            ],
           );
         },
       ),

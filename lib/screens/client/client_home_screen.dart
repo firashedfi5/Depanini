@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/provider_account_model.dart';
+import 'package:depanini/screens/client/home/provider_info_screen.dart';
 // import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/widgets/category_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -17,7 +18,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // List<ProviderAccountModel> _accountListed = [];
+  TextEditingController searchController = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
+  }
+
+  Future<List<ProviderAccountModel>> _foundedUsers = Future.value([]);
 
   Future<List<ProviderAccountModel>> getAllData() async {
     final data = await _firestore.collection("prestataires").get();
@@ -33,19 +41,75 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     userStream = _firestore.collection("clients").doc(user.uid).snapshots();
+    _foundedUsers = getAllData();
+    searchController.addListener(() {
+      searchUsers(); // Trigger the search function whenever the input changes
+    });
   }
+
+  // ***********Search************************
+
+  Map<String, String> wordToField = {
+    // Mécanique
+    'voiture': 'mécanique',
+    'moteur': 'mécanique',
+    'vitesse': 'mécanique',
+    'pneu': 'mécanique',
+    // Informatique
+    'ordinateur': 'informatique',
+    'internet': 'informatique',
+    'clavier': 'informatique',
+    'écran': 'informatique',
+    // Jardinage
+    'plante': 'jardinage',
+    'arbre': 'jardinage',
+    'fleur': 'jardinage',
+    'graines': 'jardinage',
+  };
+  void searchUsers() {
+    String searchLower = searchController.text.toLowerCase().trim();
+
+    // If search input is empty, return all users
+    if (searchLower.isEmpty) {
+      getAllData().then((users) {
+        setState(() {
+          _foundedUsers = Future.value(users);
+        });
+      });
+      return;
+    }
+
+    // Check if the search term matches part of any keyword in the map
+    String mappedField = '';
+    wordToField.forEach((key, value) {
+      if (key.contains(searchLower)) {
+        mappedField = value;
+      }
+    });
+
+    // If no match is found in the map, use the original search term
+    mappedField = mappedField.isEmpty ? searchLower : mappedField;
+
+    getAllData().then((users) {
+      setState(() {
+        _foundedUsers = Future.value(
+          users.where((user) {
+            return user.domaine.toLowerCase().contains(mappedField) ||
+                user.username.toLowerCase().contains(mappedField);
+          }).toList(),
+        );
+      });
+    });
+  }
+
+  // ***********Search************************
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          IconButton(
-            onPressed: () {
-              // dev.log(getAllData().toString());
-            },
-            icon: Icon(Icons.notifications_rounded),
-          ),
+          IconButton(onPressed: () {}, icon: Icon(Icons.notifications_rounded)),
         ],
         title: StreamBuilder<DocumentSnapshot>(
           stream: userStream,
@@ -146,6 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Icons.search,
                     color: Theme.of(context).colorScheme.primary,
                   ),
+                  controller: searchController,
                   hintText: 'Search',
                   backgroundColor: WidgetStateProperty.all(
                     Theme.of(context).brightness == Brightness.dark
@@ -184,14 +249,24 @@ class _HomeScreenState extends State<HomeScreen> {
                       label: 'Plomberie',
                     ),
                     SizedBox(width: 15),
-                    CategoryItem(
-                      imagePath: 'assets/images/mecanique.jpg',
-                      label: 'Mécanique',
+                    InkWell(
+                      onTap: () {
+                        searchController.text = 'mécanique';
+                      },
+                      child: CategoryItem(
+                        imagePath: 'assets/images/mecanique.jpg',
+                        label: 'Mécanique',
+                      ),
                     ),
                     SizedBox(width: 15),
-                    CategoryItem(
-                      imagePath: 'assets/images/informatique.jpg',
-                      label: 'Infomatique',
+                    InkWell(
+                      onTap: () {
+                        searchController.text = 'informatique';
+                      },
+                      child: CategoryItem(
+                        imagePath: 'assets/images/informatique.jpg',
+                        label: 'Infomatique',
+                      ),
                     ),
                     SizedBox(width: 15),
                     CategoryItem(imagePath: '', label: 'bla bla'),
@@ -204,7 +279,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               SizedBox(height: 20),
               FutureBuilder<List<ProviderAccountModel>>(
-                future: getAllData(),
+                future: _foundedUsers,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
@@ -214,35 +289,50 @@ class _HomeScreenState extends State<HomeScreen> {
                     shrinkWrap: true,
                     itemCount: snapshot.data!.length,
                     itemBuilder: (context, index) {
-                      return SizedBox(
-                        height: 150,
-                        width: 350,
-                        child: Card(
-                          color:
-                              Theme.of(context).brightness == Brightness.dark
-                                  ? Color.fromARGB(255, 43, 43, 49)
-                                  : const Color.fromARGB(255, 236, 229, 243),
-                          child: Row(
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(15.0),
-                                child: Image.network(
-                                  snapshot.data![index].profilPicture,
-                                  height: 100,
-                                  width: 100,
-                                  fit: BoxFit.cover,
+                      return InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => ProviderInfoScreen(
+                                    email: snapshot.data![index].email,
+                                  ),
+                            ),
+                          );
+                        },
+                        child: SizedBox(
+                          height: 150,
+                          width: 350,
+                          child: Card(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Color.fromARGB(255, 43, 43, 49)
+                                    : const Color.fromARGB(255, 236, 229, 243),
+                            child: Row(
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  child: Image.network(
+                                    snapshot.data![index].profilPicture,
+                                    height: 100,
+                                    width: 100,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
-                              ),
-                              Column(
-                                children: [
-                                  Text(snapshot.data![index].username),
-                                  Text(snapshot.data![index].diplome),
-                                  Text(snapshot.data![index].description),
-                                  Text(snapshot.data![index].domaine),
-                                  Text(snapshot.data![index].phoneNumber),
-                                ],
-                              ),
-                            ],
+                                Column(
+                                  children: [
+                                    // Text(snapshot.data![index].email),
+                                    Text(snapshot.data![index].username),
+                                    Text(snapshot.data![index].diplome),
+                                    Text(snapshot.data![index].description),
+                                    Text(snapshot.data![index].domaine),
+                                    Text(snapshot.data![index].experience),
+                                    Text(snapshot.data![index].phoneNumber),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       );
