@@ -19,7 +19,7 @@ class PostImage extends StatelessWidget {
       onTap: () async {
         final pickedImage = await ImagePicker().pickImage(
           source: ImageSource.gallery,
-          imageQuality: 50,
+          imageQuality: 100,
           maxWidth: 150,
         );
         if (pickedImage == null) {

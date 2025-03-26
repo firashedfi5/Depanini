@@ -23,7 +23,7 @@ class _ProfilImageState extends State<ProfilImage> {
   void _pickImage(ImageSource source) async {
     final pickedImage = await ImagePicker().pickImage(
       source: source,
-      imageQuality: 50,
+      imageQuality: 100,
       maxWidth: 150,
     );
 
