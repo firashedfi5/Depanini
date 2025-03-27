@@ -5,6 +5,7 @@ import 'package:depanini/screens/client/home/provider_info_screen.dart';
 import 'package:depanini/widgets/category_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:depanini/data/word_to_field.dart';
 // import 'dart:developer' as dev;
 
 final _auth = FirebaseAuth.instance;
@@ -48,24 +49,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // ***********Search************************
-
-  Map<String, String> wordToField = {
-    // Mécanique
-    'voiture': 'mécanique',
-    'moteur': 'mécanique',
-    'vitesse': 'mécanique',
-    'pneu': 'mécanique',
-    // Informatique
-    'ordinateur': 'informatique',
-    'internet': 'informatique',
-    'clavier': 'informatique',
-    'écran': 'informatique',
-    // Jardinage
-    'plante': 'jardinage',
-    'arbre': 'jardinage',
-    'fleur': 'jardinage',
-    'graines': 'jardinage',
-  };
   void searchUsers(String search) {
     // String searchLower = searchController.text.toLowerCase().trim();
     String searchLower = search.toLowerCase().trim();

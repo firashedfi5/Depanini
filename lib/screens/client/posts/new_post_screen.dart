@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:depanini/constants/domains.dart';
 import 'package:depanini/widgets/post_image.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
@@ -45,17 +46,11 @@ class _NewPostScreenState extends State<NewPostScreen> {
   }
   // ******************************************
 
-  final List<String> _domains = [
-    'Plomberie',
-    'Électricité',
-    'Mécanique',
-    'Informatique',
-    'Jardinage',
-  ];
+  final List<Domains> _domains = Domains.values;
 
-  String? _selectedDomain;
+  Domains? _selectedDomain;
   var _enteredDescription = '';
-  var _enteredDomaine = '';
+  Domains? _enteredDomaine;
   File? _pickImageFile_1;
   File? _pickImageFile_2;
   File? _pickImageFile_3;
@@ -99,7 +94,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
         body: json.encode({
           'uid': _auth.currentUser!.uid,
           'description': _enteredDescription,
-          'service': _enteredDomaine,
+          'service': _enteredDomaine!.name,
           'date': _selectedDate == null ? '' : formatter.format(_selectedDate!),
           'imageURL_1': uploadedPostImageUrl_1,
           'imageURL_2': uploadedPostImageUrl_2,
@@ -145,7 +140,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     },
                   ),
                   SizedBox(height: 20),
-                  DropdownButtonFormField<String>(
+                  DropdownButtonFormField<Domains>(
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.domain_outlined),
                       labelText: 'Service',
@@ -155,7 +150,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                         _domains.map((domain) {
                           return DropdownMenuItem(
                             value: domain,
-                            child: Text(domain),
+                            child: Text(domain.name),
                           );
                         }).toList(),
                     onChanged: (value) {
