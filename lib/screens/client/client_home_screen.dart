@@ -87,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
               SliverAppBar(
                 pinned: true,
                 floating: true,
-                snap: true,
+                // snap: true,
                 expandedHeight: 200,
                 title: StreamBuilder<DocumentSnapshot>(
                   stream: userStream,
