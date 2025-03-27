@@ -73,10 +73,6 @@ class ProviderInfoScreen extends StatelessWidget {
                   snapshot.data!.experience,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
-                Text(
-                  snapshot.data!.phoneNumber,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
