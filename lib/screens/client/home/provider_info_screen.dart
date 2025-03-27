@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/provider_account_model.dart';
+import 'package:depanini/widgets/image_container.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -97,6 +98,40 @@ class ProviderInfoScreen extends StatelessWidget {
                       ),
                     ),
                   ],
+                ),
+                SizedBox(height: 20),
+                Container(
+                  height: 110,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.secondaryContainer,
+                  ),
+                  child: Row(
+                    children: [
+                      ImageContainer(
+                        height: 90,
+                        width: 90,
+                        imageUrl: snapshot.data!.workPicture_1,
+                      ),
+                      SizedBox(width: 10),
+                      ImageContainer(
+                        height: 90,
+                        width: 90,
+                        imageUrl: snapshot.data!.workPicture_2,
+                      ),
+                      SizedBox(width: 10),
+                      ImageContainer(
+                        height: 90,
+                        width: 90,
+                        imageUrl: snapshot.data!.workPicture_3,
+                      ),
+                      SizedBox(width: 10),
+                      ImageContainer(
+                        height: 90,
+                        width: 90,
+                        imageUrl: snapshot.data!.workPicture_4,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

@@ -37,7 +37,7 @@ class _HomeState extends State<Home> {
       // _pages[_selectedIndex],
       IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Colors.transparent,
         color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
         animationDuration: Duration(milliseconds: 300),
         onTap: _navigateGoogleNavbar,

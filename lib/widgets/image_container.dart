@@ -2,17 +2,24 @@ import 'package:flutter/material.dart';
 
 class ImageContainer extends StatelessWidget {
   final String? imageUrl;
+  final double height;
+  final double width;
 
-  const ImageContainer({super.key, this.imageUrl});
+  const ImageContainer({
+    super.key,
+    this.imageUrl,
+    required this.height,
+    required this.width,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 80,
-      width: 80,
+      height: height,
+      width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(15),
-        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+        color: Theme.of(context).colorScheme.onSecondaryContainer,
         image:
             imageUrl != null
                 ? DecorationImage(

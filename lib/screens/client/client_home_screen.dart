@@ -81,10 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
+        floatHeaderSlivers: true,
         headerSliverBuilder:
             (context, innerBoxIsScrolled) => [
-              AppBar(
-                toolbarHeight: 200,
+              SliverAppBar(
+                pinned: true,
+                floating: true,
+                snap: true,
+                expandedHeight: 200,
                 title: StreamBuilder<DocumentSnapshot>(
                   stream: userStream,
                   builder: (context, snapshot) {
@@ -166,31 +170,48 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ],
                         ),
-                        SizedBox(height: 10),
-                        SizedBox(
-                          height: 40,
-                          child: SearchBar(
-                            leading: Icon(
-                              Icons.search,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            // controller: searchController,
-                            onChanged: (value) {
-                              searchUsers(value);
-                            },
-                            onSubmitted: (value) {
-                              searchUsers(value);
-                            },
-                            hintText: 'Bonjour, que faut-il réparer ?',
-                            backgroundColor: WidgetStateProperty.all(
-                              Theme.of(context).brightness == Brightness.dark
-                                  ? const Color.fromARGB(255, 43, 43, 49)
-                                  : const Color.fromARGB(255, 236, 229, 243),
-                            ),
+                      ],
+                    );
+                  },
+                ),
+                bottom: PreferredSize(
+                  preferredSize: Size.fromHeight(130),
+                  child: Column(
+                    children: [
+                      // SizedBox(height: 25),
+                      SizedBox(
+                        height: 40,
+                        width: 360,
+                        child: SearchBar(
+                          leading: Icon(
+                            Icons.search,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          // controller: searchController,
+                          onChanged: (value) {
+                            searchUsers(value);
+                          },
+                          onSubmitted: (value) {
+                            searchUsers(value);
+                          },
+                          hintText: 'Bonjour, que faut-il réparer ?',
+                          backgroundColor: WidgetStateProperty.all(
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Theme.of(
+                                  context,
+                                ).colorScheme.onSecondaryFixedVariant
+                                : const Color.fromARGB(255, 228, 216, 240),
                           ),
                         ),
-                        SizedBox(height: 15),
-                        SingleChildScrollView(
+                      ),
+                      SizedBox(height: 16),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          right: 8,
+                          left: 8,
+                          bottom: 8,
+                        ),
+                        child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
                             children: [
@@ -257,75 +278,98 @@ class _HomeScreenState extends State<HomeScreen> {
                             ],
                           ),
                         ),
-                      ],
-                    );
-                  },
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
-        body: Text('data'),
-        // FutureBuilder<List<ProviderAccountModel>>(
-        //   future: _foundedUsers,
-        //   builder: (context, snapshot) {
-        //     if (snapshot.connectionState == ConnectionState.waiting) {
-        //       return Center(child: CircularProgressIndicator());
-        //     }
-        //     return ListView.builder(
-        //       physics: BouncingScrollPhysics(),
-        //       shrinkWrap: true,
-        //       itemCount: snapshot.data!.length,
-        //       itemBuilder: (context, index) {
-        //         return InkWell(
-        //           onTap: () {
-        //             Navigator.push(
-        //               context,
-        //               MaterialPageRoute(
-        //                 builder:
-        //                     (context) => ProviderInfoScreen(
-        //                       email: snapshot.data![index].email,
-        //                     ),
-        //               ),
-        //             );
-        //           },
-        //           child: SizedBox(
-        //             height: 150,
-        //             width: 350,
-        //             child: Card(
-        //               color:
-        //                   Theme.of(context).brightness == Brightness.dark
-        //                       ? Color.fromARGB(255, 43, 43, 49)
-        //                       : const Color.fromARGB(255, 236, 229, 243),
-        //               child: Row(
-        //                 children: [
-        //                   ClipRRect(
-        //                     borderRadius: BorderRadius.circular(15.0),
-        //                     child: Image.network(
-        //                       snapshot.data![index].profilPicture,
-        //                       height: 100,
-        //                       width: 100,
-        //                       fit: BoxFit.cover,
-        //                     ),
-        //                   ),
-        //                   Column(
-        //                     children: [
-        //                       // Text(snapshot.data![index].email),
-        //                       Text(snapshot.data![index].username),
-        //                       Text(snapshot.data![index].diplome),
-        //                       Text(snapshot.data![index].description),
-        //                       Text(snapshot.data![index].domaine),
-        //                       Text(snapshot.data![index].experience),
-        //                       Text(snapshot.data![index].phoneNumber),
-        //                     ],
-        //                   ),
-        //                 ],
-        //               ),
-        //             ),
-        //           ),
-        //         );
-        //       },
-        //     );
-        //   },
-        // ),
+        body: Padding(
+          padding: const EdgeInsets.only(left: 8, right: 8),
+          child: FutureBuilder<List<ProviderAccountModel>>(
+            future: _foundedUsers,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(child: CircularProgressIndicator());
+              }
+              return ListView.builder(
+                physics: BouncingScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => ProviderInfoScreen(
+                                email: snapshot.data![index].email,
+                              ),
+                        ),
+                      );
+                    },
+                    child: SizedBox(
+                      height: 150,
+                      width: 350,
+                      child: Card(
+                        color:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerHighest
+                                : Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerHighest,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(15.0),
+                                child: Image.network(
+                                  snapshot.data![index].profilPicture,
+                                  height: 120,
+                                  width: 120,
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              SizedBox(width: 20),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Text(snapshot.data![index].email),
+                                  Text(
+                                    snapshot.data![index].username,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  SizedBox(height: 4),
+                                  // Text(snapshot.data![index].diplome),
+                                  Text(
+                                    snapshot.data![index].description,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  SizedBox(height: 2),
+                                  Text(snapshot.data![index].domaine),
+                                  // Text(snapshot.data![index].experience),
+                                  // Text(snapshot.data![index].phoneNumber),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ),
       ),
     );
   }

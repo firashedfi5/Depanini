@@ -126,8 +126,12 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                   child: Card(
                     color:
                         Theme.of(context).brightness == Brightness.dark
-                            ? const Color.fromARGB(255, 43, 43, 49)
-                            : const Color.fromARGB(255, 236, 229, 243),
+                            ? Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest
+                            : Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
@@ -160,18 +164,26 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                           child: Row(
                             children: [
                               ImageContainer(
+                                height: 80,
+                                width: 80,
                                 imageUrl: _postListed[index].image1,
                               ),
                               SizedBox(width: 5),
                               ImageContainer(
+                                height: 80,
+                                width: 80,
                                 imageUrl: _postListed[index].image2,
                               ),
                               SizedBox(width: 5),
                               ImageContainer(
+                                height: 80,
+                                width: 80,
                                 imageUrl: _postListed[index].image3,
                               ),
                               SizedBox(width: 5),
                               ImageContainer(
+                                height: 80,
+                                width: 80,
                                 imageUrl: _postListed[index].image4,
                               ),
                             ],
