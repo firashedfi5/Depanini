@@ -18,7 +18,7 @@ class ClientDiyScreen extends StatefulWidget {
 
 class _ClientDiyScreenState extends State<ClientDiyScreen> {
   final List<Domains> _domains = Domains.values;
-  final List<String> _selectedDomaine = [];
+  String? _selectedDomain;
 
   bool isSelected = false;
 
@@ -51,6 +51,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
             titre: astuce["titre"],
             description: astuce["description"],
             domaine: astuce["domaine"],
+            foregroundImage: astuce["foreground_image"],
           );
         }).toList();
 
@@ -122,7 +123,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                       Icons.search,
                       color: Theme.of(context).colorScheme.primary,
                     ),
-                    hintText: 'Rechercher...',
+                    hintText: 'Salut, de quoi as-tu besoin d\'aide ?',
                     backgroundColor: WidgetStateProperty.all(
                       Theme.of(context).brightness == Brightness.dark
                           ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
@@ -150,22 +151,16 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                           selectedColor:
                               Theme.of(context).colorScheme.secondary,
                           label: Text(_domains[index].name),
-                          selected: _selectedDomaine.contains(
-                            _domains[index].name,
-                          ),
+                          selected: _selectedDomain == _domains[index].name,
                           onSelected: (value) {
                             setState(() {
                               if (value) {
-                                _selectedDomaine.add(_domains[index].name);
+                                _selectedDomain = _domains[index].name;
                               } else {
-                                _selectedDomaine.remove(_domains[index].name);
+                                _selectedDomain = null;
                               }
                             });
-                            if (_selectedDomaine.isNotEmpty) {
-                              searchAstuces(_selectedDomaine[0]);
-                            } else {
-                              searchAstuces('');
-                            }
+                            searchAstuces(value ? _domains[index].name : '');
                           },
                         );
                       },
@@ -197,7 +192,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.9,
+                childAspectRatio: 0.8,
               ),
               physics: BouncingScrollPhysics(),
               itemCount: snapshot.data!.length,
@@ -215,48 +210,43 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                       ),
                     );
                   },
-                  child: Stack(
-                    children: [
-                      Card(
-                        color:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Theme.of(
-                                  context,
-                                ).colorScheme.surfaceContainerHighest
-                                : Theme.of(
-                                  context,
-                                ).colorScheme.surfaceContainerHighest,
-                        child: Padding(
-                          padding: EdgeInsets.all(8),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              Text(
-                                textAlign: TextAlign.center,
-                                snapshot.data![index].titre,
-                                style: Theme.of(context).textTheme.titleLarge!
-                                    .copyWith(fontSize: 17.5),
-                              ),
-                              Text(
-                                snapshot.data![index].domaine,
-                                style: Theme.of(context).textTheme.titleSmall,
-                              ),
-                              // Text(snapshot.data![index].description),
-                            ],
+                  child: Card(
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest
+                            : Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
+                    child: Padding(
+                      padding: const EdgeInsets.all(5),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                            width: 150,
+                            height: 150,
+                            child: Image.network(
+                              snapshot.data![index].foregroundImage!,
+                              fit: BoxFit.contain,
+                            ),
                           ),
-                        ),
-                      ),
-                      Positioned.fill(
-                        child: Align(
-                          alignment: Alignment.topCenter,
-                          child: Image.asset(
-                            'assets/images/computer.png',
-                            fit: BoxFit.contain,
-                            scale: 12,
+                          Text(
+                            textAlign: TextAlign.center,
+                            snapshot.data![index].titre,
+                            style: Theme.of(
+                              context,
+                            ).textTheme.titleLarge!.copyWith(fontSize: 17.5),
                           ),
-                        ),
+                          Text(
+                            snapshot.data![index].domaine,
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                          // Text(snapshot.data![index].description),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 );
               },

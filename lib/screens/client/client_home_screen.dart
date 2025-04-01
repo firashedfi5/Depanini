@@ -206,7 +206,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           onSubmitted: (value) {
                             searchUsers(value);
                           },
-                          hintText: 'Bonjour, que faut-il réparer ?',
+                          hintText: 'Que faut-il réparer ?',
                           backgroundColor: WidgetStateProperty.all(
                             Theme.of(context).brightness == Brightness.dark
                                 ? Theme.of(

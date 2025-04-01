@@ -4,7 +4,7 @@ class AstuceModel {
     required this.titre,
     required this.description,
     required this.domaine,
-    // this.image1,
+    this.foregroundImage,
     // this.image2,
     // this.image3,
     // this.image4,
@@ -14,7 +14,7 @@ class AstuceModel {
   final String titre;
   final String domaine;
   final String description;
-  // final String? image1;
+  final String? foregroundImage;
   // final String? image2;
   // final String? image3;
   // final String? image4;

@@ -19,7 +19,7 @@ extension DomainExtension on Domains {
       case Domains.plomberie:
         return 'Plomberie';
       case Domains.electricite:
-        return 'Électricité';
+        return 'Electricité';
       case Domains.mecanique:
         return 'Mécanique';
       case Domains.informatique:
