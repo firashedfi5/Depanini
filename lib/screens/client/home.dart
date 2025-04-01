@@ -33,9 +33,8 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:
-      // _pages[_selectedIndex],
-      IndexedStack(index: _selectedIndex, children: _pages),
+      body: _pages[_selectedIndex],
+      // IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,

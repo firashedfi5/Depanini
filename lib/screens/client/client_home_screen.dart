@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/client/home/provider_info_screen.dart';
-// import 'package:depanini/models/provider_account_model.dart';
+import 'package:depanini/screens/common/notifications_screen.dart';
 import 'package:depanini/widgets/category_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -168,6 +168,18 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ],
                             ),
+                            Spacer(),
+                            IconButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => NotificationsScreen(),
+                                  ),
+                                );
+                              },
+                              icon: Icon(Icons.notifications),
+                            ),
                           ],
                         ),
                       ],
@@ -175,12 +187,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
                 bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(130),
+                  preferredSize: Size.fromHeight(125),
                   child: Column(
                     children: [
                       // SizedBox(height: 25),
                       SizedBox(
-                        height: 40,
+                        height: 35,
                         width: 360,
                         child: SearchBar(
                           leading: Icon(
