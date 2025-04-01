@@ -160,8 +160,12 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                               } else {
                                 _selectedDomaine.remove(_domains[index].name);
                               }
-                              // searchAstuces(_domains[index].name);
                             });
+                            if (_selectedDomaine.isNotEmpty) {
+                              searchAstuces(_selectedDomaine[0]);
+                            } else {
+                              searchAstuces('');
+                            }
                           },
                         );
                       },
@@ -193,7 +197,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.95,
+                childAspectRatio: 0.9,
               ),
               physics: BouncingScrollPhysics(),
               itemCount: snapshot.data!.length,
@@ -233,10 +237,10 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                                 style: Theme.of(context).textTheme.titleLarge!
                                     .copyWith(fontSize: 17.5),
                               ),
-                              // Text(
-                              //   snapshot.data![index].domaine,
-                              //   style: Theme.of(context).textTheme.titleMedium,
-                              // ),
+                              Text(
+                                snapshot.data![index].domaine,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
                               // Text(snapshot.data![index].description),
                             ],
                           ),
