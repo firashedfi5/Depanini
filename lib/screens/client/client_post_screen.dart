@@ -210,6 +210,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
 
     return Scaffold(
       appBar: AppBar(
+        title: Text('Ajouter une annonce'),
         actions: [
           IconButton(onPressed: _addPost, icon: Icon(Icons.add, size: 35)),
         ],
