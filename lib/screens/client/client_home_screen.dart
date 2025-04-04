@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:depanini/constants/domains.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/client/home/provider_info_screen.dart';
 import 'package:depanini/screens/common/notifications_screen.dart';
-import 'package:depanini/widgets/category_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/data/word_to_field.dart';
-// import 'dart:developer' as dev;
+import 'dart:developer' as dev;
 
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -19,6 +19,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final List<Domains> _domains = Domains.values;
+  int selected = -1;
+
   Future<List<ProviderAccountModel>> _foundedUsers = Future.value([]);
 
   Future<List<ProviderAccountModel>> getAllData() async {
@@ -217,78 +220,20 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       SizedBox(height: 16),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          right: 8,
-                          left: 8,
-                          bottom: 8,
-                        ),
-                        child: SingleChildScrollView(
+                      SizedBox(
+                        height: 74,
+                        child: ListView.builder(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          physics: const BouncingScrollPhysics(),
                           scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: [
-                              InkWell(
-                                onTap: () {
-                                  // searchController.text = 'informatique';
-                                  searchUsers('électricité');
-                                },
-                                child: CategoryItem(
-                                  imagePath: 'assets/images/electricite.jpg',
-                                  label: 'Electricite',
-                                ),
-                              ),
-                              SizedBox(width: 15),
-                              InkWell(
-                                onTap: () {
-                                  // searchController.text = 'informatique';
-                                  searchUsers('jardinage');
-                                },
-                                child: CategoryItem(
-                                  imagePath: 'assets/images/jardinage.jpg',
-                                  label: 'Jardinage',
-                                ),
-                              ),
-                              SizedBox(width: 15),
-                              InkWell(
-                                onTap: () {
-                                  // searchController.text = 'informatique';
-                                  searchUsers('plomberie');
-                                },
-                                child: CategoryItem(
-                                  imagePath: 'assets/images/plomberie.jpg',
-                                  label: 'Plomberie',
-                                ),
-                              ),
-                              SizedBox(width: 15),
-                              InkWell(
-                                onTap: () {
-                                  // searchController.text = 'mécanique';
-                                  searchUsers('mécanique');
-                                },
-                                child: CategoryItem(
-                                  imagePath: 'assets/images/mecanique.jpg',
-                                  label: 'Mécanique',
-                                ),
-                              ),
-                              SizedBox(width: 15),
-                              InkWell(
-                                onTap: () {
-                                  // searchController.text = 'informatique';
-                                  searchUsers('informatique');
-                                },
-                                child: CategoryItem(
-                                  imagePath: 'assets/images/informatique.jpg',
-                                  label: 'Infomatique',
-                                ),
-                              ),
-                              SizedBox(width: 15),
-                              CategoryItem(imagePath: '', label: 'bla bla'),
-                              SizedBox(width: 15),
-                              CategoryItem(imagePath: '', label: 'bla bla'),
-                              SizedBox(width: 15),
-                              CategoryItem(imagePath: '', label: 'bla bla'),
-                            ],
-                          ),
+                          itemCount: _domains.length,
+                          itemBuilder: (context, index) {
+                            return customRadioButton(
+                              label: _domains[index].name,
+                              index: index,
+                              imageURL: _domains[index].imageURL,
+                            );
+                          },
                         ),
                       ),
                     ],
@@ -382,6 +327,54 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
         ),
+      ),
+    );
+  }
+
+  Widget customRadioButton({
+    required String label,
+    required String imageURL,
+    required int index,
+  }) {
+    return OutlinedButton(
+      style: OutlinedButton.styleFrom(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        side: BorderSide.none,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+        backgroundColor:
+            selected == index
+                ? Theme.of(context).colorScheme.secondaryContainer
+                : Colors.transparent,
+      ),
+      onPressed: () {
+        setState(() {
+          // Toggle selection: if already selected, unselect (set to null or -1)
+          if (selected == index) {
+            selected = -1; // or `null` if your selected variable is nullable
+            searchUsers('');
+          } else {
+            selected = index;
+            searchUsers(_domains[index].name); // Only search on selection
+          }
+          dev.log(selected.toString());
+        });
+      },
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 25,
+            foregroundImage:
+                imageURL.isNotEmpty ? NetworkImage(imageURL) : null,
+            backgroundColor: Colors.transparent,
+          ),
+          SizedBox(height: 5),
+          Text(
+            label,
+            style: Theme.of(
+              context,
+            ).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
     );
   }
