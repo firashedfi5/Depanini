@@ -17,58 +17,6 @@ class VerifyEmailScreen extends StatefulWidget {
 }
 
 class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
-  // *******************User Role************************
-  Future<String?> getUserRole(String uid) async {
-    final clientDoc = await _firestore.collection('clients').doc(uid).get();
-    if (clientDoc.exists) return 'client';
-
-    final providerDoc =
-        await _firestore.collection('prestataires').doc(uid).get();
-    if (providerDoc.exists) return 'provider';
-
-    // Optional: check admin collection or specific UID/email
-    // final user = FirebaseAuth.instance.currentUser;
-    // if (user != null && user.email == 'admin@example.com') {
-    //   return 'admin';
-    // }
-
-    return null;
-  }
-
-  // Future<Widget> _checkRoleAndNavigate() async {
-  //   final user = _auth.currentUser!;
-  //   final role = await getUserRole(user.uid);
-
-  //   if (!mounted) {
-  //     return const Home();
-  //   }
-
-  //   switch (role) {
-  //     case 'provider':
-  //       return const ProviderHomeScreen();
-  //     // case 'admin':
-  //     //   return const AdminHome();
-  //     default:
-  //       return const Home();
-  //   }
-  // }
-
-  // Navigator.of(context).pushReplacement(
-  //   MaterialPageRoute(
-  //     builder: (_) {
-  //       switch (role) {
-  //         case 'provider':
-  //           return const ProviderHomeScreen();
-  //         // case 'admin':
-  //         //   return const AdminHome();
-  //         default:
-  //           return const Home();
-  //       }
-  //     },
-  //   ),
-  // );
-  // *******************User Role************************
-
   bool isEmailVerified = false;
   bool canResendEmail = false;
   Timer? timer;
@@ -84,9 +32,6 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
       timer = Timer.periodic(Duration(seconds: 3), (_) => checkEmailVerified());
     }
-    // else {
-    //   _checkRoleAndNavigate();
-    // }
   }
 
   @override
@@ -94,6 +39,35 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
     timer?.cancel();
     super.dispose();
   }
+
+  // *******************User Role************************
+  Future<String?> getUserRole(String uid) async {
+    try {
+      final clientDoc = await _firestore.collection('clients').doc(uid).get();
+      if (clientDoc.exists) return 'client';
+
+      final providerDoc =
+          await _firestore.collection('prestataires').doc(uid).get();
+      if (providerDoc.exists) return 'provider';
+
+      // Optional: check admin collection or specific UID/email
+      // final user = FirebaseAuth.instance.currentUser;
+      // if (user != null && user.email == 'admin@example.com') {
+      //   return 'admin';
+      // }
+
+      return null;
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+        );
+      }
+      return null;
+    }
+  }
+
+  // *******************User Role************************
 
   Future checkEmailVerified() async {
     await FirebaseAuth.instance.currentUser!.reload();
@@ -104,7 +78,6 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
     if (isEmailVerified) {
       timer?.cancel();
-      // _checkRoleAndNavigate();
     }
   }
 
@@ -146,26 +119,20 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Please verify your email before proceeding.',
-                style: TextStyle(fontSize: 18),
+              Image.asset('assets/images/Mail_sent_bro.png', width: 300),
+              Text(
+                'Un email de vérification vous a été envoyé.',
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(height: 20),
+              SizedBox(height: 50),
               ElevatedButton(
-                onPressed: () async {
-                  // Send email verification
-                  await user.sendEmailVerification();
-                  if (mounted) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text(
-                          'Verification email sent! Check your inbox.',
-                        ),
-                      ),
-                    );
-                  }
-                },
-                child: const Text('Resend Verification Email'),
+                onPressed: canResendEmail ? sendVerificationEmail : null,
+                child: Text('Renvoyer'),
+              ),
+              SizedBox(height: 10),
+              TextButton(
+                onPressed: () => FirebaseAuth.instance.signOut(),
+                child: Text('Annuler'),
               ),
             ],
           ),
