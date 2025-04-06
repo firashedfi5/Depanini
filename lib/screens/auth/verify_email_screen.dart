@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:depanini/screens/admin/admin_home_screen.dart';
 import 'package:depanini/screens/client/home.dart';
 import 'package:depanini/screens/provider/provider_home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,6 +50,10 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       final providerDoc =
           await _firestore.collection('prestataires').doc(uid).get();
       if (providerDoc.exists) return 'provider';
+
+      final adminDoc =
+          await _firestore.collection('administrateurs').doc(uid).get();
+      if (adminDoc.exists) return 'admin';
 
       // Optional: check admin collection or specific UID/email
       // final user = FirebaseAuth.instance.currentUser;
@@ -159,8 +164,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
           switch (role) {
             case 'provider':
               return const ProviderHomeScreen();
-            // case 'admin':
-            //   return const AdminHome();
+            case 'admin':
+              return const AdminHomeScreen();
             case 'client':
               return const Home();
             default:
