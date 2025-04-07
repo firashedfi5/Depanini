@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/constants/domains.dart';
+import 'package:depanini/models/astuce_model.dart';
+import 'package:depanini/models/post_model.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/client/home/provider_info_screen.dart';
 import 'package:depanini/screens/common/notifications_screen.dart';
@@ -7,6 +11,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/data/word_to_field.dart';
 import 'dart:developer' as dev;
+
+import 'package:http/http.dart' as http;
 
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -19,17 +25,57 @@ class ProviderHomeScreen extends StatefulWidget {
 }
 
 class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
-  final List<Domains> _domains = Domains.values;
-  int selected = -1;
+  List<PostModel> _postListed = [];
+  var _isLoading = true;
+  String? _error;
 
-  Future<List<ProviderAccountModel>> _foundedUsers = Future.value([]);
+  Future<List<AstuceModel>> _loadPosts() async {
+    final url = Uri.http(
+      '10.0.2.2:3300',
+      'afficher-annonces/${_auth.currentUser!.uid}',
+    );
+    try {
+      final response = await http.get(url);
 
-  Future<List<ProviderAccountModel>> getAllData() async {
-    final data = await _firestore.collection("prestataires").get();
-    final snapshot =
-        data.docs.map((doc) => ProviderAccountModel.fromSnapshot(doc)).toList();
-    return snapshot;
+      if (response.statusCode >= 400) {
+        setState(() {
+          _error =
+              'Echec de récupération des données. Veuillez réessayer plus tard.';
+        });
+      }
+
+      // Decode the JSON response correctly as a List
+      final List<dynamic> listData = json.decode(response.body);
+
+      final List<PostModel> loadedPosts =
+          listData.map((post) {
+            return PostModel(
+              id: post["id"],
+              uid: post["uid"],
+              description: post["description"],
+              service: post["service"],
+              date: post["date"],
+              image1: post["imageURL_1"],
+              image2: post["imageURL_2"],
+              image3: post["imageURL_3"],
+              image4: post["imageURL_4"],
+            );
+          }).toList();
+      setState(() {
+        _postListed = loadedPosts;
+        _isLoading = false;
+      });
+    } catch (err) {
+      if (mounted) {
+        setState(() {
+          _error =
+              'Echec de récupération des données. Veuillez réessayer plus tard.';
+        });
+      }
+    }
   }
+
+  Future<List<ProviderAccountModel>> _foundedAstuces = Future.value([]);
 
   late Stream<DocumentSnapshot> userStream;
   final user = _auth.currentUser!;
@@ -39,7 +85,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     super.initState();
     userStream =
         _firestore.collection("prestataires").doc(user.uid).snapshots();
-    _foundedUsers = getAllData();
+    _foundedAstuces = _loadPosts();
   }
 
   // ***********Search************************
@@ -48,9 +94,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
     // If search input is empty, return all users
     if (searchLower.isEmpty) {
-      getAllData().then((users) {
+      _loadPosts().then((users) {
         setState(() {
-          _foundedUsers = Future.value(users);
+          _foundedAstuces = Future.value(users);
         });
       });
       return;
@@ -67,9 +113,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     // If no match is found in the map, use the original search term
     mappedField = mappedField.isEmpty ? searchLower : mappedField;
 
-    getAllData().then((users) {
+    _loadPosts().then((users) {
       setState(() {
-        _foundedUsers = Future.value(
+        _foundedAstuces = Future.value(
           users.where((user) {
             return user.domaine.toLowerCase().contains(mappedField) ||
                 user.username.toLowerCase().contains(mappedField);
@@ -92,7 +138,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                 pinned: true,
                 floating: true,
                 // snap: true,
-                expandedHeight: 200,
+                expandedHeight: 120,
                 title: StreamBuilder<DocumentSnapshot>(
                   stream: userStream,
                   builder: (context, snapshot) {
@@ -191,50 +237,35 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                   },
                 ),
                 bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(125),
+                  preferredSize: Size.fromHeight(65),
                   child: Column(
                     children: [
-                      // SizedBox(height: 25),
-                      SizedBox(
-                        height: 35,
-                        width: 360,
-                        child: SearchBar(
-                          leading: Icon(
-                            Icons.search,
-                            color: Theme.of(context).colorScheme.primary,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 15),
+                        child: SizedBox(
+                          height: 35,
+                          width: 360,
+                          child: SearchBar(
+                            leading: Icon(
+                              Icons.search,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            // controller: searchController,
+                            onChanged: (value) {
+                              searchUsers(value);
+                            },
+                            onSubmitted: (value) {
+                              searchUsers(value);
+                            },
+                            hintText: 'Que faut-il réparer ?',
+                            backgroundColor: WidgetStateProperty.all(
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondaryFixedVariant
+                                  : const Color.fromARGB(255, 228, 216, 240),
+                            ),
                           ),
-                          // controller: searchController,
-                          onChanged: (value) {
-                            searchUsers(value);
-                          },
-                          onSubmitted: (value) {
-                            searchUsers(value);
-                          },
-                          hintText: 'Que faut-il réparer ?',
-                          backgroundColor: WidgetStateProperty.all(
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Theme.of(
-                                  context,
-                                ).colorScheme.onSecondaryFixedVariant
-                                : const Color.fromARGB(255, 228, 216, 240),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 16),
-                      SizedBox(
-                        height: 74,
-                        child: ListView.builder(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          physics: const BouncingScrollPhysics(),
-                          scrollDirection: Axis.horizontal,
-                          itemCount: _domains.length,
-                          itemBuilder: (context, index) {
-                            return customRadioButton(
-                              label: _domains[index].name,
-                              index: index,
-                              imageURL: _domains[index].imageURL,
-                            );
-                          },
                         ),
                       ),
                     ],
@@ -245,7 +276,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
           child: FutureBuilder<List<ProviderAccountModel>>(
-            future: _foundedUsers,
+            future: _foundedAstuces,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -333,54 +364,6 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
             },
           ),
         ),
-      ),
-    );
-  }
-
-  Widget customRadioButton({
-    required String label,
-    required String imageURL,
-    required int index,
-  }) {
-    return OutlinedButton(
-      style: OutlinedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        side: BorderSide.none,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        backgroundColor:
-            selected == index
-                ? Theme.of(context).colorScheme.secondaryContainer
-                : Colors.transparent,
-      ),
-      onPressed: () {
-        setState(() {
-          // Toggle selection: if already selected, unselect (set to null or -1)
-          if (selected == index) {
-            selected = -1; // or `null` if your selected variable is nullable
-            searchUsers('');
-          } else {
-            selected = index;
-            searchUsers(_domains[index].name); // Only search on selection
-          }
-          dev.log(selected.toString());
-        });
-      },
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: 25,
-            foregroundImage:
-                imageURL.isNotEmpty ? NetworkImage(imageURL) : null,
-            backgroundColor: Colors.transparent,
-          ),
-          SizedBox(height: 5),
-          Text(
-            label,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
-          ),
-        ],
       ),
     );
   }
