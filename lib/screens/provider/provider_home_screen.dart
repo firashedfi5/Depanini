@@ -1,16 +1,12 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:depanini/constants/domains.dart';
-import 'package:depanini/models/astuce_model.dart';
 import 'package:depanini/models/post_model.dart';
-import 'package:depanini/models/provider_account_model.dart';
-import 'package:depanini/screens/client/home/provider_info_screen.dart';
 import 'package:depanini/screens/common/notifications_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/data/word_to_field.dart';
-import 'dart:developer' as dev;
+// import 'dart:developer' as dev;
 
 import 'package:http/http.dart' as http;
 
@@ -25,57 +21,50 @@ class ProviderHomeScreen extends StatefulWidget {
 }
 
 class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
-  List<PostModel> _postListed = [];
-  var _isLoading = true;
-  String? _error;
+  // List<PostModel> _postListed = [];
+  // var _isLoading = true;
+  // String? _error;
 
-  Future<List<AstuceModel>> _loadPosts() async {
-    final url = Uri.http(
-      '10.0.2.2:3300',
-      'afficher-annonces/${_auth.currentUser!.uid}',
-    );
-    try {
-      final response = await http.get(url);
+  Future<List<PostModel>> _loadPosts() async {
+    // Step 1: Get current user
+    final user = _auth.currentUser!;
 
-      if (response.statusCode >= 400) {
-        setState(() {
-          _error =
-              'Echec de récupération des données. Veuillez réessayer plus tard.';
-        });
-      }
+    // Step 2: Fetch domaine from Firestore
+    final userDoc =
+        await _firestore.collection("prestataires").doc(user.uid).get();
+    final userData = userDoc.data();
 
-      // Decode the JSON response correctly as a List
-      final List<dynamic> listData = json.decode(response.body);
-
-      final List<PostModel> loadedPosts =
-          listData.map((post) {
-            return PostModel(
-              id: post["id"],
-              uid: post["uid"],
-              description: post["description"],
-              service: post["service"],
-              date: post["date"],
-              image1: post["imageURL_1"],
-              image2: post["imageURL_2"],
-              image3: post["imageURL_3"],
-              image4: post["imageURL_4"],
-            );
-          }).toList();
-      setState(() {
-        _postListed = loadedPosts;
-        _isLoading = false;
-      });
-    } catch (err) {
-      if (mounted) {
-        setState(() {
-          _error =
-              'Echec de récupération des données. Veuillez réessayer plus tard.';
-        });
-      }
+    if (userData == null || !userData.containsKey('Domaine')) {
+      throw Exception("Domaine non trouvé pour l'utilisateur");
     }
+
+    final domaine = userData['Domaine'];
+
+    // Step 3: Build URL with domaine
+    final url = Uri.http('10.0.2.2:3300', 'afficher-tous-annonces/$domaine');
+
+    // Step 4: Fetch from backend
+    final response = await http.get(url);
+
+    if (response.statusCode >= 400) {
+      throw Exception('Échec de récupération des données.');
+    }
+
+    final List<dynamic> listData = json.decode(response.body);
+    return listData
+        .map(
+          (post) => PostModel(
+            id: post["id"],
+            uid: post["uid"],
+            description: post["description"],
+            service: post["service"],
+            date: post["date"],
+          ),
+        )
+        .toList();
   }
 
-  Future<List<ProviderAccountModel>> _foundedAstuces = Future.value([]);
+  Future<List<PostModel>> _foundedPosts = Future.value([]);
 
   late Stream<DocumentSnapshot> userStream;
   final user = _auth.currentUser!;
@@ -85,18 +74,18 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     super.initState();
     userStream =
         _firestore.collection("prestataires").doc(user.uid).snapshots();
-    _foundedAstuces = _loadPosts();
+    _foundedPosts = _loadPosts();
   }
 
   // ***********Search************************
-  void searchUsers(String search) {
+  void searchPost(String search) {
     String searchLower = search.toLowerCase().trim();
 
     // If search input is empty, return all users
     if (searchLower.isEmpty) {
-      _loadPosts().then((users) {
+      _loadPosts().then((astuces) {
         setState(() {
-          _foundedAstuces = Future.value(users);
+          _foundedPosts = Future.value(astuces);
         });
       });
       return;
@@ -113,12 +102,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     // If no match is found in the map, use the original search term
     mappedField = mappedField.isEmpty ? searchLower : mappedField;
 
-    _loadPosts().then((users) {
+    _loadPosts().then((post) {
       setState(() {
-        _foundedAstuces = Future.value(
-          users.where((user) {
-            return user.domaine.toLowerCase().contains(mappedField) ||
-                user.username.toLowerCase().contains(mappedField);
+        _foundedPosts = Future.value(
+          post.where((post) {
+            return post.service.toLowerCase().contains(mappedField);
           }).toList(),
         );
       });
@@ -252,10 +240,10 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                             ),
                             // controller: searchController,
                             onChanged: (value) {
-                              searchUsers(value);
+                              searchPost(value);
                             },
                             onSubmitted: (value) {
-                              searchUsers(value);
+                              searchPost(value);
                             },
                             hintText: 'Que faut-il réparer ?',
                             backgroundColor: WidgetStateProperty.all(
@@ -275,8 +263,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
             ],
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: FutureBuilder<List<ProviderAccountModel>>(
-            future: _foundedAstuces,
+          child: FutureBuilder<List<PostModel>>(
+            future: _foundedPosts,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
@@ -291,70 +279,55 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                 shrinkWrap: true,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) => ProviderInfoScreen(
-                                email: snapshot.data![index].email,
-                              ),
-                        ),
-                      );
-                    },
-                    child: SizedBox(
-                      height: 150,
-                      width: 350,
-                      child: Card(
-                        color:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Theme.of(
-                                  context,
-                                ).colorScheme.surfaceContainerHighest
-                                : Theme.of(
-                                  context,
-                                ).colorScheme.surfaceContainerHighest,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(15.0),
-                                child: Image.network(
-                                  snapshot.data![index].profilPicture,
-                                  height: 120,
-                                  width: 120,
-                                  fit: BoxFit.cover,
+                  return SizedBox(
+                    height: 150,
+                    width: 350,
+                    child: Card(
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerHighest
+                              : Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerHighest,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: Row(
+                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            // ClipRRect(
+                            //   borderRadius: BorderRadius.circular(15.0),
+                            //   child: Image.network(
+                            //     snapshot.data![index].profilPicture,
+                            //     height: 120,
+                            //     width: 120,
+                            //     fit: BoxFit.cover,
+                            //   ),
+                            // ),
+                            // SizedBox(width: 20),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                // Text(snapshot.data![index].email),
+                                Text(
+                                  snapshot.data![index].description,
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
-                              ),
-                              SizedBox(width: 20),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Text(snapshot.data![index].email),
-                                  Text(
-                                    snapshot.data![index].username,
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
-                                  SizedBox(height: 4),
-                                  // Text(snapshot.data![index].diplome),
-                                  Text(
-                                    snapshot.data![index].description,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                  SizedBox(height: 2),
-                                  Text(snapshot.data![index].domaine),
-                                  // Text(snapshot.data![index].experience),
-                                  // Text(snapshot.data![index].phoneNumber),
-                                ],
-                              ),
-                            ],
-                          ),
+                                SizedBox(height: 4),
+                                // Text(snapshot.data![index].diplome),
+                                Text(
+                                  snapshot.data![index].date,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                                SizedBox(height: 2),
+                                Text(snapshot.data![index].service),
+                                // Text(snapshot.data![index].experience),
+                                // Text(snapshot.data![index].phoneNumber),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
                     ),
