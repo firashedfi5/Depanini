@@ -242,12 +242,17 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ],
         body: Padding(
-          padding: const EdgeInsets.only(left: 8, right: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8),
           child: FutureBuilder<List<ProviderAccountModel>>(
             future: _foundedUsers,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(child: CircularProgressIndicator());
+              }
+              if (snapshot.data!.isEmpty) {
+                return const Center(
+                  child: Text('Aucun prestataire ajouté pour le moment'),
+                );
               }
               return ListView.builder(
                 physics: BouncingScrollPhysics(),

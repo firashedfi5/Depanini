@@ -1,3 +1,4 @@
+import 'package:depanini/constants/domains.dart';
 import 'package:depanini/providers/user_information.dart';
 import 'package:depanini/screens/auth/verify_email_screen.dart';
 import 'dart:io';
@@ -22,15 +23,9 @@ class ProviderDescription extends ConsumerStatefulWidget {
 
 class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
   // **********List***********
-  final List<String> _domains = [
-    'Plomberie',
-    'Électricité',
-    'Mécanique',
-    'Informatique',
-    'Jardinage',
-  ];
+  final List<Domains> _domains = Domains.values;
 
-  String? _selectedDomain;
+  Domains? _selectedDomain;
   // ***********************
 
   // *********Image************
@@ -41,7 +36,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
   // ************************
   // ************Form*************
   var _enteredDescription = '';
-  var _enteredDomaine = '';
+  Domains? _enteredDomaine;
   var _enteredDiplome = '';
   var _enteredExperience = '';
   final _formKey = GlobalKey<FormState>();
@@ -170,7 +165,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
             'Numéro de téléphone': userInfo.phoneNumber,
             'Email': userInfo.email,
             'Description': _enteredDescription,
-            'Domaine': _enteredDomaine,
+            'Domaine': _enteredDomaine!.name,
             'Diplôme': _enteredDiplome,
             'Experience': _enteredExperience,
             'Photo de profile': uploadedImageUrl,
@@ -271,7 +266,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                         SizedBox(height: 10),
                         SizedBox(
                           width: 350,
-                          child: DropdownButtonFormField<String>(
+                          child: DropdownButtonFormField<Domains>(
                             decoration: InputDecoration(
                               prefixIcon: Icon(Icons.domain_outlined),
                               labelText: 'Domaine',
@@ -281,7 +276,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                                 _domains.map((domain) {
                                   return DropdownMenuItem(
                                     value: domain,
-                                    child: Text(domain),
+                                    child: Text(domain.name),
                                   );
                                 }).toList(),
                             onChanged: (value) {
