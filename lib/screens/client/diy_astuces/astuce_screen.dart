@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 class AstuceScreen extends StatelessWidget {
   // *************GET Method**********************
-  Future<AstuceModel> _loadAnnonce() async {
+  Future<AstuceModel> _loadAstuce() async {
     final url = Uri.http('10.0.2.2:3300', 'afficher-astuce/$id');
     final response = await http.get(url);
 
@@ -46,7 +46,7 @@ class AstuceScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: Text(titre)),
       body: FutureBuilder(
-        future: _loadAnnonce(),
+        future: _loadAstuce(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

@@ -3,9 +3,9 @@ import 'dart:convert';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/post_model.dart';
 import 'package:depanini/screens/common/notifications_screen.dart';
+import 'package:depanini/screens/provider/provider_home/show_post_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:depanini/data/word_to_field.dart';
 // import 'dart:developer' as dev;
 
 import 'package:http/http.dart' as http;
@@ -56,6 +56,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
           (post) => PostModel(
             id: post["id"],
             uid: post["uid"],
+            username: post["username"],
+            phoneNumber: post["phone_number"],
+            profilPicture: post["profil_picture"],
             description: post["description"],
             service: post["service"],
             date: post["date"],
@@ -91,22 +94,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
       return;
     }
 
-    // Check if the search term matches part of any keyword in the map
-    String mappedField = '';
-    wordToField.forEach((key, value) {
-      if (key.contains(searchLower)) {
-        mappedField = value;
-      }
-    });
-
-    // If no match is found in the map, use the original search term
-    mappedField = mappedField.isEmpty ? searchLower : mappedField;
-
     _loadPosts().then((post) {
       setState(() {
         _foundedPosts = Future.value(
           post.where((post) {
-            return post.service.toLowerCase().contains(mappedField);
+            return post.description.toLowerCase().contains(searchLower);
           }).toList(),
         );
       });
@@ -245,7 +237,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                             onSubmitted: (value) {
                               searchPost(value);
                             },
-                            hintText: 'Que faut-il réparer ?',
+                            hintText: 'Rechercher une publication ?',
                             backgroundColor: WidgetStateProperty.all(
                               Theme.of(context).brightness == Brightness.dark
                                   ? Theme.of(
@@ -279,55 +271,67 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                 shrinkWrap: true,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
-                  return SizedBox(
-                    height: 150,
-                    width: 350,
-                    child: Card(
-                      color:
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Theme.of(
-                                context,
-                              ).colorScheme.surfaceContainerHighest
-                              : Theme.of(
-                                context,
-                              ).colorScheme.surfaceContainerHighest,
-                      child: Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            // ClipRRect(
-                            //   borderRadius: BorderRadius.circular(15.0),
-                            //   child: Image.network(
-                            //     snapshot.data![index].profilPicture,
-                            //     height: 120,
-                            //     width: 120,
-                            //     fit: BoxFit.cover,
-                            //   ),
-                            // ),
-                            // SizedBox(width: 20),
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // Text(snapshot.data![index].email),
-                                Text(
-                                  snapshot.data![index].description,
-                                  style: Theme.of(context).textTheme.bodyLarge,
-                                ),
-                                SizedBox(height: 4),
-                                // Text(snapshot.data![index].diplome),
-                                Text(
-                                  snapshot.data![index].date,
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                SizedBox(height: 2),
-                                Text(snapshot.data![index].service),
-                                // Text(snapshot.data![index].experience),
-                                // Text(snapshot.data![index].phoneNumber),
-                              ],
-                            ),
-                          ],
+                  return InkWell(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) =>
+                                  ShowPostScreen(id: snapshot.data![index].id),
+                        ),
+                      );
+                    },
+                    child: SizedBox(
+                      height: 150,
+                      width: 350,
+                      child: Card(
+                        color:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerHighest
+                                : Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerHighest,
+                        child: Padding(
+                          padding: const EdgeInsets.all(10),
+                          child: Row(
+                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              // ClipRRect(
+                              //   borderRadius: BorderRadius.circular(15.0),
+                              //   child: Image.network(
+                              //     snapshot.data![index].profilPicture,
+                              //     height: 120,
+                              //     width: 120,
+                              //     fit: BoxFit.cover,
+                              //   ),
+                              // ),
+                              // SizedBox(width: 20),
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    snapshot.data![index].description,
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  SizedBox(height: 4),
+                                  Text(
+                                    snapshot.data![index].date,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
+                                  ),
+                                  SizedBox(height: 2),
+                                  Text(snapshot.data![index].service),
+                                  // Text(snapshot.data![index].experience),
+                                  // Text(snapshot.data![index].phoneNumber),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),

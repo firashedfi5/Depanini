@@ -2,6 +2,9 @@ class PostModel {
   const PostModel({
     required this.id,
     required this.uid,
+    required this.username,
+    required this.phoneNumber,
+    required this.profilPicture,
     required this.description,
     required this.service,
     required this.date,
@@ -13,6 +16,9 @@ class PostModel {
 
   final int id;
   final String uid;
+  final String username;
+  final String phoneNumber;
+  final String profilPicture;
   final String service;
   final String description;
   final String date;

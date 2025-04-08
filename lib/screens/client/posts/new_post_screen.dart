@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/constants/domains.dart';
 import 'package:depanini/widgets/post_image.dart';
 import 'package:intl/intl.dart';
@@ -8,6 +9,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as dev;
 
 import 'package:http/http.dart' as http;
+
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 final _auth = FirebaseAuth.instance;
 
@@ -86,6 +89,17 @@ class _NewPostScreenState extends State<NewPostScreen> {
           _pickImageFile_4!,
         );
       }
+      // **********Fetch Data From Firestore**********
+      final user = _auth.currentUser!;
+      final userDoc =
+          await _firestore.collection("clients").doc(user.uid).get();
+      final userData = userDoc.data();
+      if (userData == null || !userData.containsKey('Nom d\'utilisateur')) {
+        throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
+      }
+      final username = userData['Nom d\'utilisateur'];
+      final phoneNumber = userData['Numéro de téléphone'];
+      final profilPictureURL = userData['Photo de profile'];
       // ***********HTTP Request**************
       final url = Uri.http('10.0.2.2:3300', 'ajouter-annonces');
       await http.post(
@@ -93,6 +107,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'uid': _auth.currentUser!.uid,
+          'username': username,
+          'phone_number': phoneNumber,
+          'profil_picture': profilPictureURL,
           'description': _enteredDescription,
           'service': _enteredDomaine!.name,
           'date': _selectedDate == null ? '' : formatter.format(_selectedDate!),

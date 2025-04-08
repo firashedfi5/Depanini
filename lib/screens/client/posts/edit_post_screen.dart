@@ -72,6 +72,9 @@ class _EditPostScreenState extends State<EditPostScreen> {
           return PostModel(
             id: post["id"],
             uid: post["uid"],
+            username: post["username"],
+            phoneNumber: post["phone_number"],
+            profilPicture: post["profil_picture"],
             description: post["description"],
             service: post["service"],
             date: post["date"],

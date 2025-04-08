@@ -1,0 +1,102 @@
+import 'dart:convert';
+
+import 'package:depanini/models/post_model.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+class ShowPostScreen extends StatelessWidget {
+  final int id;
+  const ShowPostScreen({super.key, required this.id});
+
+  Future<PostModel> _loadAnnonce() async {
+    final url = Uri.http('10.0.2.2:3300', 'afficher-seule-annonces/$id');
+    final response = await http.get(url);
+
+    if (response.statusCode >= 400) {
+      throw Exception(
+        'Échec de récupération des données. Veuillez réessayer plus tard.',
+      );
+    }
+
+    // Decode the JSON response
+    final List<dynamic> listData = json.decode(response.body);
+
+    // Ensure the list is not empty before accessing the first element
+    if (listData.isEmpty) {
+      throw Exception('Aucune astuce trouvée.');
+    }
+
+    // Extract the first object from the list
+    final Map<String, dynamic> data = listData[0];
+
+    return PostModel(
+      id: data["id"],
+      uid: data["uid"],
+      username: data["username"],
+      phoneNumber: data["phone_number"],
+      profilPicture: data["profil_picture"],
+      description: data["description"],
+      service: data['service'],
+      date: data['date'],
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Description d\'annonce')),
+      body: FutureBuilder(
+        future: _loadAnnonce(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (snapshot.hasError) {
+            return Center(
+              child: Text(
+                snapshot.error.toString(),
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            );
+          }
+          return Padding(
+            padding: EdgeInsets.all(8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(height: 10),
+                Text('Description: ${snapshot.data!.description}'),
+                Text('Domaine: ${snapshot.data!.service}'),
+                Text('Date: ${snapshot.data!.date}'),
+                Text('Date: ${snapshot.data!.phoneNumber}'),
+                SizedBox(
+                  height: 85,
+                  child: Card(
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest
+                            : Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
+                    child: Row(
+                      children: [
+                        Image.network(snapshot.data!.profilPicture),
+                        Text(
+                          snapshot.data!.username,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
