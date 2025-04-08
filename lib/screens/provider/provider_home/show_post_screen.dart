@@ -3,8 +3,21 @@ import 'dart:convert';
 import 'package:depanini/models/post_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:url_launcher/url_launcher.dart';
 
 class ShowPostScreen extends StatelessWidget {
+  // *********Phone Call*****************
+  void _makePhoneCall(String phoneNumber) async {
+    final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
+
+    if (await canLaunchUrl(phoneUri)) {
+      await launchUrl(phoneUri);
+    } else {
+      throw 'Could not make the phone call';
+    }
+  }
+
+  // *********Phone Call*****************
   final int id;
   const ShowPostScreen({super.key, required this.id});
 
@@ -87,6 +100,40 @@ class ShowPostScreen extends StatelessWidget {
                         Text(
                           snapshot.data!.username,
                           style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        Spacer(),
+                        SizedBox(
+                          width: 50,
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              side: BorderSide.none,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {
+                              _makePhoneCall(
+                                '+216${snapshot.data!.phoneNumber}',
+                              );
+                            },
+                            child: Icon(Icons.call, size: 25),
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        SizedBox(
+                          width: 50,
+                          child: OutlinedButton(
+                            style: OutlinedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(horizontal: 10),
+                              side: BorderSide.none,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: () {},
+                            child: Icon(Icons.message),
+                          ),
                         ),
                       ],
                     ),

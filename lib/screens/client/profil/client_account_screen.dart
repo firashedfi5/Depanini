@@ -79,6 +79,20 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   // ******************************************
+  void _updateUsernameAnnonces() async {
+    final url = Uri.http(
+      '10.0.2.2:3300',
+      'changer-username-annonces/${_auth.currentUser!.uid}',
+    );
+    await http.patch(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'username': _enteredUserName}),
+    );
+    dev.log('Nom d\'utilisateur mis à jour');
+  }
+
+  // ******************************************
   void _update() async {
     _formKey.currentState!.save();
     DocumentSnapshot userDoc =
@@ -94,6 +108,7 @@ class _AccountScreenState extends State<AccountScreen> {
       'Numéro de téléphone': _enteredPhoneNumber,
       'Photo de profile': finalImageUrl,
     });
+    _updateUsernameAnnonces();
     dev.log('Compte mis à jour');
     if (mounted) {
       Navigator.pop(context);
