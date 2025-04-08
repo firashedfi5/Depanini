@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/provider/profil/provider_account_screen.dart';
-import 'package:depanini/screens/provider/profil/provider_gallery.dart';
+// import 'package:depanini/screens/provider/profil/provider_gallery.dart';
 import 'package:depanini/theme/theme_provider.dart';
 import 'package:depanini/theme/themes.dart';
 import 'package:flutter/material.dart';

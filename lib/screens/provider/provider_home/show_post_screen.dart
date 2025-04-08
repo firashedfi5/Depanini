@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:depanini/models/post_model.dart';
+import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -131,7 +132,14 @@ class ShowPostScreen extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ChatScreen(),
+                                ),
+                              );
+                            },
                             child: Icon(Icons.message),
                           ),
                         ),

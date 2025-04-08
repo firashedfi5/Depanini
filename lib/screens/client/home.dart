@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
     HomeScreen(),
     ClientDiyScreen(),
     ClientPostScreen(),
-    ChatScreen(),
+    ClientChatScreen(),
     ProfilScreen(),
   ];
 
