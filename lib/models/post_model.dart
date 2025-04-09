@@ -2,6 +2,7 @@ class PostModel {
   const PostModel({
     required this.id,
     required this.uid,
+    required this.email,
     required this.username,
     required this.phoneNumber,
     required this.profilPicture,
@@ -16,6 +17,7 @@ class PostModel {
 
   final int id;
   final String uid;
+  final String email;
   final String username;
   final String phoneNumber;
   final String profilPicture;

@@ -98,6 +98,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
         throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
       }
       final username = userData['Nom d\'utilisateur'];
+      final email = userData['Email'];
       final phoneNumber = userData['Numéro de téléphone'];
       final profilPictureURL = userData['Photo de profile'];
       // ***********HTTP Request**************
@@ -110,6 +111,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'uid': _auth.currentUser!.uid,
+          'email': email,
           'username': username,
           'phone_number': phoneNumber,
           'profil_picture': profilPictureURL,

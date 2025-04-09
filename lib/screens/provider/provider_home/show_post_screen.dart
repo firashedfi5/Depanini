@@ -48,6 +48,7 @@ class ShowPostScreen extends StatelessWidget {
 
     return PostModel(
       id: data["id"],
+      email: data["email"],
       uid: data["uid"],
       username: data["username"],
       phoneNumber: data["phone_number"],
@@ -141,7 +142,7 @@ class ShowPostScreen extends StatelessWidget {
                                 MaterialPageRoute(
                                   builder:
                                       (context) => ChatScreen(
-                                        receiverEmail: snapshot.data!.username,
+                                        receiverEmail: snapshot.data!.email,
                                         username: snapshot.data!.username,
                                         profilPictureUrl:
                                             snapshot.data!.profilPicture,

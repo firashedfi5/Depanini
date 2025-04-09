@@ -71,6 +71,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
         listData.map((post) {
           return PostModel(
             id: post["id"],
+            email: post["email"],
             uid: post["uid"],
             username: post["username"],
             phoneNumber: post["phone_number"],

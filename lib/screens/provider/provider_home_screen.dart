@@ -58,6 +58,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
         .map(
           (post) => PostModel(
             id: post["id"],
+            email: post["email"],
             uid: post["uid"],
             username: post["username"],
             phoneNumber: post["phone_number"],
@@ -287,7 +288,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                     },
                     child: SizedBox(
                       height: 150,
-                      width: 350,
+                      // width: 350,
                       child: Card(
                         color:
                             Theme.of(context).brightness == Brightness.dark
@@ -312,26 +313,32 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                               //   ),
                               // ),
                               // SizedBox(width: 20),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    snapshot.data![index].description,
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
-                                  SizedBox(height: 4),
-                                  Text(
-                                    snapshot.data![index].date,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                  SizedBox(height: 2),
-                                  Text(snapshot.data![index].service),
-                                  // Text(snapshot.data![index].experience),
-                                  // Text(snapshot.data![index].phoneNumber),
-                                ],
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      snapshot.data![index].description,
+                                      // maxLines: 2,
+                                      overflow: TextOverflow.ellipsis,
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                    SizedBox(height: 4),
+                                    Text(
+                                      snapshot.data![index].date,
+                                      style:
+                                          Theme.of(
+                                            context,
+                                          ).textTheme.bodyMedium,
+                                    ),
+                                    SizedBox(height: 2),
+                                    Text(snapshot.data![index].service),
+                                    // Text(snapshot.data![index].experience),
+                                    // Text(snapshot.data![index].phoneNumber),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
