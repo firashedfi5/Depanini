@@ -41,7 +41,10 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
     final domaine = userData['Domaine'];
 
     // Step 3: Build URL with domaine
-    final url = Uri.http('10.0.2.2:3300', 'afficher-tous-annonces/$domaine');
+    final url = Uri.http(
+      '192.168.1.11:3300',
+      'afficher-tous-annonces/$domaine',
+    ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
 
     // Step 4: Fetch from backend
     final response = await http.get(url);

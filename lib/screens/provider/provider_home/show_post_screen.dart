@@ -23,7 +23,10 @@ class ShowPostScreen extends StatelessWidget {
   const ShowPostScreen({super.key, required this.id});
 
   Future<PostModel> _loadAnnonce() async {
-    final url = Uri.http('10.0.2.2:3300', 'afficher-seule-annonces/$id');
+    final url = Uri.http(
+      '192.168.1.11:3300',
+      'afficher-seule-annonces/$id',
+    ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
     final response = await http.get(url);
 
     if (response.statusCode >= 400) {
@@ -136,7 +139,12 @@ class ShowPostScreen extends StatelessWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => ChatScreen(),
+                                  builder:
+                                      (context) => ChatScreen(
+                                        username: snapshot.data!.username,
+                                        profilPictureUrl:
+                                            snapshot.data!.profilPicture,
+                                      ),
                                 ),
                               );
                             },

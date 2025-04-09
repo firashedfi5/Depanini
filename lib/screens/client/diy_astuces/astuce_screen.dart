@@ -7,7 +7,10 @@ import 'package:http/http.dart' as http;
 class AstuceScreen extends StatelessWidget {
   // *************GET Method**********************
   Future<AstuceModel> _loadAstuce() async {
-    final url = Uri.http('10.0.2.2:3300', 'afficher-astuce/$id');
+    final url = Uri.http(
+      '192.168.1.11:3300',
+      'afficher-astuce/$id',
+    ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
     final response = await http.get(url);
 
     if (response.statusCode >= 400) {

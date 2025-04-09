@@ -3,7 +3,14 @@ import 'package:depanini/widgets/new_message.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
-  const ChatScreen({super.key});
+  final String username;
+  final String profilPictureUrl;
+
+  const ChatScreen({
+    super.key,
+    required this.username,
+    required this.profilPictureUrl,
+  });
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -13,9 +20,20 @@ class _ChatScreenState extends State<ChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Row(
+          children: [
+            CircleAvatar(
+              radius: 23,
+              backgroundImage: NetworkImage(widget.profilPictureUrl),
+            ),
+            SizedBox(width: 10),
+            Text(widget.username),
+          ],
+        ),
+      ),
       body: Padding(
-        padding: EdgeInsets.symmetric(vertical: 20),
+        padding: EdgeInsets.only(bottom: 10),
         child: Column(
           children: const [Expanded(child: ChatMessages()), NewMessage()],
         ),
