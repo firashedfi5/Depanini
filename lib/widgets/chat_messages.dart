@@ -33,13 +33,11 @@ class _ChatMessagesState extends State<ChatMessages> {
 
     // If not found in 'clients', try 'prestataires'
     if (userData == null) {
-      userDoc =
-          await _firestore.collection("prestataires").doc(user.uid).get();
+      userDoc = await _firestore.collection("prestataires").doc(user.uid).get();
       userData = userDoc.data() as Map<String, dynamic>?;
     }
 
-    if (userData == null ||
-        !userData.containsKey('Email')) {
+    if (userData == null || !userData.containsKey('Email')) {
       throw Exception("Données non trouvées pour l'utilisateur");
     }
 
@@ -60,12 +58,13 @@ class _ChatMessagesState extends State<ChatMessages> {
     }
 
     return StreamBuilder(
-      stream: _firestore
-          .collection('chat_rooms')
-          .doc(chatRoomId)
-          .collection('messages')
-          .orderBy('createdAt', descending: true)
-          .snapshots(),
+      stream:
+          _firestore
+              .collection('chat_rooms')
+              .doc(chatRoomId)
+              .collection('messages')
+              .orderBy('createdAt', descending: true)
+              .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -92,9 +91,10 @@ class _ChatMessagesState extends State<ChatMessages> {
           itemCount: loadedMessages.length,
           itemBuilder: (context, index) {
             final chatMessage = loadedMessages[index].data();
-            final nextChatMessage = index + 1 < loadedMessages.length
-                ? loadedMessages[index + 1].data()
-                : null;
+            final nextChatMessage =
+                index + 1 < loadedMessages.length
+                    ? loadedMessages[index + 1].data()
+                    : null;
 
             final currentMessageUserId = chatMessage['userId'];
             final nextMessageUserId =
