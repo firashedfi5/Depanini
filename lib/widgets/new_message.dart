@@ -6,7 +6,8 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 
 class NewMessage extends StatefulWidget {
-  const NewMessage({super.key});
+  final String receiverEmail;
+  const NewMessage({super.key, required this.receiverEmail});
 
   @override
   State<NewMessage> createState() => _NewMessageState();
@@ -50,16 +51,26 @@ class _NewMessageState extends State<NewMessage> {
       throw Exception("Données non trouvées pour l'utilisateur");
     }
 
-    final username = userData['Nom d\'utilisateur'];
+    final senderEmail = userData['Email'];
+    final senderUsername = userData['Nom d\'utilisateur'];
     final profilePicture = userData['Photo de profile'];
 
-    _firestore.collection('chat').add({
-      'text': enteredMessage,
-      'createdAt': Timestamp.now(),
-      'userId': user.uid,
-      'username': username,
-      'userImage': profilePicture,
-    });
+    List<String> emails = [senderEmail, widget.receiverEmail];
+    emails.sort();
+    String chatRoomId = emails.join('-');
+
+    _firestore
+        .collection('chat_rooms')
+        .doc(chatRoomId)
+        .collection('messages')
+        .add({
+          'text': enteredMessage,
+          'createdAt': Timestamp.now(),
+          'userId': user.uid,
+          'senderUsername': senderUsername,
+          'senderEmail': senderEmail,
+          'userImage': profilePicture,
+        });
   }
 
   @override

@@ -96,6 +96,7 @@ class ProviderInfoScreen extends StatelessWidget {
                             MaterialPageRoute(
                               builder:
                                   (context) => ChatScreen(
+                                    receiverEmail: snapshot.data!.email,
                                     username: snapshot.data!.username,
                                     profilPictureUrl:
                                         snapshot.data!.profilPicture,

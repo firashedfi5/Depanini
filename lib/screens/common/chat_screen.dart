@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 class ChatScreen extends StatefulWidget {
   final String username;
   final String profilPictureUrl;
+  final String receiverEmail;
 
   const ChatScreen({
     super.key,
     required this.username,
     required this.profilPictureUrl,
+    required this.receiverEmail,
   });
 
   @override
@@ -35,7 +37,10 @@ class _ChatScreenState extends State<ChatScreen> {
       body: Padding(
         padding: EdgeInsets.only(bottom: 10),
         child: Column(
-          children: const [Expanded(child: ChatMessages()), NewMessage()],
+          children: [
+            Expanded(child: ChatMessages(receiverEmail: widget.receiverEmail)),
+            NewMessage(receiverEmail: widget.receiverEmail),
+          ],
         ),
       ),
     );

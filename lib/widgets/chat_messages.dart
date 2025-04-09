@@ -3,38 +3,88 @@ import 'package:depanini/widgets/message_bubble.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class ChatMessages extends StatelessWidget {
-  const ChatMessages({super.key});
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+
+class ChatMessages extends StatefulWidget {
+  final String receiverEmail;
+  const ChatMessages({super.key, required this.receiverEmail});
+
+  @override
+  State<ChatMessages> createState() => _ChatMessagesState();
+}
+
+class _ChatMessagesState extends State<ChatMessages> {
+  String? chatRoomId;
+
+  @override
+  void initState() {
+    super.initState();
+    _getChatRoom();
+  }
+
+  Future<void> _getChatRoom() async {
+    final user = _auth.currentUser!;
+
+    // Try to get user data from 'clients' first
+    DocumentSnapshot userDoc =
+        await _firestore.collection("clients").doc(user.uid).get();
+    Map<String, dynamic>? userData = userDoc.data() as Map<String, dynamic>?;
+
+    // If not found in 'clients', try 'prestataires'
+    if (userData == null) {
+      userDoc = await _firestore.collection("prestataires").doc(user.uid).get();
+      userData = userDoc.data() as Map<String, dynamic>?;
+    }
+
+    if (userData == null || !userData.containsKey('Email')) {
+      throw Exception("Données non trouvées pour l'utilisateur");
+    }
+
+    final senderEmail = userData['Email'];
+    List<String> emails = [senderEmail, widget.receiverEmail];
+    emails.sort();
+    setState(() {
+      chatRoomId = emails.join('-');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    final authenticatedUser = FirebaseAuth.instance.currentUser!;
+    final authenticatedUser = _auth.currentUser!;
+
+    if (chatRoomId == null) {
+      return const Center(child: CircularProgressIndicator());
+    }
 
     return StreamBuilder(
       stream:
-          FirebaseFirestore.instance
-              .collection('chat')
+          _firestore
+              .collection('chat_rooms')
+              .doc(chatRoomId)
+              .collection('messages')
               .orderBy('createdAt', descending: true)
               .snapshots(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
 
         if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return Center(
             child: Text(
-              'No messages found.',
+              'Aucun message pour le moment.',
               style: Theme.of(context).textTheme.titleLarge,
             ),
           );
         }
 
         if (snapshot.hasError) {
-          return Center(child: Text('Un error est servenue'));
+          return const Center(child: Text('Une erreur est survenue'));
         }
 
         final loadedMessages = snapshot.data!.docs;
+
         return ListView.builder(
           padding: const EdgeInsets.only(bottom: 40, left: 13, right: 13),
           reverse: true,
@@ -46,22 +96,22 @@ class ChatMessages extends StatelessWidget {
                     ? loadedMessages[index + 1].data()
                     : null;
 
-            final currenMessageUserId = chatMessage['userId'];
+            final currentMessageUserId = chatMessage['userId'];
             final nextMessageUserId =
                 nextChatMessage != null ? nextChatMessage['userId'] : null;
-            final nextUserIsSame = nextMessageUserId == currenMessageUserId;
+            final nextUserIsSame = nextMessageUserId == currentMessageUserId;
 
             if (nextUserIsSame) {
               return MessageBubble.next(
                 message: chatMessage['text'],
-                isMe: authenticatedUser.uid == currenMessageUserId,
+                isMe: authenticatedUser.uid == currentMessageUserId,
               );
             } else {
               return MessageBubble.first(
                 userImage: chatMessage['userImage'],
                 username: chatMessage['username'],
                 message: chatMessage['text'],
-                isMe: authenticatedUser.uid == currenMessageUserId,
+                isMe: authenticatedUser.uid == currentMessageUserId,
               );
             }
           },
