@@ -267,6 +267,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         MaterialPageRoute(
                           builder:
                               (context) => ProviderInfoScreen(
+                                uid: snapshot.data![index].uid,
                                 email: snapshot.data![index].email,
                               ),
                         ),

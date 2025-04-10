@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProviderAccountModel {
   const ProviderAccountModel({
+    required this.uid,
     required this.email,
     required this.username,
     required this.description,
@@ -16,6 +17,7 @@ class ProviderAccountModel {
     this.workPicture_4,
   });
 
+  final String uid;
   final String email;
   final String username;
   final String description;
@@ -34,6 +36,7 @@ class ProviderAccountModel {
   ) {
     final data = document.data()!;
     return ProviderAccountModel(
+      uid: data['Uid'],
       email: data['Email'],
       username: data['Nom d\'utilisateur'],
       description: data['Description'],

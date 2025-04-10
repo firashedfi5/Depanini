@@ -2,16 +2,19 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:depanini/widgets/image_container.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer' as dev;
 
+final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class ProviderInfoScreen extends StatefulWidget {
-  const ProviderInfoScreen({super.key, required this.email});
-
+  const ProviderInfoScreen({super.key, required this.email, required this.uid});
+  final String uid;
   final String email;
 
   @override
@@ -19,6 +22,27 @@ class ProviderInfoScreen extends StatefulWidget {
 }
 
 class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
+  double rating = 0;
+  // ***********Rating Method***************
+  void _submitRating() async {
+    final user = _auth.currentUser!;
+
+    _firestore
+        .collection('prestataires')
+        .doc(widget.uid)
+        .collection('ratings')
+        .doc(user.email)
+        .set({
+          'ratedAt': Timestamp.now(),
+          'client_uid': user.uid,
+          'client_email': user.email,
+          'rating': rating,
+        });
+    // Navigator.pop(context);
+  }
+
+  // ***********Rating Method***************
+
   // *********Phone Call*****************
   void _makePhoneCall(String phoneNumber) async {
     final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
@@ -41,8 +65,6 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
         data.docs.map((doc) => ProviderAccountModel.fromSnapshot(doc)).single;
     return snapshot;
   }
-
-  double rating = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -83,6 +105,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                   snapshot.data!.experience,
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
+                // Text(snapshot.data!.uid),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -168,6 +191,14 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                     rating = value;
                     dev.log(rating.toString());
                   },
+                ),
+                SizedBox(height: 10),
+                SizedBox(
+                  width: 100,
+                  child: OutlinedButton(
+                    onPressed: _submitRating,
+                    child: FaIcon(FontAwesomeIcons.check),
+                  ),
                 ),
               ],
             ),

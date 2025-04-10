@@ -160,6 +160,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
           .collection('prestataires')
           .doc(userCredential.user!.uid)
           .set({
+            'Uid': userCredential.user!.uid,
             'Nom d\'utilisateur': userInfo.userName,
             'Rôle': userInfo.role,
             'Numéro de téléphone': userInfo.phoneNumber,
