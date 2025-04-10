@@ -3,11 +3,23 @@ import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:depanini/widgets/image_container.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:developer' as dev;
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class ProviderInfoScreen extends StatelessWidget {
+class ProviderInfoScreen extends StatefulWidget {
+  const ProviderInfoScreen({super.key, required this.email});
+
+  final String email;
+
+  @override
+  State<ProviderInfoScreen> createState() => _ProviderInfoScreenState();
+}
+
+class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
   // *********Phone Call*****************
   void _makePhoneCall(String phoneNumber) async {
     final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
@@ -18,22 +30,20 @@ class ProviderInfoScreen extends StatelessWidget {
       throw 'Could not make the phone call';
     }
   }
-  // *********Phone Call*****************
 
+  // *********Phone Call*****************
   Future<ProviderAccountModel> getUserData() async {
     final data =
         await _firestore
             .collection("prestataires")
-            .where("Email", isEqualTo: email)
+            .where("Email", isEqualTo: widget.email)
             .get();
     final snapshot =
         data.docs.map((doc) => ProviderAccountModel.fromSnapshot(doc)).single;
     return snapshot;
   }
 
-  const ProviderInfoScreen({super.key, required this.email});
-
-  final String email;
+  double rating = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -142,6 +152,25 @@ class ProviderInfoScreen extends StatelessWidget {
                       ),
                     ],
                   ),
+                ),
+                SizedBox(height: 20),
+                RatingBar.builder(
+                  initialRating: rating,
+                  minRating: 1,
+                  itemCount: 5,
+                  itemSize: 30,
+                  itemPadding: EdgeInsets.symmetric(horizontal: 2.5),
+                  itemBuilder:
+                      (context, _) => FaIcon(
+                        FontAwesomeIcons.solidStar,
+                        color: Colors.amber,
+                      ),
+                  updateOnDrag: true,
+                  allowHalfRating: true,
+                  onRatingUpdate: (value) {
+                    rating = value;
+                    dev.log(rating.toString());
+                  },
                 ),
               ],
             ),
