@@ -159,12 +159,10 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                   minRating: 1,
                   itemCount: 5,
                   itemSize: 30,
+                  glow: false,
                   itemPadding: EdgeInsets.symmetric(horizontal: 2.5),
                   itemBuilder:
-                      (context, _) => FaIcon(
-                        FontAwesomeIcons.solidStar,
-                        color: Colors.amber,
-                      ),
+                      (context, _) => Icon(Icons.star, color: Colors.amber),
                   updateOnDrag: true,
                   allowHalfRating: true,
                   onRatingUpdate: (value) {

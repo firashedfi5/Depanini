@@ -6,7 +6,10 @@ import 'package:depanini/screens/common/notifications_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/data/word_to_field.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'dart:developer' as dev;
+
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -317,8 +320,32 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   SizedBox(height: 2),
                                   Text(snapshot.data![index].domaine),
-                                  // Text(snapshot.data![index].experience),
-                                  // Text(snapshot.data![index].phoneNumber),
+                                  SizedBox(height: 2),
+                                  RatingBar(
+                                    initialRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemSize: 20,
+                                    ignoreGestures: true,
+                                    ratingWidget: RatingWidget(
+                                      full: Icon(
+                                        Icons.star,
+                                        color: Colors.amber,
+                                      ),
+                                      half: Icon(
+                                        Icons.star_half,
+                                        color: Colors.amber,
+                                      ),
+                                      empty: Icon(
+                                        Icons.star_border,
+                                        color: Colors.amber,
+                                      ),
+                                    ),
+                                    onRatingUpdate: (rating) {
+                                      dev.log(rating.toString());
+                                    },
+                                  ),
                                 ],
                               ),
                             ],
