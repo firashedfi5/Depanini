@@ -59,6 +59,10 @@ class _NewMessageState extends State<NewMessage> {
     emails.sort();
     String chatRoomId = emails.join('-');
 
+    _firestore.collection('chat_rooms').doc(chatRoomId).set({
+      'participants': emails,
+    });
+
     _firestore
         .collection('chat_rooms')
         .doc(chatRoomId)
