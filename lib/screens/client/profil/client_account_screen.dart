@@ -81,15 +81,44 @@ class _AccountScreenState extends State<AccountScreen> {
   // ******************************************
   void _updateUsernameAnnonces() async {
     final url = Uri.http(
-      '10.0.2.2:3300',
+      '192.168.31.16:3300',
       'changer-username-annonces/${_auth.currentUser!.uid}',
     ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
-    await http.patch(
+    final response = await http.patch(
       url,
       headers: {'Content-Type': 'application/json'},
       body: json.encode({'username': _enteredUserName}),
     );
-    dev.log('Nom d\'utilisateur mis à jour');
+    final responseData = json.decode(response.body);
+    dev.log('${responseData['message']}, ${response.statusCode}');
+  }
+
+  void _updateProfilPictureAnnonces(String finalImageUrl) async {
+    final url = Uri.http(
+      '192.168.31.16:3300',
+      'changer-profilPicture-annonces/${_auth.currentUser!.uid}',
+    ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
+    final response = await http.patch(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'profile_picture': finalImageUrl}),
+    );
+    final responseData = json.decode(response.body);
+    dev.log('${responseData['message']}, ${response.statusCode}');
+  }
+
+  void _updatePhoneNumberAnnonces() async {
+    final url = Uri.http(
+      '192.168.31.16:3300',
+      'changer-phoneNumber-annonces/${_auth.currentUser!.uid}',
+    ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
+    final response = await http.patch(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: json.encode({'phone_number': _enteredPhoneNumber}),
+    );
+    final responseData = json.decode(response.body);
+    dev.log('${responseData['message']}, ${response.statusCode}');
   }
 
   // ******************************************
@@ -109,6 +138,8 @@ class _AccountScreenState extends State<AccountScreen> {
       'Photo de profile': finalImageUrl,
     });
     _updateUsernameAnnonces();
+    _updateProfilPictureAnnonces(finalImageUrl);
+    _updatePhoneNumberAnnonces();
     dev.log('Compte mis à jour');
     if (mounted) {
       Navigator.pop(context);

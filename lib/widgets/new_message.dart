@@ -97,6 +97,7 @@ class _NewMessageState extends State<NewMessage> {
             icon: Icon(
               Icons.send,
               color: Theme.of(context).colorScheme.primary,
+              size: 30,
             ),
           ),
         ],

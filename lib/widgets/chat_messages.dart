@@ -26,23 +26,8 @@ class _ChatMessagesState extends State<ChatMessages> {
   Future<void> _getChatRoom() async {
     final user = _auth.currentUser!;
 
-    // Try to get user data from 'clients' first
-    DocumentSnapshot userDoc =
-        await _firestore.collection("clients").doc(user.uid).get();
-    Map<String, dynamic>? userData = userDoc.data() as Map<String, dynamic>?;
-
-    // If not found in 'clients', try 'prestataires'
-    if (userData == null) {
-      userDoc = await _firestore.collection("prestataires").doc(user.uid).get();
-      userData = userDoc.data() as Map<String, dynamic>?;
-    }
-
-    if (userData == null || !userData.containsKey('Email')) {
-      throw Exception("Données non trouvées pour l'utilisateur");
-    }
-
-    final senderEmail = userData['Email'];
-    List<String> emails = [senderEmail, widget.receiverEmail];
+    final String? senderEmail = user.email;
+    List<String> emails = [senderEmail!, widget.receiverEmail];
     emails.sort();
     setState(() {
       chatRoomId = emails.join('-');
@@ -53,9 +38,9 @@ class _ChatMessagesState extends State<ChatMessages> {
   Widget build(BuildContext context) {
     final authenticatedUser = _auth.currentUser!;
 
-    if (chatRoomId == null) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    // if (chatRoomId == null) {
+    //   return const Center(child: CircularProgressIndicator());
+    // }
 
     return StreamBuilder(
       stream:
@@ -86,7 +71,7 @@ class _ChatMessagesState extends State<ChatMessages> {
         final loadedMessages = snapshot.data!.docs;
 
         return ListView.builder(
-          padding: const EdgeInsets.only(bottom: 40, left: 13, right: 13),
+          padding: const EdgeInsets.only(bottom: 20, left: 13, right: 13),
           reverse: true,
           itemCount: loadedMessages.length,
           itemBuilder: (context, index) {
