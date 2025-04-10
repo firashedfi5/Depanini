@@ -4,7 +4,6 @@ import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:depanini/widgets/image_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer' as dev;
 

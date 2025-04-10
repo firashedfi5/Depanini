@@ -9,8 +9,6 @@ import 'package:depanini/data/word_to_field.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'dart:developer' as dev;
 
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
