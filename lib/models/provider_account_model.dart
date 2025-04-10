@@ -15,6 +15,7 @@ class ProviderAccountModel {
     this.workPicture_2,
     this.workPicture_3,
     this.workPicture_4,
+    this.averageRating = 0.0,
   });
 
   final String uid;
@@ -30,10 +31,12 @@ class ProviderAccountModel {
   final String? workPicture_2;
   final String? workPicture_3;
   final String? workPicture_4;
+  final double averageRating;
 
   factory ProviderAccountModel.fromSnapshot(
-    DocumentSnapshot<Map<String, dynamic>> document,
-  ) {
+    DocumentSnapshot<Map<String, dynamic>> document, [
+    double avgRating = 0.0,
+  ]) {
     final data = document.data()!;
     return ProviderAccountModel(
       uid: data['Uid'],
@@ -49,6 +52,7 @@ class ProviderAccountModel {
       workPicture_2: data['Photo de travail n°2'],
       workPicture_3: data['Photo de travail n°3'],
       workPicture_4: data['Photo de travail n°4'],
+      averageRating: avgRating,
     );
   }
 }

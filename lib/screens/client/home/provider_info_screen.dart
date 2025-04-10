@@ -22,6 +22,12 @@ class ProviderInfoScreen extends StatefulWidget {
 }
 
 class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _loadPreviousRating();
+  }
+
   double rating = 0;
   // ***********Rating Method***************
   void _submitRating() async {
@@ -39,6 +45,24 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
           'rating': rating,
         });
     // Navigator.pop(context);
+  }
+
+  // ****************************************
+  Future<void> _loadPreviousRating() async {
+    final user = _auth.currentUser!;
+    final ratingDoc =
+        await _firestore
+            .collection('prestataires')
+            .doc(widget.uid)
+            .collection('ratings')
+            .doc(user.email)
+            .get();
+
+    if (ratingDoc.exists) {
+      setState(() {
+        rating = (ratingDoc.data()?['rating'] ?? 0).toDouble();
+      });
+    }
   }
 
   // ***********Rating Method***************
@@ -176,30 +200,42 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                RatingBar.builder(
-                  initialRating: rating,
-                  minRating: 1,
-                  itemCount: 5,
-                  itemSize: 30,
-                  glow: false,
-                  itemPadding: EdgeInsets.symmetric(horizontal: 2.5),
-                  itemBuilder:
-                      (context, _) => Icon(Icons.star, color: Colors.amber),
-                  updateOnDrag: true,
-                  allowHalfRating: true,
-                  onRatingUpdate: (value) {
-                    rating = value;
-                    dev.log(rating.toString());
-                  },
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    RatingBar.builder(
+                      initialRating: rating,
+                      minRating: 1,
+                      itemCount: 5,
+                      itemSize: 30,
+                      glow: false,
+                      itemPadding: EdgeInsets.symmetric(horizontal: 2.5),
+                      itemBuilder:
+                          (context, _) => Icon(Icons.star, color: Colors.amber),
+                      updateOnDrag: true,
+                      allowHalfRating: true,
+                      onRatingUpdate: (value) {
+                        rating = value;
+                        dev.log(rating.toString());
+                      },
+                    ),
+                    OutlinedButton.icon(
+                      style: OutlinedButton.styleFrom(
+                        // fixedSize: Size(100, 100),
+                        // padding: EdgeInsets.symmetric(horizontal: 10),
+                        side: BorderSide.none,
+                        textStyle: TextStyle(fontWeight: FontWeight.bold),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: _submitRating,
+                      label: Text('Enregistrer'),
+                      icon: FaIcon(FontAwesomeIcons.floppyDisk),
+                    ),
+                  ],
                 ),
                 SizedBox(height: 10),
-                SizedBox(
-                  width: 100,
-                  child: OutlinedButton(
-                    onPressed: _submitRating,
-                    child: FaIcon(FontAwesomeIcons.check),
-                  ),
-                ),
               ],
             ),
           );

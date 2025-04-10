@@ -27,9 +27,24 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<List<ProviderAccountModel>> getAllData() async {
     final data = await _firestore.collection("prestataires").get();
-    final snapshot =
-        data.docs.map((doc) => ProviderAccountModel.fromSnapshot(doc)).toList();
-    return snapshot;
+    List<ProviderAccountModel> providers = [];
+
+    for (var doc in data.docs) {
+      double avgRating = 0.0;
+
+      final ratingsSnapshot = await doc.reference.collection("ratings").get();
+      if (ratingsSnapshot.docs.isNotEmpty) {
+        double total = 0.0;
+        for (var ratingDoc in ratingsSnapshot.docs) {
+          total += (ratingDoc.data()['rating'] ?? 0).toDouble();
+        }
+        avgRating = total / ratingsSnapshot.docs.length;
+      }
+
+      providers.add(ProviderAccountModel.fromSnapshot(doc, avgRating));
+    }
+
+    return providers;
   }
 
   late Stream<DocumentSnapshot> userStream;
@@ -261,8 +276,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {
                   return InkWell(
-                    onTap: () {
-                      Navigator.push(
+                    onTap: () async {
+                      await Navigator.push(
+                        // <-- Add async/await
                         context,
                         MaterialPageRoute(
                           builder:
@@ -272,6 +288,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                         ),
                       );
+                      // Reload data when returning
+                      setState(() {
+                        _foundedUsers = getAllData(); // <-- Trigger rebuild
+                      });
                     },
                     child: SizedBox(
                       height: 150,
@@ -321,7 +341,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   Text(snapshot.data![index].domaine),
                                   SizedBox(height: 2),
                                   RatingBar(
-                                    initialRating: 1,
+                                    initialRating:
+                                        snapshot.data![index].averageRating,
                                     direction: Axis.horizontal,
                                     allowHalfRating: true,
                                     itemCount: 5,
