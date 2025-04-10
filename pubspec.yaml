@@ -93,6 +93,16 @@ flutter:
     - assets/images/mecanique.jpg
     - assets/images/informatique.jpg
     - assets/images/computer.png
+    - assets/images/chauffage.png
+    - assets/images/climatisation.png
+    - assets/images/electricite.png
+    - assets/images/garde_d'enfants.png
+    - assets/images/informatique.png
+    - assets/images/jardinage.png
+    - assets/images/mécanique.png
+    - assets/images/menuiserie.png
+    - assets/images/peinture.png
+    - assets/images/plomberie.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

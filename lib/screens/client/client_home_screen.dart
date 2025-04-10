@@ -231,7 +231,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             return customRadioButton(
                               label: _domains[index].name,
                               index: index,
-                              imageURL: _domains[index].imageURL,
+                              image: _domains[index].image,
                             );
                           },
                         ),
@@ -338,7 +338,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget customRadioButton({
     required String label,
-    required String imageURL,
+    required String image,
     required int index,
   }) {
     return OutlinedButton(
@@ -368,8 +368,7 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           CircleAvatar(
             radius: 25,
-            foregroundImage:
-                imageURL.isNotEmpty ? NetworkImage(imageURL) : null,
+            foregroundImage: image.isNotEmpty ? AssetImage(image) : null,
             backgroundColor: Colors.transparent,
           ),
           SizedBox(height: 5),
