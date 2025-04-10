@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:developer' as dev;
+// import 'dart:developer' as dev;
 
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -94,152 +94,262 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Prestataire description')),
-      body: FutureBuilder(
-        future: getUserData(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          }
-          return Center(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(15.0),
-                  child: Image.network(
-                    snapshot.data!.profilPicture,
-                    height: 200,
-                    width: 200,
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Text(
-                  snapshot.data!.username,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                Text(
-                  snapshot.data!.description,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                Text(
-                  snapshot.data!.diplome,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                Text(
-                  snapshot.data!.experience,
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-                // Text(snapshot.data!.uid),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      width: 70,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _makePhoneCall('+216${snapshot.data!.phoneNumber}');
-                        },
-                        child: Icon(Icons.call),
-                      ),
+      body: SingleChildScrollView(
+        child: FutureBuilder(
+          future: getUserData(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(child: CircularProgressIndicator());
+            }
+            return Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Card(
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(
+                              context,
+                            ).colorScheme.secondaryContainer.withAlpha(100)
+                            : Theme.of(context).colorScheme.secondaryContainer,
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
                     ),
-                    SizedBox(width: 20),
-                    SizedBox(
-                      width: 70,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder:
-                                  (context) => ChatScreen(
-                                    receiverEmail: snapshot.data!.email,
-                                    username: snapshot.data!.username,
-                                    profilPictureUrl:
-                                        snapshot.data!.profilPicture,
-                                  ),
-                            ),
-                          );
-                        },
-                        child: Icon(Icons.message),
-                      ),
+                    child: Column(
+                      children: [
+                        ClipRRect(
+                          borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(15),
+                          ),
+                          child: Image.network(
+                            snapshot.data!.profilPicture,
+                            height: 200,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
+                            alignment: Alignment.topCenter,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(16.0),
+                          child: Column(
+                            children: [
+                              Text(
+                                snapshot.data!.username,
+                                style: Theme.of(context).textTheme.headlineSmall
+                                    ?.copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                snapshot.data!.description,
+                                style: Theme.of(context).textTheme.bodyMedium,
+                                textAlign: TextAlign.center,
+                              ),
+                              const SizedBox(height: 8),
+                              // Text('Diplôme: ${snapshot.data!.diplome}'),
+                              Text.rich(
+                                TextSpan(
+                                  text: 'Diplôme: ',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ), // Default style
+                                  children: [
+                                    TextSpan(
+                                      text: snapshot.data!.diplome,
+                                      style:
+                                          Theme.of(
+                                            context,
+                                          ).textTheme.bodyMedium,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text.rich(
+                                TextSpan(
+                                  text: 'Experience: ',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodyMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ), // Default style
+                                  children: [
+                                    TextSpan(
+                                      text: snapshot.data!.experience,
+                                      style:
+                                          Theme.of(
+                                            context,
+                                          ).textTheme.bodyMedium,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Container(
-                  height: 110,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.secondaryContainer,
                   ),
-                  child: Row(
+
+                  const SizedBox(height: 20),
+
+                  // Action Buttons
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      ImageContainer(
-                        height: 90,
-                        width: 90,
-                        imageUrl: snapshot.data!.workPicture_1,
+                      FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 16,
+                          ),
+                        ),
+                        icon: const Icon(Icons.call, size: 20),
+                        label: const Text('Appeler'),
+                        onPressed:
+                            () => _makePhoneCall(
+                              '+216${snapshot.data!.phoneNumber}',
+                            ),
                       ),
-                      SizedBox(width: 10),
-                      ImageContainer(
-                        height: 90,
-                        width: 90,
-                        imageUrl: snapshot.data!.workPicture_2,
-                      ),
-                      SizedBox(width: 10),
-                      ImageContainer(
-                        height: 90,
-                        width: 90,
-                        imageUrl: snapshot.data!.workPicture_3,
-                      ),
-                      SizedBox(width: 10),
-                      ImageContainer(
-                        height: 90,
-                        width: 90,
-                        imageUrl: snapshot.data!.workPicture_4,
+                      const SizedBox(width: 16),
+                      FilledButton.icon(
+                        style: FilledButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 24,
+                            vertical: 16,
+                          ),
+                        ),
+                        icon: const Icon(Icons.message, size: 20),
+                        label: const Text('Message'),
+                        onPressed:
+                            () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder:
+                                    (context) => ChatScreen(
+                                      receiverEmail: snapshot.data!.email,
+                                      username: snapshot.data!.username,
+                                      profilPictureUrl:
+                                          snapshot.data!.profilPicture,
+                                    ),
+                              ),
+                            ),
                       ),
                     ],
                   ),
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    RatingBar.builder(
-                      initialRating: rating,
-                      minRating: 1,
-                      itemCount: 5,
-                      itemSize: 30,
-                      glow: false,
-                      itemPadding: EdgeInsets.symmetric(horizontal: 2.5),
-                      itemBuilder:
-                          (context, _) => Icon(Icons.star, color: Colors.amber),
-                      updateOnDrag: true,
-                      allowHalfRating: true,
-                      onRatingUpdate: (value) {
-                        rating = value;
-                        dev.log(rating.toString());
-                      },
-                    ),
-                    OutlinedButton.icon(
-                      style: OutlinedButton.styleFrom(
-                        // fixedSize: Size(100, 100),
-                        // padding: EdgeInsets.symmetric(horizontal: 10),
-                        side: BorderSide.none,
-                        textStyle: TextStyle(fontWeight: FontWeight.bold),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
+
+                  const SizedBox(height: 20),
+
+                  // Portfolio
+                  Card(
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(
+                              context,
+                            ).colorScheme.secondaryContainer.withAlpha(100)
+                            : Theme.of(context).colorScheme.secondaryContainer,
+                    elevation: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Portfolio',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(height: 12),
+                          SizedBox(
+                            height: 100,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 4,
+                              separatorBuilder:
+                                  (_, __) => const SizedBox(width: 12),
+                              itemBuilder:
+                                  (context, index) => ImageContainer(
+                                    height: 90,
+                                    width: 120,
+                                    imageUrl:
+                                        [
+                                          snapshot.data!.workPicture_1,
+                                          snapshot.data!.workPicture_2,
+                                          snapshot.data!.workPicture_3,
+                                          snapshot.data!.workPicture_4,
+                                        ][index],
+                                  ),
+                            ),
+                          ),
+
+                          const SizedBox(height: 24),
+                        ],
                       ),
-                      onPressed: _submitRating,
-                      label: Text('Enregistrer'),
-                      icon: FaIcon(FontAwesomeIcons.floppyDisk),
                     ),
-                  ],
-                ),
-                SizedBox(height: 10),
-              ],
-            ),
-          );
-        },
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Rating Section
+                  Card(
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(
+                              context,
+                            ).colorScheme.secondaryContainer.withAlpha(100)
+                            : Theme.of(context).colorScheme.secondaryContainer,
+                    elevation: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Donner une note',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(height: 16),
+                          RatingBar.builder(
+                            initialRating: rating,
+                            minRating: 1,
+                            itemCount: 5,
+                            itemSize: 32,
+                            allowHalfRating: true,
+                            glow: false,
+                            itemPadding: const EdgeInsets.symmetric(
+                              horizontal: 4,
+                            ),
+                            itemBuilder:
+                                (context, _) =>
+                                    const Icon(Icons.star, color: Colors.amber),
+                            onRatingUpdate: (value) => rating = value,
+                          ),
+                          const SizedBox(height: 16),
+                          SizedBox(
+                            // width: 210,
+                            child: FilledButton.icon(
+                              icon: const FaIcon(
+                                FontAwesomeIcons.solidFloppyDisk,
+                                size: 16,
+                              ),
+                              label: const Text('Enregistrer l\'évaluation'),
+                              onPressed: _submitRating,
+                              style: FilledButton.styleFrom(
+                                minimumSize: const Size(double.minPositive, 48),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        ),
       ),
     );
   }

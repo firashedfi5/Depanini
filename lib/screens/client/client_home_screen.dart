@@ -293,80 +293,124 @@ class _HomeScreenState extends State<HomeScreen> {
                         _foundedUsers = getAllData(); // <-- Trigger rebuild
                       });
                     },
-                    child: SizedBox(
-                      height: 150,
-                      width: 350,
+                    child: Container(
+                      height: 130,
+                      margin: const EdgeInsets.symmetric(vertical: 5),
                       child: Card(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
                         color:
                             Theme.of(context).brightness == Brightness.dark
-                                ? Theme.of(
-                                  context,
-                                ).colorScheme.surfaceContainerHighest
+                                ? Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerHighest
+                                    .withAlpha(100)
                                 : Theme.of(
                                   context,
                                 ).colorScheme.surfaceContainerHighest,
                         child: Padding(
-                          padding: const EdgeInsets.all(10),
+                          padding: const EdgeInsets.all(12),
                           child: Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(15.0),
-                                child: Image.network(
-                                  snapshot.data![index].profilPicture,
-                                  height: 120,
-                                  width: 120,
-                                  fit: BoxFit.cover,
+                              // Profile Image
+                              Container(
+                                width: 100,
+                                height: double.infinity,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12),
+                                  color: Colors.grey.shade200,
+                                ),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: Image.network(
+                                    snapshot.data![index].profilPicture,
+                                    fit: BoxFit.cover,
+                                    errorBuilder:
+                                        (context, error, stackTrace) =>
+                                            const Icon(Icons.person, size: 48),
+                                  ),
                                 ),
                               ),
-                              SizedBox(width: 20),
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  // Text(snapshot.data![index].email),
-                                  Text(
-                                    snapshot.data![index].username,
-                                    style:
-                                        Theme.of(context).textTheme.bodyLarge,
-                                  ),
-                                  SizedBox(height: 4),
-                                  // Text(snapshot.data![index].diplome),
-                                  Text(
-                                    snapshot.data![index].description,
-                                    style:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                  SizedBox(height: 2),
-                                  Text(snapshot.data![index].domaine),
-                                  SizedBox(height: 2),
-                                  RatingBar(
-                                    initialRating:
-                                        snapshot.data![index].averageRating,
-                                    direction: Axis.horizontal,
-                                    allowHalfRating: true,
-                                    itemCount: 5,
-                                    itemSize: 20,
-                                    ignoreGestures: true,
-                                    ratingWidget: RatingWidget(
-                                      full: Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
+                              const SizedBox(width: 16),
+
+                              // Info Section
+                              Expanded(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      snapshot.data![index].username,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
                                       ),
-                                      half: Icon(
-                                        Icons.star_half,
-                                        color: Colors.amber,
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                    const SizedBox(height: 8),
+
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 4,
                                       ),
-                                      empty: Icon(
-                                        Icons.star_border,
-                                        color: Colors.amber,
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary
+                                            .withValues(alpha: 0.1),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        snapshot.data![index].domaine,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodyMedium?.copyWith(
+                                          color:
+                                              Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
+                                          fontWeight: FontWeight.w600,
+                                        ),
                                       ),
                                     ),
-                                    onRatingUpdate: (rating) {
-                                      dev.log(rating.toString());
-                                    },
-                                  ),
-                                ],
+                                    const SizedBox(height: 10),
+
+                                    // Rating
+                                    Row(
+                                      children: [
+                                        RatingBarIndicator(
+                                          rating:
+                                              snapshot
+                                                  .data![index]
+                                                  .averageRating,
+                                          itemBuilder:
+                                              (context, index) => const Icon(
+                                                Icons.star,
+                                                color: Colors.amber,
+                                              ),
+                                          itemCount: 5,
+                                          itemSize: 18,
+                                        ),
+                                        const SizedBox(width: 6),
+                                        Text(
+                                          snapshot.data![index].averageRating
+                                              .toStringAsFixed(1),
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.bodyLarge?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ],
                           ),
