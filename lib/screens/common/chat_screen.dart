@@ -34,14 +34,34 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
-      body: Padding(
-        padding: EdgeInsets.only(bottom: 10),
-        child: Column(
-          children: [
-            Expanded(child: ChatMessages(receiverEmail: widget.receiverEmail)),
-            NewMessage(receiverEmail: widget.receiverEmail),
-          ],
-        ),
+      body: Stack(
+        children: [
+          // Background image
+          Positioned.fill(
+            child: Opacity(
+              opacity: 0.1,
+              child: Image.asset(
+                Theme.of(context).brightness == Brightness.dark
+                    ? 'assets/images/chat_background_white.png'
+                    : 'assets/images/chat_background_black.png',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+
+          // Chat content
+          Padding(
+            padding: EdgeInsets.only(bottom: 10),
+            child: Column(
+              children: [
+                Expanded(
+                  child: ChatMessages(receiverEmail: widget.receiverEmail),
+                ),
+                NewMessage(receiverEmail: widget.receiverEmail),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

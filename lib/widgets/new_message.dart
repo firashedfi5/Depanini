@@ -79,28 +79,31 @@ class _NewMessageState extends State<NewMessage> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 15, right: 1, bottom: 14, top: 14),
-      child: Row(
-        children: [
-          Expanded(
-            child: TextField(
-              controller: _messageController,
-              textCapitalization: TextCapitalization.sentences,
-              autocorrect: true,
-              enableSuggestions: true,
-              decoration: InputDecoration(labelText: 'Envoyer un message...'),
+    return Container(
+      decoration: BoxDecoration(color: Theme.of(context).colorScheme.surface),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 15, right: 1, bottom: 14, top: 14),
+        child: Row(
+          children: [
+            Expanded(
+              child: TextField(
+                controller: _messageController,
+                textCapitalization: TextCapitalization.sentences,
+                autocorrect: true,
+                enableSuggestions: true,
+                decoration: InputDecoration(labelText: 'Envoyer un message...'),
+              ),
             ),
-          ),
-          IconButton(
-            onPressed: _submitMessage,
-            icon: Icon(
-              Icons.send,
-              color: Theme.of(context).colorScheme.primary,
-              size: 30,
+            IconButton(
+              onPressed: _submitMessage,
+              icon: Icon(
+                Icons.send,
+                color: Theme.of(context).colorScheme.primary,
+                size: 30,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
