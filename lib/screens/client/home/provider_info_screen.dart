@@ -30,21 +30,56 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
 
   double rating = 0;
   // ***********Rating Method***************
+  // void _submitRating() async {
+  //   final user = _auth.currentUser!;
+
+  //   _firestore
+  //       .collection('prestataires')
+  //       .doc(widget.uid)
+  //       .collection('ratings')
+  //       .doc(user.email)
+  //       .set({
+  //         'ratedAt': Timestamp.now(),
+  //         'client_uid': user.uid,
+  //         'client_email': user.email,
+  //         'rating': rating,
+  //       });
+  //   // Navigator.pop(context);
+  // }
   void _submitRating() async {
     final user = _auth.currentUser!;
-
-    _firestore
+    final ratingRef = _firestore
         .collection('prestataires')
         .doc(widget.uid)
         .collection('ratings')
-        .doc(user.email)
-        .set({
-          'ratedAt': Timestamp.now(),
-          'client_uid': user.uid,
-          'client_email': user.email,
-          'rating': rating,
-        });
-    // Navigator.pop(context);
+        .doc(user.email);
+
+    await ratingRef.set({
+      'ratedAt': Timestamp.now(),
+      'client_uid': user.uid,
+      'client_email': user.email,
+      'rating': rating,
+    });
+
+    // Recalculate average
+    final ratingsSnapshot =
+        await _firestore
+            .collection('prestataires')
+            .doc(widget.uid)
+            .collection('ratings')
+            .get();
+
+    double total = 0;
+    for (var doc in ratingsSnapshot.docs) {
+      total += (doc.data()['rating'] ?? 0).toDouble();
+    }
+
+    double avgRating = total / ratingsSnapshot.docs.length;
+
+    // Save average to main doc
+    await _firestore.collection('prestataires').doc(widget.uid).update({
+      'averageRating': avgRating,
+    });
   }
 
   // ****************************************

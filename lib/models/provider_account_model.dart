@@ -11,11 +11,11 @@ class ProviderAccountModel {
     required this.experience,
     required this.phoneNumber,
     required this.profilPicture,
+    required this.averageRating,
     this.workPicture_1,
     this.workPicture_2,
     this.workPicture_3,
     this.workPicture_4,
-    this.averageRating = 0.0,
   });
 
   final String uid;
@@ -34,10 +34,13 @@ class ProviderAccountModel {
   final double averageRating;
 
   factory ProviderAccountModel.fromSnapshot(
-    DocumentSnapshot<Map<String, dynamic>> document, [
-    double avgRating = 0.0,
-  ]) {
-    final data = document.data()!;
+    DocumentSnapshot<Map<String, dynamic>> document,
+  ) {
+    final data = document.data();
+    if (data == null) {
+      throw Exception('Document data is null');
+    }
+
     return ProviderAccountModel(
       uid: data['Uid'],
       email: data['Email'],
@@ -52,7 +55,7 @@ class ProviderAccountModel {
       workPicture_2: data['Photo de travail n°2'],
       workPicture_3: data['Photo de travail n°3'],
       workPicture_4: data['Photo de travail n°4'],
-      averageRating: avgRating,
+      averageRating: (data['averageRating'] ?? 0).toDouble(),
     );
   }
 }

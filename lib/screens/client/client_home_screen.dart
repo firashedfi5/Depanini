@@ -26,25 +26,14 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<List<ProviderAccountModel>> _foundedUsers = Future.value([]);
 
   Future<List<ProviderAccountModel>> getAllData() async {
-    final data = await _firestore.collection("prestataires").get();
-    List<ProviderAccountModel> providers = [];
-
-    for (var doc in data.docs) {
-      double avgRating = 0.0;
-
-      final ratingsSnapshot = await doc.reference.collection("ratings").get();
-      if (ratingsSnapshot.docs.isNotEmpty) {
-        double total = 0.0;
-        for (var ratingDoc in ratingsSnapshot.docs) {
-          total += (ratingDoc.data()['rating'] ?? 0).toDouble();
-        }
-        avgRating = total / ratingsSnapshot.docs.length;
-      }
-
-      providers.add(ProviderAccountModel.fromSnapshot(doc, avgRating));
-    }
-
-    return providers;
+    final data =
+        await _firestore
+            .collection("prestataires")
+            .orderBy("averageRating", descending: true)
+            .get();
+    final snapshot =
+        data.docs.map((doc) => ProviderAccountModel.fromSnapshot(doc)).toList();
+    return snapshot;
   }
 
   late Stream<DocumentSnapshot> userStream;
@@ -400,7 +389,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         const SizedBox(width: 6),
                                         Text(
                                           snapshot.data![index].averageRating
-                                              .toStringAsFixed(1),
+                                              .toString(),
                                           style: Theme.of(
                                             context,
                                           ).textTheme.bodyLarge?.copyWith(

@@ -174,6 +174,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
             'Photo de travail n°2': uploadedProviderImageUrl_2,
             'Photo de travail n°3': uploadedProviderImageUrl_3,
             'Photo de travail n°4': uploadedProviderImageUrl_4,
+            'averageRating': 0,
           });
       // ************************************
       if (mounted) {
