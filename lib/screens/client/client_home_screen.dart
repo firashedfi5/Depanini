@@ -294,7 +294,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       });
                     },
                     child: Container(
-                      height: 130,
+                      height: 135,
                       margin: const EdgeInsets.symmetric(vertical: 5),
                       child: Card(
                         elevation: 2,
@@ -306,7 +306,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ? Theme.of(context)
                                     .colorScheme
                                     .surfaceContainerHighest
-                                    .withAlpha(100)
+                                    .withAlpha(120)
                                 : Theme.of(
                                   context,
                                 ).colorScheme.surfaceContainerHighest,

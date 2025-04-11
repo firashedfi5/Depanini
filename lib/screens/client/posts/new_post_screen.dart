@@ -103,7 +103,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       final profilPictureURL = userData['Photo de profile'];
       // ***********HTTP Request**************
       final url = Uri.http(
-        '10.0.2.2:3300',
+        '192.168.1.11:3300',
         'ajouter-annonces',
       ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
       await http.post(
@@ -285,7 +285,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                   ElevatedButton(
                     onPressed: () {
                       _savePost();
-                      Navigator.of(context).pop();
+                      Navigator.of(context).pop(true);
                     },
                     // _savePost,
                     child: Text('Ajouter'),

@@ -42,7 +42,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
     // Step 3: Build URL with domaine
     final url = Uri.http(
-      '10.0.2.2:3300',
+      '192.168.1.11:3300',
       'afficher-tous-annonces/$domaine',
     ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
 

@@ -52,7 +52,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
   // *******************GET Method************************
   Future<List<PostModel>> _loadPost() async {
     final url = Uri.http(
-      '10.0.2.2:3300',
+      '192.168.1.11:3300',
       'afficher-annonces-modifie/${widget.id}',
     ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
     final response = await http.get(url);
@@ -149,7 +149,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
       }
       // ***********PATCH Method**************
       final url = Uri.http(
-        '10.0.2.2:3300',
+        '192.168.1.11:3300',
         'modifier-annonces/${widget.id}',
       ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
       await http.patch(

@@ -33,7 +33,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
   // *************GET Method**********************
   Future<List<AstuceModel>> _loadAstcues() async {
     final url = Uri.http(
-      '10.0.2.2:3300',
+      '192.168.1.11:3300',
       'afficher-astuces',
     ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
     final response = await http.get(url);
@@ -218,7 +218,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                         Theme.of(context).brightness == Brightness.dark
                             ? Theme.of(
                               context,
-                            ).colorScheme.surfaceContainerHighest
+                            ).colorScheme.surfaceContainerHighest.withAlpha(120)
                             : Theme.of(
                               context,
                             ).colorScheme.surfaceContainerHighest,
