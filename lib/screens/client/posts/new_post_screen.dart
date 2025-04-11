@@ -124,6 +124,10 @@ class _NewPostScreenState extends State<NewPostScreen> {
           'imageURL_4': uploadedPostImageUrl_4,
         }),
       );
+      if (mounted) {
+        dev.log(Navigator.of(context).canPop().toString());
+        Navigator.of(context).pop();
+      }
     }
   }
 
@@ -283,10 +287,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                   ),
                   SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {
-                      _savePost();
-                      Navigator.of(context).pop(true);
-                    },
+                    onPressed: _savePost,
                     // _savePost,
                     child: Text('Ajouter'),
                   ),

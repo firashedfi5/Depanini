@@ -30,8 +30,8 @@ class MyApp extends ConsumerWidget {
     return MaterialApp(
       theme: themeData,
 
+      // debugShowCheckedModeBanner: false,
       // darkTheme: darkTheme,
-      debugShowCheckedModeBanner: false,
       home: StreamBuilder(
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (contexte, snapshot) {
