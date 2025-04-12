@@ -147,10 +147,11 @@ class _NewPostScreenState extends State<NewPostScreen> {
               child: Column(
                 children: [
                   TextFormField(
+                    maxLines: 4,
                     maxLength: 150,
                     decoration: InputDecoration(
+                      alignLabelWithHint: true,
                       label: Text('Description'),
-                      prefixIcon: Icon(Icons.description_outlined),
                     ),
                     validator: (value) {
                       if (value == null ||
