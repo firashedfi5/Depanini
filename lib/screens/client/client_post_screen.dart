@@ -114,7 +114,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
         duration: Duration(seconds: 5),
         content: Text('Annonce supprimée'),
         action: SnackBarAction(
-          label: 'Undo',
+          label: 'Annuler',
           onPressed: () async {
             // Add back to UI
             setState(() {
