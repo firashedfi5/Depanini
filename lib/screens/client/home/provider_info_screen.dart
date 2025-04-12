@@ -484,7 +484,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             'Avis',
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 12),
                           // Existing feedbacks list
                           SizedBox(
                             height: 100,
@@ -526,7 +526,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               },
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 12),
                           TextField(
                             controller: _feedbackController,
                             decoration: InputDecoration(
