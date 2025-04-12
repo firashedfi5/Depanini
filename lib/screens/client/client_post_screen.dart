@@ -94,7 +94,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
   }
 
   void _removePost(PostModel post) {
-    // final postIndex = _postListed.indexOf(post);
+    final postIndex = _postListed.indexOf(post);
     final deleteUrl = Uri.http(
       '192.168.1.11:3300',
       'supprimer-annonces/${post.id}',
@@ -118,7 +118,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
           onPressed: () async {
             // Add back to UI
             setState(() {
-              _postListed.insert(0, post);
+              _postListed.insert(postIndex, post);
             });
 
             // Re-add to server using original structure

@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:depanini/models/feedback_model.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/common/chat_screen.dart';
+import 'package:depanini/widgets/feedback.dart';
 import 'package:depanini/widgets/image_container.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -22,30 +24,16 @@ class ProviderInfoScreen extends StatefulWidget {
 }
 
 class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
+  Future<List<FeedbackModel>> _feedbackList = Future.value([]);
   @override
   void initState() {
     super.initState();
     _loadPreviousRating();
+    _feedbackList = fetchFeedbacks();
   }
 
   double rating = 0;
   // ***********Rating Method***************
-  // void _submitRating() async {
-  //   final user = _auth.currentUser!;
-
-  //   _firestore
-  //       .collection('prestataires')
-  //       .doc(widget.uid)
-  //       .collection('ratings')
-  //       .doc(user.email)
-  //       .set({
-  //         'ratedAt': Timestamp.now(),
-  //         'client_uid': user.uid,
-  //         'client_email': user.email,
-  //         'rating': rating,
-  //       });
-  //   // Navigator.pop(context);
-  // }
   void _submitRating() async {
     final user = _auth.currentUser!;
     final ratingRef = _firestore
@@ -101,6 +89,53 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
   }
 
   // ***********Rating Method***************
+
+  // ***********Feedback Method***************
+  final _feedbackController = TextEditingController();
+  void _submitFeedback() async {
+    final user = _auth.currentUser!;
+
+    final userDoc = await _firestore.collection("clients").doc(user.uid).get();
+    final userData = userDoc.data();
+    if (userData == null || !userData.containsKey('Nom d\'utilisateur')) {
+      throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
+    }
+    final username = userData['Nom d\'utilisateur'];
+
+    final feedbackRef = _firestore
+        .collection('prestataires')
+        .doc(widget.uid)
+        .collection('feedbacks')
+        .doc(user.email);
+
+    await feedbackRef.set({
+      'date': Timestamp.now(),
+      'username': username,
+      'client_email': user.email,
+      'comment': _feedbackController.text,
+    });
+    _feedbackController.clear();
+  }
+
+  // *****************************************
+
+  Future<List<FeedbackModel>> fetchFeedbacks() async {
+    // final user = _auth.currentUser!;
+    final feedbackRef =
+        await _firestore
+            .collection('prestataires')
+            .doc(widget.uid)
+            .collection('feedbacks')
+            // .doc(user.email)
+            .get();
+
+    final snapshot =
+        feedbackRef.docs.map((doc) => FeedbackModel.fromSnapshot(doc)).toList();
+
+    return snapshot;
+  }
+
+  // ***********Feedback Method***************
 
   // *********Phone Call*****************
   void _makePhoneCall(String phoneNumber) async {
@@ -375,6 +410,134 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                 minimumSize: const Size(double.minPositive, 48),
                               ),
                             ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // New Reporting Section
+                  Card(
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(
+                              context,
+                            ).colorScheme.secondaryContainer.withAlpha(100)
+                            : Theme.of(context).colorScheme.secondaryContainer,
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Signaler un abus',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(height: 16),
+                          TextField(
+                            // controller: _reportController,
+                            decoration: InputDecoration(
+                              hintText: 'Décrivez le problème...',
+                              border: OutlineInputBorder(),
+                              contentPadding: const EdgeInsets.all(12),
+                            ),
+                            maxLines: 3,
+                          ),
+                          const SizedBox(height: 16),
+                          FilledButton(
+                            onPressed: () {},
+                            child: const Text('Soumettre'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // New Feedback Section
+                  Card(
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(
+                              context,
+                            ).colorScheme.secondaryContainer.withAlpha(100)
+                            : Theme.of(context).colorScheme.secondaryContainer,
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Avis',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(height: 16),
+                          // Existing feedbacks list
+                          SizedBox(
+                            height: 100,
+                            child: FutureBuilder<List<FeedbackModel>>(
+                              future: _feedbackList,
+                              builder: (context, snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+
+                                if (snapshot.hasError) {
+                                  return Center(
+                                    child: Text('Erreur: ${snapshot.error}'),
+                                  );
+                                }
+
+                                if (!snapshot.hasData ||
+                                    snapshot.data!.isEmpty) {
+                                  return const Center(
+                                    child: Text(
+                                      'Aucun avis ajouté pour le moment',
+                                    ),
+                                  );
+                                }
+
+                                return ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  shrinkWrap: true,
+                                  physics: BouncingScrollPhysics(),
+                                  itemCount: snapshot.data!.length,
+                                  itemBuilder:
+                                      (context, index) => FeedbackItem(
+                                        feedback: snapshot.data![index],
+                                      ),
+                                );
+                              },
+                            ),
+                          ),
+                          const SizedBox(height: 16),
+                          TextField(
+                            controller: _feedbackController,
+                            decoration: InputDecoration(
+                              hintText: 'Écrivez votre avis...',
+                              border: OutlineInputBorder(),
+                              contentPadding: const EdgeInsets.all(12),
+                            ),
+                            maxLines: 3,
+                          ),
+                          const SizedBox(height: 16),
+                          FilledButton(
+                            onPressed: _submitFeedback,
+                            child: const Text('Soumettre'),
                           ),
                         ],
                       ),
