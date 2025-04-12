@@ -195,7 +195,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.8,
+                childAspectRatio: 0.75,
               ),
               physics: BouncingScrollPhysics(),
               itemCount: snapshot.data!.length,
@@ -214,6 +214,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                     );
                   },
                   child: Card(
+                    elevation: 4,
                     color:
                         Theme.of(context).brightness == Brightness.dark
                             ? Theme.of(
@@ -223,30 +224,80 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                               context,
                             ).colorScheme.surfaceContainerHighest,
                     child: Padding(
-                      padding: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(7.5),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
+                          // Image Container
                           SizedBox(
                             width: 150,
                             height: 150,
-                            child: Image.network(
-                              snapshot.data![index].foregroundImage!,
-                              fit: BoxFit.contain,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                snapshot.data![index].foregroundImage!,
+                                fit: BoxFit.contain,
+                                errorBuilder:
+                                    (context, error, stackTrace) => Center(
+                                      child: Icon(
+                                        Icons.image_not_supported_outlined,
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.onSurfaceVariant,
+                                        size: 40,
+                                      ),
+                                    ),
+                              ),
                             ),
                           ),
-                          Text(
-                            textAlign: TextAlign.center,
-                            snapshot.data![index].titre,
-                            style: Theme.of(
-                              context,
-                            ).textTheme.titleLarge!.copyWith(fontSize: 17.5),
+
+                          // Text Content
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                // Title
+                                Text(
+                                  snapshot.data![index].titre,
+                                  textAlign: TextAlign.center,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleLarge!.copyWith(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    color:
+                                        Theme.of(context).colorScheme.onSurface,
+                                  ),
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 8),
+
+                                // Domaine Chip
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 12,
+                                    vertical: 6,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.primary
+                                        .withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    snapshot.data![index].domaine,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.labelMedium!.copyWith(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          Text(
-                            snapshot.data![index].domaine,
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                          // Text(snapshot.data![index].description),
                         ],
                       ),
                     ),

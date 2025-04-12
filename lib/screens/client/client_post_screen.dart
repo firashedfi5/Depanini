@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 // import 'package:depanini/screens/client/posts/edit_post_screen.dart';
+import 'package:depanini/screens/client/posts/edit_post_screen.dart';
 import 'package:depanini/screens/client/posts/new_post_screen.dart';
 import 'package:depanini/widgets/image_container.dart';
 import 'package:flutter/material.dart';
@@ -127,10 +128,11 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
               },
               key: ValueKey(_postListed[index].id),
               child: SizedBox(
-                height: 200,
+                // height: 200,
                 child: Padding(
                   padding: const EdgeInsets.all(5),
                   child: Card(
+                    elevation: 4,
                     color:
                         Theme.of(context).brightness == Brightness.dark
                             ? Theme.of(
@@ -139,64 +141,117 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                             : Theme.of(
                               context,
                             ).colorScheme.surfaceContainerHighest,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        // IconButton(
-                        //   onPressed: () {
-                        //     Navigator.push(
-                        //       context,
-                        //       MaterialPageRoute(
-                        //         builder:
-                        //             (context) => EditPostScreen(
-                        //               id: _postListed[index].id,
-                        //             ),
-                        //       ),
-                        //     );
-                        //   },
-                        //   icon: Icon(
-                        //     Icons.edit_note_outlined,
-                        //     color: Theme.of(context).colorScheme.primary,
-                        //     size: 30,
-                        //   ),
-                        // ),
-                        Text(_postListed[index].description),
-                        Text(_postListed[index].service),
-                        Text(
-                          'Le ${_postListed[index].date}',
-                          style: Theme.of(context).textTheme.bodyLarge,
-                        ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          // Header Row
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              ImageContainer(
-                                height: 80,
-                                width: 80,
-                                imageUrl: _postListed[index].image1,
+                              Expanded(
+                                child: Text(
+                                  _postListed[index].service,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    color:
+                                        Theme.of(context).colorScheme.primary,
+                                  ),
+                                ),
                               ),
-                              SizedBox(width: 5),
-                              ImageContainer(
-                                height: 80,
-                                width: 80,
-                                imageUrl: _postListed[index].image2,
-                              ),
-                              SizedBox(width: 5),
-                              ImageContainer(
-                                height: 80,
-                                width: 80,
-                                imageUrl: _postListed[index].image3,
-                              ),
-                              SizedBox(width: 5),
-                              ImageContainer(
-                                height: 80,
-                                width: 80,
-                                imageUrl: _postListed[index].image4,
+                              IconButton(
+                                icon: Icon(
+                                  Icons.edit_note_outlined,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder:
+                                          (context) => EditPostScreen(
+                                            id: _postListed[index].id,
+                                          ),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),
-                        ),
-                      ],
+
+                          // Description
+                          Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              _postListed[index].description,
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyLarge?.copyWith(height: 1.4),
+                            ),
+                          ),
+
+                          // Date
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 12),
+                            child: Text(
+                              'Le ${_postListed[index].date}',
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodySmall?.copyWith(
+                                color:
+                                    Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
+                          ),
+
+                          // Images
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Text(
+                                  'Photos associées:',
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(fontWeight: FontWeight.w500),
+                                ),
+                              ),
+                              SizedBox(
+                                height: 100,
+                                child: ListView.separated(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount: 4,
+                                  separatorBuilder:
+                                      (_, __) => const SizedBox(width: 12),
+                                  itemBuilder: (context, imgIndex) {
+                                    final images = [
+                                      _postListed[index].image1,
+                                      _postListed[index].image2,
+                                      _postListed[index].image3,
+                                      _postListed[index].image4,
+                                    ];
+                                    return ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: ImageContainer(
+                                        height: 65,
+                                        width: 85,
+                                        imageUrl: images[imgIndex],
+                                        // placeholder: Icons.photo_library_outlined,
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -217,7 +272,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Ajouter une annonce'),
+        title: Text('Mes annonces'),
         actions: [
           IconButton(onPressed: _addPost, icon: Icon(Icons.add, size: 35)),
         ],

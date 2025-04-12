@@ -68,14 +68,105 @@ class AstuceScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Domaine Section
                 Text(
-                  'Domaine: ${snapshot.data!.domaine}',
-                  style: Theme.of(context).textTheme.titleMedium,
+                  'Domaine',
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-                SizedBox(height: 10),
-                Text('Description: ${snapshot.data!.description}'),
+                Text(
+                  snapshot.data!.domaine,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Description Section
+                Text(
+                  'Description',
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                Text(
+                  snapshot.data!.description,
+                  style: Theme.of(context).textTheme.bodyLarge,
+                ),
+                const SizedBox(height: 24),
+
+                // DIY Pictures Section
+                Text(
+                  'Étapes de bricolage',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainerHighest.withAlpha(70),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListView.separated(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                      horizontal: 12,
+                    ),
+                    scrollDirection: Axis.horizontal,
+                    separatorBuilder: (_, __) => const SizedBox(width: 12),
+                    itemCount: 4, // Replace with actual image count
+                    itemBuilder: (context, index) {
+                      return Container(
+                        width: 100,
+                        decoration: BoxDecoration(
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHighest.withAlpha(100),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.add_photo_alternate_outlined,
+                              size: 32,
+                              color:
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Step ${index + 1}',
+                              style: Theme.of(context).textTheme.labelSmall,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ],
             ),
+            // Column(
+            //   crossAxisAlignment: CrossAxisAlignment.start,
+            //   children: [
+            //     Text(
+            //       'Domaine: ${snapshot.data!.domaine}',
+            //       style: Theme.of(context).textTheme.titleMedium,
+            //     ),
+            //     SizedBox(height: 10),
+            //     Text('Description: ${snapshot.data!.description}'),
+            //   ],
+            // ),
           );
         },
       ),

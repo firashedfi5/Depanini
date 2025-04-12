@@ -32,7 +32,7 @@ class ImageContainer extends StatelessWidget {
           imageUrl == null
               ? Center(
                 child: Icon(
-                  Icons.no_photography_outlined,
+                  Icons.photo_library_outlined,
                   size: 30,
                   color: Theme.of(context).colorScheme.primary,
                 ),
