@@ -286,62 +286,94 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                         ),
                       );
                     },
-                    child: SizedBox(
-                      height: 150,
-                      // width: 350,
-                      child: Card(
-                        color:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Theme.of(
-                                  context,
-                                ).colorScheme.surfaceContainerHighest
-                                : Theme.of(
-                                  context,
-                                ).colorScheme.surfaceContainerHighest,
-                        child: Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Row(
-                            // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                            children: [
-                              // ClipRRect(
-                              //   borderRadius: BorderRadius.circular(15.0),
-                              //   child: Image.network(
-                              //     snapshot.data![index].profilPicture,
-                              //     height: 120,
-                              //     width: 120,
-                              //     fit: BoxFit.cover,
-                              //   ),
-                              // ),
-                              // SizedBox(width: 20),
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      snapshot.data![index].description,
-                                      // maxLines: 2,
-                                      overflow: TextOverflow.ellipsis,
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
+                    child: Card(
+                      elevation: 2,
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Theme.of(context)
+                                  .colorScheme
+                                  .surfaceContainerHighest
+                                  .withAlpha(100)
+                              : Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerHighest,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    snapshot.data![index].description,
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge?.copyWith(
+                                      fontWeight: FontWeight.w500,
+                                      height: 1.3,
                                     ),
-                                    SizedBox(height: 4),
-                                    Text(
-                                      snapshot.data![index].date,
-                                      style:
-                                          Theme.of(
-                                            context,
-                                          ).textTheme.bodyMedium,
-                                    ),
-                                    SizedBox(height: 2),
-                                    Text(snapshot.data![index].service),
-                                    // Text(snapshot.data![index].experience),
-                                    // Text(snapshot.data![index].phoneNumber),
-                                  ],
-                                ),
+                                  ),
+
+                                  const SizedBox(height: 12),
+
+                                  Row(
+                                    children: [
+                                      Icon(
+                                        Icons.calendar_today,
+                                        size: 16,
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.outlineVariant,
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        snapshot.data![index].date,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodySmall?.copyWith(
+                                          color:
+                                              Theme.of(
+                                                context,
+                                              ).colorScheme.outlineVariant,
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Container(
+                                        height: 4,
+                                        width: 4,
+                                        decoration: BoxDecoration(
+                                          color:
+                                              Theme.of(
+                                                context,
+                                              ).colorScheme.outline,
+                                          shape: BoxShape.circle,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      Text(
+                                        snapshot.data![index].service,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodyMedium?.copyWith(
+                                          fontWeight: FontWeight.w500,
+                                          color:
+                                              Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),

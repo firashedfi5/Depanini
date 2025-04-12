@@ -79,81 +79,204 @@ class ShowPostScreen extends StatelessWidget {
             );
           }
           return Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 10),
-                Text('Description: ${snapshot.data!.description}'),
-                Text('Domaine: ${snapshot.data!.service}'),
-                Text('Date: ${snapshot.data!.date}'),
-                Text('Date: ${snapshot.data!.phoneNumber}'),
-                SizedBox(
-                  height: 85,
-                  child: Card(
-                    color:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Theme.of(
-                              context,
-                            ).colorScheme.surfaceContainerHighest
-                            : Theme.of(
-                              context,
-                            ).colorScheme.surfaceContainerHighest,
-                    child: Row(
+                Card(
+                  color:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHighest.withAlpha(100)
+                          : Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHighest,
+                  elevation: 2,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Image.network(snapshot.data!.profilPicture),
                         Text(
-                          snapshot.data!.username,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        Spacer(),
-                        SizedBox(
-                          width: 50,
-                          child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              side: BorderSide.none,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            onPressed: () {
-                              _makePhoneCall(
-                                '+216${snapshot.data!.phoneNumber}',
-                              );
-                            },
-                            child: Icon(Icons.call, size: 25),
+                          'Description',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.titleSmall?.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
                           ),
                         ),
-                        SizedBox(width: 10),
-                        SizedBox(
-                          width: 50,
-                          child: OutlinedButton(
-                            style: OutlinedButton.styleFrom(
-                              padding: EdgeInsets.symmetric(horizontal: 10),
-                              side: BorderSide.none,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) => ChatScreen(
-                                        receiverEmail: snapshot.data!.email,
-                                        username: snapshot.data!.username,
-                                        profilPictureUrl:
-                                            snapshot.data!.profilPicture,
-                                      ),
+                        const SizedBox(height: 8),
+                        Text(
+                          snapshot.data!.description,
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        const Divider(height: 24),
+                        Row(
+                          children: [
+                            // Domaine Info
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.work_outline,
+                                  size: 20,
+                                  color: Theme.of(context).colorScheme.outline,
                                 ),
-                              );
-                            },
-                            child: Icon(Icons.message),
-                          ),
+                                const SizedBox(width: 8),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Domaine',
+                                      style:
+                                          Theme.of(
+                                            context,
+                                          ).textTheme.labelSmall,
+                                    ),
+                                    Text(
+                                      snapshot.data!.service,
+                                      style:
+                                          Theme.of(
+                                            context,
+                                          ).textTheme.bodyMedium,
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const SizedBox(width: 24),
+                            // Date Info
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.calendar_today,
+                                  size: 20,
+                                  color: Theme.of(context).colorScheme.outline,
+                                ),
+                                const SizedBox(width: 8),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Date',
+                                      style:
+                                          Theme.of(
+                                            context,
+                                          ).textTheme.labelSmall,
+                                    ),
+                                    Text(
+                                      snapshot.data!.date,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium!.copyWith(
+                                        fontStyle: FontStyle.italic,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ],
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Card(
+                  color:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHighest.withAlpha(100)
+                          : Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHighest,
+                  elevation: 2,
+                  child: SizedBox(
+                    height: 150,
+                    child: Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: Row(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: Image.network(
+                              snapshot.data!.profilPicture,
+                              width: 80,
+                              height: 80,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  snapshot.data!.username,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                                Text(
+                                  snapshot.data!.phoneNumber,
+                                  style: Theme.of(context).textTheme.bodyMedium,
+                                ),
+                              ],
+                            ),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton.filled(
+                                icon: Icon(
+                                  Icons.call,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                                onPressed:
+                                    () => _makePhoneCall(
+                                      '+216${snapshot.data!.phoneNumber}',
+                                    ),
+                                style: IconButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              IconButton.filled(
+                                icon: Icon(
+                                  Icons.message,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
+                                ),
+                                onPressed:
+                                    () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => ChatScreen(
+                                              receiverEmail:
+                                                  snapshot.data!.email,
+                                              username: snapshot.data!.username,
+                                              profilPictureUrl:
+                                                  snapshot.data!.profilPicture,
+                                            ),
+                                      ),
+                                    ),
+                                style: IconButton.styleFrom(
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
