@@ -19,8 +19,8 @@ class ProviderAccountScreen extends StatefulWidget {
 }
 
 class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
-  final List<Domains> _domains = Domains.values;
-  Domains? _enteredDomaine;
+  // final List<Domains> _domains = Domains.values;
+  // Domains? _enteredDomaine;
   // ignore: unused_field
   Domains? _selectedDomain;
 
@@ -105,7 +105,7 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
       'Nom d\'utilisateur': _enteredUserName,
       'Numéro de téléphone': _enteredPhoneNumber,
       'Photo de profile': finalImageUrl,
-      'Domaine': _enteredDomaine!.name,
+      // 'Domaine': _enteredDomaine!.name,
       'Description': _enteredDescription,
       'Diplôme': _enteredDiplome,
       'Experience': _enteredExperience,
@@ -140,6 +140,7 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   // ********************************
+                  SizedBox(height: 20),
                   ProfilImage(
                     onPickImage: (pickedImage) {
                       _updatedImage = pickedImage;
@@ -170,41 +171,41 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
                             },
                           ),
                         ),
-                        SizedBox(height: 20),
-                        SizedBox(
-                          width: 350,
-                          child: DropdownButtonFormField<Domains>(
-                            decoration: InputDecoration(
-                              prefixIcon: Icon(Icons.domain_outlined),
-                              labelText: 'Domaine',
-                            ),
-                            value: _domains.firstWhere(
-                              (domain) =>
-                                  domain.name == snapshot.data!['Domaine'],
-                            ),
-                            items:
-                                _domains.map((domain) {
-                                  return DropdownMenuItem(
-                                    value: domain,
-                                    child: Text(domain.name),
-                                  );
-                                }).toList(),
-                            onChanged: (value) {
-                              setState(() {
-                                _selectedDomain = value;
-                              });
-                            },
-                            validator: (value) {
-                              if (value == null) {
-                                return 'Veuillez sélectionner un service';
-                              }
-                              return null;
-                            },
-                            onSaved: (newValue) {
-                              _enteredDomaine = newValue!;
-                            },
-                          ),
-                        ),
+                        // SizedBox(height: 20),
+                        // SizedBox(
+                        //   width: 350,
+                        //   child: DropdownButtonFormField<Domains>(
+                        //     decoration: InputDecoration(
+                        //       prefixIcon: Icon(Icons.domain_outlined),
+                        //       labelText: 'Domaine',
+                        //     ),
+                        //     value: _domains.firstWhere(
+                        //       (domain) =>
+                        //           domain.name == snapshot.data!['Domaine'],
+                        //     ),
+                        //     items:
+                        //         _domains.map((domain) {
+                        //           return DropdownMenuItem(
+                        //             value: domain,
+                        //             child: Text(domain.name),
+                        //           );
+                        //         }).toList(),
+                        //     onChanged: (value) {
+                        //       setState(() {
+                        //         _selectedDomain = value;
+                        //       });
+                        //     },
+                        //     validator: (value) {
+                        //       if (value == null) {
+                        //         return 'Veuillez sélectionner un service';
+                        //       }
+                        //       return null;
+                        //     },
+                        //     onSaved: (newValue) {
+                        //       _enteredDomaine = newValue!;
+                        //     },
+                        //   ),
+                        // ),
                         SizedBox(height: 20),
                         SizedBox(
                           width: 350,
@@ -287,7 +288,7 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
                             },
                           ),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 35),
                         ElevatedButton(
                           onPressed: _update,
                           child: Text('Enregistrer'),

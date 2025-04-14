@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/common/change_password_screen.dart';
 import 'package:depanini/screens/provider/profil/provider_account_screen.dart';
-// import 'package:depanini/screens/provider/profil/provider_gallery.dart';
+import 'package:depanini/screens/provider/profil/provider_gallery.dart';
 import 'package:depanini/theme/theme_provider.dart';
 import 'package:depanini/theme/themes.dart';
 import 'package:flutter/material.dart';
@@ -151,17 +151,17 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                   SizedBox(height: 7),
                   TextButton(
                     onPressed: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ProviderGallery(),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProviderGallery(),
+                        ),
+                      );
                     },
                     child: Row(
                       children: [
                         Text(
-                          'Gallerie',
+                          'Mes prestations',
                           style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context).textTheme.bodyLarge!.color,
