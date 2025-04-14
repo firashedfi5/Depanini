@@ -122,7 +122,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            backgroundColor: Colors.green,
+            backgroundColor: Color(0xFF2E7D32),
           ),
         );
       }
@@ -196,7 +196,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: Color(0xffb3261e),
             ),
           );
         }
@@ -212,7 +212,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: Color(0xffb3261e),
             ),
           );
         }

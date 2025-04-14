@@ -79,7 +79,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: Color(0xffb3261e),
             ),
           );
         }
@@ -95,7 +95,8 @@ class _SigninScreenState extends State<SigninScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: Color(0xffb3261e),
+              // behavior: SnackBarBehavior.floating,
             ),
           );
         }
@@ -111,7 +112,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: Color(0xffb3261e),
             ),
           );
         }

@@ -65,7 +65,10 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(e.toString()), backgroundColor: Colors.red),
+          SnackBar(
+            content: Text(e.toString()),
+            backgroundColor: Color(0xffb3261e),
+          ),
         );
       }
       return null;
@@ -95,22 +98,21 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       await Future.delayed(Duration(seconds: 5));
       setState(() => canResendEmail = true);
     } catch (e) {
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).clearSnackBars();
-      // ignore: use_build_context_synchronously
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            e.toString(),
-            // ignore: use_build_context_synchronously
-            style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              e.toString(),
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
             ),
+            backgroundColor: Color(0xffb3261e),
           ),
-          backgroundColor: Colors.red,
-        ),
-      );
+        );
+      }
     }
   }
 

@@ -101,7 +101,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        backgroundColor: Colors.green,
+                        backgroundColor: Color(0xFF2E7D32),
                       ),
                     );
                   }
@@ -140,7 +140,8 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          backgroundColor: Colors.red,
+                          backgroundColor:
+                              Color(0xffb3261e),
                         ),
                       );
                     }
@@ -158,7 +159,8 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          backgroundColor: Colors.red,
+                          backgroundColor:
+                              Color(0xffb3261e),
                         ),
                       );
                     }

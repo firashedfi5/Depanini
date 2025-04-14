@@ -68,7 +68,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Theme.of(context).colorScheme.errorContainer,
+              backgroundColor: Color(0xffb3261e),
               behavior: SnackBarBehavior.floating,
             ),
           );
