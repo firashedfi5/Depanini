@@ -389,7 +389,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         const SizedBox(width: 6),
                                         Text(
                                           snapshot.data![index].averageRating
-                                              .toString(),
+                                              .toStringAsFixed(2),
                                           style: Theme.of(
                                             context,
                                           ).textTheme.bodyLarge?.copyWith(
