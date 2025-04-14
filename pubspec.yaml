@@ -88,6 +88,7 @@ flutter:
     - assets/images/Mail_sent_rafiki.png
     - assets/images/Mobile_login_bro.png
     - assets/images/Reset_password_bro.png
+    - assets/images/change_password.png
     - assets/images/electricite.jpg
     - assets/images/jardinage.jpg
     - assets/images/plomberie.jpg

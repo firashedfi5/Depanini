@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:depanini/screens/common/change_password_screen.dart';
 import 'package:depanini/screens/provider/profil/provider_account_screen.dart';
 // import 'package:depanini/screens/provider/profil/provider_gallery.dart';
 import 'package:depanini/theme/theme_provider.dart';
@@ -72,234 +73,224 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(
-                child: Column(
-                  children: [
-                    CircleAvatar(
-                      radius: 75,
-                      foregroundImage:
-                          userData['Photo de profile'] != null
-                              ? NetworkImage(userData['Photo de profile'])
-                              : null,
-                      child:
-                          userData['Photo de profile'] == null
-                              ? const Icon(
-                                Icons.person,
-                                size: 70,
-                                color: Colors.white,
-                              )
-                              : null,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      userData['Nom d\'utilisateur'],
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                  ],
-                ),
+              Column(
+                children: [
+                  CircleAvatar(
+                    radius: 75,
+                    foregroundImage:
+                        userData['Photo de profile'] != null
+                            ? NetworkImage(userData['Photo de profile'])
+                            : null,
+                    child:
+                        userData['Photo de profile'] == null
+                            ? const Icon(
+                              Icons.person,
+                              size: 70,
+                              color: Colors.white,
+                            )
+                            : null,
+                  ),
+                  const SizedBox(height: 10),
+                  Text(
+                    userData['Nom d\'utilisateur'],
+                    style: Theme.of(context).textTheme.headlineMedium,
+                  ),
+                ],
               ),
-              SizedBox(height: 35),
-              SizedBox(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    SizedBox(
-                      width: 500,
-                      child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProviderAccountScreen(),
-                            ),
-                          );
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Modifier le profil',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color:
-                                    Theme.of(
-                                      context,
-                                    ).textTheme.bodyLarge!.color,
-                              ),
-                            ),
-                            Icon(Icons.arrow_forward_ios),
-                          ],
+              SizedBox(height: 20),
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProviderAccountScreen(),
                         ),
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    SizedBox(
-                      width: 500,
-                      child: TextButton(
-                        onPressed: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => ProviderGallery(),
-                          //   ),
-                          // );
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Gallerie',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color:
-                                    Theme.of(
-                                      context,
-                                    ).textTheme.bodyLarge!.color,
-                              ),
-                            ),
-                            Icon(Icons.arrow_forward_ios),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    SizedBox(
-                      width: 500,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Support',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color:
-                                    Theme.of(
-                                      context,
-                                    ).textTheme.bodyLarge!.color,
-                              ),
-                            ),
-                            Icon(Icons.arrow_forward_ios),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    SizedBox(
-                      width: 500,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'A propos de nous',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color:
-                                    Theme.of(
-                                      context,
-                                    ).textTheme.bodyLarge!.color,
-                              ),
-                            ),
-                            Icon(Icons.arrow_forward_ios),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    SizedBox(
-                      width: 500,
-                      child: TextButton(
-                        onPressed: () {},
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Changer le thème',
-                              style: TextStyle(
-                                fontSize: 20,
-                                color:
-                                    Theme.of(
-                                      context,
-                                    ).textTheme.bodyLarge!.color,
-                              ),
-                            ),
-                            Switch(
-                              value: themeData == darkTheme,
-                              onChanged: (bool value) {
-                                ref.read(themeProvider.notifier).toggleTheme();
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    TextButton.icon(
-                      onPressed: () {
-                        FirebaseAuth.instance.signOut();
-                      },
-                      icon: Icon(Icons.logout, color: Colors.red, size: 25),
-                      style: TextButton.styleFrom(),
-                      label: Text(
-                        "Se déconnecter",
-                        style: TextStyle(
-                          color: Colors.red,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 35),
-                    Text(
-                      'Suivez-nous',
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                    SizedBox(height: 10),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      );
+                    },
+                    child: Row(
                       children: [
-                        IconButton(
-                          onPressed: () {
-                            openSocial(appName: 'facebook', username: 'zuck');
-                          },
-                          icon: FaIcon(
-                            FontAwesomeIcons.facebook,
-                            color: Theme.of(context).colorScheme.primary,
-                            size: 30,
+                        Text(
+                          'Modifier le profil',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                         ),
-                        SizedBox(width: 30),
-                        IconButton(
-                          onPressed: () {
-                            openSocial(
-                              appName: 'instagram',
-                              username: 'elonrmuskk',
-                            );
-                          },
-                          icon: FaIcon(
-                            FontAwesomeIcons.instagram,
-                            color: Theme.of(context).colorScheme.primary,
-                            size: 30,
+                        Spacer(),
+                        Icon(Icons.arrow_forward_ios),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 7),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChangePasswordScreen(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          'Changer le mot de passe',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                         ),
-                        SizedBox(width: 20),
-                        IconButton(
-                          onPressed: () {
-                            openSocial(appName: 'x', username: 'elonmusk');
-                          },
-                          icon: FaIcon(
-                            FontAwesomeIcons.twitter,
-                            color: Theme.of(context).colorScheme.primary,
-                            size: 30,
+                        Spacer(),
+                        Icon(Icons.arrow_forward_ios),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 7),
+                  TextButton(
+                    onPressed: () {
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => ProviderGallery(),
+                      //   ),
+                      // );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          'Gallerie',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),
+                        ),
+                        Spacer(),
+                        Icon(Icons.arrow_forward_ios),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 7),
+                  TextButton(
+                    onPressed: () {},
+                    child: Row(
+                      children: [
+                        Text(
+                          'Support',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
+                          ),
+                        ),
+                        Spacer(),
+                        Icon(Icons.arrow_forward_ios),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 7),
+                  TextButton(
+                    onPressed: () {},
+                    child: Row(
+                      children: [
+                        Text(
+                          'A propos de nous',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
+                          ),
+                        ),
+                        Spacer(),
+                        Icon(Icons.arrow_forward_ios),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 7),
+                  TextButton(
+                    onPressed: () {},
+                    child: Row(
+                      children: [
+                        Text(
+                          'Changer le thème',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
+                          ),
+                        ),
+                        Spacer(),
+                        Switch(
+                          value: themeData == darkTheme,
+                          onChanged: (bool value) {
+                            ref.read(themeProvider.notifier).toggleTheme();
+                          },
                         ),
                       ],
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 20),
+                  TextButton.icon(
+                    onPressed: () {
+                      FirebaseAuth.instance.signOut();
+                    },
+                    icon: Icon(Icons.logout, color: Colors.red, size: 25),
+                    style: TextButton.styleFrom(),
+                    label: Text(
+                      "Se déconnecter",
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text(
+                    'Suivez-nous',
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
+                        onPressed: () {
+                          openSocial(appName: 'facebook', username: 'zuck');
+                        },
+                        icon: FaIcon(
+                          FontAwesomeIcons.facebook,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 30,
+                        ),
+                      ),
+                      SizedBox(width: 30),
+                      IconButton(
+                        onPressed: () {
+                          openSocial(
+                            appName: 'instagram',
+                            username: 'elonrmuskk',
+                          );
+                        },
+                        icon: FaIcon(
+                          FontAwesomeIcons.instagram,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 30,
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      IconButton(
+                        onPressed: () {
+                          openSocial(appName: 'x', username: 'elonmusk');
+                        },
+                        icon: FaIcon(
+                          FontAwesomeIcons.twitter,
+                          color: Theme.of(context).colorScheme.primary,
+                          size: 30,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ],
           );
