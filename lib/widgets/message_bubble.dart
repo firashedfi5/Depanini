@@ -1,3 +1,4 @@
+// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 // A MessageBubble for showing a single chat message on the ChatScreen.
@@ -120,21 +121,30 @@ class MessageBubble extends StatelessWidget {
                       vertical: 4,
                       horizontal: 12,
                     ),
-                    child: Text(
-                      message,
-                      style:
-                      // Theme.of(context).textTheme.bodyMedium,
-                      TextStyle(
-                        // Add a little line spacing to make the text look nicer
-                        // when multilined.
-                        fontWeight: FontWeight.w500,
-                        height: 1.3,
-                        color:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Colors.white
-                                : Color(0xff1d1b20),
-                      ),
-                      softWrap: true,
+                    child: Column(
+                      children: [
+                        Text(
+                          message,
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge!.copyWith(
+                            fontWeight: FontWeight.w500,
+                            height: 1.3,
+                          ),
+                          // TextStyle(
+                          //   // Add a little line spacing to make the text look nicer
+                          //   // when multilined.
+                          //   fontWeight: FontWeight.w500,
+                          //   height: 1.3,
+                          //   color:
+                          //       Theme.of(context).brightness == Brightness.dark
+                          //           ? Colors.white
+                          //           : Color(0xff1d1b20),
+                          // ),
+                          softWrap: true,
+                        ),
+                        // Text(Timestamp.now().toString()),
+                      ],
                     ),
                   ),
                 ],
