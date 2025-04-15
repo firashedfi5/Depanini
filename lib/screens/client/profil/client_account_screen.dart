@@ -81,7 +81,7 @@ class _AccountScreenState extends State<AccountScreen> {
   // ******************************************
   void _updateUsernameAnnonces() async {
     final url = Uri.http(
-      '192.168.1.11:3300',
+      '10.0.2.2:3300',
       'changer-username-annonces/${_auth.currentUser!.uid}',
     ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
     final response = await http.patch(
@@ -95,7 +95,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   void _updateProfilPictureAnnonces(String finalImageUrl) async {
     final url = Uri.http(
-      '192.168.1.11:3300',
+      '10.0.2.2:3300',
       'changer-profilPicture-annonces/${_auth.currentUser!.uid}',
     ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
     final response = await http.patch(
@@ -109,7 +109,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
   void _updatePhoneNumberAnnonces() async {
     final url = Uri.http(
-      '192.168.1.11:3300',
+      '10.0.2.2:3300',
       'changer-phoneNumber-annonces/${_auth.currentUser!.uid}',
     ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
     final response = await http.patch(

@@ -95,95 +95,106 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     return Scaffold(
       appBar: AppBar(title: Text('Changer le mot de passe')),
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 50),
-            Image.asset('assets/images/change_password.png', width: 200),
-            SizedBox(height: 30),
-            Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  TextFormField(
-                    controller: _oldPasswordController,
-                    decoration: InputDecoration(
-                      labelText: 'Ancien mot de passe',
-                      prefixIcon: Icon(Icons.lock_outlined),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _isVisible1 = !_isVisible1;
-                          });
-                        },
-                        icon:
-                            _isVisible1
-                                ? Icon(Icons.visibility)
-                                : Icon(Icons.visibility_off),
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(height: 70),
+              Image.asset('assets/images/change_password.png', width: 200),
+              SizedBox(height: 30),
+              Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      width: 350,
+                      child: TextFormField(
+                        controller: _oldPasswordController,
+                        decoration: InputDecoration(
+                          labelText: 'Ancien mot de passe',
+                          prefixIcon: Icon(Icons.lock_outlined),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isVisible1 = !_isVisible1;
+                              });
+                            },
+                            icon:
+                                _isVisible1
+                                    ? Icon(Icons.visibility)
+                                    : Icon(Icons.visibility_off),
+                          ),
+                        ),
+                        obscureText: !_isVisible1,
                       ),
                     ),
-                    obscureText: !_isVisible1,
-                  ),
-                  SizedBox(height: 20),
-                  TextFormField(
-                    controller: _newPasswordController,
-                    decoration: InputDecoration(
-                      labelText: 'Nouveau mot de passe',
-                      prefixIcon: Icon(Icons.lock_outlined),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _isVisible2 = !_isVisible2;
-                          });
+                    SizedBox(height: 20),
+                    SizedBox(
+                      width: 350,
+                      child: TextFormField(
+                        controller: _newPasswordController,
+                        decoration: InputDecoration(
+                          labelText: 'Nouveau mot de passe',
+                          prefixIcon: Icon(Icons.lock_outlined),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isVisible2 = !_isVisible2;
+                              });
+                            },
+                            icon:
+                                _isVisible2
+                                    ? Icon(Icons.visibility)
+                                    : Icon(Icons.visibility_off),
+                          ),
+                        ),
+                        obscureText: !_isVisible2,
+                        validator: (value) {
+                          if (value != _confirmNewPasswordController.text) {
+                            return 'Les mots de passe ne correspondent pas';
+                          }
+                          return null;
                         },
-                        icon:
-                            _isVisible2
-                                ? Icon(Icons.visibility)
-                                : Icon(Icons.visibility_off),
                       ),
                     ),
-                    obscureText: !_isVisible2,
-                    validator: (value) {
-                      if (value != _confirmNewPasswordController.text) {
-                        return 'Les mots de passe ne correspondent pas';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 20),
-                  TextFormField(
-                    controller: _confirmNewPasswordController,
-                    decoration: InputDecoration(
-                      labelText: 'Confirmer le nouveau mot de passe',
-                      prefixIcon: Icon(Icons.lock_outlined),
-                      suffixIcon: IconButton(
-                        onPressed: () {
-                          setState(() {
-                            _isVisible3 = !_isVisible3;
-                          });
+                    SizedBox(height: 20),
+                    SizedBox(
+                      width: 350,
+                      child: TextFormField(
+                        controller: _confirmNewPasswordController,
+                        decoration: InputDecoration(
+                          labelText: 'Confirmer le nouveau mot de passe',
+                          prefixIcon: Icon(Icons.lock_outlined),
+                          suffixIcon: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _isVisible3 = !_isVisible3;
+                              });
+                            },
+                            icon:
+                                _isVisible3
+                                    ? Icon(Icons.visibility)
+                                    : Icon(Icons.visibility_off),
+                          ),
+                        ),
+                        obscureText: !_isVisible3,
+                        validator: (value) {
+                          if (value != _newPasswordController.text) {
+                            return 'Les mots de passe ne correspondent pas';
+                          }
+                          return null;
                         },
-                        icon:
-                            _isVisible3
-                                ? Icon(Icons.visibility)
-                                : Icon(Icons.visibility_off),
                       ),
                     ),
-                    obscureText: !_isVisible3,
-                    validator: (value) {
-                      if (value != _newPasswordController.text) {
-                        return 'Les mots de passe ne correspondent pas';
-                      }
-                      return null;
-                    },
-                  ),
-                  SizedBox(height: 50),
-                  ElevatedButton(
-                    onPressed: _submit,
-                    child: Text('Enregistrer'),
-                  ),
-                ],
+                    SizedBox(height: 50),
+                    ElevatedButton(
+                      onPressed: _submit,
+                      child: Text('Enregistrer'),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

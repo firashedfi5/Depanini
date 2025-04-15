@@ -111,7 +111,7 @@ class _ProviderGalleryState extends State<ProviderGallery> {
         return null; // Document does not exist
       }
     } catch (e) {
-      // print("Error retrieving document: $e");
+      dev.log("Error retrieving document: $e");
       return null;
     }
   }
@@ -159,9 +159,8 @@ class _ProviderGalleryState extends State<ProviderGallery> {
                       itemBuilder: (context, index) {
                         return UpdateImage(
                           onPickImage: (pickedImage) {
-                            setState(() {
-                              pickedImages[index] = pickedImage;
-                            });
+                            pickedImages[index] = pickedImage;
+                            // dev.log(index.toString());
                           },
                           initialImage: NetworkImage(images[index]),
                         );

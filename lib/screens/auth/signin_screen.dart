@@ -125,6 +125,7 @@ class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(context) {
     return Scaffold(
+      appBar: AppBar(toolbarHeight: 10),
       body: Center(
         child: SingleChildScrollView(
           child: Column(

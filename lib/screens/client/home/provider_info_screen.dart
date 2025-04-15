@@ -92,6 +92,12 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
 
   // ***********Feedback Method***************
   final _feedbackController = TextEditingController();
+  @override
+  void dispose() {
+    super.dispose();
+    _feedbackController.dispose();
+  }
+
   void _submitFeedback() async {
     final user = _auth.currentUser!;
 
@@ -389,7 +395,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             itemCount: 5,
                             itemSize: 32,
                             allowHalfRating: true,
-                            glow: false,
+                            glow: true,
                             itemPadding: const EdgeInsets.symmetric(
                               horizontal: 4,
                             ),
@@ -520,7 +526,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                   itemCount: snapshot.data!.length,
                                   itemBuilder:
                                       (context, index) => FeedbackItem(
-                                        feedback: snapshot.data![index],
+                                        : snapshot.datafeedback![index],
                                       ),
                                 );
                               },
