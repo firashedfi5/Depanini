@@ -493,7 +493,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                           const SizedBox(height: 12),
                           // Existing feedbacks list
                           SizedBox(
-                            height: 100,
+                            height: 110,
                             child: FutureBuilder<List<FeedbackModel>>(
                               future: _feedbackList,
                               builder: (context, snapshot) {
@@ -526,7 +526,8 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                   itemCount: snapshot.data!.length,
                                   itemBuilder:
                                       (context, index) => FeedbackItem(
-                                        : snapshot.datafeedback![index],
+                                        feedback: snapshot.data![index],
+                                        uid: widget.uid,
                                       ),
                                 );
                               },

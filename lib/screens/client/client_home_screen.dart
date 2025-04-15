@@ -278,9 +278,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       );
                       // Reload data when returning
-                      setState(() {
-                        _foundedUsers = getAllData(); // <-- Trigger rebuild
-                      });
+                      if (mounted) {
+                        setState(() {
+                          _foundedUsers = getAllData(); // <-- Trigger rebuild
+                        });
+                      }
                     },
                     child: Container(
                       height: 135,
