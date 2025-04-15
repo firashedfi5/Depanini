@@ -20,11 +20,30 @@ class ClientChatScreen extends StatelessWidget {
     return chatRooms;
   }
 
+  Future<DocumentSnapshot<Map<String, dynamic>>?> _getLastMessage(
+    String chatRoomId,
+  ) async {
+    final snapshot =
+        await _firestore
+            .collection('chat_rooms')
+            .doc(chatRoomId)
+            .collection('messages')
+            .orderBy('createdAt', descending: true)
+            .limit(1)
+            .get();
+
+    if (snapshot.docs.isNotEmpty) {
+      return snapshot.docs.first;
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Mes messages')),
-      body: FutureBuilder(
+      appBar: AppBar(title: const Text('Mes messages')),
+      body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
         future: _getChatRooms(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -42,44 +61,82 @@ class ClientChatScreen extends StatelessWidget {
           }
 
           return ListView.separated(
-            separatorBuilder: (_, _) => const SizedBox(height: 10),
-            padding: EdgeInsets.symmetric(horizontal: 8),
-            physics: BouncingScrollPhysics(),
+            separatorBuilder: (_, __) => const SizedBox(height: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            physics: const BouncingScrollPhysics(),
             itemCount: chatRooms.length,
             itemBuilder: (context, index) {
-              return Card(
-                color:
-                    Theme.of(context).brightness == Brightness.dark
-                        ? Theme.of(
-                          context,
-                        ).colorScheme.surfaceContainerHighest.withAlpha(120)
-                        : Theme.of(context).colorScheme.surfaceContainerHighest,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      CircleAvatar(
-                        radius: 25,
-                        backgroundImage: AssetImage(
-                          'assets/images/Mobile_login_bro.png',
-                        ),
-                      ),
-                      SizedBox(width: 13),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              final chatRoom = chatRooms[index];
+              final chatRoomId = chatRoom.id;
+
+              // final currentUserEmail = _auth.currentUser!.email!;
+              // final participants = chatRoomId.split('_');
+              // final otherUser = participants.firstWhere(
+              //   (email) => email != currentUserEmail,
+              //   orElse: () => 'Inconnu',
+              // );
+
+              return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>?>(
+                future: _getLastMessage(chatRoomId),
+                builder: (context, messageSnapshot) {
+                  final messageData = messageSnapshot.data?.data();
+                  final lastMessageText =
+                      messageData?['text'] ?? 'Aucun message';
+                  final lastMessageTime =
+                      messageData?['createdAt'] != null
+                          ? (messageData!['createdAt'] as Timestamp).toDate()
+                          : null;
+                  final username = messageData?['senderUsername'] ?? 'Aucun';
+                  final profilPicture = messageData?['userImage'] ?? 'Aucun';
+
+                  return Card(
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest.withAlpha(120)
+                            : Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Row(
                         children: [
-                          Text(
-                            '',
-                            style: Theme.of(context).textTheme.titleLarge,
+                          CircleAvatar(
+                            radius: 25,
+                            backgroundImage: NetworkImage(profilPicture),
                           ),
-                          SizedBox(height: 8),
-                          Text('data'),
+                          const SizedBox(width: 13),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  username,
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  lastMessageText,
+                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 1,
+                                ),
+                                if (lastMessageTime != null)
+                                  Text(
+                                    '${lastMessageTime.hour.toString().padLeft(2, '0')}:${lastMessageTime.minute.toString().padLeft(2, '0')}',
+                                    style: const TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ),
                         ],
                       ),
-                    ],
-                  ),
-                ),
+                    ),
+                  );
+                },
               );
             },
           );
