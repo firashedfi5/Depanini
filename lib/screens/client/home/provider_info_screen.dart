@@ -310,8 +310,8 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                 builder:
                                     (context) => ChatScreen(
                                       receiverEmail: snapshot.data!.email,
-                                      username: snapshot.data!.username,
-                                      profilPictureUrl:
+                                      receiverUsername: snapshot.data!.username,
+                                      receiverProfilPicture:
                                           snapshot.data!.profilPicture,
                                     ),
                               ),

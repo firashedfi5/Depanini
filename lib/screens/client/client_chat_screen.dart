@@ -86,8 +86,9 @@ class ClientChatScreen extends StatelessWidget {
                       messageData?['createdAt'] != null
                           ? (messageData!['createdAt'] as Timestamp).toDate()
                           : null;
-                  final username = messageData?['senderUsername'] ?? 'Aucun';
-                  final profilPicture = messageData?['userImage'] ?? 'Aucun';
+                  final username = messageData?['receiverUsername'] ?? 'Aucun';
+                  final profilPicture =
+                      messageData?['receiverProfilPicture'] ?? 'Aucun';
 
                   return Card(
                     color:

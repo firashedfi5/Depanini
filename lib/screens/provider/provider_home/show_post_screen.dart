@@ -253,20 +253,20 @@ class ShowPostScreen extends StatelessWidget {
                                   color:
                                       Theme.of(context).colorScheme.onPrimary,
                                 ),
-                                onPressed:
-                                    () => Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder:
-                                            (context) => ChatScreen(
-                                              receiverEmail:
-                                                  snapshot.data!.email,
-                                              username: snapshot.data!.username,
-                                              profilPictureUrl:
-                                                  snapshot.data!.profilPicture,
-                                            ),
-                                      ),
-                                    ),
+                                onPressed: () {},
+                                // () => Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder:
+                                //         (context) => ChatScreen(
+                                //           receiverEmail:
+                                //               snapshot.data!.email,
+                                //           username: snapshot.data!.username,
+                                //           profilPictureUrl:
+                                //               snapshot.data!.profilPicture,
+                                //         ),
+                                //   ),
+                                // ),
                                 style: IconButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),

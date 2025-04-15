@@ -6,8 +6,15 @@ final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 
 class NewMessage extends StatefulWidget {
+  final String receiverUsername;
+  final String receiverProfilPicture;
   final String receiverEmail;
-  const NewMessage({super.key, required this.receiverEmail});
+  const NewMessage({
+    super.key,
+    required this.receiverEmail,
+    required this.receiverProfilPicture,
+    required this.receiverUsername,
+  });
 
   @override
   State<NewMessage> createState() => _NewMessageState();
@@ -53,7 +60,7 @@ class _NewMessageState extends State<NewMessage> {
 
     final senderEmail = userData['Email'];
     final senderUsername = userData['Nom d\'utilisateur'];
-    final profilePicture = userData['Photo de profile'];
+    final senderProfilePicture = userData['Photo de profile'];
 
     List<String> emails = [senderEmail, widget.receiverEmail];
     emails.sort();
@@ -73,7 +80,10 @@ class _NewMessageState extends State<NewMessage> {
           'userId': user.uid,
           'senderUsername': senderUsername,
           'senderEmail': senderEmail,
-          'userImage': profilePicture,
+          'senderProfilePicture': senderProfilePicture,
+          'receiverEmail': widget.receiverEmail,
+          'receiverProfilPicture': widget.receiverProfilPicture,
+          'receiverUsername': widget.receiverUsername,
         });
   }
 

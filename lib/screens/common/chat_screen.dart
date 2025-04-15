@@ -3,14 +3,14 @@ import 'package:depanini/widgets/new_message.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
-  final String username;
-  final String profilPictureUrl;
+  final String receiverUsername;
+  final String receiverProfilPicture;
   final String receiverEmail;
 
   const ChatScreen({
     super.key,
-    required this.username,
-    required this.profilPictureUrl,
+    required this.receiverUsername,
+    required this.receiverProfilPicture,
     required this.receiverEmail,
   });
 
@@ -27,10 +27,10 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             CircleAvatar(
               radius: 23,
-              backgroundImage: NetworkImage(widget.profilPictureUrl),
+              backgroundImage: NetworkImage(widget.receiverProfilPicture),
             ),
             SizedBox(width: 10),
-            Text(widget.username),
+            Text(widget.receiverUsername),
           ],
         ),
       ),
@@ -57,7 +57,11 @@ class _ChatScreenState extends State<ChatScreen> {
                 Expanded(
                   child: ChatMessages(receiverEmail: widget.receiverEmail),
                 ),
-                NewMessage(receiverEmail: widget.receiverEmail),
+                NewMessage(
+                  receiverEmail: widget.receiverEmail,
+                  receiverProfilPicture: widget.receiverProfilPicture,
+                  receiverUsername: widget.receiverUsername,
+                ),
               ],
             ),
           ),
