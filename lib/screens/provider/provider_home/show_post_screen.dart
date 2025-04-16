@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:depanini/models/post_model.dart';
-import 'package:depanini/screens/common/chat_screen.dart';
+// import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -24,7 +24,7 @@ class ShowPostScreen extends StatelessWidget {
 
   Future<PostModel> _loadAnnonce() async {
     final url = Uri.http(
-      '192.168.31.16:3300',
+      '192.168.1.11:3300',
       'afficher-seule-annonces/$id',
     ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
     final response = await http.get(url);

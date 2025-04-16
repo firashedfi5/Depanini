@@ -35,7 +35,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
   // *****************HTTP Response*************************
   void _loadPosts() async {
     final url = Uri.http(
-      '192.168.31.16:3300',
+      '192.168.1.11:3300',
       'afficher-annonces/${_auth.currentUser!.uid}',
     ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
     try {
@@ -96,7 +96,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
   void _removePost(PostModel post) {
     final postIndex = _postListed.indexOf(post);
     final deleteUrl = Uri.http(
-      '192.168.31.16:3300',
+      '192.168.1.11:3300',
       'supprimer-annonces/${post.id}',
     );
 
@@ -123,7 +123,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
 
             // Re-add to server using original structure
             final restoreUrl = Uri.http(
-              '192.168.31.16:3300',
+              '192.168.1.11:3300',
               'ajouter-annonces',
             );
 

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -69,9 +70,9 @@ class ClientChatScreen extends StatelessWidget {
               final chatRoom = chatRooms[index];
               final chatRoomId = chatRoom.id;
 
-              // final currentUserEmail = _auth.currentUser!.email!;
+              final currentUserEmail = _auth.currentUser!.email!;
               // final participants = chatRoomId.split('_');
-              // final otherUser = participants.firstWhere(
+              // final otherUserEmail = participants.firstWhere(
               //   (email) => email != currentUserEmail,
               //   orElse: () => 'Inconnu',
               // );
@@ -86,54 +87,82 @@ class ClientChatScreen extends StatelessWidget {
                       messageData?['createdAt'] != null
                           ? (messageData!['createdAt'] as Timestamp).toDate()
                           : null;
-                  final username = messageData?['receiverUsername'] ?? 'Aucun';
-                  final profilPicture =
-                      messageData?['receiverProfilPicture'] ?? 'Aucun';
 
-                  return Card(
-                    color:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Theme.of(
-                              context,
-                            ).colorScheme.surfaceContainerHighest.withAlpha(120)
-                            : Theme.of(
-                              context,
-                            ).colorScheme.surfaceContainerHighest,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          CircleAvatar(
-                            radius: 25,
-                            backgroundImage: NetworkImage(profilPicture),
+                  final recieverUsername =
+                      messageData?['receiverUsername'] ?? 'Aucun';
+                  final recieverProfilPicture =
+                      messageData?['receiverProfilPicture'];
+                  final recieverEmail = messageData?['receiverEmail'];
+
+                  return InkWell(
+                    onTap:
+                        () => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => ChatScreen(
+                                  receiverEmail: recieverEmail,
+                                  receiverUsername: recieverUsername,
+                                  receiverProfilPicture: recieverProfilPicture,
+                                ),
                           ),
-                          const SizedBox(width: 13),
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  username,
-                                  style: Theme.of(context).textTheme.titleLarge,
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  lastMessageText,
-                                  overflow: TextOverflow.ellipsis,
-                                  maxLines: 1,
-                                ),
-                                if (lastMessageTime != null)
-                                  Text(
-                                    '${lastMessageTime.hour.toString().padLeft(2, '0')}:${lastMessageTime.minute.toString().padLeft(2, '0')}',
-                                    style: const TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 12,
-                                    ),
-                                  ),
-                              ],
+                        ),
+                    child: Card(
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Theme.of(context)
+                                  .colorScheme
+                                  .surfaceContainerHighest
+                                  .withAlpha(120)
+                              : Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerHighest,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          children: [
+                            CircleAvatar(
+                              radius: 25,
+                              backgroundImage:
+                                  recieverProfilPicture != null
+                                      ? NetworkImage(recieverProfilPicture)
+                                      : const AssetImage(
+                                            'assets/images/default_avatar.png',
+                                          )
+                                          as ImageProvider,
                             ),
-                          ),
-                        ],
+                            const SizedBox(width: 13),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    recieverUsername,
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                  const SizedBox(height: 8),
+                                  Text(
+                                    messageData?['senderEmail'] ==
+                                            currentUserEmail
+                                        ? 'Vous: $lastMessageText'
+                                        : lastMessageText,
+                                    overflow: TextOverflow.ellipsis,
+                                    maxLines: 1,
+                                  ),
+                                  if (lastMessageTime != null)
+                                    Text(
+                                      '${lastMessageTime.hour.toString().padLeft(2, '0')}:${lastMessageTime.minute.toString().padLeft(2, '0')}',
+                                      style: const TextStyle(
+                                        color: Colors.grey,
+                                        fontSize: 12,
+                                      ),
+                                    ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );

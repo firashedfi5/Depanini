@@ -107,6 +107,7 @@ flutter:
     - assets/images/plomberie.png
     - assets/images/chat_background_white.png
     - assets/images/chat_background_black.png
+    - assets/images/default_avatar.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
