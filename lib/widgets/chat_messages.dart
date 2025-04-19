@@ -104,13 +104,15 @@ class _ChatMessagesState extends State<ChatMessages> {
               return MessageBubble.next(
                 message: chatMessage['text'],
                 isMe: authenticatedUser.uid == currentMessageUserId,
+                sendTime: (chatMessage['createdAt'] as Timestamp).toDate(),
               );
             } else {
               return MessageBubble.first(
-                userImage: chatMessage['userImage'],
-                username: chatMessage['username'],
+                userImage: chatMessage['senderProfilePicture'],
+                username: chatMessage['senderUsername'],
                 message: chatMessage['text'],
                 isMe: authenticatedUser.uid == currentMessageUserId,
+                sendTime: (chatMessage['createdAt'] as Timestamp).toDate(),
               );
             }
           },

@@ -9,43 +9,74 @@ final _auth = FirebaseAuth.instance;
 class ClientChatScreen extends StatelessWidget {
   const ClientChatScreen({super.key});
 
-  Future<QuerySnapshot<Map<String, dynamic>>> _getChatRooms() async {
-    final currentUserEmail = _auth.currentUser!.email;
-
-    final chatRooms =
-        await _firestore
-            .collection('chat_rooms')
-            .where('participants', arrayContains: currentUserEmail)
-            .get();
-
-    return chatRooms;
-  }
-
-  Future<DocumentSnapshot<Map<String, dynamic>>?> _getLastMessage(
-    String chatRoomId,
-  ) async {
-    final snapshot =
-        await _firestore
-            .collection('chat_rooms')
-            .doc(chatRoomId)
-            .collection('messages')
-            .orderBy('createdAt', descending: true)
-            .limit(1)
-            .get();
-
-    if (snapshot.docs.isNotEmpty) {
-      return snapshot.docs.first;
+  Stream<QuerySnapshot<Map<String, dynamic>>> _chatRoomsStream() {
+    final currentUserEmail = _auth.currentUser?.email;
+    if (currentUserEmail == null) {
+      throw Exception('User not logged in');
     }
 
-    return null;
+    return _firestore
+        .collection('chat_rooms')
+        .where('participants', arrayContains: currentUserEmail)
+        .snapshots();
+  }
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> _lastMessageStream(
+    String chatRoomId,
+  ) {
+    return _firestore
+        .collection('chat_rooms')
+        .doc(chatRoomId)
+        .collection('messages')
+        .orderBy('createdAt', descending: true)
+        .limit(1)
+        .snapshots()
+        .map(
+          (snapshot) => snapshot.docs.isNotEmpty ? snapshot.docs.first : null,
+        )
+        .where((doc) => doc != null)
+        .cast<DocumentSnapshot<Map<String, dynamic>>>();
+  }
+
+  String? determineOtherUsername(
+    Map<String, dynamic>? data,
+    String currentEmail,
+  ) {
+    if (data == null) return null;
+    final receiverEmail = data['receiverEmail'];
+    final receiverUsername = data['receiverUsername'];
+    final senderUsername = data['senderUsername'];
+    return receiverEmail != null && receiverEmail != currentEmail
+        ? receiverUsername
+        : senderUsername;
+  }
+
+  String? determineOtherProfilePicture(
+    Map<String, dynamic>? data,
+    String currentEmail,
+  ) {
+    if (data == null) return null;
+    final receiverEmail = data['receiverEmail'];
+    final receiverPic = data['receiverProfilPicture'];
+    final senderPic = data['senderProfilePicture'];
+    return receiverEmail != null && receiverEmail != currentEmail
+        ? receiverPic
+        : senderPic;
+  }
+
+  String? determineOtherEmail(Map<String, dynamic>? data, String currentEmail) {
+    if (data == null) return null;
+    final receiver = data['receiverEmail'];
+    final sender = data['senderEmail'];
+    return receiver != null && receiver != currentEmail ? receiver : sender;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Mes messages')),
-      body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-        future: _getChatRooms(),
+      body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
+        stream: _chatRoomsStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -61,6 +92,9 @@ class ClientChatScreen extends StatelessWidget {
             return const Center(child: Text('Aucune conversation trouvée.'));
           }
 
+          final currentUserEmail = _auth.currentUser?.email;
+          if (currentUserEmail == null) return const SizedBox();
+
           return ListView.separated(
             separatorBuilder: (_, __) => const SizedBox(height: 10),
             padding: const EdgeInsets.symmetric(horizontal: 8),
@@ -70,43 +104,59 @@ class ClientChatScreen extends StatelessWidget {
               final chatRoom = chatRooms[index];
               final chatRoomId = chatRoom.id;
 
-              final currentUserEmail = _auth.currentUser!.email!;
-              // final participants = chatRoomId.split('_');
-              // final otherUserEmail = participants.firstWhere(
-              //   (email) => email != currentUserEmail,
-              //   orElse: () => 'Inconnu',
-              // );
-
-              return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>?>(
-                future: _getLastMessage(chatRoomId),
+              return StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                stream: _lastMessageStream(chatRoomId),
                 builder: (context, messageSnapshot) {
-                  final messageData = messageSnapshot.data?.data();
+                  if (!messageSnapshot.hasData) {
+                    return const SizedBox(
+                      height: 80,
+                      child: Center(child: CircularProgressIndicator()),
+                    );
+                  }
+
+                  final messageData = messageSnapshot.data!.data();
+                  if (messageData == null) return const SizedBox();
+
                   final lastMessageText =
-                      messageData?['text'] ?? 'Aucun message';
+                      messageData['text'] ?? 'Aucun message';
                   final lastMessageTime =
-                      messageData?['createdAt'] != null
-                          ? (messageData!['createdAt'] as Timestamp).toDate()
+                      messageData['createdAt'] != null
+                          ? (messageData['createdAt'] as Timestamp).toDate()
                           : null;
 
-                  final recieverUsername =
-                      messageData?['receiverUsername'] ?? 'Aucun';
-                  final recieverProfilPicture =
-                      messageData?['receiverProfilPicture'];
-                  final recieverEmail = messageData?['receiverEmail'];
+                  final otherUsername = determineOtherUsername(
+                    messageData,
+                    currentUserEmail,
+                  );
+                  final otherProfilePicture = determineOtherProfilePicture(
+                    messageData,
+                    currentUserEmail,
+                  );
+                  final otherEmail = determineOtherEmail(
+                    messageData,
+                    currentUserEmail,
+                  );
+
+                  if (otherEmail == null || otherUsername == null) {
+                    return const SizedBox();
+                  }
 
                   return InkWell(
-                    onTap:
-                        () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder:
-                                (context) => ChatScreen(
-                                  receiverEmail: recieverEmail,
-                                  receiverUsername: recieverUsername,
-                                  receiverProfilPicture: recieverProfilPicture,
-                                ),
-                          ),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder:
+                              (context) => ChatScreen(
+                                receiverEmail: otherEmail,
+                                receiverUsername: otherUsername,
+                                receiverProfilPicture:
+                                    otherProfilePicture ??
+                                    'https://ui-avatars.com/api/?name=$otherUsername',
+                              ),
                         ),
+                      );
+                    },
                     child: Card(
                       color:
                           Theme.of(context).brightness == Brightness.dark
@@ -124,8 +174,8 @@ class ClientChatScreen extends StatelessWidget {
                             CircleAvatar(
                               radius: 25,
                               backgroundImage:
-                                  recieverProfilPicture != null
-                                      ? NetworkImage(recieverProfilPicture)
+                                  otherProfilePicture != null
+                                      ? NetworkImage(otherProfilePicture)
                                       : const AssetImage(
                                             'assets/images/default_avatar.png',
                                           )
@@ -137,13 +187,13 @@ class ClientChatScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    recieverUsername,
+                                    otherUsername,
                                     style:
                                         Theme.of(context).textTheme.titleLarge,
                                   ),
                                   const SizedBox(height: 8),
                                   Text(
-                                    messageData?['senderEmail'] ==
+                                    messageData['senderEmail'] ==
                                             currentUserEmail
                                         ? 'Vous: $lastMessageText'
                                         : lastMessageText,

@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:depanini/screens/client/client_chat_screen.dart';
-import 'package:depanini/screens/provider/provider_chat_screen.dart';
+// import 'package:depanini/screens/provider/provider_chat_screen.dart';
 import 'package:depanini/screens/provider/provider_home_screen.dart';
 import 'package:depanini/screens/provider/provider_profil_screen.dart';
 import 'package:flutter/material.dart';

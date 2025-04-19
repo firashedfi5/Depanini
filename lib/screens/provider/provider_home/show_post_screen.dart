@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:depanini/models/post_model.dart';
+import 'package:depanini/screens/common/chat_screen.dart';
 // import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -253,20 +254,21 @@ class ShowPostScreen extends StatelessWidget {
                                   color:
                                       Theme.of(context).colorScheme.onPrimary,
                                 ),
-                                onPressed: () {},
-                                // () => Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder:
-                                //         (context) => ChatScreen(
-                                //           receiverEmail:
-                                //               snapshot.data!.email,
-                                //           username: snapshot.data!.username,
-                                //           profilPictureUrl:
-                                //               snapshot.data!.profilPicture,
-                                //         ),
-                                //   ),
-                                // ),
+                                onPressed:
+                                    () => Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder:
+                                            (context) => ChatScreen(
+                                              receiverEmail:
+                                                  snapshot.data!.email,
+                                              receiverUsername:
+                                                  snapshot.data!.username,
+                                              receiverProfilPicture:
+                                                  snapshot.data!.profilPicture,
+                                            ),
+                                      ),
+                                    ),
                                 style: IconButton.styleFrom(
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(12),

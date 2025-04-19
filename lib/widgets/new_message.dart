@@ -75,15 +75,15 @@ class _NewMessageState extends State<NewMessage> {
         .doc(chatRoomId)
         .collection('messages')
         .add({
-          'text': enteredMessage,
           'createdAt': Timestamp.now(),
-          'userId': user.uid,
-          'senderUsername': senderUsername,
-          'senderEmail': senderEmail,
-          'senderProfilePicture': senderProfilePicture,
           'receiverEmail': widget.receiverEmail,
           'receiverProfilPicture': widget.receiverProfilPicture,
           'receiverUsername': widget.receiverUsername,
+          'senderEmail': senderEmail,
+          'senderProfilePicture': senderProfilePicture,
+          'senderUsername': senderUsername,
+          'text': enteredMessage,
+          'userId': user.uid,
         });
   }
 
@@ -97,6 +97,10 @@ class _NewMessageState extends State<NewMessage> {
           children: [
             Expanded(
               child: TextField(
+                maxLines: null, // Expands vertically as needed
+                keyboardType: TextInputType.multiline, // Allows multiline input
+                textInputAction:
+                    TextInputAction.newline, //  Allows "Enter" for a new line
                 controller: _messageController,
                 textCapitalization: TextCapitalization.sentences,
                 autocorrect: true,

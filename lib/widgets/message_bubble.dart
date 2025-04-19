@@ -1,4 +1,3 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 // A MessageBubble for showing a single chat message on the ChatScreen.
@@ -10,6 +9,7 @@ class MessageBubble extends StatelessWidget {
     required this.username,
     required this.message,
     required this.isMe,
+    required this.sendTime,
   }) : isFirstInSequence = true;
 
   // Create a amessage bubble that continues the sequence.
@@ -17,6 +17,7 @@ class MessageBubble extends StatelessWidget {
     super.key,
     required this.message,
     required this.isMe,
+    required this.sendTime,
   }) : isFirstInSequence = false,
        userImage = null,
        username = null;
@@ -36,6 +37,7 @@ class MessageBubble extends StatelessWidget {
   // Not required if the message is not the first in a sequence.
   final String? username;
   final String message;
+  final DateTime sendTime;
 
   // Controls how the MessageBubble will be aligned.
   final bool isMe;
@@ -122,6 +124,7 @@ class MessageBubble extends StatelessWidget {
                       horizontal: 12,
                     ),
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
                           message,
@@ -131,19 +134,12 @@ class MessageBubble extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             height: 1.3,
                           ),
-                          // TextStyle(
-                          //   // Add a little line spacing to make the text look nicer
-                          //   // when multilined.
-                          //   fontWeight: FontWeight.w500,
-                          //   height: 1.3,
-                          //   color:
-                          //       Theme.of(context).brightness == Brightness.dark
-                          //           ? Colors.white
-                          //           : Color(0xff1d1b20),
-                          // ),
                           softWrap: true,
                         ),
-                        // Text(Timestamp.now().toString()),
+                        Text(
+                          '${sendTime.hour.toString().padLeft(2, '0')}:${sendTime.minute.toString().padLeft(2, '0')}',
+                          style: Theme.of(context).textTheme.bodySmall,
+                        ),
                       ],
                     ),
                   ),
