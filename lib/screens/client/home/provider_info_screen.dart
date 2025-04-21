@@ -92,11 +92,6 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
 
   // ***********Feedback Method***************
   final _feedbackController = TextEditingController();
-  @override
-  void dispose() {
-    super.dispose();
-    _feedbackController.dispose();
-  }
 
   void _submitFeedback() async {
     final user = _auth.currentUser!;
@@ -124,6 +119,39 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
   }
 
   // *****************************************
+  final _reportController = TextEditingController();
+  void _submitReport() async {
+    final user = _auth.currentUser!;
+
+    final userDoc = await _firestore.collection("clients").doc(user.uid).get();
+    final userData = userDoc.data();
+    if (userData == null || !userData.containsKey('Nom d\'utilisateur')) {
+      throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
+    }
+    final username = userData['Nom d\'utilisateur'];
+
+    final feedbackRef = _firestore
+        .collection('prestataires')
+        .doc(widget.uid)
+        .collection('reports')
+        .doc(user.email);
+
+    await feedbackRef.set({
+      'date': Timestamp.now(),
+      'username': username,
+      'client_email': user.email,
+      'report': _reportController.text,
+    });
+    _reportController.clear();
+  }
+
+  // *****************************************
+  @override
+  void dispose() {
+    super.dispose();
+    _feedbackController.dispose();
+    _reportController.dispose();
+  }
 
   Future<List<FeedbackModel>> fetchFeedbacks() async {
     final user = _auth.currentUser!;
@@ -449,7 +477,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                           ),
                           const SizedBox(height: 16),
                           TextField(
-                            // controller: _reportController,
+                            controller: _reportController,
                             decoration: InputDecoration(
                               hintText: 'Décrivez le problème...',
                               border: OutlineInputBorder(),
@@ -459,7 +487,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                           ),
                           const SizedBox(height: 16),
                           FilledButton(
-                            onPressed: () {},
+                            onPressed: _submitReport,
                             child: const Text('Soumettre'),
                           ),
                         ],
