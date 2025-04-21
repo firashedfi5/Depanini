@@ -18,6 +18,7 @@ class ClientChatScreen extends StatelessWidget {
     return _firestore
         .collection('chat_rooms')
         .where('participants', arrayContains: currentUserEmail)
+        .orderBy('lastMessageTime', descending: true)
         .snapshots();
   }
 

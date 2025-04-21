@@ -68,6 +68,7 @@ class _NewMessageState extends State<NewMessage> {
 
     _firestore.collection('chat_rooms').doc(chatRoomId).set({
       'participants': emails,
+      'lastMessageTime': FieldValue.serverTimestamp(),
     });
 
     _firestore
