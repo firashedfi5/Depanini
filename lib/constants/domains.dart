@@ -1,3 +1,6 @@
+import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 enum Domains {
   plomberie,
   electricite,
@@ -60,6 +63,31 @@ extension DomainExtension on Domains {
         return 'assets/images/peinture.png';
       case Domains.enfants:
         return 'assets/images/garde_d\'enfants.png';
+    }
+  }
+
+  Widget get icon {
+    switch (this) {
+      case Domains.plomberie:
+        return const Icon(Icons.plumbing);
+      case Domains.electricite:
+        return const FaIcon(FontAwesomeIcons.plug);
+      case Domains.mecanique:
+        return const FaIcon(FontAwesomeIcons.wrench);
+      case Domains.informatique:
+        return const FaIcon(FontAwesomeIcons.computer);
+      case Domains.jardinage:
+        return const FaIcon(FontAwesomeIcons.seedling);
+      case Domains.climatisation:
+        return const FaIcon(FontAwesomeIcons.fan);
+      case Domains.menuiserie:
+        return const Icon(Icons.carpenter);
+      case Domains.chauffage:
+        return const FaIcon(FontAwesomeIcons.fire);
+      case Domains.peinture:
+        return const FaIcon(FontAwesomeIcons.paintRoller);
+      case Domains.enfants:
+        return const FaIcon(FontAwesomeIcons.children);
     }
   }
 }

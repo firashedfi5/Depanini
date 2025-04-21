@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 
-class ClientChatScreen extends StatelessWidget {
-  const ClientChatScreen({super.key});
+class ChatroomsScreen extends StatelessWidget {
+  const ChatroomsScreen({super.key});
 
   Stream<QuerySnapshot<Map<String, dynamic>>> _chatRoomsStream() {
     final currentUserEmail = _auth.currentUser?.email;

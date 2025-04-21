@@ -151,6 +151,8 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                               10,
                             ), // Rounded edges
                           ),
+                          avatar: _domains[index].icon,
+                          showCheckmark: false,
                           selectedColor:
                               Theme.of(context).colorScheme.secondary,
                           label: Text(_domains[index].name),

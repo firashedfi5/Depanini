@@ -1,5 +1,8 @@
+import 'dart:developer' as dev;
+
 import 'package:depanini/widgets/chat_messages.dart';
 import 'package:depanini/widgets/new_message.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 
 class ChatScreen extends StatefulWidget {
@@ -19,6 +22,24 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatScreenState extends State<ChatScreen> {
+  void setupPushNotifications() async {
+    final fcm = FirebaseMessaging.instance;
+
+    await fcm.requestPermission();
+
+    final token = await fcm.getToken();
+    dev.log(token.toString());
+
+    fcm.subscribeToTopic('chat');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    setupPushNotifications();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,38 +55,18 @@ class _ChatScreenState extends State<ChatScreen> {
           ],
         ),
       ),
-      body: Stack(
-        children: [
-          // Background image
-          // Positioned.fill(
-          //   child: Opacity(
-          //     opacity: 0.1,
-          //     child: Image.asset(
-          //       Theme.of(context).brightness == Brightness.dark
-          //           ? 'assets/images/chat_background_white.png'
-          //           : 'assets/images/chat_background_black.png',
-          //       fit: BoxFit.cover,
-          //     ),
-          //   ),
-          // ),
-
-          // Chat content
-          Padding(
-            padding: EdgeInsets.only(bottom: 10),
-            child: Column(
-              children: [
-                Expanded(
-                  child: ChatMessages(receiverEmail: widget.receiverEmail),
-                ),
-                NewMessage(
-                  receiverEmail: widget.receiverEmail,
-                  receiverProfilPicture: widget.receiverProfilPicture,
-                  receiverUsername: widget.receiverUsername,
-                ),
-              ],
+      body: Padding(
+        padding: EdgeInsets.only(bottom: 10),
+        child: Column(
+          children: [
+            Expanded(child: ChatMessages(receiverEmail: widget.receiverEmail)),
+            NewMessage(
+              receiverEmail: widget.receiverEmail,
+              receiverProfilPicture: widget.receiverProfilPicture,
+              receiverUsername: widget.receiverUsername,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

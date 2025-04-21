@@ -1,6 +1,6 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:depanini/screens/client/client_post_screen.dart';
-import 'package:depanini/screens/common/common_chat_screen.dart';
+import 'package:depanini/screens/common/chatrooms_screen.dart';
 import 'package:depanini/screens/client/client_home_screen.dart';
 import 'package:depanini/screens/client/client_profil_screen.dart';
 import 'package:depanini/screens/client/client_diy_screen.dart';
@@ -26,7 +26,7 @@ class _HomeState extends State<Home> {
     HomeScreen(),
     ClientDiyScreen(),
     ClientPostScreen(),
-    ClientChatScreen(),
+    ChatroomsScreen(),
     ProfilScreen(),
   ];
 
