@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:depanini/models/place.dart';
+
 class SignupModel {
   const SignupModel({
     this.userName,
@@ -8,6 +10,7 @@ class SignupModel {
     this.password,
     this.profilImage,
     this.role,
+    this.location,
   });
   final String? userName;
   final String? phoneNumber;
@@ -15,6 +18,7 @@ class SignupModel {
   final String? password;
   final File? profilImage;
   final String? role;
+  final PlaceLocation? location;
   // Method to copy state with new values
   SignupModel copyWith({
     String? userName,
@@ -23,6 +27,7 @@ class SignupModel {
     String? password,
     File? profilImage,
     String? role,
+    PlaceLocation? location,
   }) {
     return SignupModel(
       userName: userName ?? this.userName,
@@ -31,6 +36,7 @@ class SignupModel {
       password: password ?? this.password,
       profilImage: profilImage ?? this.profilImage,
       role: role ?? this.role,
+      location: location ?? this.location,
     );
   }
 }

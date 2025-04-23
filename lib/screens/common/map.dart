@@ -6,8 +6,8 @@ class MapScreen extends StatefulWidget {
   const MapScreen({
     super.key,
     this.location = const PlaceLocation(
-      latitude: 37.422,
-      longitude: -122.084,
+      latitude: 36.8065,
+      longitude: 10.1815,
       address: '',
     ),
     this.isSelecting = true,
@@ -28,7 +28,9 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.isSelecting ? 'Choisir votre localisation' : 'Ta localisation',
+          widget.isSelecting
+              ? 'Choisir votre position'
+              : 'Ta position actuelle',
         ),
         actions: [
           if (widget.isSelecting)
@@ -41,6 +43,7 @@ class _MapScreenState extends State<MapScreen> {
         ],
       ),
       body: GoogleMap(
+        mapType: MapType.hybrid,
         onTap:
             !widget.isSelecting
                 ? null
@@ -65,6 +68,10 @@ class _MapScreenState extends State<MapScreen> {
                           widget.location.latitude,
                           widget.location.longitude,
                         ),
+                    infoWindow: InfoWindow(
+                      title: 'Firas Hedfi', // 👈 your text
+                      snippet: 'Mécanique',
+                    ),
                   ),
                 },
       ),

@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/constants/domains.dart';
+import 'package:depanini/models/place.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/client/home/provider_info_screen.dart';
-import 'package:depanini/screens/common/localization_screen.dart';
 import 'package:depanini/screens/common/map.dart';
 import 'package:depanini/screens/common/notifications_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -118,6 +118,15 @@ class _HomeScreenState extends State<HomeScreen> {
                     final userData =
                         snapshot.data!.data() as Map<String, dynamic>;
 
+                    // final fullLocation = userData['Localisation'];
+                    // final parts = fullLocation.split(',');
+                    // final cleanedLocation =
+                    //     parts.length > 1
+                    //         ? fullLocation
+                    //             .substring(fullLocation.indexOf(',') + 1)
+                    //             .trim()
+                    //         : fullLocation;
+
                     return Column(
                       children: [
                         Row(
@@ -144,7 +153,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               onTap: () {
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
-                                    builder: (context) => MapScreen(),
+                                    builder:
+                                        (context) => MapScreen(
+                                          location: PlaceLocation(
+                                            address: userData['Localisation'],
+                                            latitude:
+                                                userData['Latitude&Longitude']
+                                                    .latitude,
+                                            longitude:
+                                                userData['Latitude&Longitude']
+                                                    .longitude,
+                                          ),
+                                          isSelecting: false,
+                                        ),
                                   ),
                                 );
                               },
@@ -175,12 +196,16 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       Icon(Icons.pin_drop_outlined, size: 17),
                                       SizedBox(width: 3),
-                                      Text(
-                                        'Tunis, Tunisie',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .titleSmall!
-                                            .copyWith(fontSize: 13),
+                                      SizedBox(
+                                        width: 230,
+                                        child: Text(
+                                          userData['Localisation'],
+                                          overflow: TextOverflow.ellipsis,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall!
+                                              .copyWith(fontSize: 12),
+                                        ),
                                       ),
                                     ],
                                   ),
@@ -193,8 +218,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    // builder: (context) => NotificationsScreen(),
-                                    builder: (context) => LocalizationScreen(),
+                                    builder: (context) => NotificationsScreen(),
                                   ),
                                 );
                               },

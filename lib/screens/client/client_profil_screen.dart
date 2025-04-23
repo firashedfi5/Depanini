@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/client/profil/client_account_screen.dart';
+import 'package:depanini/screens/common/change_location.dart';
 import 'package:depanini/screens/common/change_password_screen.dart';
 import 'package:depanini/theme/theme_provider.dart';
 import 'package:depanini/theme/themes.dart';
@@ -137,6 +138,30 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
                       children: [
                         Text(
                           'Changer le mot de passe',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
+                          ),
+                        ),
+                        Spacer(),
+                        Icon(Icons.arrow_forward_ios),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 7),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChangeLocation(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Text(
+                          'Changer votre adresse',
                           style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context).textTheme.bodyLarge!.color,

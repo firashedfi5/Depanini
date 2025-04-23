@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:depanini/models/place.dart';
 import 'package:depanini/models/signup_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,6 +28,10 @@ class UserInformationNotifier extends StateNotifier<SignupModel> {
 
   void updateRole(String role) {
     state = state.copyWith(role: role);
+  }
+
+  void updateLocation(PlaceLocation location) {
+    state = state.copyWith(location: location);
   }
 }
 

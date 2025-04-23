@@ -115,6 +115,11 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                         'Numéro de téléphone': userInfo.phoneNumber,
                         'Email': userInfo.email,
                         'Photo de profile': uploadedImageUrl,
+                        'Localisation': userInfo.location!.address,
+                        'Latitude&Longitude': GeoPoint(
+                          userInfo.location!.latitude,
+                          userInfo.location!.longitude,
+                        ),
                       });
                   // ********************************************
                   if (context.mounted) {
@@ -140,8 +145,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          backgroundColor:
-                              Color(0xffb3261e),
+                          backgroundColor: Color(0xffb3261e),
                         ),
                       );
                     }
@@ -159,8 +163,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          backgroundColor:
-                              Color(0xffb3261e),
+                          backgroundColor: Color(0xffb3261e),
                         ),
                       );
                     }

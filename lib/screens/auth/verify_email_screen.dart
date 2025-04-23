@@ -130,6 +130,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
               Text(
                 'Un email de vérification vous a été envoyé.',
                 style: Theme.of(context).textTheme.titleLarge,
+                textAlign: TextAlign.center,
               ),
               SizedBox(height: 50),
               ElevatedButton(
