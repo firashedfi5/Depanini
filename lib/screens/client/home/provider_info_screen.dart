@@ -154,7 +154,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
   }
 
   Future<List<FeedbackModel>> fetchFeedbacks() async {
-    final user = _auth.currentUser!;
+    // final user = _auth.currentUser!;
     final feedbackRef =
         await _firestore
             .collection('prestataires')
@@ -165,7 +165,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
     final snapshot =
         feedbackRef.docs
             .map((doc) => FeedbackModel.fromSnapshot(doc))
-            .where((feedback) => feedback.clientEmail != user.email)
+            // .where((feedback) => feedback.clientEmail != user.email)
             .toList();
 
     return snapshot;
