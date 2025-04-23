@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/constants/domains.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/client/home/provider_info_screen.dart';
+import 'package:depanini/screens/common/localization_screen.dart';
+import 'package:depanini/screens/common/map.dart';
 import 'package:depanini/screens/common/notifications_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -138,43 +140,52 @@ class _HomeScreenState extends State<HomeScreen> {
                                       : null,
                             ),
                             SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text.rich(
-                                  TextSpan(
-                                    text: 'Salut, ', // Normal text
-                                    style:
-                                        Theme.of(context)
-                                            .textTheme
-                                            .titleMedium, // Default style
-                                    children: [
-                                      TextSpan(
-                                        text:
-                                            userData['Nom d\'utilisateur'], // Bold text
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleMedium?.copyWith(
-                                          fontWeight: FontWeight.bold,
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => MapScreen(),
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                      text: 'Salut, ', // Normal text
+                                      style:
+                                          Theme.of(context)
+                                              .textTheme
+                                              .titleMedium, // Default style
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              userData['Nom d\'utilisateur'], // Bold text
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.titleMedium?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                         ),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
+                                    children: [
+                                      Icon(Icons.pin_drop_outlined, size: 17),
+                                      SizedBox(width: 3),
+                                      Text(
+                                        'Tunis, Tunisie',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .titleSmall!
+                                            .copyWith(fontSize: 13),
                                       ),
                                     ],
                                   ),
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(Icons.pin_drop_outlined, size: 17),
-                                    SizedBox(width: 3),
-                                    Text(
-                                      'Tunis, Tunisie',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall!
-                                          .copyWith(fontSize: 13),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             Spacer(),
                             IconButton(
@@ -182,7 +193,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => NotificationsScreen(),
+                                    // builder: (context) => NotificationsScreen(),
+                                    builder: (context) => LocalizationScreen(),
                                   ),
                                 );
                               },

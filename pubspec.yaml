@@ -56,6 +56,8 @@ dependencies:
   font_awesome_flutter: ^10.8.0
   flutter_rating_bar: ^4.0.1
   firebase_messaging: ^15.2.5
+  location: ^8.0.0
+  google_maps_flutter: ^2.12.1
 
 dev_dependencies:
   flutter_test:
@@ -109,6 +111,7 @@ flutter:
     - assets/images/chat_background_white.png
     - assets/images/chat_background_black.png
     - assets/images/default_avatar.png
+    - assets/images/location.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
