@@ -1,10 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:depanini/screens/common/change_location.dart';
-import 'package:depanini/screens/common/change_password_screen.dart';
-import 'package:depanini/screens/provider/profil/provider_account_screen.dart';
-import 'package:depanini/screens/provider/profil/provider_gallery.dart';
-import 'package:depanini/theme/theme_provider.dart';
-import 'package:depanini/theme/themes.dart';
+// import 'package:depanini/screens/common/change_location.dart';
+// import 'package:depanini/screens/common/change_password_screen.dart';
+// import 'package:depanini/screens/provider/profil/provider_account_screen.dart';
+// import 'package:depanini/screens/provider/profil/provider_gallery.dart';
+// import 'package:depanini/theme/theme_provider.dart';
+// import 'package:depanini/theme/themes.dart';
+import 'package:depanini/screens/provider/profil/provider_settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -51,7 +52,7 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = ref.watch(themeProvider);
+    // final themeData = ref.watch(themeProvider);
     return Scaffold(
       body: StreamBuilder<DocumentSnapshot>(
         stream: userStream,
@@ -98,7 +99,7 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 15),
+              SizedBox(height: 20),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -107,86 +108,16 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProviderAccountScreen(),
+                          builder: (context) => ProviderSettingsScreen(),
                         ),
                       );
                     },
                     child: Row(
                       children: [
+                        Icon(Icons.settings, size: 25),
+                        SizedBox(width: 10),
                         Text(
-                          'Modifier le profil',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                          ),
-                        ),
-                        Spacer(),
-                        Icon(Icons.arrow_forward_ios),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 7),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChangePasswordScreen(),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          'Changer le mot de passe',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                          ),
-                        ),
-                        Spacer(),
-                        Icon(Icons.arrow_forward_ios),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 7),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChangeLocation(),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          'Changer votre adresse',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                          ),
-                        ),
-                        Spacer(),
-                        Icon(Icons.arrow_forward_ios),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 7),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ProviderGallery(),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          'Mes prestations',
+                          'Paramètres',
                           style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context).textTheme.bodyLarge!.color,
@@ -202,6 +133,8 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                     onPressed: () {},
                     child: Row(
                       children: [
+                        Icon(Icons.headset_mic, size: 25),
+                        SizedBox(width: 10),
                         Text(
                           'Support',
                           style: TextStyle(
@@ -219,6 +152,8 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                     onPressed: () {},
                     child: Row(
                       children: [
+                        Icon(Icons.info, size: 25),
+                        SizedBox(width: 10),
                         Text(
                           'A propos de nous',
                           style: TextStyle(
@@ -231,29 +166,7 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 7),
-                  TextButton(
-                    onPressed: () {},
-                    child: Row(
-                      children: [
-                        Text(
-                          'Changer le thème',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                          ),
-                        ),
-                        Spacer(),
-                        Switch(
-                          value: themeData == darkTheme,
-                          onChanged: (bool value) {
-                            ref.read(themeProvider.notifier).toggleTheme();
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   TextButton.icon(
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
@@ -269,7 +182,7 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  SizedBox(height: 20),
                   Text(
                     'Suivez-nous',
                     style: Theme.of(context).textTheme.titleLarge,

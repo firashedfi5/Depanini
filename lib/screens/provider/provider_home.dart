@@ -3,6 +3,7 @@ import 'package:depanini/screens/common/chatrooms_screen.dart';
 // import 'package:depanini/screens/provider/provider_chat_screen.dart';
 import 'package:depanini/screens/provider/provider_home_screen.dart';
 import 'package:depanini/screens/provider/provider_profil_screen.dart';
+import 'package:depanini/screens/provider/provider_rdv_screen.dart';
 import 'package:flutter/material.dart';
 
 class ProviderHome extends StatefulWidget {
@@ -23,6 +24,7 @@ class _ProviderHomeState extends State<ProviderHome> {
 
   final List<Widget> _pages = [
     ProviderHomeScreen(),
+    ProviderRdvScreen(),
     ChatroomsScreen(),
     ProviderProfilScreen(),
   ];
@@ -38,9 +40,10 @@ class _ProviderHomeState extends State<ProviderHome> {
         animationDuration: Duration(milliseconds: 300),
         onTap: _navigateGoogleNavbar,
         items: [
-          Icon(Icons.home_outlined),
-          Icon(Icons.chat_outlined),
-          Icon(Icons.account_circle_outlined),
+          Icon(Icons.home),
+          Icon(Icons.calendar_month),
+          Icon(Icons.chat),
+          Icon(Icons.account_circle),
         ],
       ),
     );

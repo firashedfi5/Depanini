@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class ClientRdvScreen extends StatefulWidget {
-  const ClientRdvScreen({super.key});
+class ProviderRdvScreen extends StatefulWidget {
+  const ProviderRdvScreen({super.key});
 
   @override
-  State<ClientRdvScreen> createState() => _ClientRdvScreenState();
+  State<ProviderRdvScreen> createState() => _ProviderRdvScreenState();
 }
 
-class _ClientRdvScreenState extends State<ClientRdvScreen> {
+class _ProviderRdvScreenState extends State<ProviderRdvScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

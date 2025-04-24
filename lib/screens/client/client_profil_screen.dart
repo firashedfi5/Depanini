@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/client/client_diy_screen.dart';
-import 'package:depanini/screens/client/profil/settings_screen.dart';
+import 'package:depanini/screens/client/profil/client_settings_screen.dart';
 // import 'package:depanini/theme/theme_provider.dart';
 // import 'package:depanini/theme/themes.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -105,7 +105,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => SettingsScreen(),
+                          builder: (context) => ClientSettingsScreen(),
                         ),
                       );
                     },
