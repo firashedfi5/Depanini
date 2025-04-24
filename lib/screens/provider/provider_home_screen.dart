@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:depanini/models/place.dart';
 import 'package:depanini/models/post_model.dart';
+import 'package:depanini/screens/common/map.dart';
 import 'package:depanini/screens/common/notifications_screen.dart';
 import 'package:depanini/screens/provider/provider_home/show_post_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -164,43 +166,68 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                       : null,
                             ),
                             SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text.rich(
-                                  TextSpan(
-                                    text: 'Salut, ', // Normal text
-                                    style:
-                                        Theme.of(context)
-                                            .textTheme
-                                            .titleMedium, // Default style
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) => MapScreen(
+                                          location: PlaceLocation(
+                                            address: userData['Localisation'],
+                                            latitude:
+                                                userData['Latitude&Longitude']
+                                                    .latitude,
+                                            longitude:
+                                                userData['Latitude&Longitude']
+                                                    .longitude,
+                                          ),
+                                          isSelecting: false,
+                                        ),
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text.rich(
+                                    TextSpan(
+                                      text: 'Salut, ', // Normal text
+                                      style:
+                                          Theme.of(context)
+                                              .textTheme
+                                              .titleMedium, // Default style
+                                      children: [
+                                        TextSpan(
+                                          text:
+                                              userData['Nom d\'utilisateur'], // Bold text
+                                          style: Theme.of(
+                                            context,
+                                          ).textTheme.titleMedium?.copyWith(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  Row(
                                     children: [
-                                      TextSpan(
-                                        text:
-                                            userData['Nom d\'utilisateur'], // Bold text
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.titleMedium?.copyWith(
-                                          fontWeight: FontWeight.bold,
+                                      Icon(Icons.pin_drop_outlined, size: 17),
+                                      SizedBox(width: 3),
+                                      SizedBox(
+                                        width: 230,
+                                        child: Text(
+                                          userData['Localisation'],
+                                          overflow: TextOverflow.ellipsis,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .titleSmall!
+                                              .copyWith(fontSize: 13),
                                         ),
                                       ),
                                     ],
                                   ),
-                                ),
-                                Row(
-                                  children: [
-                                    Icon(Icons.pin_drop_outlined, size: 17),
-                                    SizedBox(width: 3),
-                                    Text(
-                                      'Tunis, Tunisie',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .titleSmall!
-                                          .copyWith(fontSize: 13),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                             Spacer(),
                             IconButton(
