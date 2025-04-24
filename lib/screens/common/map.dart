@@ -1,5 +1,6 @@
 import 'package:depanini/models/place.dart';
 import 'package:depanini/models/provider_account_model.dart';
+import 'package:depanini/screens/client/home/provider_info_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -90,6 +91,16 @@ class _MapScreenState extends State<MapScreen> {
                           BitmapDescriptor.hueBlue,
                         ),
                         infoWindow: InfoWindow(
+                          onTap:
+                              () => Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => ProviderInfoScreen(
+                                        email: widget.prestataireInfo[i].email,
+                                        uid: widget.prestataireInfo[i].uid,
+                                      ),
+                                ),
+                              ),
                           title: widget.prestataireInfo[i].username,
                           snippet: widget.prestataireInfo[i].domaine,
                         ),
