@@ -1,9 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:depanini/screens/client/client_post_screen.dart';
+import 'package:depanini/screens/client/client_rdv_screen.dart';
 import 'package:depanini/screens/common/chatrooms_screen.dart';
 import 'package:depanini/screens/client/client_home_screen.dart';
 import 'package:depanini/screens/client/client_profil_screen.dart';
-import 'package:depanini/screens/client/client_diy_screen.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -24,7 +24,7 @@ class _HomeState extends State<Home> {
 
   final List<Widget> _pages = [
     HomeScreen(),
-    ClientDiyScreen(),
+    ClientRdvScreen(),
     ClientPostScreen(),
     ChatroomsScreen(),
     ProfilScreen(),
@@ -41,11 +41,12 @@ class _HomeState extends State<Home> {
         animationDuration: Duration(milliseconds: 300),
         onTap: _navigateGoogleNavbar,
         items: [
-          Icon(Icons.home_outlined),
-          Icon(Icons.tips_and_updates_outlined),
-          Icon(Icons.post_add_outlined),
-          Icon(Icons.chat_outlined),
-          Icon(Icons.account_circle_outlined),
+          Icon(Icons.home),
+          Icon(Icons.calendar_month),
+          // Icon(Icons.tips_and_updates),
+          Icon(Icons.post_add),
+          Icon(Icons.chat),
+          Icon(Icons.account_circle),
         ],
       ),
     );

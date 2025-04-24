@@ -161,6 +161,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                     await _foundedUsers; // Await the current list
                                 final prestataireLocations =
                                     extractPrestataireLocations(prestataires);
+
+                                if (!context.mounted) return;
+
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder:
