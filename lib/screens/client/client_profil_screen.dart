@@ -1,12 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:depanini/screens/client/profil/client_account_screen.dart';
-import 'package:depanini/screens/common/change_location.dart';
-import 'package:depanini/screens/common/change_password_screen.dart';
-import 'package:depanini/theme/theme_provider.dart';
-import 'package:depanini/theme/themes.dart';
+import 'package:depanini/screens/client/client_diy_screen.dart';
+import 'package:depanini/screens/client/profil/settings_screen.dart';
+// import 'package:depanini/theme/theme_provider.dart';
+// import 'package:depanini/theme/themes.dart';
+// import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer' as dev;
@@ -14,14 +13,14 @@ import 'dart:developer' as dev;
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class ProfilScreen extends ConsumerStatefulWidget {
+class ProfilScreen extends StatefulWidget {
   const ProfilScreen({super.key});
 
   @override
-  ConsumerState<ProfilScreen> createState() => _ProfilScreenState();
+  State<ProfilScreen> createState() => _ProfilScreenState();
 }
 
-class _ProfilScreenState extends ConsumerState<ProfilScreen> {
+class _ProfilScreenState extends State<ProfilScreen> {
   // *********Social Media*****************
   Future<void> openSocial({
     required String appName,
@@ -48,7 +47,7 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final themeData = ref.watch(themeProvider);
+    // final themeData = ref.watch(themeProvider);
     return Scaffold(
       body: StreamBuilder<DocumentSnapshot>(
         stream: userStream,
@@ -106,14 +105,16 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => AccountScreen(),
+                          builder: (context) => SettingsScreen(),
                         ),
                       );
                     },
                     child: Row(
                       children: [
+                        Icon(Icons.settings, size: 25),
+                        SizedBox(width: 10),
                         Text(
-                          'Modifier le profil',
+                          'Paramètres',
                           style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context).textTheme.bodyLarge!.color,
@@ -130,38 +131,16 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ChangePasswordScreen(),
+                          builder: (context) => ClientDiyScreen(),
                         ),
                       );
                     },
                     child: Row(
                       children: [
+                        Icon(Icons.tips_and_updates, size: 25),
+                        SizedBox(width: 10),
                         Text(
-                          'Changer le mot de passe',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                          ),
-                        ),
-                        Spacer(),
-                        Icon(Icons.arrow_forward_ios),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 7),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ChangeLocation(),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      children: [
-                        Text(
-                          'Changer votre adresse',
+                          'Astuces de bricolages',
                           style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context).textTheme.bodyLarge!.color,
@@ -177,6 +156,8 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
                     onPressed: () {},
                     child: Row(
                       children: [
+                        Icon(Icons.headset_mic, size: 25),
+                        SizedBox(width: 10),
                         Text(
                           'Support',
                           style: TextStyle(
@@ -194,6 +175,8 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
                     onPressed: () {},
                     child: Row(
                       children: [
+                        Icon(Icons.info, size: 25),
+                        SizedBox(width: 10),
                         Text(
                           'A propos de nous',
                           style: TextStyle(
@@ -203,28 +186,6 @@ class _ProfilScreenState extends ConsumerState<ProfilScreen> {
                         ),
                         Spacer(),
                         Icon(Icons.arrow_forward_ios),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 7),
-                  TextButton(
-                    onPressed: () {},
-                    child: Row(
-                      children: [
-                        Text(
-                          'Changer le thème',
-                          style: TextStyle(
-                            fontSize: 20,
-                            color: Theme.of(context).textTheme.bodyLarge!.color,
-                          ),
-                        ),
-                        Spacer(),
-                        Switch(
-                          value: themeData == darkTheme,
-                          onChanged: (bool value) {
-                            ref.read(themeProvider.notifier).toggleTheme();
-                          },
-                        ),
                       ],
                     ),
                   ),

@@ -43,7 +43,6 @@ class _HomeState extends State<Home> {
         items: [
           Icon(Icons.home),
           Icon(Icons.calendar_month),
-          // Icon(Icons.tips_and_updates),
           Icon(Icons.post_add),
           Icon(Icons.chat),
           Icon(Icons.account_circle),
