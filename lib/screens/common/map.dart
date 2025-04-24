@@ -69,7 +69,7 @@ class _MapScreenState extends State<MapScreen> {
                           widget.location.longitude,
                         ),
                     infoWindow: InfoWindow(
-                      title: 'Firas Hedfi', // 👈 your text
+                      title: 'Firas Hedfi',
                       snippet: 'Mécanique',
                     ),
                   ),

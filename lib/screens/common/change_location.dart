@@ -57,13 +57,13 @@ class _ChangeLocationState extends ConsumerState<ChangeLocation> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 170),
+          SizedBox(height: 150),
           LocationInput(
             onSelectLocation: (location) {
               _selectedLocation = location;
             },
           ),
-          SizedBox(height: 80),
+          SizedBox(height: 50),
           ElevatedButton(onPressed: _submit, child: Text('Enregistrer')),
         ],
       ),
