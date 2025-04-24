@@ -74,15 +74,11 @@ class _MapScreenState extends State<MapScreen> {
                           widget.location.latitude,
                           widget.location.longitude,
                         ),
-                    // infoWindow: InfoWindow(
-                    //   title: 'Firas Hedfi',
-                    //   snippet: 'Client',
-                    // ),
                   ),
                   if (widget.prestataireLocations.isNotEmpty)
                     for (int i = 0; i < widget.prestataireLocations.length; i++)
                       Marker(
-                        markerId: const MarkerId('m2'),
+                        markerId: MarkerId('m${i.toString()}'),
                         position: LatLng(
                           widget.prestataireLocations[i].latitude,
                           widget.prestataireLocations[i].longitude,
