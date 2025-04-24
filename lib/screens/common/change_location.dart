@@ -6,6 +6,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final _auth = FirebaseAuth.instance;
+
 class ChangeLocation extends ConsumerStatefulWidget {
   const ChangeLocation({super.key});
 
@@ -17,22 +20,7 @@ class _ChangeLocationState extends ConsumerState<ChangeLocation> {
   PlaceLocation? _selectedLocation;
 
   void _submit() async {
-    if (_selectedLocation != null) {
-      final userInfo = FirebaseAuth.instance.currentUser;
-      await FirebaseFirestore.instance
-          .collection('clients')
-          .doc(userInfo!.uid)
-          .update({
-            'Localisation': _selectedLocation!.address,
-            'Latitude&Longitude': GeoPoint(
-              _selectedLocation!.latitude,
-              _selectedLocation!.longitude,
-            ),
-          });
-      if (mounted) {
-        Navigator.of(context).pop();
-      }
-    } else {
+    if (_selectedLocation == null) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -47,6 +35,42 @@ class _ChangeLocationState extends ConsumerState<ChangeLocation> {
           behavior: SnackBarBehavior.floating,
         ),
       );
+      return;
+    }
+
+    final user = _auth.currentUser;
+    if (user == null) return;
+
+    final uid = user.uid;
+
+    // Try finding the user in the 'clients' collection
+    final clientDoc = await _firestore.collection('clients').doc(uid).get();
+
+    String? collectionToUpdate;
+
+    if (clientDoc.exists) {
+      collectionToUpdate = 'clients';
+    } else {
+      // If not found in clients, try in prestataires
+      final prestataireDoc =
+          await _firestore.collection('prestataires').doc(uid).get();
+      if (prestataireDoc.exists) {
+        collectionToUpdate = 'prestataires';
+      }
+    }
+
+    if (collectionToUpdate != null) {
+      await _firestore.collection(collectionToUpdate).doc(uid).update({
+        'Localisation': _selectedLocation!.address,
+        'Latitude&Longitude': GeoPoint(
+          _selectedLocation!.latitude,
+          _selectedLocation!.longitude,
+        ),
+      });
+
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
     }
   }
 
