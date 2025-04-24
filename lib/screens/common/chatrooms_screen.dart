@@ -206,17 +206,17 @@ class ChatroomsScreen extends StatelessWidget {
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
                                   ),
-                                  if (lastMessageTime != null)
-                                    Text(
-                                      '${lastMessageTime.hour.toString().padLeft(2, '0')}:${lastMessageTime.minute.toString().padLeft(2, '0')}',
-                                      style: const TextStyle(
-                                        color: Colors.grey,
-                                        fontSize: 12,
-                                      ),
-                                    ),
                                 ],
                               ),
                             ),
+                            if (lastMessageTime != null)
+                              Text(
+                                '${lastMessageTime.hour.toString().padLeft(2, '0')}:${lastMessageTime.minute.toString().padLeft(2, '0')}',
+                                style: const TextStyle(
+                                  color: Colors.grey,
+                                  fontSize: 12,
+                                ),
+                              ),
                           ],
                         ),
                       ),
