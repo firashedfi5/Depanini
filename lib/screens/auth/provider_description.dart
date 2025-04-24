@@ -175,6 +175,11 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
             'Photo de travail n°3': uploadedProviderImageUrl_3,
             'Photo de travail n°4': uploadedProviderImageUrl_4,
             'averageRating': 0,
+            'Localisation': userInfo.location!.address,
+            'Latitude&Longitude': GeoPoint(
+              userInfo.location!.latitude,
+              userInfo.location!.longitude,
+            ),
           });
       // ************************************
       if (mounted) {
