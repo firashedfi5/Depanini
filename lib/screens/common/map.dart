@@ -1,4 +1,5 @@
 import 'package:depanini/models/place.dart';
+import 'package:depanini/models/provider_account_model.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -11,11 +12,13 @@ class MapScreen extends StatefulWidget {
       address: '',
     ),
     this.prestataireLocations = const [],
+    this.prestataireInfo = const [],
     this.isSelecting = true,
   });
 
   final PlaceLocation location;
   final List<PlaceLocation> prestataireLocations;
+  final List<ProviderAccountModel> prestataireInfo;
   final bool isSelecting;
 
   @override
@@ -70,10 +73,10 @@ class _MapScreenState extends State<MapScreen> {
                           widget.location.latitude,
                           widget.location.longitude,
                         ),
-                    infoWindow: InfoWindow(
-                      title: 'Firas Hedfi',
-                      snippet: 'Client',
-                    ),
+                    // infoWindow: InfoWindow(
+                    //   title: 'Firas Hedfi',
+                    //   snippet: 'Client',
+                    // ),
                   ),
                   if (widget.prestataireLocations.isNotEmpty)
                     for (int i = 0; i < widget.prestataireLocations.length; i++)
@@ -87,8 +90,8 @@ class _MapScreenState extends State<MapScreen> {
                           BitmapDescriptor.hueBlue,
                         ),
                         infoWindow: InfoWindow(
-                          title: 'Sam Altman',
-                          snippet: 'Informatique',
+                          title: widget.prestataireInfo[i].username,
+                          snippet: widget.prestataireInfo[i].domaine,
                         ),
                       ),
                 },

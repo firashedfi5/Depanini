@@ -177,6 +177,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           isSelecting: false,
                                           prestataireLocations:
                                               prestataireLocations,
+                                          prestataireInfo: prestataires,
                                         ),
                                   ),
                                 );
