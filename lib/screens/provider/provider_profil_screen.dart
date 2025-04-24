@@ -98,7 +98,7 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -253,7 +253,7 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   TextButton.icon(
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
@@ -269,7 +269,7 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   Text(
                     'Suivez-nous',
                     style: Theme.of(context).textTheme.titleLarge,
