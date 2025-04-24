@@ -16,6 +16,9 @@ class ProviderAccountModel {
     this.workPicture_2,
     this.workPicture_3,
     this.workPicture_4,
+    required this.localisation,
+    required this.latitude,
+    required this.longitude,
   });
 
   final String uid;
@@ -32,6 +35,9 @@ class ProviderAccountModel {
   final String? workPicture_3;
   final String? workPicture_4;
   final double averageRating;
+  final String localisation;
+  final double latitude;
+  final double longitude;
 
   factory ProviderAccountModel.fromSnapshot(
     DocumentSnapshot<Map<String, dynamic>> document,
@@ -40,6 +46,7 @@ class ProviderAccountModel {
     if (data == null) {
       throw Exception('Document data is null');
     }
+    final geoPoint = data['Latitude&Longitude'] as GeoPoint;
 
     return ProviderAccountModel(
       uid: data['Uid'],
@@ -56,6 +63,9 @@ class ProviderAccountModel {
       workPicture_3: data['Photo de travail n°3'],
       workPicture_4: data['Photo de travail n°4'],
       averageRating: (data['averageRating'] ?? 0).toDouble(),
+      localisation: data['Localisation'] ?? '',
+      latitude: geoPoint.latitude,
+      longitude: geoPoint.longitude,
     );
   }
 }

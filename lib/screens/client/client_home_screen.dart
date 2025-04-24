@@ -87,6 +87,21 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // ***********Search************************
 
+  // **********Prestataires Localisation*************
+  List<PlaceLocation> extractPrestataireLocations(
+    List<ProviderAccountModel> providers,
+  ) {
+    return providers.map((provider) {
+      return PlaceLocation(
+        address: provider.localisation,
+        latitude: provider.latitude,
+        longitude: provider.longitude,
+      );
+    }).toList();
+  }
+
+  // **********Prestataires Localisation*************
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -118,15 +133,6 @@ class _HomeScreenState extends State<HomeScreen> {
                     final userData =
                         snapshot.data!.data() as Map<String, dynamic>;
 
-                    // final fullLocation = userData['Localisation'];
-                    // final parts = fullLocation.split(',');
-                    // final cleanedLocation =
-                    //     parts.length > 1
-                    //         ? fullLocation
-                    //             .substring(fullLocation.indexOf(',') + 1)
-                    //             .trim()
-                    //         : fullLocation;
-
                     return Column(
                       children: [
                         Row(
@@ -150,7 +156,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             SizedBox(width: 10),
                             InkWell(
-                              onTap: () {
+                              onTap: () async {
+                                final prestataires =
+                                    await _foundedUsers; // Await the current list
+                                final prestataireLocations =
+                                    extractPrestataireLocations(prestataires);
                                 Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder:
@@ -165,6 +175,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     .longitude,
                                           ),
                                           isSelecting: false,
+                                          prestataireLocations:
+                                              prestataireLocations,
                                         ),
                                   ),
                                 );

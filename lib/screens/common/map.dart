@@ -10,10 +10,12 @@ class MapScreen extends StatefulWidget {
       longitude: 10.1815,
       address: '',
     ),
+    this.prestataireLocations = const [],
     this.isSelecting = true,
   });
 
   final PlaceLocation location;
+  final List<PlaceLocation> prestataireLocations;
   final bool isSelecting;
 
   @override
@@ -70,9 +72,25 @@ class _MapScreenState extends State<MapScreen> {
                         ),
                     infoWindow: InfoWindow(
                       title: 'Firas Hedfi',
-                      snippet: 'Mécanique',
+                      snippet: 'Client',
                     ),
                   ),
+                  if (widget.prestataireLocations.isNotEmpty)
+                    for (int i = 0; i < widget.prestataireLocations.length; i++)
+                      Marker(
+                        markerId: const MarkerId('m2'),
+                        position: LatLng(
+                          widget.prestataireLocations[i].latitude,
+                          widget.prestataireLocations[i].longitude,
+                        ),
+                        icon: BitmapDescriptor.defaultMarkerWithHue(
+                          BitmapDescriptor.hueBlue,
+                        ),
+                        infoWindow: InfoWindow(
+                          title: 'Sam Altman',
+                          snippet: 'Informatique',
+                        ),
+                      ),
                 },
       ),
     );
