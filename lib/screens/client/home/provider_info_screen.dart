@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/feedback_model.dart';
 import 'package:depanini/models/provider_account_model.dart';
+import 'package:depanini/screens/client/rdv/schedule_appointment_screen.dart';
 import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:depanini/widgets/feedback.dart';
 import 'package:depanini/widgets/image_container.dart';
@@ -304,44 +305,56 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                   const SizedBox(height: 20),
 
                   // Action Buttons
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  Column(
                     children: [
-                      FilledButton.icon(
-                        style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 16,
-                          ),
-                        ),
-                        icon: const Icon(Icons.call, size: 20),
-                        label: const Text('Appeler'),
-                        onPressed:
-                            () => _makePhoneCall(
-                              '+216${snapshot.data!.phoneNumber}',
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          FilledButton.icon(
+                            style: FilledButton.styleFrom(
+                              fixedSize: Size(130, 35),
                             ),
-                      ),
-                      const SizedBox(width: 16),
-                      FilledButton.icon(
-                        style: FilledButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 24,
-                            vertical: 16,
+                            icon: const Icon(Icons.call, size: 20),
+                            label: const Text('Appeler'),
+                            onPressed:
+                                () => _makePhoneCall(
+                                  '+216${snapshot.data!.phoneNumber}',
+                                ),
                           ),
-                        ),
-                        icon: const Icon(Icons.message, size: 20),
-                        label: const Text('Message'),
+                          const SizedBox(width: 16),
+                          FilledButton.icon(
+                            style: FilledButton.styleFrom(
+                              fixedSize: Size(130, 35),
+                            ),
+                            icon: const Icon(Icons.message, size: 20),
+                            label: const Text('Message'),
+                            onPressed:
+                                () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder:
+                                        (context) => ChatScreen(
+                                          receiverEmail: snapshot.data!.email,
+                                          receiverUsername:
+                                              snapshot.data!.username,
+                                          receiverProfilPicture:
+                                              snapshot.data!.profilPicture,
+                                        ),
+                                  ),
+                                ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      FilledButton.icon(
+                        style: FilledButton.styleFrom(fixedSize: Size(130, 35)),
+                        icon: const Icon(Icons.calendar_month, size: 20),
+                        label: const Text('Réserver'),
                         onPressed:
-                            () => Navigator.push(
-                              context,
+                            () => Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder:
-                                    (context) => ChatScreen(
-                                      receiverEmail: snapshot.data!.email,
-                                      receiverUsername: snapshot.data!.username,
-                                      receiverProfilPicture:
-                                          snapshot.data!.profilPicture,
-                                    ),
+                                    (context) => ScheduleAppointmentScreen(),
                               ),
                             ),
                       ),
