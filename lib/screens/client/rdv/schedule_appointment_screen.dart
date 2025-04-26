@@ -1,9 +1,8 @@
 import 'dart:developer' as dev;
 
-import 'package:depanini/widgets/custom_time_radio_button.dart';
-import 'package:depanini/widgets/date_time_picker.dart';
+import 'package:depanini/widgets/time_picker.dart';
+import 'package:depanini/widgets/date_picker.dart';
 import 'package:flutter/material.dart';
-// import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 class ScheduleAppointmentScreen extends StatefulWidget {
@@ -16,8 +15,9 @@ class ScheduleAppointmentScreen extends StatefulWidget {
 
 class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
   void _submit() {
-    if (_selectedDate != null && selectedTime != null) {
-      dev.log('$selectedTime\n${formatter.format(_selectedDate!)}');
+    if (_selectedDate != null && _selectedTime != null) {
+      dev.log(formatter.format(_selectedDate!));
+      dev.log(_selectedTime!);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -35,9 +35,8 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
     }
   }
 
-  List<String> time = ["09:00", "10:00", "11:00", "15:00", "16:00", "17:00"];
   int selected = -1;
-  String? selectedTime;
+  String? _selectedTime;
 
   DateTime? _selectedDate;
   final formatter = DateFormat.yMd('fr_FR');
@@ -57,38 +56,15 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               DatePickerWidget(
-                onDateSelected: (DateTime selected) {
-                  _selectedDate = selected;
+                onDateSelected: (selectedDate) {
+                  _selectedDate = selectedDate;
                 },
               ),
               SizedBox(height: 20),
-              SizedBox(
-                height: 60,
-                child: ListView.separated(
-                  separatorBuilder: (_, _) => SizedBox(width: 10),
-                  scrollDirection: Axis.horizontal,
-                  itemCount: time.length,
-                  itemBuilder:
-                      (context, index) => CustomTimeRadioButton(
-                        borderSide: true,
-                        index: index,
-                        label: time[index],
-                        selectedIndex: selected,
-                        onPressed: () {
-                          setState(() {
-                            if (selected == index) {
-                              selected = -1;
-                              selectedTime = null;
-                            } else {
-                              selected = index;
-                              selectedTime = time[index];
-                            }
-                            dev.log(selected.toString());
-                            dev.log(selectedTime ?? 'null');
-                          });
-                        },
-                      ),
-                ),
+              TimePicker(
+                onTimeSelected: (selectedTime) {
+                  _selectedTime = selectedTime;
+                },
               ),
               ElevatedButton(onPressed: _submit, child: Text('Confirmer')),
             ],

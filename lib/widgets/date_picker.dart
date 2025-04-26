@@ -70,10 +70,21 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
                 children: [
                   Text(
                     DateFormat('E', 'fr_FR').format(date).toUpperCase(),
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 18,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.normal,
+                    ),
                   ),
                   const SizedBox(height: 4),
-                  Text(date.day.toString(), style: TextStyle(fontSize: 18)),
+                  Text(
+                    date.day.toString(),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: 18,
+                      fontWeight:
+                          isSelected ? FontWeight.bold : FontWeight.normal,
+                    ),
+                  ),
                 ],
               ),
             ),
