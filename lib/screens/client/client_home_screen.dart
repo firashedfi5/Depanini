@@ -5,6 +5,7 @@ import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/client/home/provider_info_screen.dart';
 import 'package:depanini/screens/common/map.dart';
 import 'package:depanini/screens/common/notifications_screen.dart';
+import 'package:depanini/widgets/custom_radio_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/data/word_to_field.dart';
@@ -285,10 +286,24 @@ class _HomeScreenState extends State<HomeScreen> {
                           scrollDirection: Axis.horizontal,
                           itemCount: _domains.length,
                           itemBuilder: (context, index) {
-                            return customRadioButton(
+                            return CustomRadioButton(
+                              borderSide: false,
                               label: _domains[index].name,
                               index: index,
                               image: _domains[index].image,
+                              selectedIndex: selected,
+                              onPressed: () {
+                                setState(() {
+                                  if (selected == index) {
+                                    selected = -1;
+                                    searchUsers('');
+                                  } else {
+                                    selected = index;
+                                    searchUsers(_domains[index].name);
+                                  }
+                                  dev.log(selected.toString());
+                                });
+                              },
                             );
                           },
                         ),
@@ -470,50 +485,50 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget customRadioButton({
-    required String label,
-    required String image,
-    required int index,
-  }) {
-    return OutlinedButton(
-      style: OutlinedButton.styleFrom(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        side: BorderSide.none,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        backgroundColor:
-            selected == index
-                ? Theme.of(context).colorScheme.secondaryContainer
-                : Colors.transparent,
-      ),
-      onPressed: () {
-        setState(() {
-          // Toggle selection: if already selected, unselect (set to null or -1)
-          if (selected == index) {
-            selected = -1; // or `null` if your selected variable is nullable
-            searchUsers('');
-          } else {
-            selected = index;
-            searchUsers(_domains[index].name); // Only search on selection
-          }
-          dev.log(selected.toString());
-        });
-      },
-      child: Column(
-        children: [
-          CircleAvatar(
-            radius: 25,
-            foregroundImage: image.isNotEmpty ? AssetImage(image) : null,
-            backgroundColor: Colors.transparent,
-          ),
-          SizedBox(height: 5),
-          Text(
-            label,
-            style: Theme.of(
-              context,
-            ).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
+  // Widget customRadioButton({
+  //   required String label,
+  //   required String image,
+  //   required int index,
+  // }) {
+  //   return OutlinedButton(
+  //     style: OutlinedButton.styleFrom(
+  //       padding: EdgeInsets.symmetric(horizontal: 10),
+  //       side: BorderSide.none,
+  //       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+  //       backgroundColor:
+  //           selected == index
+  //               ? Theme.of(context).colorScheme.secondaryContainer
+  //               : Colors.transparent,
+  //     ),
+  //     onPressed: () {
+  //       setState(() {
+  //         // Toggle selection: if already selected, unselect (set to null or -1)
+  //         if (selected == index) {
+  //           selected = -1; // or `null` if your selected variable is nullable
+  //           searchUsers('');
+  //         } else {
+  //           selected = index;
+  //           searchUsers(_domains[index].name); // Only search on selection
+  //         }
+  //         dev.log(selected.toString());
+  //       });
+  //     },
+  //     child: Column(
+  //       children: [
+  //         CircleAvatar(
+  //           radius: 25,
+  //           foregroundImage: image.isNotEmpty ? AssetImage(image) : null,
+  //           backgroundColor: Colors.transparent,
+  //         ),
+  //         SizedBox(height: 5),
+  //         Text(
+  //           label,
+  //           style: Theme.of(
+  //             context,
+  //           ).textTheme.bodySmall!.copyWith(fontWeight: FontWeight.bold),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 }
