@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class CustomTimeRadioButton extends StatelessWidget {
   final String label;
-  // final String image;
   final int index;
   final int selectedIndex;
   final VoidCallback onPressed;
@@ -11,7 +10,6 @@ class CustomTimeRadioButton extends StatelessWidget {
   const CustomTimeRadioButton({
     super.key,
     required this.label,
-    // required this.image,
     required this.index,
     required this.selectedIndex,
     required this.onPressed,
@@ -25,10 +23,7 @@ class CustomTimeRadioButton extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 10),
         side:
             borderSide == true
-                ? BorderSide(
-                  color: Theme.of(context).colorScheme.primary,
-                  width: 1,
-                )
+                ? BorderSide(color: Theme.of(context).colorScheme.primary)
                 : BorderSide.none,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         backgroundColor:
