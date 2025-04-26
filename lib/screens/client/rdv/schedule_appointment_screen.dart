@@ -19,7 +19,19 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
     if (_selectedDate != null && selectedTime != null) {
       dev.log('$selectedTime\n${formatter.format(_selectedDate!)}');
     } else {
-      dev.log('Veuillez sélectionner une date et une heure.');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Veuillez sélectionner une date et une heure.',
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          backgroundColor: Color(0xffb3261e),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     }
   }
 
@@ -45,10 +57,8 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               DatePickerWidget(
-                initialSelectedDate: DateTime.now(),
                 onDateSelected: (DateTime selected) {
                   _selectedDate = selected;
-                  // dev.log('Selected date: $selected');
                 },
               ),
               SizedBox(height: 20),
@@ -63,7 +73,6 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                         borderSide: true,
                         index: index,
                         label: time[index],
-                        // image: "",
                         selectedIndex: selected,
                         onPressed: () {
                           setState(() {

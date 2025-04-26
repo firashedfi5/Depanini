@@ -3,13 +3,11 @@ import 'package:intl/intl.dart';
 
 class DatePickerWidget extends StatefulWidget {
   final Function(DateTime) onDateSelected;
-  final DateTime? initialSelectedDate;
   final int daysCount;
 
   const DatePickerWidget({
     super.key,
     required this.onDateSelected,
-    this.initialSelectedDate,
     this.daysCount = 7,
   });
 
@@ -25,7 +23,6 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   void initState() {
     super.initState();
     _initializeDates();
-    _selectedDate = widget.initialSelectedDate;
   }
 
   void _initializeDates() {
