@@ -52,7 +52,6 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
           children: [
             SizedBox(height: 20),
             SizedBox(
-              // height: 150,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,7 +60,6 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                     'Choisir la date',
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   SizedBox(height: 12),
@@ -85,7 +83,6 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                     'Choisir l\'heure',
                     style: Theme.of(context).textTheme.headlineSmall!.copyWith(
                       fontWeight: FontWeight.w500,
-                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   SizedBox(height: 12),
