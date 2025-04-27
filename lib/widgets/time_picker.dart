@@ -23,10 +23,15 @@ class _TimePickerState extends State<TimePicker> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        separatorBuilder: (_, __) => const SizedBox(width: 10),
+      height: 150,
+      child: GridView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          childAspectRatio: 1.5,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 15,
+        ),
         itemCount: time.length,
         itemBuilder: (context, index) {
           final isSelected = _selectedIndex == index;

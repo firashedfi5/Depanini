@@ -35,10 +35,15 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
-      child: ListView.separated(
-        separatorBuilder: (_, _) => SizedBox(width: 10),
-        scrollDirection: Axis.horizontal,
+      height: 150,
+      child: GridView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 4,
+          childAspectRatio: 1.5,
+          crossAxisSpacing: 15,
+          mainAxisSpacing: 15,
+        ),
         itemCount: _dates.length,
         itemBuilder: (context, index) {
           final date = _dates[index];

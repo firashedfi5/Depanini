@@ -44,14 +44,15 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Prendre un RDV')),
+      appBar: AppBar(title: Text('Détails de réservation')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
+            SizedBox(height: 20),
             SizedBox(
-              height: 150,
+              // height: 150,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,8 +74,9 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
               ),
             ),
 
+            SizedBox(height: 20),
+
             SizedBox(
-              height: 150,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -96,9 +98,11 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
               ),
             ),
 
-            SizedBox(height: 200),
-
-            ElevatedButton(onPressed: _submit, child: Text('Confirmer le RDV')),
+            SizedBox(height: 100),
+            ElevatedButton(
+              onPressed: _submit,
+              child: Text('Confirmer la réservation'),
+            ),
           ],
         ),
       ),
