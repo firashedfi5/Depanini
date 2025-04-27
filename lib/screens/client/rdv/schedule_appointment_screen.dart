@@ -47,28 +47,59 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
       appBar: AppBar(title: Text('Prendre un RDV')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                'Choisir le date et temps',
-                style: Theme.of(context).textTheme.headlineMedium,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SizedBox(
+              height: 150,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Choisir la date',
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  SizedBox(height: 12),
+                  DatePickerWidget(
+                    onDateSelected: (selectedDate) {
+                      _selectedDate = selectedDate;
+                    },
+                  ),
+                ],
               ),
-              DatePickerWidget(
-                onDateSelected: (selectedDate) {
-                  _selectedDate = selectedDate;
-                },
+            ),
+
+            SizedBox(
+              height: 150,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Choisir l\'heure',
+                    style: Theme.of(context).textTheme.headlineSmall!.copyWith(
+                      fontWeight: FontWeight.w500,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                  SizedBox(height: 12),
+                  TimePicker(
+                    onTimeSelected: (selectedTime) {
+                      _selectedTime = selectedTime;
+                    },
+                  ),
+                ],
               ),
-              SizedBox(height: 20),
-              TimePicker(
-                onTimeSelected: (selectedTime) {
-                  _selectedTime = selectedTime;
-                },
-              ),
-              ElevatedButton(onPressed: _submit, child: Text('Confirmer')),
-            ],
-          ),
+            ),
+
+            SizedBox(height: 200),
+
+            ElevatedButton(onPressed: _submit, child: Text('Confirmer le RDV')),
+          ],
         ),
       ),
     );

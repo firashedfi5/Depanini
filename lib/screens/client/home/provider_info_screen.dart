@@ -311,9 +311,6 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           FilledButton.icon(
-                            style: FilledButton.styleFrom(
-                              fixedSize: Size(130, 35),
-                            ),
                             icon: const Icon(Icons.call, size: 20),
                             label: const Text('Appeler'),
                             onPressed:
@@ -323,9 +320,6 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                           ),
                           const SizedBox(width: 16),
                           FilledButton.icon(
-                            style: FilledButton.styleFrom(
-                              fixedSize: Size(130, 35),
-                            ),
                             icon: const Icon(Icons.message, size: 20),
                             label: const Text('Message'),
                             onPressed:
@@ -347,7 +341,6 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                       ),
                       SizedBox(height: 10),
                       FilledButton.icon(
-                        style: FilledButton.styleFrom(fixedSize: Size(130, 35)),
                         icon: const Icon(Icons.calendar_month, size: 20),
                         label: const Text('Réserver'),
                         onPressed:
