@@ -1,9 +1,14 @@
+import 'dart:convert';
 import 'dart:developer' as dev;
 
 import 'package:depanini/widgets/time_picker.dart';
 import 'package:depanini/widgets/date_picker.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
+
+final _auth = FirebaseAuth.instance;
 
 class ScheduleAppointmentScreen extends StatefulWidget {
   const ScheduleAppointmentScreen({super.key});
@@ -14,10 +19,36 @@ class ScheduleAppointmentScreen extends StatefulWidget {
 }
 
 class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
-  void _submit() {
+  int selected = -1;
+  String? _selectedTime;
+
+  DateTime? _selectedDate;
+  final formatter = DateFormat.yMd('fr_FR');
+
+  void _submit() async {
     if (_selectedDate != null && _selectedTime != null) {
       dev.log(formatter.format(_selectedDate!));
       dev.log(_selectedTime!);
+
+      // *********************************
+      final url = Uri.http(
+        '10.0.2.2:3300',
+        'ajouter-rdv',
+      ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
+      await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: json.encode({
+          'client_uid': _auth.currentUser!.uid,
+          'prestataire_uid': '',
+          'client_username': '',
+          'prestataire_username': '',
+          'service': '',
+          'date': DateFormat('yyyy-MM-dd').format(_selectedDate!),
+          'heure': _selectedTime!,
+        }),
+      ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
+      // *********************************
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -34,12 +65,6 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
       );
     }
   }
-
-  int selected = -1;
-  String? _selectedTime;
-
-  DateTime? _selectedDate;
-  final formatter = DateFormat.yMd('fr_FR');
 
   @override
   Widget build(BuildContext context) {
