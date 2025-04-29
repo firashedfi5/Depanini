@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/widgets/time_picker.dart';
 import 'package:depanini/widgets/date_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -9,9 +10,19 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 final _auth = FirebaseAuth.instance;
+final _firestore = FirebaseFirestore.instance;
 
 class ScheduleAppointmentScreen extends StatefulWidget {
-  const ScheduleAppointmentScreen({super.key});
+  final String prestataireUid;
+  final String prestataireUsername;
+  final String service;
+
+  const ScheduleAppointmentScreen({
+    super.key,
+    required this.prestataireUid,
+    required this.prestataireUsername,
+    required this.service,
+  });
 
   @override
   State<ScheduleAppointmentScreen> createState() =>
@@ -29,7 +40,16 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
     if (_selectedDate != null && _selectedTime != null) {
       dev.log(formatter.format(_selectedDate!));
       dev.log(_selectedTime!);
-
+      // *********************************
+      if (mounted) {
+        Navigator.of(context).pop();
+      }
+      // *********************************
+      final user = _auth.currentUser!;
+      final userDoc =
+          await _firestore.collection("clients").doc(user.uid).get();
+      final userData = userDoc.data();
+      final clientUsername = userData!['Nom d\'utilisateur'];
       // *********************************
       final url = Uri.http(
         '10.0.2.2:3300',
@@ -40,10 +60,10 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
         headers: {'Content-Type': 'application/json'},
         body: json.encode({
           'client_uid': _auth.currentUser!.uid,
-          'prestataire_uid': '',
-          'client_username': '',
-          'prestataire_username': '',
-          'service': '',
+          'prestataire_uid': widget.prestataireUid,
+          'client_username': clientUsername,
+          'prestataire_username': widget.prestataireUsername,
+          'service': widget.service,
           'date': DateFormat('yyyy-MM-dd').format(_selectedDate!),
           'heure': _selectedTime!,
         }),

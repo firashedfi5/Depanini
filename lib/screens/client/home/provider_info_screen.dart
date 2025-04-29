@@ -347,7 +347,12 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             () => Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder:
-                                    (context) => ScheduleAppointmentScreen(),
+                                    (context) => ScheduleAppointmentScreen(
+                                      prestataireUid: snapshot.data!.uid,
+                                      prestataireUsername:
+                                          snapshot.data!.username,
+                                      service: snapshot.data!.domaine,
+                                    ),
                               ),
                             ),
                       ),

@@ -62,6 +62,11 @@ class _NewPostScreenState extends State<NewPostScreen> {
   void _savePost() async {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
+      // if (mounted) {
+      //   dev.log(Navigator.of(context).canPop().toString());
+      //   Navigator.of(context).pop(true);
+      // }
+      // *************************************
       _formKey.currentState!.save();
       // *************************************
       // Upload service images if they exist
@@ -124,10 +129,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
           'imageURL_4': uploadedPostImageUrl_4,
         }),
       );
-      if (mounted) {
-        dev.log(Navigator.of(context).canPop().toString());
-        Navigator.of(context).pop();
-      }
     }
   }
 
