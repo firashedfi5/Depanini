@@ -29,27 +29,29 @@ ThemeData lightTheme = ThemeData(
     scrim: Color(0xff000000),
   ),
   textTheme: const TextTheme(
-    displayLarge: TextStyle(
-      fontFamily: 'Roboto',
-      fontSize: 57,
-      fontWeight: FontWeight.w400,
-      letterSpacing: -0.25,
-      color: Color(0xff1d1b20),
-    ),
-    // Add other text styles similarly
     bodyLarge: TextStyle(
-      fontFamily: 'Roboto',
       fontSize: 16,
       fontWeight: FontWeight.w400,
-      letterSpacing: 0.5,
       color: Color(0xdd000000),
-    ),
-    labelLarge: TextStyle(
       fontFamily: 'Roboto',
+    ),
+    bodyMedium: TextStyle(
       fontSize: 14,
-      fontWeight: FontWeight.w500,
-      letterSpacing: 1.25,
+      fontWeight: FontWeight.w400,
       color: Color(0xdd000000),
+      fontFamily: 'Roboto',
+    ),
+    titleLarge: TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w500,
+      color: Color(0xdd000000),
+      fontFamily: 'Roboto',
+    ),
+    headlineSmall: TextStyle(
+      fontSize: 24,
+      fontWeight: FontWeight.w400,
+      color: Color(0xdd000000),
+      fontFamily: 'Roboto',
     ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
@@ -124,21 +126,18 @@ ThemeData darkTheme = ThemeData(
       fontWeight: FontWeight.w400,
       color: Colors.white,
       fontFamily: 'Roboto',
-      letterSpacing: 0.5,
     ),
     bodyMedium: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w400,
       color: Colors.white,
       fontFamily: 'Roboto',
-      letterSpacing: 0.25,
     ),
     titleLarge: TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.w500,
       color: Colors.white,
       fontFamily: 'Roboto',
-      letterSpacing: 0.15,
     ),
     headlineSmall: TextStyle(
       fontSize: 24,
