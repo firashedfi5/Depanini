@@ -111,7 +111,7 @@ class ClientSettingsScreen extends ConsumerWidget {
                     value: themeData == darkTheme,
                     onChanged: (bool value) {
                       ref.read(themeProvider.notifier).toggleTheme();
-                      Navigator.of(context).pop();
+                      // Navigator.of(context).pop();
                     },
                   ),
                 ],

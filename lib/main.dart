@@ -9,46 +9,49 @@ import 'firebase_options.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-import 'package:depanini/theme/themes.dart';
+// import 'package:depanini/theme/themes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await initializeDateFormatting('fr_FR', null);
-
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
   runApp(
-    ProviderScope(child: MyApp(lightTheme: lightTheme, darkTheme: darkTheme)),
+    const ProviderScope(child: MyApp()),
   );
 }
 
 class MyApp extends ConsumerWidget {
-  final ThemeData lightTheme;
-  final ThemeData darkTheme;
-  const MyApp({super.key, required this.lightTheme, required this.darkTheme});
+  const MyApp({super.key});
 
   @override
-  Widget build(context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final themeData = ref.watch(themeProvider);
     return MaterialApp(
       theme: themeData,
+      home: const AuthWrapper(),
+    );
+  }
+}
 
-      // debugShowCheckedModeBanner: false,
-      // darkTheme: darkTheme,
-      home: StreamBuilder(
-        stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (contexte, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const SplashScreen();
-          }
-          if (snapshot.hasData) {
-            return const VerifyEmailScreen();
-          } else {
-            return const SigninScreen();
-          }
-        },
-      ),
-      // themeMode: ThemeMode.system,
+class AuthWrapper extends StatelessWidget {
+  const AuthWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const SplashScreen();
+        }
+        if (snapshot.hasData) {
+          return const VerifyEmailScreen();
+        } else {
+          return const SigninScreen();
+        }
+      },
     );
   }
 }

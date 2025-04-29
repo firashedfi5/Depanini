@@ -15,7 +15,9 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
       body: SafeArea(
         top: false,
         bottom: false,
-        child: Builder(builder: (context) => CustomScrollView(
+        child: Builder(
+          builder:
+              (context) => CustomScrollView(
                 slivers: [
                   SliverOverlapInjector(
                     handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
@@ -31,16 +33,24 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                         return SizedBox(
                           height: 50,
                           child: Card(
-                            color: Colors.blueAccent,
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .surfaceContainerHighest
+                                        .withAlpha(120)
+                                    : Theme.of(
+                                      context,
+                                    ).colorScheme.surfaceContainerHighest,
                             child: Text('Item ${index + 1}'),
                           ),
                         );
-                      }, childCount: 5),
+                      }, childCount: 20),
                     ),
                   ),
                 ],
-              ) ,)
-        ,
+              ),
+        ),
       ),
     );
   }
