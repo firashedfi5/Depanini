@@ -120,6 +120,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                           userInfo.location!.latitude,
                           userInfo.location!.longitude,
                         ),
+                        'Uid': userCredential.user!.uid,
                       });
                   // ********************************************
                   if (context.mounted) {
