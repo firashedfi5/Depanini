@@ -1,6 +1,7 @@
 import 'package:depanini/screens/client/rdv/client_cancelled_appointment.dart';
 import 'package:depanini/screens/client/rdv/client_completed_appointment.dart';
 import 'package:depanini/screens/client/rdv/client_incoming_appointment.dart';
+import 'package:depanini/screens/client/rdv/client_pending_appointment.dart';
 import 'package:flutter/material.dart';
 
 class ClientRdvScreen extends StatefulWidget {
@@ -14,7 +15,7 @@ class _ClientRdvScreenState extends State<ClientRdvScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 4,
       child: Scaffold(
         body: NestedScrollView(
           floatHeaderSlivers: true,
@@ -41,6 +42,7 @@ class _ClientRdvScreenState extends State<ClientRdvScreen> {
                           Tab(text: 'À venir'),
                           Tab(text: 'Terminé'),
                           Tab(text: 'Annulé'),
+                          Tab(text: 'En attente'),
                         ],
                       ),
                     ),
@@ -54,6 +56,8 @@ class _ClientRdvScreenState extends State<ClientRdvScreen> {
               ClientCompletedAppointment(),
 
               ClientCancelledAppointment(),
+
+              ClientPendingAppointment(),
             ],
           ),
         ),
