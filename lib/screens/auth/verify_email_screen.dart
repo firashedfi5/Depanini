@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:depanini/screens/admin/admin_home_screen.dart';
+import 'package:depanini/screens/admin/admin_home.dart';
 import 'package:depanini/screens/client/home.dart';
 import 'package:depanini/screens/provider/provider_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -168,7 +168,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
             case 'provider':
               return const ProviderHome();
             case 'admin':
-              return const AdminHomeScreen();
+              return const AdminHome();
             case 'client':
               return const Home();
             default:
