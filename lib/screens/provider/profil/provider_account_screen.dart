@@ -171,41 +171,6 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
                             },
                           ),
                         ),
-                        // SizedBox(height: 20),
-                        // SizedBox(
-                        //   width: 350,
-                        //   child: DropdownButtonFormField<Domains>(
-                        //     decoration: InputDecoration(
-                        //       prefixIcon: Icon(Icons.domain_outlined),
-                        //       labelText: 'Domaine',
-                        //     ),
-                        //     value: _domains.firstWhere(
-                        //       (domain) =>
-                        //           domain.name == snapshot.data!['Domaine'],
-                        //     ),
-                        //     items:
-                        //         _domains.map((domain) {
-                        //           return DropdownMenuItem(
-                        //             value: domain,
-                        //             child: Text(domain.name),
-                        //           );
-                        //         }).toList(),
-                        //     onChanged: (value) {
-                        //       setState(() {
-                        //         _selectedDomain = value;
-                        //       });
-                        //     },
-                        //     validator: (value) {
-                        //       if (value == null) {
-                        //         return 'Veuillez sélectionner un service';
-                        //       }
-                        //       return null;
-                        //     },
-                        //     onSaved: (newValue) {
-                        //       _enteredDomaine = newValue!;
-                        //     },
-                        //   ),
-                        // ),
                         SizedBox(height: 20),
                         SizedBox(
                           width: 350,

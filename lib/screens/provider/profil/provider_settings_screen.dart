@@ -138,7 +138,6 @@ class ProviderSettingsScreen extends ConsumerWidget {
                     value: themeData == darkTheme,
                     onChanged: (bool value) {
                       ref.read(themeProvider.notifier).toggleTheme();
-                      Navigator.of(context).pop();
                     },
                   ),
                 ],
