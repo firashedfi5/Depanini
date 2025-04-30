@@ -85,7 +85,7 @@ class _ProviderIncomingAppointmentState
                             index,
                           ) {
                             return Card(
-                              color: Colors.orange.withValues(alpha: 0.7),
+                              color: Colors.orange.withValues(alpha: 0.2),
                               child: Column(
                                 children: [
                                   Text(items[index].clientUsername),
