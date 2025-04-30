@@ -124,10 +124,17 @@ class _ProviderPendingAppointmentState
                                           children: [
                                             Text(
                                               items[index].clientUsername,
-                                              style:
-                                                  Theme.of(
-                                                    context,
-                                                  ).textTheme.titleMedium,
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            Text(
+                                              items[index].service,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -176,7 +183,7 @@ class _ProviderPendingAppointmentState
                                               backgroundColor: Colors
                                                   .red
                                                   .shade200
-                                                  .withAlpha(20),
+                                                  .withAlpha(50),
                                             ),
                                             label: Text(
                                               'Annulé',
@@ -205,7 +212,7 @@ class _ProviderPendingAppointmentState
                                               backgroundColor: Colors
                                                   .green
                                                   .shade200
-                                                  .withAlpha(20),
+                                                  .withAlpha(50),
                                             ),
                                             label: Text(
                                               'Accepter',

@@ -88,18 +88,108 @@ class _ProviderIncomingAppointmentState
                             index,
                           ) {
                             return Card(
-                              color: Colors.orange.withValues(alpha: 0.2),
-                              child: Column(
-                                children: [
-                                  Text(items[index].clientUsername),
-                                  Text(items[index].service),
-                                  Text(
-                                    DateFormat(
-                                      'dd/MM/yyyy',
-                                    ).format(items[index].date),
-                                  ),
-                                  Text(items[index].heure),
-                                ],
+                              elevation: 2,
+                              color:
+                                  Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Theme.of(context)
+                                          .colorScheme
+                                          .surfaceContainerHighest
+                                          .withAlpha(100)
+                                      : Theme.of(
+                                        context,
+                                      ).colorScheme.surfaceContainerHighest,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 24,
+                                          backgroundImage:
+                                              items[index]
+                                                      .clientProfilePicture
+                                                      .isNotEmpty
+                                                  ? NetworkImage(
+                                                    items[index]
+                                                        .clientProfilePicture,
+                                                  )
+                                                  : null,
+                                          child:
+                                              items[index]
+                                                      .clientProfilePicture
+                                                      .isEmpty
+                                                  ? const Icon(
+                                                    Icons.person,
+                                                    color: Colors.white,
+                                                  )
+                                                  : null,
+                                        ),
+                                        const SizedBox(width: 16),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              items[index].clientUsername,
+                                              style: const TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                            Text(
+                                              items[index].service,
+                                              style: TextStyle(
+                                                color: Colors.grey[600],
+                                                fontSize: 14,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Spacer(),
+                                        Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: BoxDecoration(
+                                            color: Colors.green.shade100
+                                                .withAlpha(50),
+                                            borderRadius: BorderRadius.circular(
+                                              16,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'Confirmé',
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.titleMedium!.copyWith(
+                                              color: Colors.green.shade500,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 16),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        _InfoChip(
+                                          icon: Icons.calendar_today,
+                                          text: DateFormat(
+                                            'dd MMM yyyy',
+                                          ).format(items[index].date),
+                                        ),
+                                        const SizedBox(width: 30),
+                                        _InfoChip(
+                                          icon: Icons.access_time,
+                                          text: items[index].heure,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 12),
+                                  ],
+                                ),
                               ),
                             );
                           }, childCount: items.length),
@@ -111,6 +201,24 @@ class _ProviderIncomingAppointmentState
               ),
         ),
       ),
+    );
+  }
+}
+
+class _InfoChip extends StatelessWidget {
+  final IconData icon;
+  final String text;
+
+  const _InfoChip({required this.icon, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
+        SizedBox(width: 6),
+        Text(text, style: Theme.of(context).textTheme.bodyMedium),
+      ],
     );
   }
 }
