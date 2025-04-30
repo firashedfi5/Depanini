@@ -178,7 +178,7 @@ class _ProviderCancelledAppointmentState
                                         _InfoChip(
                                           icon: Icons.calendar_today,
                                           text: DateFormat(
-                                            'dd MMM yyyy',
+                                            'dd/MM/yyyy',
                                           ).format(items[index].date),
                                         ),
                                         const SizedBox(width: 30),
