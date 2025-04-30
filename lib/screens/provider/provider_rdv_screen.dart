@@ -1,7 +1,7 @@
 import 'package:depanini/screens/client/rdv/client_cancelled_appointment.dart';
 import 'package:depanini/screens/client/rdv/client_completed_appointment.dart';
 import 'package:depanini/screens/client/rdv/client_incoming_appointment.dart';
-import 'package:depanini/screens/client/rdv/client_pending_appointment.dart';
+import 'package:depanini/screens/provider/rdv/provider_pending_appointment.dart';
 import 'package:flutter/material.dart';
 
 class ProviderRdvScreen extends StatefulWidget {
@@ -57,7 +57,7 @@ class _ProviderRdvScreenState extends State<ProviderRdvScreen> {
 
               ClientCancelledAppointment(),
 
-              ClientPendingAppointment(),
+              ProviderPendingAppointment(),
             ],
           ),
         ),
