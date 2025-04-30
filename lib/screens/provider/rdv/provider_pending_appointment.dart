@@ -24,7 +24,7 @@ class _ProviderPendingAppointmentState
         .collection('rdvs')
         .where('prestataire_uid', isEqualTo: _auth.currentUser!.uid)
         .where('status', isEqualTo: 'en_attente')
-        .orderBy('createdAt', descending: true) // Note: use correct field name
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map(
           (snapshot) =>
@@ -86,56 +86,138 @@ class _ProviderPendingAppointmentState
                             index,
                           ) {
                             return Card(
-                              color: Colors.grey.withValues(alpha: 0.5),
-                              child: Column(
-                                children: [
-                                  Text(items[index].clientUsername),
-                                  Text(
-                                    DateFormat(
-                                      'dd/MM/yyyy',
-                                    ).format(items[index].date),
-                                  ),
-                                  Text(items[index].heure),
+                              elevation: 2,
+                              color:
+                                  Theme.of(context).brightness ==
+                                          Brightness.dark
+                                      ? Theme.of(context)
+                                          .colorScheme
+                                          .surfaceContainerHighest
+                                          .withAlpha(100)
+                                      : Theme.of(
+                                        context,
+                                      ).colorScheme.surfaceContainerHighest,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Column(
+                                  children: [
+                                    Row(
+                                      children: [
+                                        CircleAvatar(
+                                          radius: 30,
+                                          backgroundColor: Colors.blue.shade50,
+                                          child: Icon(
+                                            Icons.person,
+                                            color: Colors.blue.shade800,
+                                          ),
+                                        ),
+                                        SizedBox(width: 12),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              items[index].clientUsername,
+                                              style:
+                                                  Theme.of(
+                                                    context,
+                                                  ).textTheme.titleMedium,
+                                            ),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
 
-                                  Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: [
-                                      SizedBox(
-                                        width: 130,
-                                        child: IconButton(
-                                          onPressed:
-                                              () => _firestore
-                                                  .collection("rdvs")
-                                                  .doc(items[index].id)
-                                                  .update({'status': 'annulé'}),
-                                          icon: FaIcon(
-                                            FontAwesomeIcons.xmark,
-                                            color: Colors.red,
-                                            size: 30,
+                                    SizedBox(height: 10),
+
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        _InfoChip(
+                                          icon: Icons.calendar_today,
+                                          text: DateFormat(
+                                            'dd/MM/yyyy',
+                                          ).format(items[index].date),
+                                        ),
+                                        SizedBox(width: 30),
+                                        _InfoChip(
+                                          icon: Icons.access_time,
+                                          text: items[index].heure,
+                                        ),
+                                      ],
+                                    ),
+
+                                    SizedBox(height: 10),
+                                    Divider(height: 1),
+                                    SizedBox(height: 10),
+
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          width: 150,
+                                          child: FilledButton.icon(
+                                            onPressed:
+                                                () => _firestore
+                                                    .collection("rdvs")
+                                                    .doc(items[index].id)
+                                                    .update({
+                                                      'status': 'annulé',
+                                                    }),
+                                            style: FilledButton.styleFrom(
+                                              backgroundColor: Colors
+                                                  .red
+                                                  .shade200
+                                                  .withAlpha(20),
+                                            ),
+                                            label: Text(
+                                              'Annulé',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.xmark,
+                                              color: Colors.red,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        width: 130,
-                                        child: IconButton(
-                                          onPressed:
-                                              () => _firestore
-                                                  .collection("rdvs")
-                                                  .doc(items[index].id)
-                                                  .update({
-                                                    'status': 'confirmé',
-                                                  }),
-                                          icon: FaIcon(
-                                            FontAwesomeIcons.check,
-                                            color: Colors.green,
-                                            size: 30,
+                                        SizedBox(
+                                          width: 150,
+                                          child: FilledButton.icon(
+                                            onPressed:
+                                                () => _firestore
+                                                    .collection("rdvs")
+                                                    .doc(items[index].id)
+                                                    .update({
+                                                      'status': 'confirmé',
+                                                    }),
+                                            style: FilledButton.styleFrom(
+                                              backgroundColor: Colors
+                                                  .green
+                                                  .shade200
+                                                  .withAlpha(20),
+                                            ),
+                                            label: Text(
+                                              'Accepter',
+                                              style: TextStyle(
+                                                color: Colors.green,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.check,
+                                              color: Colors.green,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             );
                           }, childCount: items.length),
@@ -147,6 +229,24 @@ class _ProviderPendingAppointmentState
               ),
         ),
       ),
+    );
+  }
+}
+
+class _InfoChip extends StatelessWidget {
+  final IconData icon;
+  final String text;
+
+  const _InfoChip({required this.icon, required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
+        SizedBox(width: 6),
+        Text(text, style: Theme.of(context).textTheme.bodyMedium),
+      ],
     );
   }
 }
