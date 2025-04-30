@@ -13,12 +13,14 @@ final _firestore = FirebaseFirestore.instance;
 class ScheduleAppointmentScreen extends StatefulWidget {
   final String prestataireUid;
   final String prestataireUsername;
+  final String prestataireProfilePicture;
   final String service;
 
   const ScheduleAppointmentScreen({
     super.key,
     required this.prestataireUid,
     required this.prestataireUsername,
+    required this.prestataireProfilePicture,
     required this.service,
   });
 
@@ -48,12 +50,15 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
           await _firestore.collection("clients").doc(user.uid).get();
       final userData = userDoc.data();
       final clientUsername = userData!['Nom d\'utilisateur'];
+      final clientProfilePicture = userData['Photo de profile'];
       // *********************************
       _firestore.collection("rdvs").add({
         'client_uid': _auth.currentUser!.uid,
         'prestataire_uid': widget.prestataireUid,
         'client_username': clientUsername,
+        'client_profile_picture': clientProfilePicture,
         'prestataire_username': widget.prestataireUsername,
+        'prestataire_profile_picture': widget.prestataireProfilePicture,
         'service': widget.service,
         'date': Timestamp.fromDate(
           DateTime(

@@ -351,6 +351,8 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                       prestataireUid: snapshot.data!.uid,
                                       prestataireUsername:
                                           snapshot.data!.username,
+                                      prestataireProfilePicture:
+                                          snapshot.data!.profilPicture,
                                       service: snapshot.data!.domaine,
                                     ),
                               ),

@@ -33,8 +33,11 @@ class _ProviderCompletedAppointmentState
                   id: doc.id,
                   clientUid: data['client_uid'],
                   clientUsername: data['client_username'],
+                  clientProfilePicture: data['client_profile_picture'],
                   prestataireUid: data['prestataire_uid'],
                   prestataireUsername: data['prestataire_username'],
+                  prestataireProfilePicture:
+                      data['prestataire_profile_picture'],
                   service: data['service'],
                   date: (data['date'] as Timestamp).toDate(),
                   heure: data['heure'],
