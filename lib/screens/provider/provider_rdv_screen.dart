@@ -1,6 +1,6 @@
-import 'package:depanini/screens/client/rdv/client_cancelled_appointment.dart';
-import 'package:depanini/screens/client/rdv/client_completed_appointment.dart';
-import 'package:depanini/screens/client/rdv/client_incoming_appointment.dart';
+import 'package:depanini/screens/provider/rdv/provider_cancelled_appointment.dart';
+import 'package:depanini/screens/provider/rdv/provider_completed_appointment.dart';
+import 'package:depanini/screens/provider/rdv/provider_incoming_appointment.dart';
 import 'package:depanini/screens/provider/rdv/provider_pending_appointment.dart';
 import 'package:flutter/material.dart';
 
@@ -51,11 +51,11 @@ class _ProviderRdvScreenState extends State<ProviderRdvScreen> {
               ],
           body: TabBarView(
             children: [
-              ClientIncomingAppointment(),
+              ProviderIncomingAppointment(),
 
-              ClientCompletedAppointment(),
+              ProviderCompletedAppointment(),
 
-              ClientCancelledAppointment(),
+              ProviderCancelledAppointment(),
 
               ProviderPendingAppointment(),
             ],

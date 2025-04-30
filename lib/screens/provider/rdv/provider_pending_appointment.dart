@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/rdv_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 final _auth = FirebaseAuth.instance;
@@ -85,7 +86,7 @@ class _ProviderPendingAppointmentState
                             index,
                           ) {
                             return Card(
-                              color: Colors.grey.withValues(alpha: 0.7),
+                              color: Colors.grey.withValues(alpha: 0.5),
                               child: Column(
                                 children: [
                                   Text(items[index].clientUsername),
@@ -95,6 +96,45 @@ class _ProviderPendingAppointmentState
                                     ).format(items[index].date),
                                   ),
                                   Text(items[index].heure),
+
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      SizedBox(
+                                        width: 130,
+                                        child: IconButton(
+                                          onPressed:
+                                              () => _firestore
+                                                  .collection("rdvs")
+                                                  .doc(items[index].id)
+                                                  .update({'status': 'annulé'}),
+                                          icon: FaIcon(
+                                            FontAwesomeIcons.xmark,
+                                            color: Colors.red,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 130,
+                                        child: IconButton(
+                                          onPressed:
+                                              () => _firestore
+                                                  .collection("rdvs")
+                                                  .doc(items[index].id)
+                                                  .update({
+                                                    'status': 'confirmé',
+                                                  }),
+                                          icon: FaIcon(
+                                            FontAwesomeIcons.check,
+                                            color: Colors.green,
+                                            size: 30,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ],
                               ),
                             );

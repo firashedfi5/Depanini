@@ -7,16 +7,16 @@ import 'package:intl/intl.dart';
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
-class ClientCancelledAppointment extends StatefulWidget {
-  const ClientCancelledAppointment({super.key});
+class ProviderCancelledAppointment extends StatefulWidget {
+  const ProviderCancelledAppointment({super.key});
 
   @override
-  State<ClientCancelledAppointment> createState() =>
-      _ClientCancelledAppointmentState();
+  State<ProviderCancelledAppointment> createState() =>
+      _ProviderCancelledAppointmentState();
 }
 
-class _ClientCancelledAppointmentState
-    extends State<ClientCancelledAppointment> {
+class _ProviderCancelledAppointmentState
+    extends State<ProviderCancelledAppointment> {
   // *******************************
   Stream<List<RdvModel>> getCancelledRdvsStream() {
     return _firestore
