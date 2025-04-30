@@ -33,24 +33,6 @@ class _ChatScreenState extends State<ChatScreen> {
     fcm.subscribeToTopic('chat');
   }
 
-  // void handleMessage(RemoteMessage? message) {
-  //   if (message == null) {
-  //     return;
-  //   }
-
-  //   Navigator.push(
-  //     context,
-  //     MaterialPageRoute(
-  //       builder:
-  //           (context) => ChatScreen(
-  //             receiverUsername: receiverUsername,
-  //             receiverProfilPicture: receiverProfilPicture,
-  //             receiverEmail: receiverEmail,
-  //           ),
-  //     ),
-  //   );
-  // }
-
   @override
   void initState() {
     super.initState();
