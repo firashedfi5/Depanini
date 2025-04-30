@@ -1,12 +1,11 @@
-import 'dart:convert';
-import 'dart:developer' as dev;
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/rdv_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 
 final _auth = FirebaseAuth.instance;
+final _firestore = FirebaseFirestore.instance;
 
 class ClientCancelledAppointment extends StatefulWidget {
   const ClientCancelledAppointment({super.key});
@@ -18,47 +17,30 @@ class ClientCancelledAppointment extends StatefulWidget {
 
 class _ClientCancelledAppointmentState
     extends State<ClientCancelledAppointment> {
-  @override
-  void initState() {
-    super.initState();
-    _loadRdvs();
-  }
-
   // *******************************
-  Future<List<RdvModel>> _loadRdvs() async {
-    final url = Uri.http(
-      '10.0.2.2:3300',
-      'rdvs/${_auth.currentUser!.uid}/annulé',
-    ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
-
-    final response = await http.get(url);
-
-    if (response.statusCode >= 400) {
-      throw Exception(
-        'Echec de récupération des données. Veuillez réessayer plus tard.',
-      );
-    }
-
-    dev.log(response.statusCode.toString());
-
-    // Decode the JSON response correctly as a List
-    final List<dynamic> listData = json.decode(response.body);
-
-    final List<RdvModel> loadedRdvs =
-        listData.map((rdv) {
-          return RdvModel(
-            id: rdv["id"],
-            clientUid: rdv["client_uid"],
-            prestataireUid: rdv["prestataire_uid"],
-            clientUsername: rdv["client_username"],
-            prestataireUsername: rdv["prestataire_username"],
-            service: rdv["service"],
-            date: rdv["date"],
-            heure: rdv["heure"],
-          );
-        }).toList();
-
-    return loadedRdvs;
+  Stream<List<RdvModel>> getCancelledRdvsStream() {
+    return _firestore
+        .collection('rdvs')
+        .where('client_uid', isEqualTo: _auth.currentUser!.uid)
+        .where('status', isEqualTo: 'annulé')
+        .orderBy('createdAt', descending: true) // Note: use correct field name
+        .snapshots()
+        .map(
+          (snapshot) =>
+              snapshot.docs.map((doc) {
+                final data = doc.data();
+                return RdvModel(
+                  id: doc.id,
+                  clientUid: data['client_uid'],
+                  clientUsername: data['client_username'],
+                  prestataireUid: data['prestataire_uid'],
+                  prestataireUsername: data['prestataire_username'],
+                  service: data['service'],
+                  date: (data['date'] as Timestamp).toDate(),
+                  heure: data['heure'],
+                );
+              }).toList(),
+        );
   }
   // *******************************
 
@@ -68,8 +50,8 @@ class _ClientCancelledAppointmentState
       body: SafeArea(
         top: false,
         bottom: false,
-        child: FutureBuilder(
-          future: _loadRdvs(),
+        child: StreamBuilder(
+          stream: getCancelledRdvsStream(),
           builder:
               (context, snapshot) => Builder(
                 builder: (context) {
@@ -112,7 +94,11 @@ class _ClientCancelledAppointmentState
                                 children: [
                                   Text(items[index].prestataireUsername),
                                   Text(items[index].service),
-                                  Text(items[index].date),
+                                  Text(
+                                    DateFormat(
+                                      'dd/MM/yyyy',
+                                    ).format(items[index].date),
+                                  ),
                                   Text(items[index].heure),
                                 ],
                               ),

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer' as dev;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,7 +5,6 @@ import 'package:depanini/widgets/time_picker.dart';
 import 'package:depanini/widgets/date_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 final _auth = FirebaseAuth.instance;
@@ -51,25 +49,42 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
       final userData = userDoc.data();
       final clientUsername = userData!['Nom d\'utilisateur'];
       // *********************************
-      final url = Uri.http(
-        '10.0.2.2:3300',
-        'ajouter-rdv',
-      ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
-      await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'client_uid': _auth.currentUser!.uid,
-          'prestataire_uid': widget.prestataireUid,
-          'client_username': clientUsername,
-          'prestataire_username': widget.prestataireUsername,
-          'service': widget.service,
-          'date': DateFormat('yyyy-MM-dd').format(_selectedDate!),
-          'heure': _selectedTime!,
-        }),
-      ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
+      _firestore.collection("rdvs").add({
+        'client_uid': _auth.currentUser!.uid,
+        'prestataire_uid': widget.prestataireUid,
+        'client_username': clientUsername,
+        'prestataire_username': widget.prestataireUsername,
+        'service': widget.service,
+        'date': Timestamp.fromDate(
+          DateTime(
+            _selectedDate!.year,
+            _selectedDate!.month,
+            _selectedDate!.day,
+          ),
+        ),
+        'heure': _selectedTime!,
+        'createdAt': Timestamp.now(),
+        'status': 'en_attente',
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Rdv est enregistré.',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: Color(0xFF2E7D32),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
       // *********************************
     } else {
+      ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(

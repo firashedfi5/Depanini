@@ -10,12 +10,12 @@ class RdvModel {
     required this.heure,
   });
 
-  final int id;
+  final String id;
   final String clientUid;
   final String prestataireUid;
   final String clientUsername;
   final String prestataireUsername;
   final String service;
-  final String date;
+  final DateTime date;
   final String heure;
 }
