@@ -60,7 +60,12 @@ class _ClientCancelledAppointmentState
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No items found.'));
+                    return Center(
+                      child: Text(
+                        'Aucune réservation annulé',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    );
                   }
 
                   final items = snapshot.data!;

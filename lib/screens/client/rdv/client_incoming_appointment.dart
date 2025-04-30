@@ -59,7 +59,12 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                   } else if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(child: Text('No items found.'));
+                    return Center(
+                      child: Text(
+                        'Aucune réservation confirmé',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    );
                   }
 
                   final items = snapshot.data!;
