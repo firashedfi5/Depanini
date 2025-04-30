@@ -152,7 +152,7 @@ class _ProviderIncomingAppointmentState
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: BoxDecoration(
-                                            color: Colors.green.shade100
+                                            color: Colors.green.shade200
                                                 .withAlpha(50),
                                             borderRadius: BorderRadius.circular(
                                               16,
@@ -163,7 +163,8 @@ class _ProviderIncomingAppointmentState
                                             style: Theme.of(
                                               context,
                                             ).textTheme.titleMedium!.copyWith(
-                                              color: Colors.green.shade500,
+                                              color: Colors.green,
+                                              fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
