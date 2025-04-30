@@ -23,7 +23,7 @@ class _ProviderIncomingAppointmentState
         .collection('rdvs')
         .where('prestataire_uid', isEqualTo: _auth.currentUser!.uid)
         .where('status', isEqualTo: 'confirmé')
-        .orderBy('createdAt', descending: true) // Note: use correct field name
+        .orderBy('date', descending: false)
         .snapshots()
         .map(
           (snapshot) =>
