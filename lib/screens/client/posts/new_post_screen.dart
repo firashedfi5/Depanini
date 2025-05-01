@@ -1,17 +1,13 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/constants/domains.dart';
 import 'package:depanini/widgets/post_image.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:developer' as dev;
 
-import 'package:http/http.dart' as http;
-
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-
+final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 
 class NewPostScreen extends StatefulWidget {
@@ -22,30 +18,20 @@ class NewPostScreen extends StatefulWidget {
 }
 
 class _NewPostScreenState extends State<NewPostScreen> {
-  // **************Cloudinary******************
-  Future<String?> uploadAnnoncesImageToCloudinary(File imageFile) async {
-    final cloudName = "dgdvqiztn";
-    final uploadPreset = "Post_Images";
-
-    final url = "https://api.cloudinary.com/v1_1/$cloudName/image/upload";
-
-    var request =
-        http.MultipartRequest("POST", Uri.parse(url))
-          ..fields['upload_preset'] = uploadPreset
-          ..files.add(
-            await http.MultipartFile.fromPath('file', imageFile.path),
-          );
-
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      final responseData = await response.stream.bytesToString();
-      final jsonData = json.decode(responseData);
-      return jsonData['secure_url'];
-    } else {
-      dev.log("Upload failed with status: ${response.statusCode}");
-      return null;
-    }
+  final user = _auth.currentUser!;
+  // **************Image upload******************
+  Future<String?> uploadImageToFirebaseStorage(
+    File imageFile,
+    int fileNumber,
+  ) async {
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('posts_pictures')
+        .child(user.uid)
+        .child('${user.uid}+${fileNumber.toString()}.jpg');
+    await storageRef.putFile(imageFile);
+    final imageUrl = await storageRef.getDownloadURL();
+    return imageUrl;
   }
   // ******************************************
 
@@ -72,26 +58,30 @@ class _NewPostScreenState extends State<NewPostScreen> {
       // Upload service images if they exist
       String? uploadedPostImageUrl_1;
       if (_pickImageFile_1 != null) {
-        uploadedPostImageUrl_1 = await uploadAnnoncesImageToCloudinary(
+        uploadedPostImageUrl_1 = await uploadImageToFirebaseStorage(
           _pickImageFile_1!,
+          1,
         );
       }
       String? uploadedPostImageUrl_2;
       if (_pickImageFile_2 != null) {
-        uploadedPostImageUrl_2 = await uploadAnnoncesImageToCloudinary(
+        uploadedPostImageUrl_2 = await uploadImageToFirebaseStorage(
           _pickImageFile_2!,
+          2,
         );
       }
       String? uploadedPostImageUrl_3;
       if (_pickImageFile_3 != null) {
-        uploadedPostImageUrl_3 = await uploadAnnoncesImageToCloudinary(
+        uploadedPostImageUrl_3 = await uploadImageToFirebaseStorage(
           _pickImageFile_3!,
+          3,
         );
       }
       String? uploadedPostImageUrl_4;
       if (_pickImageFile_4 != null) {
-        uploadedPostImageUrl_4 = await uploadAnnoncesImageToCloudinary(
+        uploadedPostImageUrl_4 = await uploadImageToFirebaseStorage(
           _pickImageFile_4!,
+          4,
         );
       }
       // **********Fetch Data From Firestore**********
