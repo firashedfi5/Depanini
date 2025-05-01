@@ -15,7 +15,7 @@ class PostModel {
     this.image4,
   });
 
-  final int id;
+  final String id;
   final String uid;
   final String email;
   final String username;

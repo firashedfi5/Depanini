@@ -106,29 +106,22 @@ class _NewPostScreenState extends State<NewPostScreen> {
       final email = userData['Email'];
       final phoneNumber = userData['Numéro de téléphone'];
       final profilPictureURL = userData['Photo de profile'];
-      // ***********HTTP Request**************
-      final url = Uri.http(
-        '10.0.2.2:3300',
-        'ajouter-annonces',
-      ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
-      await http.post(
-        url,
-        headers: {'Content-Type': 'application/json'},
-        body: json.encode({
-          'uid': _auth.currentUser!.uid,
-          'email': email,
-          'username': username,
-          'phone_number': phoneNumber,
-          'profil_picture': profilPictureURL,
-          'description': _enteredDescription,
-          'service': _enteredDomaine!.name,
-          'date': _selectedDate == null ? '' : formatter.format(_selectedDate!),
-          'imageURL_1': uploadedPostImageUrl_1,
-          'imageURL_2': uploadedPostImageUrl_2,
-          'imageURL_3': uploadedPostImageUrl_3,
-          'imageURL_4': uploadedPostImageUrl_4,
-        }),
-      );
+      // ***********Storing data in Firestore**************
+      _firestore.collection('annonces').add({
+        'uid': _auth.currentUser!.uid,
+        'email': email,
+        'username': username,
+        'phone_number': phoneNumber,
+        'profil_picture': profilPictureURL,
+        'description': _enteredDescription,
+        'service': _enteredDomaine!.name,
+        'date': _selectedDate == null ? '' : formatter.format(_selectedDate!),
+        'imageURL_1': uploadedPostImageUrl_1,
+        'imageURL_2': uploadedPostImageUrl_2,
+        'imageURL_3': uploadedPostImageUrl_3,
+        'imageURL_4': uploadedPostImageUrl_4,
+        'createdAt': Timestamp.now(),
+      });
     }
   }
 

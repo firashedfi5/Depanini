@@ -20,7 +20,7 @@ class ShowPostScreen extends StatelessWidget {
   }
 
   // *********Phone Call*****************
-  final int id;
+  final String id;
   const ShowPostScreen({super.key, required this.id});
 
   Future<PostModel> _loadAnnonce() async {

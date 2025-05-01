@@ -14,7 +14,7 @@ final _auth = FirebaseAuth.instance;
 class EditPostScreen extends StatefulWidget {
   const EditPostScreen({super.key, required this.id});
 
-  final int id;
+  final String id;
 
   @override
   State<EditPostScreen> createState() => _EditPostScreenState();
