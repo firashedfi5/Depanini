@@ -10,7 +10,7 @@ class AstuceModel {
     // this.image4,
   });
 
-  final int id;
+  final String id;
   final String titre;
   final String domaine;
   final String description;

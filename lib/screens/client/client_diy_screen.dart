@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/constants/domains.dart';
 import 'package:depanini/data/word_to_field.dart';
 import 'package:depanini/models/astuce_model.dart';
@@ -7,7 +6,7 @@ import 'package:depanini/screens/client/diy_astuces/astuce_screen.dart';
 import 'package:flutter/material.dart';
 // import 'dart:developer' as dev;
 
-import 'package:http/http.dart' as http;
+final _firestore = FirebaseFirestore.instance;
 
 class ClientDiyScreen extends StatefulWidget {
   const ClientDiyScreen({super.key});
@@ -27,38 +26,30 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
   @override
   void initState() {
     super.initState();
-    _foundedAstuces = _loadAstcues();
+    _foundedAstuces = _loadAstuces();
   }
 
   // *************GET Method**********************
-  Future<List<AstuceModel>> _loadAstcues() async {
-    final url = Uri.http(
-      '10.0.2.2:3300',
-      'afficher-astuces',
-    ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
-    final response = await http.get(url);
+  Future<List<AstuceModel>> _loadAstuces() async {
+    try {
+      final snapshot = await _firestore.collection('astuces').get();
 
-    if (response.statusCode >= 400) {
-      throw Exception(
-        'Echec de récupération des données. Veuillez réessayer plus tard.',
-      );
+      final List<AstuceModel> loadedAstuces =
+          snapshot.docs.map((doc) {
+            final data = doc.data();
+            return AstuceModel(
+              id: doc.id,
+              titre: data['titre'],
+              description: data['description'],
+              domaine: data['domaine'],
+              foregroundImage: data['foreground_image'],
+            );
+          }).toList();
+
+      return loadedAstuces;
+    } catch (e) {
+      throw Exception('Erreur lors de la récupération des astuces : $e');
     }
-
-    // Decode the JSON response correctly as a List
-    final List<dynamic> listData = json.decode(response.body);
-
-    final List<AstuceModel> loadedAstuces =
-        listData.map((astuce) {
-          return AstuceModel(
-            id: astuce["id"],
-            titre: astuce["titre"],
-            description: astuce["description"],
-            domaine: astuce["domaine"],
-            foregroundImage: astuce["foreground_image"],
-          );
-        }).toList();
-
-    return loadedAstuces;
   }
   // *************GET Method**********************
 
@@ -68,7 +59,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
 
     // If search input is empty, return all users
     if (searchLower.isEmpty) {
-      _loadAstcues().then((astuces) {
+      _loadAstuces().then((astuces) {
         setState(() {
           _foundedAstuces = Future.value(astuces);
         });
@@ -87,7 +78,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
     // If no match is found in the map, use the original search term
     mappedField = mappedField.isEmpty ? searchLower : mappedField;
 
-    _loadAstcues().then((astuce) {
+    _loadAstuces().then((astuce) {
       setState(() {
         _foundedAstuces = Future.value(
           astuce.where((astuce) {
