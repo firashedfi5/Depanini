@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostModel {
   const PostModel({
-    required this.id,
+    required this.postId,
     required this.uid,
     required this.email,
     required this.username,
@@ -18,7 +18,7 @@ class PostModel {
     this.image4,
   });
 
-  final String id;
+  final String postId;
   final String uid;
   final String email;
   final String username;

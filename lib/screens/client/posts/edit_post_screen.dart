@@ -70,7 +70,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
     final List<PostModel> loadedPosts =
         listData.map((post) {
           return PostModel(
-            id: post["id"],
+            postId: post["post_id"],
             email: post["email"],
             uid: post["uid"],
             username: post["username"],

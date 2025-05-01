@@ -45,7 +45,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
             final data = doc.data();
 
             return PostModel(
-              id: doc.id,
+              postId: data["post_id"],
               email: data["email"],
               uid: data["uid"],
               username: data["username"],
@@ -91,7 +91,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
 
   void _removePost(PostModel post) async {
     final postIndex = _postListed.indexOf(post);
-    final postRef = _firestore.collection('annonces').doc(post.id);
+    final postRef = _firestore.collection('annonces').doc(post.postId);
 
     // Remove from UI
     setState(() {
@@ -119,7 +119,8 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                 });
 
                 // Restore in Firestore
-                await _firestore.collection('annonces').doc(post.id).set({
+                await _firestore.collection('annonces').doc(post.postId).set({
+                  'post_id': post.postId,
                   'uid': post.uid,
                   'email': post.email,
                   'username': post.username,
@@ -181,7 +182,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
               onDismissed: (direction) {
                 _removePost(_postListed[index]);
               },
-              key: ValueKey(_postListed[index].id),
+              key: ValueKey(_postListed[index].postId),
               child: Padding(
                 padding: const EdgeInsets.all(5),
                 child: Card(
@@ -225,7 +226,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                                   MaterialPageRoute(
                                     builder:
                                         (context) => EditPostScreen(
-                                          id: _postListed[index].id,
+                                          id: _postListed[index].postId,
                                         ),
                                   ),
                                 );

@@ -50,7 +50,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
           querySnapshot.docs.map((doc) {
             final data = doc.data();
             return PostModel(
-              id: doc.id,
+              postId: data["post_id"],
               email: data["email"],
               uid: data["uid"],
               username: data["username"],
@@ -311,8 +311,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                         context,
                         MaterialPageRoute(
                           builder:
-                              (context) =>
-                                  ShowPostScreen(id: snapshot.data![index].id),
+                              (context) => ShowPostScreen(
+                                id: snapshot.data![index].postId,
+                              ),
                         ),
                       );
                     },

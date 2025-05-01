@@ -6,6 +6,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:uuid/uuid.dart';
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
@@ -19,6 +20,14 @@ class NewPostScreen extends StatefulWidget {
 
 class _NewPostScreenState extends State<NewPostScreen> {
   final user = _auth.currentUser!;
+  final uuid = Uuid();
+  late String postId;
+  @override
+  void initState() {
+    super.initState();
+    postId = uuid.v4();
+  }
+
   // **************Image upload******************
   Future<String?> uploadImageToFirebaseStorage(
     File imageFile,
@@ -28,7 +37,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
         .ref()
         .child('posts_pictures')
         .child(user.uid)
-        .child('${user.uid}+${fileNumber.toString()}.jpg');
+        .child('$postId+${fileNumber.toString()}.jpg');
     await storageRef.putFile(imageFile);
     final imageUrl = await storageRef.getDownloadURL();
     return imageUrl;
@@ -97,7 +106,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
       final phoneNumber = userData['Numéro de téléphone'];
       final profilPictureURL = userData['Photo de profile'];
       // ***********Storing data in Firestore**************
-      _firestore.collection('annonces').add({
+      _firestore.collection('annonces').doc(postId).set({
+        "post_id": postId,
         'uid': _auth.currentUser!.uid,
         'email': email,
         'username': username,

@@ -33,7 +33,7 @@ class ShowPostScreen extends StatelessWidget {
       final data = doc.data()!;
 
       return PostModel(
-        id: doc.id,
+        postId: data["post_id"],
         email: data["email"],
         uid: data["uid"],
         username: data["username"],
