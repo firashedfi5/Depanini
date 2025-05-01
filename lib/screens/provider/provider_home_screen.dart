@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/place.dart';
 import 'package:depanini/models/post_model.dart';
@@ -10,10 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 // import 'dart:developer' as dev;
 
-import 'package:http/http.dart' as http;
-
 final _auth = FirebaseAuth.instance;
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final _firestore = FirebaseFirestore.instance;
 
 class ProviderHomeScreen extends StatefulWidget {
   const ProviderHomeScreen({super.key});
@@ -28,49 +24,52 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
   // String? _error;
 
   Future<List<PostModel>> _loadPosts() async {
-    // Step 1: Get current user
-    final user = _auth.currentUser!;
+    try {
+      final user = _auth.currentUser!;
 
-    // Step 2: Fetch domaine from Firestore
-    final userDoc =
-        await _firestore.collection("prestataires").doc(user.uid).get();
-    final userData = userDoc.data();
+      final userDoc =
+          await FirebaseFirestore.instance
+              .collection("prestataires")
+              .doc(user.uid)
+              .get();
+      final userData = userDoc.data();
 
-    if (userData == null || !userData.containsKey('Domaine')) {
-      throw Exception("Domaine non trouvé pour l'utilisateur");
+      if (userData == null || !userData.containsKey('Domaine')) {
+        throw Exception("Domaine non trouvé pour l'utilisateur.");
+      }
+
+      final String domaine = userData['Domaine'];
+
+      final querySnapshot =
+          await _firestore
+              .collection("annonces")
+              .where("service", isEqualTo: domaine)
+              .get();
+
+      final posts =
+          querySnapshot.docs.map((doc) {
+            final data = doc.data();
+            return PostModel(
+              id: doc.id,
+              email: data["email"],
+              uid: data["uid"],
+              username: data["username"],
+              phoneNumber: data["phone_number"],
+              profilPicture: data["profil_picture"],
+              description: data["description"],
+              service: data["service"],
+              date: data["date"],
+              image1: data["imageURL_1"],
+              image2: data["imageURL_2"],
+              image3: data["imageURL_3"],
+              image4: data["imageURL_4"],
+            );
+          }).toList();
+
+      return posts;
+    } catch (e) {
+      throw Exception("Erreur de chargement des annonces : $e");
     }
-
-    final domaine = userData['Domaine'];
-
-    // Step 3: Build URL with domaine
-    final url = Uri.http(
-      '10.0.2.2:3300',
-      'afficher-tous-annonces/$domaine',
-    ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
-
-    // Step 4: Fetch from backend
-    final response = await http.get(url);
-
-    if (response.statusCode >= 400) {
-      throw Exception('Échec de récupération des données.');
-    }
-
-    final List<dynamic> listData = json.decode(response.body);
-    return listData
-        .map(
-          (post) => PostModel(
-            id: post["id"],
-            email: post["email"],
-            uid: post["uid"],
-            username: post["username"],
-            phoneNumber: post["phone_number"],
-            profilPicture: post["profil_picture"],
-            description: post["description"],
-            service: post["service"],
-            date: post["date"],
-          ),
-        )
-        .toList();
   }
 
   Future<List<PostModel>> _foundedPosts = Future.value([]);
@@ -293,8 +292,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                 return Center(child: CircularProgressIndicator());
               }
               if (snapshot.data!.isEmpty) {
-                return const Center(
-                  child: Text('Aucun prestataire ajouté pour le moment'),
+                return Center(
+                  child: Text(
+                    'Aucune annonce ajouté pour le moment',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
                 );
               }
               return ListView.builder(

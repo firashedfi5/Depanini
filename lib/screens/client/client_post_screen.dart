@@ -37,6 +37,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
           await _firestore
               .collection('annonces')
               .where('uid', isEqualTo: _auth.currentUser!.uid)
+              .orderBy('createdAt', descending: true)
               .get();
 
       final List<PostModel> loadedPosts =

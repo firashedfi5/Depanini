@@ -1,11 +1,10 @@
-import 'dart:convert';
-
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/post_model.dart';
 import 'package:depanini/screens/common/chat_screen.dart';
-// import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+
+final _firestore = FirebaseFirestore.instance;
 
 class ShowPostScreen extends StatelessWidget {
   // *********Phone Call*****************
@@ -24,40 +23,33 @@ class ShowPostScreen extends StatelessWidget {
   const ShowPostScreen({super.key, required this.id});
 
   Future<PostModel> _loadAnnonce() async {
-    final url = Uri.http(
-      '10.0.2.2:3300',
-      'afficher-seule-annonces/$id',
-    ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
-    final response = await http.get(url);
+    try {
+      final doc = await _firestore.collection('annonces').doc(id).get();
 
-    if (response.statusCode >= 400) {
-      throw Exception(
-        'Échec de récupération des données. Veuillez réessayer plus tard.',
+      if (!doc.exists) {
+        throw Exception('Aucune annonce trouvée.');
+      }
+
+      final data = doc.data()!;
+
+      return PostModel(
+        id: doc.id,
+        email: data["email"],
+        uid: data["uid"],
+        username: data["username"],
+        phoneNumber: data["phone_number"],
+        profilPicture: data["profil_picture"],
+        description: data["description"],
+        service: data['service'],
+        date: data['date'],
+        image1: data["imageURL_1"],
+        image2: data["imageURL_2"],
+        image3: data["imageURL_3"],
+        image4: data["imageURL_4"],
       );
+    } catch (e) {
+      throw Exception('Erreur lors de la récupération de l\'annonce : $e');
     }
-
-    // Decode the JSON response
-    final List<dynamic> listData = json.decode(response.body);
-
-    // Ensure the list is not empty before accessing the first element
-    if (listData.isEmpty) {
-      throw Exception('Aucune astuce trouvée.');
-    }
-
-    // Extract the first object from the list
-    final Map<String, dynamic> data = listData[0];
-
-    return PostModel(
-      id: data["id"],
-      email: data["email"],
-      uid: data["uid"],
-      username: data["username"],
-      phoneNumber: data["phone_number"],
-      profilPicture: data["profil_picture"],
-      description: data["description"],
-      service: data['service'],
-      date: data['date'],
-    );
   }
 
   @override
