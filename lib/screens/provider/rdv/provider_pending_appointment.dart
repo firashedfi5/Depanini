@@ -101,7 +101,11 @@ class _ProviderPendingAppointmentState
                                         context,
                                       ).colorScheme.surfaceContainerHighest,
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: EdgeInsets.only(
+                                  left: 8,
+                                  right: 8,
+                                  top: 8,
+                                ),
                                 child: Column(
                                   children: [
                                     Row(

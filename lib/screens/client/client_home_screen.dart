@@ -251,7 +251,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   preferredSize: Size.fromHeight(125),
                   child: Column(
                     children: [
-                      // SizedBox(height: 25),
                       SizedBox(
                         height: 35,
                         width: 360,
@@ -260,7 +259,6 @@ class _HomeScreenState extends State<HomeScreen> {
                             Icons.search,
                             color: Theme.of(context).colorScheme.primary,
                           ),
-                          // controller: searchController,
                           onChanged: (value) {
                             searchUsers(value);
                           },

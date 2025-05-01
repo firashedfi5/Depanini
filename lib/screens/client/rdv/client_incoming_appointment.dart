@@ -80,7 +80,7 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                         ),
                       ),
                       SliverPadding(
-                        padding: EdgeInsets.all(0),
+                        padding: EdgeInsets.only(left: 8, right: 8, top: 8),
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate((
                             context,
