@@ -1,8 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:depanini/constants/domains.dart';
 import 'package:depanini/widgets/profil_image.dart';
-import 'package:http/http.dart' as http;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,12 +18,9 @@ class ProviderAccountScreen extends StatefulWidget {
 }
 
 class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
-  // final List<Domains> _domains = Domains.values;
-  // Domains? _enteredDomaine;
   // ignore: unused_field
   Domains? _selectedDomain;
 
-  // Retreiving data from firestore
   late Future<Map<String, dynamic>?> userData;
 
   @override
@@ -36,25 +32,22 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
   final user = _auth.currentUser!;
 
   Future<Map<String, dynamic>?> getUserData() async {
-    // if (user == null) return null; // No user logged in
-
     try {
       DocumentSnapshot doc =
           await _firestore.collection("prestataires").doc(user.uid).get();
       if (doc.exists) {
-        return doc.data() as Map<String, dynamic>; // Convert document to map
+        return doc.data() as Map<String, dynamic>;
       } else {
-        return null; // Document does not exist
+        return null;
       }
     } catch (e) {
-      // print("Error retrieving document: $e");
+      dev.log("Error retrieving document: $e");
       return null;
     }
   }
 
   // ***********************
   final _formKey = GlobalKey<FormState>();
-  // Update data in the firestore
   var _enteredUserName = '';
   var _enteredPhoneNumber = '';
   var _enteredDescription = '';
@@ -63,31 +56,17 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
   final List<String> _experience = ["1-3 ans", "4-6 ans", "+6 ans"];
   // ignore: unused_field
   String? _selectedExperience = '';
-  // ********************Cloudinary image upload***************************
+  // ********************Image upload***************************
   File? _updatedImage;
-  Future<String?> uploadImageToCloudinary() async {
-    final cloudName = "dgdvqiztn";
-    final uploadPreset = "Profil_Images";
-
-    final url = "https://api.cloudinary.com/v1_1/$cloudName/image/upload";
-
-    var request =
-        http.MultipartRequest("POST", Uri.parse(url))
-          ..fields['upload_preset'] = uploadPreset
-          ..files.add(
-            await http.MultipartFile.fromPath('file', _updatedImage!.path),
-          );
-
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      final responseData = await response.stream.bytesToString();
-      final jsonData = json.decode(responseData);
-      return jsonData['secure_url'];
-    } else {
-      dev.log("Upload failed with status: ${response.statusCode}");
-      return null;
-    }
+  Future<String?> uploadImageToFirebaseStorage() async {
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('users_profile_pictures')
+        .child('prestataires_profile_pictures')
+        .child('${user.uid}.jpg');
+    await storageRef.putFile(_updatedImage!);
+    final imageUrl = await storageRef.getDownloadURL();
+    return imageUrl;
   }
 
   // ******************************************
@@ -99,13 +78,12 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
 
     final finalImageUrl =
         _updatedImage != null
-            ? await uploadImageToCloudinary()
+            ? await uploadImageToFirebaseStorage()
             : currentImageUrl;
     await _firestore.collection('prestataires').doc(user.uid).update({
       'Nom d\'utilisateur': _enteredUserName,
       'Numéro de téléphone': _enteredPhoneNumber,
       'Photo de profile': finalImageUrl,
-      // 'Domaine': _enteredDomaine!.name,
       'Description': _enteredDescription,
       'Diplôme': _enteredDiplome,
       'Experience': _enteredExperience,

@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:developer' as dev;
 
 final _auth = FirebaseAuth.instance;
@@ -18,7 +19,6 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
-  // Retreiving data from firestore
   late Future<Map<String, dynamic>?> userData;
 
   @override
@@ -51,31 +51,17 @@ class _AccountScreenState extends State<AccountScreen> {
   // Update data in the firestore
   var _enteredUserName = '';
   var _enteredPhoneNumber = '';
-  // ********************Cloudinary image upload***************************
+  // ********************Image upload***************************
   File? _updatedImage;
-  Future<String?> uploadImageToCloudinary() async {
-    final cloudName = "dgdvqiztn";
-    final uploadPreset = "Profil_Images";
-
-    final url = "https://api.cloudinary.com/v1_1/$cloudName/image/upload";
-
-    var request =
-        http.MultipartRequest("POST", Uri.parse(url))
-          ..fields['upload_preset'] = uploadPreset
-          ..files.add(
-            await http.MultipartFile.fromPath('file', _updatedImage!.path),
-          );
-
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      final responseData = await response.stream.bytesToString();
-      final jsonData = json.decode(responseData);
-      return jsonData['secure_url'];
-    } else {
-      dev.log("Upload failed with status: ${response.statusCode}");
-      return null;
-    }
+  Future<String?> uploadImageToFirebaseStorage() async {
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('users_profile_pictures')
+        .child('clients_profile_pictures')
+        .child('${user.uid}.jpg');
+    await storageRef.putFile(_updatedImage!);
+    final imageUrl = await storageRef.getDownloadURL();
+    return imageUrl;
   }
 
   // ******************************************
@@ -130,7 +116,7 @@ class _AccountScreenState extends State<AccountScreen> {
 
     final finalImageUrl =
         _updatedImage != null
-            ? await uploadImageToCloudinary()
+            ? await uploadImageToFirebaseStorage()
             : currentImageUrl;
     await _firestore.collection('clients').doc(user.uid).update({
       'Nom d\'utilisateur': _enteredUserName,
