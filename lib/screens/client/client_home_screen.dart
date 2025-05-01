@@ -111,6 +111,7 @@ class _HomeScreenState extends State<HomeScreen> {
         headerSliverBuilder:
             (context, innerBoxIsScrolled) => [
               SliverAppBar(
+                automaticallyImplyLeading: false,
                 pinned: true,
                 floating: true,
                 // snap: true,

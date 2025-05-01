@@ -1,15 +1,13 @@
 import 'package:depanini/constants/domains.dart';
 import 'package:depanini/providers/user_information.dart';
 import 'package:depanini/screens/auth/verify_email_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:developer' as dev;
 
 final _firebase = FirebaseAuth.instance;
 
@@ -41,59 +39,30 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
   var _enteredExperience = '';
   final _formKey = GlobalKey<FormState>();
   // ********************Cloudinary image upload***************************
-  Future<String?> uploadImageToCloudinary() async {
+  Future<String?> uploadProfileImageToFirebaseStorage(String userUid) async {
     final userInfo = ref.watch(userInformationProvdier);
-
-    final cloudName = "dgdvqiztn";
-    final uploadPreset = "Profil_Images";
-
-    final url = "https://api.cloudinary.com/v1_1/$cloudName/image/upload";
-
-    var request =
-        http.MultipartRequest("POST", Uri.parse(url))
-          ..fields['upload_preset'] = uploadPreset
-          ..files.add(
-            await http.MultipartFile.fromPath(
-              'file',
-              userInfo.profilImage!.path,
-            ),
-          );
-
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      final responseData = await response.stream.bytesToString();
-      final jsonData = json.decode(responseData);
-      return jsonData['secure_url'];
-    } else {
-      dev.log("Upload failed with status: ${response.statusCode}");
-      return null;
-    }
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('users_profile_pictures')
+        .child('prestataires_profile_pictures')
+        .child('$userUid.jpg');
+    await storageRef.putFile(userInfo.profilImage!);
+    final imageUrl = await storageRef.getDownloadURL();
+    return imageUrl;
   }
 
-  Future<String?> uploadProviderImageToCloudinary(File imageFile) async {
-    final cloudName = "dgdvqiztn";
-    final uploadPreset = "Provider_Service_Images";
-
-    final url = "https://api.cloudinary.com/v1_1/$cloudName/image/upload";
-
-    var request =
-        http.MultipartRequest("POST", Uri.parse(url))
-          ..fields['upload_preset'] = uploadPreset
-          ..files.add(
-            await http.MultipartFile.fromPath('file', imageFile.path),
-          );
-
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      final responseData = await response.stream.bytesToString();
-      final jsonData = json.decode(responseData);
-      return jsonData['secure_url'];
-    } else {
-      dev.log("Upload failed with status: ${response.statusCode}");
-      return null;
-    }
+  Future<String?> uploadProviderImageToCloudinary({
+    required String userUid,
+    required File imageFile,
+    required int fileNumber,
+  }) async {
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('prestataires_portfolio_pictures')
+        .child('$userUid+$fileNumber.jpg');
+    await storageRef.putFile(imageFile);
+    final imageUrl = await storageRef.getDownloadURL();
+    return imageUrl;
   }
 
   // **********************************************
@@ -127,31 +96,41 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
         );
       }
 
-      var uploadedImageUrl = await uploadImageToCloudinary();
+      var uploadedImageUrl = await uploadProfileImageToFirebaseStorage(
+        userCredential.user!.uid,
+      );
 
       // Upload service images if they exist
       String? uploadedProviderImageUrl_1;
       if (_pickImageFile_1 != null) {
         uploadedProviderImageUrl_1 = await uploadProviderImageToCloudinary(
-          _pickImageFile_1!,
+          imageFile: _pickImageFile_1!,
+          userUid: userCredential.user!.uid,
+          fileNumber: 1,
         );
       }
       String? uploadedProviderImageUrl_2;
       if (_pickImageFile_2 != null) {
         uploadedProviderImageUrl_2 = await uploadProviderImageToCloudinary(
-          _pickImageFile_2!,
+          imageFile: _pickImageFile_2!,
+          userUid: userCredential.user!.uid,
+          fileNumber: 2,
         );
       }
       String? uploadedProviderImageUrl_3;
       if (_pickImageFile_3 != null) {
         uploadedProviderImageUrl_3 = await uploadProviderImageToCloudinary(
-          _pickImageFile_3!,
+          imageFile: _pickImageFile_3!,
+          userUid: userCredential.user!.uid,
+          fileNumber: 3,
         );
       }
       String? uploadedProviderImageUrl_4;
       if (_pickImageFile_4 != null) {
         uploadedProviderImageUrl_4 = await uploadProviderImageToCloudinary(
-          _pickImageFile_4!,
+          imageFile: _pickImageFile_4!,
+          userUid: userCredential.user!.uid,
+          fileNumber: 4,
         );
       }
 
@@ -373,7 +352,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                                   final pickedImage = await ImagePicker()
                                       .pickImage(
                                         source: ImageSource.gallery,
-                                        imageQuality: 50,
+                                        imageQuality: 100,
                                         maxWidth: 150,
                                       );
                                   if (pickedImage == null) {
@@ -420,7 +399,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                                   final pickedImage = await ImagePicker()
                                       .pickImage(
                                         source: ImageSource.gallery,
-                                        imageQuality: 50,
+                                        imageQuality: 100,
                                         maxWidth: 150,
                                       );
                                   if (pickedImage == null) {
@@ -467,7 +446,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                                   final pickedImage = await ImagePicker()
                                       .pickImage(
                                         source: ImageSource.gallery,
-                                        imageQuality: 50,
+                                        imageQuality: 100,
                                         maxWidth: 150,
                                       );
                                   if (pickedImage == null) {
@@ -514,7 +493,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                                   final pickedImage = await ImagePicker()
                                       .pickImage(
                                         source: ImageSource.gallery,
-                                        imageQuality: 50,
+                                        imageQuality: 100,
                                         maxWidth: 150,
                                       );
                                   if (pickedImage == null) {

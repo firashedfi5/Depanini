@@ -1,13 +1,11 @@
 import 'package:depanini/screens/auth/provider_description.dart';
 import 'package:depanini/screens/auth/verify_email_screen.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/providers/user_information.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'dart:developer' as dev;
 
 final _firebase = FirebaseAuth.instance;
 
@@ -21,37 +19,18 @@ class ChoosingScreen extends ConsumerStatefulWidget {
 class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
   String _enetredRole = '';
 
-  // ********************Cloudinary image upload***************************
-  Future<String?> uploadImageToCloudinary() async {
+  // ********************Image upload***************************
+  Future<String?> uploadImageToFirebaseStorage(String userUid) async {
     final userInfo = ref.watch(userInformationProvdier);
-
-    final cloudName = "dgdvqiztn";
-    final uploadPreset = "Profil_Images";
-
-    final url = "https://api.cloudinary.com/v1_1/$cloudName/image/upload";
-
-    var request =
-        http.MultipartRequest("POST", Uri.parse(url))
-          ..fields['upload_preset'] = uploadPreset
-          ..files.add(
-            await http.MultipartFile.fromPath(
-              'file',
-              userInfo.profilImage!.path,
-            ),
-          );
-
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      final responseData = await response.stream.bytesToString();
-      final jsonData = json.decode(responseData);
-      return jsonData['secure_url'];
-    } else {
-      dev.log("Upload failed with status: ${response.statusCode}");
-      return null;
-    }
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('users_profile_pictures')
+        .child('clients_profile_pictures')
+        .child('$userUid.jpg');
+    await storageRef.putFile(userInfo.profilImage!);
+    final imageUrl = await storageRef.getDownloadURL();
+    return imageUrl;
   }
-
   // **********************************************
 
   @override
@@ -79,14 +58,16 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                       .read(userInformationProvdier.notifier)
                       .updateRole(_enetredRole);
 
-                  // **************Cloudinary********************
-                  var uploadedImageUrl = await uploadImageToCloudinary();
                   // **************Firabese Auth********************
                   final userCredential = await _firebase
                       .createUserWithEmailAndPassword(
                         email: userInfo.email!,
                         password: userInfo.password!,
                       );
+                  // ***********************************
+                  var uploadedImageUrl = await uploadImageToFirebaseStorage(
+                    userCredential.user!.uid,
+                  );
                   // ***********************************
                   if (context.mounted) {
                     ScaffoldMessenger.of(context).clearSnackBars();
