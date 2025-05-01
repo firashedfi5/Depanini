@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class PostModel {
   const PostModel({
     required this.id,
@@ -9,6 +11,7 @@ class PostModel {
     required this.description,
     required this.service,
     required this.date,
+    required this.createdAt,
     this.image1,
     this.image2,
     this.image3,
@@ -24,6 +27,7 @@ class PostModel {
   final String service;
   final String description;
   final String date;
+  final Timestamp createdAt;
   final String? image1;
   final String? image2;
   final String? image3;

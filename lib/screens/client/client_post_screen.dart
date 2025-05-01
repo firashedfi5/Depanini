@@ -54,6 +54,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
               description: data["description"],
               service: data["service"],
               date: data["date"],
+              createdAt: data["createdAt"],
               image1: data["imageURL_1"],
               image2: data["imageURL_2"],
               image3: data["imageURL_3"],
@@ -118,23 +119,21 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                 });
 
                 // Restore in Firestore
-                await FirebaseFirestore.instance
-                    .collection('annonces')
-                    .doc(post.id)
-                    .set({
-                      'uid': post.uid,
-                      'email': post.email,
-                      'username': post.username,
-                      'phone_number': post.phoneNumber,
-                      'profil_picture': post.profilPicture,
-                      'description': post.description,
-                      'service': post.service,
-                      'date': post.date,
-                      'imageURL_1': post.image1,
-                      'imageURL_2': post.image2,
-                      'imageURL_3': post.image3,
-                      'imageURL_4': post.image4,
-                    });
+                await _firestore.collection('annonces').doc(post.id).set({
+                  'uid': post.uid,
+                  'email': post.email,
+                  'username': post.username,
+                  'phone_number': post.phoneNumber,
+                  'profil_picture': post.profilPicture,
+                  'description': post.description,
+                  'service': post.service,
+                  'date': post.date,
+                  'createdAt': post.createdAt,
+                  'imageURL_1': post.image1,
+                  'imageURL_2': post.image2,
+                  'imageURL_3': post.image3,
+                  'imageURL_4': post.image4,
+                });
 
                 dev.log("Annonce restaurée (Undo)");
               },

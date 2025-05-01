@@ -79,6 +79,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
             description: post["description"],
             service: post["service"],
             date: post["date"],
+            createdAt: post["createdAt"],
             image1: post["imageURL_1"],
             image2: post["imageURL_2"],
             image3: post["imageURL_3"],

@@ -42,6 +42,7 @@ class ShowPostScreen extends StatelessWidget {
         description: data["description"],
         service: data['service'],
         date: data['date'],
+        createdAt: data['createdAt'],
         image1: data["imageURL_1"],
         image2: data["imageURL_2"],
         image3: data["imageURL_3"],
