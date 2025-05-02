@@ -2,12 +2,10 @@ import 'dart:io';
 import 'dart:developer' as dev;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-// import 'package:depanini/widgets/image_container.dart';
 import 'package:depanini/widgets/update_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-// import 'package:image_picker/image_picker.dart';
 
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -20,6 +18,7 @@ class ProviderGallery extends StatefulWidget {
 }
 
 class _ProviderGalleryState extends State<ProviderGallery> {
+  final user = _auth.currentUser!;
   File? _pickImageFile_1;
   File? _pickImageFile_2;
   File? _pickImageFile_3;
@@ -40,14 +39,13 @@ class _ProviderGalleryState extends State<ProviderGallery> {
 
   // ******************************************
   Future<String?> uploadProviderImageToFirebaseStorage({
-    required String userUid,
     required File imageFile,
     required int fileNumber,
   }) async {
     final storageRef = FirebaseStorage.instance
         .ref()
         .child('prestataires_portfolio_pictures')
-        .child('$userUid+$fileNumber.jpg');
+        .child('${user.uid}+$fileNumber.jpg');
     await storageRef.putFile(imageFile);
     final imageUrl = await storageRef.getDownloadURL();
     // dev.log(imageUrl);
@@ -109,7 +107,6 @@ class _ProviderGalleryState extends State<ProviderGallery> {
         if (imageFile != null) {
           final uploadedUrl = await uploadProviderImageToFirebaseStorage(
             imageFile: imageFile,
-            userUid: user.uid,
             fileNumber: i + 1,
           );
           updatedFields['Photo de travail n°${i + 1}'] = uploadedUrl;
@@ -151,7 +148,6 @@ class _ProviderGalleryState extends State<ProviderGallery> {
 
   late Future<Map<String, dynamic>?> userData;
 
-  final user = _auth.currentUser!;
   Future<Map<String, dynamic>?> getUserData() async {
     try {
       DocumentSnapshot doc =

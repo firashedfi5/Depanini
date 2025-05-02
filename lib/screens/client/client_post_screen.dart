@@ -227,6 +227,8 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                                     builder:
                                         (context) => EditPostScreen(
                                           postId: _postListed[index].postId,
+                                          originalDescription:
+                                              _postListed[index].description,
                                         ),
                                   ),
                                 );

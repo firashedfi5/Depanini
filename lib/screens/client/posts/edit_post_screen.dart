@@ -12,9 +12,14 @@ final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
 class EditPostScreen extends StatefulWidget {
-  const EditPostScreen({super.key, required this.postId});
+  const EditPostScreen({
+    super.key,
+    required this.postId,
+    required this.originalDescription,
+  });
 
   final String postId;
+  final String originalDescription;
 
   @override
   State<EditPostScreen> createState() => _EditPostScreenState();
@@ -102,10 +107,53 @@ class _EditPostScreenState extends State<EditPostScreen> {
 
   void _update() async {
     final updatedFields = <String, dynamic>{};
-    final isValid = _formKey.currentState!.validate();
-    if (isValid) {
-      _formKey.currentState!.save();
-      // *************************************
+
+    _formKey.currentState!.save();
+
+    final hasImageChanged = pickedImages.any((image) => image != null);
+    final hasTextChanged =
+        _enteredDescription.trim() != widget.originalDescription;
+    final hasDateChanged = _selectedDate != null;
+
+    if (!hasImageChanged && !hasTextChanged && !hasDateChanged) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Veuillez changer au moins une chose pour enregistrer.',
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          backgroundColor: const Color(0xffb3261e),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder:
+          (_) => const AlertDialog(
+            title: Text('Mise à jour de l\'annonce'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 20),
+                Text(
+                  'Cela peut prendre quelques secondes...',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+    );
+
+    try {
       for (int i = 0; i < pickedImages.length; i++) {
         final imageFile = pickedImages[i];
         if (imageFile != null) {
@@ -116,23 +164,56 @@ class _EditPostScreenState extends State<EditPostScreen> {
           updatedFields['imageURL_${i + 1}'] = uploadedUrl;
         }
       }
-      // *******************************
-      if (_enteredDescription.isNotEmpty) {
+
+      if (hasTextChanged) {
         updatedFields['description'] = _enteredDescription;
       }
-      if (_selectedDate != null) {
+
+      if (hasDateChanged) {
         updatedFields['date'] = formatter.format(_selectedDate!);
       }
-      // ***********Update**************
-      if (updatedFields.isNotEmpty) {
-        await _firestore
-            .collection('annonces')
-            .doc(widget.postId)
-            .update(updatedFields);
-      }
+
+      await _firestore
+          .collection('annonces')
+          .doc(widget.postId)
+          .update(updatedFields);
+    } catch (e) {
       if (mounted) {
-        Navigator.of(context).pop();
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Une erreur est survenue lors de la mise à jour.',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
       }
+    } finally {
+      if (mounted) Navigator.of(context).pop(); // Close dialog
+    }
+
+    if (mounted) {
+      Navigator.of(context).pop(); // Close screen
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Annonce mise à jour avec succès.',
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          backgroundColor: const Color(0xFF2E7D32),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     }
   }
 
@@ -267,7 +348,6 @@ class _EditPostScreenState extends State<EditPostScreen> {
                       onPressed: _update,
                       child: Text('Enregistrer'),
                     ),
-                    SizedBox(height: 10),
                   ],
                 ),
               ),
