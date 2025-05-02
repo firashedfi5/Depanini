@@ -217,7 +217,7 @@ class _ProviderGalleryState extends State<ProviderGallery> {
                             images[index].isNotEmpty
                                 ? NetworkImage(images[index])
                                 : const NetworkImage(
-                                  'https://firebasestorage.googleapis.com/v0/b/depanini-3304e.firebasestorage.app/o/no_picture.png?alt=media&token=252b1741-bb01-4c99-8a50-da7ef3da37e4',
+                                  'https://firebasestorage.googleapis.com/v0/b/depanini-3304e.firebasestorage.app/o/no_picture.png?alt=media&token=7cfab603-fc3e-4241-a9d3-6e1569aa46d7',
                                 ),
                       );
                     },

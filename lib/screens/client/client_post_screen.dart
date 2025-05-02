@@ -226,7 +226,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                                   MaterialPageRoute(
                                     builder:
                                         (context) => EditPostScreen(
-                                          id: _postListed[index].postId,
+                                          postId: _postListed[index].postId,
                                         ),
                                   ),
                                 );
