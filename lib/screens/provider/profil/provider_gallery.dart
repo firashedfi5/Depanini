@@ -62,7 +62,7 @@ class _ProviderGalleryState extends State<ProviderGallery> {
       barrierDismissible: false,
       builder:
           (ctx) => AlertDialog(
-            title: const Text('Téléversement en cours'),
+            title: const Text('Envoi en cours...'),
             content: const Column(
               mainAxisSize: MainAxisSize.min,
               children: [
