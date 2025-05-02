@@ -51,7 +51,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
     return imageUrl;
   }
 
-  Future<String?> uploadProviderImageToCloudinary({
+  Future<String?> uploadProviderImageToFirebaseStorage({
     required String userUid,
     required File imageFile,
     required int fileNumber,
@@ -103,7 +103,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
       // Upload service images if they exist
       String? uploadedProviderImageUrl_1;
       if (_pickImageFile_1 != null) {
-        uploadedProviderImageUrl_1 = await uploadProviderImageToCloudinary(
+        uploadedProviderImageUrl_1 = await uploadProviderImageToFirebaseStorage(
           imageFile: _pickImageFile_1!,
           userUid: userCredential.user!.uid,
           fileNumber: 1,
@@ -111,7 +111,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
       }
       String? uploadedProviderImageUrl_2;
       if (_pickImageFile_2 != null) {
-        uploadedProviderImageUrl_2 = await uploadProviderImageToCloudinary(
+        uploadedProviderImageUrl_2 = await uploadProviderImageToFirebaseStorage(
           imageFile: _pickImageFile_2!,
           userUid: userCredential.user!.uid,
           fileNumber: 2,
@@ -119,7 +119,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
       }
       String? uploadedProviderImageUrl_3;
       if (_pickImageFile_3 != null) {
-        uploadedProviderImageUrl_3 = await uploadProviderImageToCloudinary(
+        uploadedProviderImageUrl_3 = await uploadProviderImageToFirebaseStorage(
           imageFile: _pickImageFile_3!,
           userUid: userCredential.user!.uid,
           fileNumber: 3,
@@ -127,7 +127,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
       }
       String? uploadedProviderImageUrl_4;
       if (_pickImageFile_4 != null) {
-        uploadedProviderImageUrl_4 = await uploadProviderImageToCloudinary(
+        uploadedProviderImageUrl_4 = await uploadProviderImageToFirebaseStorage(
           imageFile: _pickImageFile_4!,
           userUid: userCredential.user!.uid,
           fileNumber: 4,

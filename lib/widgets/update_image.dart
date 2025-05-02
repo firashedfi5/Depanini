@@ -44,17 +44,21 @@ class _UpdateImageState extends State<UpdateImage> {
           width: 170,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(15),
-            color: Theme.of(context).colorScheme.onSecondaryContainer,
+            color:
+                Theme.of(context).brightness == Brightness.dark
+                    ? Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainerHighest.withAlpha(100)
+                    : Theme.of(context).colorScheme.surfaceContainerHighest,
             image: DecorationImage(
               image:
                   _pickImageFile != null
                       ? FileImage(_pickImageFile!)
                       : widget.initialImage,
-              fit: BoxFit.cover,
+              // fit: BoxFit.cover,
             ),
           ),
         ),
-        SizedBox(height: 10),
         TextButton.icon(
           onPressed: _pickImage,
 

@@ -1,6 +1,3 @@
-// import 'dart:io';
-
-import 'dart:convert';
 import 'dart:io';
 import 'dart:developer' as dev;
 
@@ -8,8 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:depanini/widgets/image_container.dart';
 import 'package:depanini/widgets/update_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 // import 'package:image_picker/image_picker.dart';
 
 final _auth = FirebaseAuth.instance;
@@ -42,57 +39,78 @@ class _ProviderGalleryState extends State<ProviderGallery> {
   }
 
   // ******************************************
-  Future<String?> uploadProviderImageToCloudinary(File imageFile) async {
-    final cloudName = "dgdvqiztn";
-    final uploadPreset = "Provider_Service_Images";
-
-    final url = "https://api.cloudinary.com/v1_1/$cloudName/image/upload";
-
-    var request =
-        http.MultipartRequest("POST", Uri.parse(url))
-          ..fields['upload_preset'] = uploadPreset
-          ..files.add(
-            await http.MultipartFile.fromPath('file', imageFile.path),
-          );
-
-    var response = await request.send();
-
-    if (response.statusCode == 200) {
-      final responseData = await response.stream.bytesToString();
-      final jsonData = json.decode(responseData);
-      return jsonData['secure_url'];
-    } else {
-      dev.log("Upload failed with status: ${response.statusCode}");
-      return null;
-    }
+  Future<String?> uploadProviderImageToFirebaseStorage({
+    required String userUid,
+    required File imageFile,
+    required int fileNumber,
+  }) async {
+    final storageRef = FirebaseStorage.instance
+        .ref()
+        .child('prestataires_portfolio_pictures')
+        .child('$userUid+$fileNumber.jpg');
+    await storageRef.putFile(imageFile);
+    final imageUrl = await storageRef.getDownloadURL();
+    // dev.log(imageUrl);
+    return imageUrl;
   }
 
   // ******************************************
   void _update() async {
-    DocumentSnapshot userDoc =
-        await _firestore.collection('prestataires').doc(user.uid).get();
-    final currentImage_1 = userDoc['Photo de travail n°1'];
-    String? uploadedProviderImageUrl_1 =
-        _pickImageFile_1 != null
-            ? await uploadProviderImageToCloudinary(_pickImageFile_1!)
-            : currentImage_1;
-    // if (_pickImageFile_1 != null) {
-    //   uploadedProviderImageUrl_1 = await uploadProviderImageToCloudinary(
-    //     _pickImageFile_1!,
-    //   );
-    // } else {
-    //   uploadedProviderImageUrl_1 = _currentImage_1;
-    // }
+    Map<String, dynamic> updatedFields = {};
 
-    await _firestore.collection('prestataires').doc(user.uid).update({
-      'Photo de travail n°1': uploadedProviderImageUrl_1,
-      // 'Photo de travail n°2': _enteredPhoneNumber,
-      // 'Photo de travail n°3': _enteredPhoneNumber,
-      // 'Photo de travail n°4': _enteredPhoneNumber,
-    });
-    dev.log('Photo de prestation mis à jour');
-    if (mounted) {
-      Navigator.pop(context);
+    for (int i = 0; i < pickedImages.length; i++) {
+      final imageFile = pickedImages[i];
+      if (imageFile != null) {
+        final uploadedUrl = await uploadProviderImageToFirebaseStorage(
+          imageFile: imageFile,
+          userUid: user.uid,
+          fileNumber: i + 1,
+        );
+        updatedFields['Photo de travail n°${i + 1}'] = uploadedUrl;
+      }
+    }
+
+    if (updatedFields.isNotEmpty) {
+      // dev.log(updatedFields.toString());
+      await _firestore
+          .collection('prestataires')
+          .doc(user.uid)
+          .update(updatedFields);
+
+      if (mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Photos mises à jour avec succès',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFF2E7D32),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Veuillez changer au moins une photo pour enregistrer.',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xffb3261e),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
   }
 
@@ -138,42 +156,41 @@ class _ProviderGalleryState extends State<ProviderGallery> {
             snapshot.data!['Photo de travail n°3'] ?? '',
             snapshot.data!['Photo de travail n°4'] ?? '',
           ];
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.55,
-                    child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        crossAxisSpacing: 20,
-                        mainAxisSpacing: 20,
-                        childAspectRatio: 0.8,
-                      ),
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: images.length,
-                      itemBuilder: (context, index) {
-                        return UpdateImage(
-                          onPickImage: (pickedImage) {
-                            pickedImages[index] = pickedImage;
-                            // dev.log(index.toString());
-                          },
-                          initialImage: NetworkImage(images[index]),
-                        );
-                      },
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              spacing: 20,
+              children: [
+                SizedBox(height: 20),
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      childAspectRatio: 0.8,
                     ),
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: images.length,
+                    itemBuilder: (context, index) {
+                      return UpdateImage(
+                        onPickImage: (pickedImage) {
+                          pickedImages[index] = pickedImage;
+                        },
+                        initialImage:
+                            images[index].isNotEmpty
+                                ? NetworkImage(images[index])
+                                : const NetworkImage(
+                                  'https://firebasestorage.googleapis.com/v0/b/depanini-3304e.firebasestorage.app/o/no_picture.png?alt=media&token=252b1741-bb01-4c99-8a50-da7ef3da37e4',
+                                ),
+                      );
+                    },
                   ),
-                  SizedBox(height: 40),
-                  ElevatedButton(
-                    onPressed: _update,
-                    child: Text('Enregistrer'),
-                  ),
-                ],
-              ),
+                ),
+                ElevatedButton(onPressed: _update, child: Text('Enregistrer')),
+              ],
             ),
           );
         },
