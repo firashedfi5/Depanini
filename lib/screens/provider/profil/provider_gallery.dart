@@ -55,62 +55,96 @@ class _ProviderGalleryState extends State<ProviderGallery> {
   }
 
   // ******************************************
-  void _update() async {
-    Map<String, dynamic> updatedFields = {};
+  // bool _isLoading = false;
+  void _showUploadingDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder:
+          (ctx) => AlertDialog(
+            title: const Text('Téléversement en cours'),
+            content: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 20),
+                Text(
+                  'Veuillez patienter pendant que vos photos sont mises à jour...',
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            ),
+          ),
+    );
+  }
 
-    for (int i = 0; i < pickedImages.length; i++) {
-      final imageFile = pickedImages[i];
-      if (imageFile != null) {
-        final uploadedUrl = await uploadProviderImageToFirebaseStorage(
-          imageFile: imageFile,
-          userUid: user.uid,
-          fileNumber: i + 1,
-        );
-        updatedFields['Photo de travail n°${i + 1}'] = uploadedUrl;
-      }
+  // ******************************************
+  Future<void> _update() async {
+    final updatedFields = <String, dynamic>{};
+    final hasImageToUpload = pickedImages.any((image) => image != null);
+
+    if (!hasImageToUpload) {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Veuillez changer au moins une photo pour enregistrer.',
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          backgroundColor: const Color(0xffb3261e),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
     }
 
-    if (updatedFields.isNotEmpty) {
-      // dev.log(updatedFields.toString());
-      await _firestore
-          .collection('prestataires')
-          .doc(user.uid)
-          .update(updatedFields);
+    // Show loading dialog once before uploading starts
+    _showUploadingDialog();
 
-      if (mounted) {
-        Navigator.pop(context);
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Photos mises à jour avec succès',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            backgroundColor: const Color(0xFF2E7D32),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+    try {
+      for (int i = 0; i < pickedImages.length; i++) {
+        final imageFile = pickedImages[i];
+        if (imageFile != null) {
+          final uploadedUrl = await uploadProviderImageToFirebaseStorage(
+            imageFile: imageFile,
+            userUid: user.uid,
+            fileNumber: i + 1,
+          );
+          updatedFields['Photo de travail n°${i + 1}'] = uploadedUrl;
+        }
       }
-    } else {
-      if (mounted) {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Veuillez changer au moins une photo pour enregistrer.',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            backgroundColor: const Color(0xffb3261e),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
+
+      if (updatedFields.isNotEmpty) {
+        await _firestore
+            .collection('prestataires')
+            .doc(user.uid)
+            .update(updatedFields);
       }
+    } catch (e) {
+      dev.log('Erreur lors de l\'upload: $e');
+    } finally {
+      if (mounted) Navigator.of(context).pop(); // Hide dialog once
+    }
+
+    if (mounted) {
+      Navigator.pop(context); // Close screen
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Photos mises à jour avec succès',
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          backgroundColor: const Color(0xFF2E7D32),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     }
   }
 
