@@ -106,8 +106,6 @@ class _EditPostScreenState extends State<EditPostScreen> {
     if (isValid) {
       _formKey.currentState!.save();
       // *************************************
-      // Upload service images if they exist
-      // String? uploadedPostImageUrl_1;
       for (int i = 0; i < pickedImages.length; i++) {
         final imageFile = pickedImages[i];
         if (imageFile != null) {
@@ -117,6 +115,13 @@ class _EditPostScreenState extends State<EditPostScreen> {
           );
           updatedFields['imageURL_${i + 1}'] = uploadedUrl;
         }
+      }
+      // *******************************
+      if (_enteredDescription.isNotEmpty) {
+        updatedFields['description'] = _enteredDescription;
+      }
+      if (_selectedDate != null) {
+        updatedFields['date'] = formatter.format(_selectedDate!);
       }
       // ***********Update**************
       if (updatedFields.isNotEmpty) {
@@ -163,141 +168,107 @@ class _EditPostScreenState extends State<EditPostScreen> {
                 "https://firebasestorage.googleapis.com/v0/b/depanini-3304e.firebasestorage.app/o/no_picture.png?alt=media&token=7cfab603-fc3e-4241-a9d3-6e1569aa46d7",
           ];
 
-          return Center(
-            child: Padding(
-              padding: EdgeInsets.all(12),
-              child: SingleChildScrollView(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      SizedBox(height: 20),
-                      TextFormField(
-                        maxLines: 4,
-                        maxLength: 150,
-                        initialValue: snapshot.data!.description,
-                        decoration: InputDecoration(
-                          alignLabelWithHint: true,
-                          label: Text('Description'),
+          return Padding(
+            padding: EdgeInsets.all(12),
+            child: SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    TextFormField(
+                      maxLines: 4,
+                      maxLength: 150,
+                      initialValue: snapshot.data!.description,
+                      decoration: InputDecoration(
+                        alignLabelWithHint: true,
+                        label: Text('Description'),
+                      ),
+                      onSaved: (newValue) {
+                        _enteredDescription = newValue!;
+                      },
+                    ),
+                    SizedBox(height: 10),
+                    TextFormField(
+                      initialValue: snapshot.data!.service,
+                      readOnly: true,
+                      decoration: InputDecoration(
+                        alignLabelWithHint: true,
+                        label: Text('Domaine'),
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          _selectedDate == null
+                              ? snapshot.data!.date
+                              : formatter.format(_selectedDate!),
+                          style: Theme.of(context).textTheme.labelLarge,
                         ),
-                        validator: (value) {
-                          if (value == null ||
-                              value.isEmpty ||
-                              value.trim().length <= 5 ||
-                              value.trim().length > 150) {
-                            return 'Veuillez entrer votre description';
-                          }
-                          return null;
-                        },
-                        onSaved: (newValue) {
-                          _enteredDescription =
-                              (newValue == null || newValue.isEmpty)
-                                  ? snapshot.data!.description
-                                  : newValue;
-                        },
-                      ),
-                      // SizedBox(height: 20),
-                      // DropdownButtonFormField<String>(
-                      //   decoration: InputDecoration(
-                      //     prefixIcon: Icon(Icons.domain_outlined),
-                      //     labelText: 'Service',
-                      //   ),
-                      //   value: snapshot.data!.service,
-                      //   items:
-                      //       _domains.map((domain) {
-                      //         return DropdownMenuItem(
-                      //           value: domain,
-                      //           child: Text(domain),
-                      //         );
-                      //       }).toList(),
-                      //   onChanged: (value) {
-                      //     setState(() {
-                      //       // _selectedDomain = value;
-                      //     });
-                      //   },
-                      //   validator: (value) {
-                      //     if (value == null) {
-                      //       return 'Veuillez sélectionner un service';
-                      //     }
-                      //     return null;
-                      //   },
-                      //   onSaved: (newValue) {
-                      //     _enteredDomaine = newValue!;
-                      //   },
-                      // ),
-                      // SizedBox(height: 20),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            _selectedDate == null
-                                ? snapshot.data!.date
-                                : formatter.format(_selectedDate!),
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                          Row(
-                            children: [
-                              Text(
-                                'Sélectionnez une date',
-                                style: Theme.of(context).textTheme.labelLarge,
-                              ),
-                              IconButton(
-                                onPressed: () async {
-                                  final now = DateTime.now();
-                                  final lastDate = DateTime(
-                                    now.year + 1,
-                                    now.month,
-                                    now.day,
-                                  );
-                                  final pickedDate = await showDatePicker(
-                                    context: context,
-                                    firstDate: now,
-                                    lastDate: lastDate,
-                                  );
-                                  setState(() {
-                                    _selectedDate = pickedDate;
-                                  });
-                                },
-                                icon: Icon(
-                                  Icons.calendar_month_outlined,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Changer les photos',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
-                      SizedBox(height: 10),
-                      // ***********Images***********************
-                      SizedBox(
-                        height: 220,
-                        child: ListView.separated(
-                          separatorBuilder: (__, _) => SizedBox(width: 10),
-                          itemCount: images.length,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            return UpdateImage(
-                              initialImage: NetworkImage(images[index]),
-                              onPickImage: (pickedImage) {
-                                pickedImages[index] = pickedImage;
+                        Row(
+                          children: [
+                            Text(
+                              'Sélectionnez une date',
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                final now = DateTime.now();
+                                final lastDate = DateTime(
+                                  now.year + 1,
+                                  now.month,
+                                  now.day,
+                                );
+                                final pickedDate = await showDatePicker(
+                                  context: context,
+                                  firstDate: now,
+                                  lastDate: lastDate,
+                                );
+                                setState(() {
+                                  _selectedDate = pickedDate;
+                                });
                               },
-                            );
-                          },
+                              icon: Icon(
+                                Icons.calendar_month_outlined,
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                            ),
+                          ],
                         ),
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    Text(
+                      'Changer les photos',
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    SizedBox(height: 10),
+                    // ***********Images***********************
+                    SizedBox(
+                      height: 220,
+                      child: ListView.separated(
+                        separatorBuilder: (__, _) => SizedBox(width: 10),
+                        itemCount: images.length,
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) {
+                          return UpdateImage(
+                            initialImage: NetworkImage(images[index]),
+                            onPickImage: (pickedImage) {
+                              pickedImages[index] = pickedImage;
+                            },
+                          );
+                        },
                       ),
-                      SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: _update,
-                        child: Text('Enregistrer'),
-                      ),
-                      SizedBox(height: 10),
-                    ],
-                  ),
+                    ),
+                    SizedBox(height: 10),
+                    ElevatedButton(
+                      onPressed: _update,
+                      child: Text('Enregistrer'),
+                    ),
+                    SizedBox(height: 10),
+                  ],
                 ),
               ),
             ),

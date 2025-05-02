@@ -28,8 +28,8 @@ class PostImage extends StatelessWidget {
         onImagePicked(File(pickedImage.path));
       },
       child: Container(
-        height: 150,
-        width: 150,
+        height: 170,
+        width: 170,
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.surfaceContainerHighest,
           image:

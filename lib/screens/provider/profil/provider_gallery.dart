@@ -55,7 +55,6 @@ class _ProviderGalleryState extends State<ProviderGallery> {
   }
 
   // ******************************************
-  // bool _isLoading = false;
   void _showUploadingDialog() {
     showDialog(
       context: context,

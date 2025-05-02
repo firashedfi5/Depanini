@@ -160,7 +160,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                       _enteredDescription = value!;
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   DropdownButtonFormField<Domains>(
                     decoration: InputDecoration(
                       prefixIcon: Icon(Icons.domain_outlined),
@@ -189,7 +189,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                       _enteredDomaine = newValue!;
                     },
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -234,7 +234,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                   SizedBox(height: 10),
                   Text(
                     'Ajouter des photos',
-                    style: Theme.of(context).textTheme.labelLarge,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   SizedBox(height: 10),
                   // ***********Images***********************
