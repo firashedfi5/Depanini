@@ -72,9 +72,13 @@ class _ProviderIncomingAppointmentState
                 builder: (context) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
+                  }
+
+                  if (snapshot.hasError) {
                     return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return Center(
                       child: Text(
                         'Aucune réservation confirmé',
@@ -227,6 +231,7 @@ class _ProviderIncomingAppointmentState
                                                             .longitude,
                                                   ),
                                                   isSelecting: false,
+                                                  isDrectionning: true,
                                                   prestataireLocations: [
                                                     PlaceLocation(
                                                       address:

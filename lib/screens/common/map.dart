@@ -2,6 +2,7 @@ import 'package:depanini/models/place.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/client/home/provider_info_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapScreen extends StatefulWidget {
@@ -15,18 +16,56 @@ class MapScreen extends StatefulWidget {
     this.prestataireLocations = const [],
     this.prestataireInfo = const [],
     this.isSelecting = true,
+    this.isDrectionning = false,
   });
 
   final PlaceLocation location;
   final List<PlaceLocation> prestataireLocations;
   final List<ProviderAccountModel> prestataireInfo;
   final bool isSelecting;
+  final bool isDrectionning;
 
   @override
   State<MapScreen> createState() => _MapScreenState();
 }
 
 class _MapScreenState extends State<MapScreen> {
+  // ***********Direction*********************
+  List<LatLng> polylineCoordinates = [];
+  void getPolyPoints() async {
+    PolylinePoints polylinePoints = PolylinePoints();
+
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      googleApiKey: 'AIzaSyBj1ZcnXcI0Wrt1QpNWLj70OMJP_ZVEpvs',
+      request: PolylineRequest(
+        origin: PointLatLng(
+          widget.location.latitude,
+          widget.location.longitude,
+        ),
+        destination: PointLatLng(
+          widget.prestataireLocations[0].latitude,
+          widget.prestataireLocations[0].longitude,
+        ),
+        mode: TravelMode.driving,
+      ),
+    );
+    if (result.points.isNotEmpty) {
+      // ignore: avoid_function_literals_in_foreach_calls
+      result.points.forEach(
+        (PointLatLng point) =>
+            polylineCoordinates.add(LatLng(point.latitude, point.longitude)),
+      );
+      setState(() {});
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getPolyPoints();
+  }
+  // *****************************************
+
   LatLng? _pickedLocation;
 
   @override
@@ -111,6 +150,17 @@ class _MapScreenState extends State<MapScreen> {
                                 : InfoWindow.noText,
                       ),
                 },
+        polylines:
+            widget.isDrectionning == true
+                ? {
+                  Polyline(
+                    polylineId: PolylineId("route"),
+                    points: polylineCoordinates,
+                    color: Colors.lightBlueAccent,
+                    width: 7,
+                  ),
+                }
+                : {},
       ),
     );
   }
