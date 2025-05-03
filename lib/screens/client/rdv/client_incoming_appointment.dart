@@ -3,6 +3,7 @@ import 'package:depanini/models/place.dart';
 import 'package:depanini/models/rdv_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 final _auth = FirebaseAuth.instance;
@@ -202,7 +203,71 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 12),
+                                    Divider(height: 20),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          width: 150,
+                                          child: FilledButton.icon(
+                                            onPressed:
+                                                () => _firestore
+                                                    .collection("rdvs")
+                                                    .doc(items[index].id)
+                                                    .update({
+                                                      'status': 'annulé',
+                                                    }),
+                                            style: FilledButton.styleFrom(
+                                              backgroundColor: Colors
+                                                  .red
+                                                  .shade200
+                                                  .withAlpha(50),
+                                            ),
+                                            label: Text(
+                                              'Annulé',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.xmark,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 150,
+                                          child: FilledButton.icon(
+                                            onPressed:
+                                                () => _firestore
+                                                    .collection("rdvs")
+                                                    .doc(items[index].id)
+                                                    .update({
+                                                      'status': 'completé',
+                                                    }),
+                                            style: FilledButton.styleFrom(
+                                              backgroundColor: Colors
+                                                  .blue
+                                                  .shade200
+                                                  .withAlpha(50),
+                                            ),
+                                            label: Text(
+                                              'Terminé',
+                                              style: TextStyle(
+                                                color: Colors.blue,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.check,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
                                   ],
                                 ),
                               ),

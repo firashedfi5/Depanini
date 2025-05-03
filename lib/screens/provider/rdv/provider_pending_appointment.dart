@@ -157,6 +157,26 @@ class _ProviderPendingAppointmentState
                                             ),
                                           ],
                                         ),
+                                        Spacer(),
+                                        Container(
+                                          padding: const EdgeInsets.all(8.0),
+                                          decoration: BoxDecoration(
+                                            color: Colors.orange.shade200
+                                                .withAlpha(50),
+                                            borderRadius: BorderRadius.circular(
+                                              16,
+                                            ),
+                                          ),
+                                          child: Text(
+                                            'En attente',
+                                            style: Theme.of(
+                                              context,
+                                            ).textTheme.titleMedium!.copyWith(
+                                              color: Colors.orange,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
                                       ],
                                     ),
 
@@ -203,7 +223,7 @@ class _ProviderPendingAppointmentState
                                                   .withAlpha(50),
                                             ),
                                             label: Text(
-                                              'Annulé',
+                                              'Refuser',
                                               style: TextStyle(
                                                 color: Colors.red,
                                                 fontWeight: FontWeight.bold,
@@ -246,6 +266,7 @@ class _ProviderPendingAppointmentState
                                         ),
                                       ],
                                     ),
+                                    SizedBox(height: 10),
                                   ],
                                 ),
                               ),

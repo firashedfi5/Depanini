@@ -4,6 +4,7 @@ import 'package:depanini/models/rdv_model.dart';
 import 'package:depanini/screens/common/map.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 final _auth = FirebaseAuth.instance;
@@ -210,50 +211,125 @@ class _ProviderIncomingAppointmentState
                                     ),
                                     // const SizedBox(height: 12),
                                     Divider(height: 20),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                          MaterialPageRoute(
-                                            builder:
-                                                (context) => MapScreen(
-                                                  location: PlaceLocation(
-                                                    address:
-                                                        items[index]
-                                                            .prestataireLocation
-                                                            .address,
-                                                    latitude:
-                                                        items[index]
-                                                            .prestataireLocation
-                                                            .latitude,
-                                                    longitude:
-                                                        items[index]
-                                                            .prestataireLocation
-                                                            .longitude,
-                                                  ),
-                                                  isSelecting: false,
-                                                  isDrectionning: true,
-                                                  prestataireLocations: [
-                                                    PlaceLocation(
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          width: 150,
+                                          child: FilledButton.icon(
+                                            onPressed:
+                                                () => _firestore
+                                                    .collection("rdvs")
+                                                    .doc(items[index].id)
+                                                    .update({
+                                                      'status': 'annulé',
+                                                    }),
+                                            style: FilledButton.styleFrom(
+                                              backgroundColor: Colors
+                                                  .red
+                                                  .shade200
+                                                  .withAlpha(50),
+                                            ),
+                                            label: Text(
+                                              'Annulé',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.xmark,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 150,
+                                          child: FilledButton.icon(
+                                            onPressed:
+                                                () => _firestore
+                                                    .collection("rdvs")
+                                                    .doc(items[index].id)
+                                                    .update({
+                                                      'status': 'completé',
+                                                    }),
+                                            style: FilledButton.styleFrom(
+                                              backgroundColor: Colors
+                                                  .blue
+                                                  .shade200
+                                                  .withAlpha(50),
+                                            ),
+                                            label: Text(
+                                              'Terminé',
+                                              style: TextStyle(
+                                                color: Colors.blue,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            icon: FaIcon(
+                                              FontAwesomeIcons.check,
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 10),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: OutlinedButton.icon(
+                                        style: OutlinedButton.styleFrom(
+                                          fixedSize: Size(170, 30),
+                                        ),
+                                        icon: Icon(Icons.directions),
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder:
+                                                  (context) => MapScreen(
+                                                    location: PlaceLocation(
                                                       address:
                                                           items[index]
-                                                              .clientLocation
+                                                              .prestataireLocation
                                                               .address,
                                                       latitude:
                                                           items[index]
-                                                              .clientLocation
+                                                              .prestataireLocation
                                                               .latitude,
                                                       longitude:
                                                           items[index]
-                                                              .clientLocation
+                                                              .prestataireLocation
                                                               .longitude,
                                                     ),
-                                                  ],
-                                                  prestataireInfo: [],
-                                                ),
-                                          ),
-                                        );
-                                      },
-                                      child: Text('Direction'),
+                                                    isSelecting: false,
+                                                    isDrectionning: true,
+                                                    othersLocations: [
+                                                      PlaceLocation(
+                                                        address:
+                                                            items[index]
+                                                                .clientLocation
+                                                                .address,
+                                                        latitude:
+                                                            items[index]
+                                                                .clientLocation
+                                                                .latitude,
+                                                        longitude:
+                                                            items[index]
+                                                                .clientLocation
+                                                                .longitude,
+                                                      ),
+                                                    ],
+                                                    prestataireInfo: [],
+                                                    clientUsername:
+                                                        items[index]
+                                                            .clientUsername,
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                        label: Text('Voir l’itinéraire'),
+                                      ),
                                     ),
                                   ],
                                 ),

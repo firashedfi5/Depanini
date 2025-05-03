@@ -180,8 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     .longitude,
                                           ),
                                           isSelecting: false,
-                                          prestataireLocations:
-                                              prestataireLocations,
+                                          othersLocations: prestataireLocations,
                                           prestataireInfo: prestataires,
                                         ),
                                   ),

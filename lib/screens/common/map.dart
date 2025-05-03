@@ -13,17 +13,19 @@ class MapScreen extends StatefulWidget {
       longitude: 10.1815,
       address: '',
     ),
-    this.prestataireLocations = const [],
+    this.othersLocations = const [],
     this.prestataireInfo = const [],
     this.isSelecting = true,
     this.isDrectionning = false,
+    this.clientUsername = "",
   });
 
   final PlaceLocation location;
-  final List<PlaceLocation> prestataireLocations;
+  final List<PlaceLocation> othersLocations;
   final List<ProviderAccountModel> prestataireInfo;
   final bool isSelecting;
   final bool isDrectionning;
+  final String clientUsername;
 
   @override
   State<MapScreen> createState() => _MapScreenState();
@@ -43,8 +45,8 @@ class _MapScreenState extends State<MapScreen> {
           widget.location.longitude,
         ),
         destination: PointLatLng(
-          widget.prestataireLocations[0].latitude,
-          widget.prestataireLocations[0].longitude,
+          widget.othersLocations[0].latitude,
+          widget.othersLocations[0].longitude,
         ),
         mode: TravelMode.driving,
       ),
@@ -114,13 +116,13 @@ class _MapScreenState extends State<MapScreen> {
                           widget.location.longitude,
                         ),
                   ),
-                  if (widget.prestataireLocations.isNotEmpty)
-                    for (int i = 0; i < widget.prestataireLocations.length; i++)
+                  if (widget.othersLocations.isNotEmpty)
+                    for (int i = 0; i < widget.othersLocations.length; i++)
                       Marker(
                         markerId: MarkerId('m${i.toString()}'),
                         position: LatLng(
-                          widget.prestataireLocations[i].latitude,
-                          widget.prestataireLocations[i].longitude,
+                          widget.othersLocations[i].latitude,
+                          widget.othersLocations[i].longitude,
                         ),
                         icon: BitmapDescriptor.defaultMarkerWithHue(
                           BitmapDescriptor.hueBlue,
@@ -147,7 +149,7 @@ class _MapScreenState extends State<MapScreen> {
                                   title: widget.prestataireInfo[i].username,
                                   snippet: widget.prestataireInfo[i].domaine,
                                 )
-                                : InfoWindow.noText,
+                                : InfoWindow(title: widget.clientUsername),
                       ),
                 },
         polylines:
