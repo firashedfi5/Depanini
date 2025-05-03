@@ -14,6 +14,8 @@ class ScheduleAppointmentScreen extends StatefulWidget {
   final String prestataireUid;
   final String prestataireUsername;
   final String prestataireProfilePicture;
+  final String prestataireLocation;
+  final List<double> prestataireLatLong;
   final String service;
 
   const ScheduleAppointmentScreen({
@@ -21,6 +23,8 @@ class ScheduleAppointmentScreen extends StatefulWidget {
     required this.prestataireUid,
     required this.prestataireUsername,
     required this.prestataireProfilePicture,
+    required this.prestataireLocation,
+    required this.prestataireLatLong,
     required this.service,
   });
 
@@ -51,6 +55,8 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
       final userData = userDoc.data();
       final clientUsername = userData!['Nom d\'utilisateur'];
       final clientProfilePicture = userData['Photo de profile'];
+      final clientLocation = userData['Localisation'];
+      final clientLatLong = userData['Latitude&Longitude'];
       // *********************************
       _firestore.collection("rdvs").add({
         'client_uid': _auth.currentUser!.uid,
@@ -70,6 +76,16 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
         'heure': _selectedTime!,
         'createdAt': Timestamp.now(),
         'status': 'en_attente',
+        'client_location': clientLocation,
+        'client_Lat&Long': GeoPoint(
+          clientLatLong.latitude,
+          clientLatLong.longitude,
+        ),
+        'prestataire_location': widget.prestataireLocation,
+        'prestataire_Lat&Long': GeoPoint(
+          widget.prestataireLatLong[0],
+          widget.prestataireLatLong[1],
+        ),
       });
       if (mounted) {
         ScaffoldMessenger.of(context).clearSnackBars();

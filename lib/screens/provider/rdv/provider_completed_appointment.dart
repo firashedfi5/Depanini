@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:depanini/models/place.dart';
 import 'package:depanini/models/rdv_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,16 @@ class _ProviderCompletedAppointmentState
                   clientUid: data['client_uid'],
                   clientUsername: data['client_username'],
                   clientProfilePicture: data['client_profile_picture'],
+                  clientLocation: PlaceLocation(
+                    latitude: data['client_Lat&Long'].latitude,
+                    longitude: data['client_Lat&Long'].longitude,
+                    address: data['client_location'],
+                  ),
+                  prestataireLocation: PlaceLocation(
+                    latitude: data['prestataire_Lat&Long'].latitude,
+                    longitude: data['prestataire_Lat&Long'].longitude,
+                    address: data['prestataire_location'],
+                  ),
                   prestataireUid: data['prestataire_uid'],
                   prestataireUsername: data['prestataire_username'],
                   prestataireProfilePicture:

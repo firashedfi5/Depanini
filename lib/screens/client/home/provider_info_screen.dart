@@ -353,6 +353,12 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                           snapshot.data!.username,
                                       prestataireProfilePicture:
                                           snapshot.data!.profilPicture,
+                                      prestataireLocation:
+                                          snapshot.data!.localisation,
+                                      prestataireLatLong: [
+                                        snapshot.data!.latitude,
+                                        snapshot.data!.longitude,
+                                      ],
                                       service: snapshot.data!.domaine,
                                     ),
                               ),

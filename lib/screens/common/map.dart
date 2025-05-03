@@ -86,20 +86,29 @@ class _MapScreenState extends State<MapScreen> {
                         icon: BitmapDescriptor.defaultMarkerWithHue(
                           BitmapDescriptor.hueBlue,
                         ),
-                        infoWindow: InfoWindow(
-                          onTap:
-                              () => Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder:
-                                      (context) => ProviderInfoScreen(
-                                        email: widget.prestataireInfo[i].email,
-                                        uid: widget.prestataireInfo[i].uid,
+                        infoWindow:
+                            widget.prestataireInfo.isNotEmpty
+                                ? InfoWindow(
+                                  onTap:
+                                      () => Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder:
+                                              (context) => ProviderInfoScreen(
+                                                email:
+                                                    widget
+                                                        .prestataireInfo[i]
+                                                        .email,
+                                                uid:
+                                                    widget
+                                                        .prestataireInfo[i]
+                                                        .uid,
+                                              ),
+                                        ),
                                       ),
-                                ),
-                              ),
-                          title: widget.prestataireInfo[i].username,
-                          snippet: widget.prestataireInfo[i].domaine,
-                        ),
+                                  title: widget.prestataireInfo[i].username,
+                                  snippet: widget.prestataireInfo[i].domaine,
+                                )
+                                : InfoWindow.noText,
                       ),
                 },
       ),

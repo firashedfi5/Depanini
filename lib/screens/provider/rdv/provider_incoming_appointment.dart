@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:depanini/models/place.dart';
 import 'package:depanini/models/rdv_model.dart';
+import 'package:depanini/screens/common/map.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -34,6 +36,16 @@ class _ProviderIncomingAppointmentState
                   clientUid: data['client_uid'],
                   clientUsername: data['client_username'],
                   clientProfilePicture: data['client_profile_picture'],
+                  clientLocation: PlaceLocation(
+                    latitude: data['client_Lat&Long'].latitude,
+                    longitude: data['client_Lat&Long'].longitude,
+                    address: data['client_location'],
+                  ),
+                  prestataireLocation: PlaceLocation(
+                    latitude: data['prestataire_Lat&Long'].latitude,
+                    longitude: data['prestataire_Lat&Long'].longitude,
+                    address: data['prestataire_location'],
+                  ),
                   prestataireUid: data['prestataire_uid'],
                   prestataireUsername: data['prestataire_username'],
                   prestataireProfilePicture:
@@ -104,6 +116,10 @@ class _ProviderIncomingAppointmentState
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    // Text(
+                                    //   items[index].prestataireLocation.longitude
+                                    //       .toString(),
+                                    // ),
                                     Row(
                                       children: [
                                         CircleAvatar(
@@ -188,7 +204,52 @@ class _ProviderIncomingAppointmentState
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 12),
+                                    // const SizedBox(height: 12),
+                                    Divider(height: 20),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.of(context).push(
+                                          MaterialPageRoute(
+                                            builder:
+                                                (context) => MapScreen(
+                                                  location: PlaceLocation(
+                                                    address:
+                                                        items[index]
+                                                            .prestataireLocation
+                                                            .address,
+                                                    latitude:
+                                                        items[index]
+                                                            .prestataireLocation
+                                                            .latitude,
+                                                    longitude:
+                                                        items[index]
+                                                            .prestataireLocation
+                                                            .longitude,
+                                                  ),
+                                                  isSelecting: false,
+                                                  prestataireLocations: [
+                                                    PlaceLocation(
+                                                      address:
+                                                          items[index]
+                                                              .clientLocation
+                                                              .address,
+                                                      latitude:
+                                                          items[index]
+                                                              .clientLocation
+                                                              .latitude,
+                                                      longitude:
+                                                          items[index]
+                                                              .clientLocation
+                                                              .longitude,
+                                                    ),
+                                                  ],
+                                                  prestataireInfo: [],
+                                                ),
+                                          ),
+                                        );
+                                      },
+                                      child: Text('Direction'),
+                                    ),
                                   ],
                                 ),
                               ),
