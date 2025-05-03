@@ -245,13 +245,15 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             children: [
                               Text(
                                 snapshot.data!.username,
-                                style: Theme.of(context).textTheme.headlineSmall
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineMedium
                                     ?.copyWith(fontWeight: FontWeight.bold),
                               ),
                               const SizedBox(height: 8),
                               Text(
                                 snapshot.data!.description,
-                                style: Theme.of(context).textTheme.bodyMedium,
+                                style: Theme.of(context).textTheme.bodyLarge,
                                 textAlign: TextAlign.center,
                               ),
                               const SizedBox(height: 8),
@@ -261,16 +263,14 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                   text: 'Diplôme: ',
                                   style: Theme.of(
                                     context,
-                                  ).textTheme.bodyMedium?.copyWith(
+                                  ).textTheme.bodyLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ), // Default style
                                   children: [
                                     TextSpan(
                                       text: snapshot.data!.diplome,
                                       style:
-                                          Theme.of(
-                                            context,
-                                          ).textTheme.bodyMedium,
+                                          Theme.of(context).textTheme.bodyLarge,
                                     ),
                                   ],
                                 ),
@@ -281,19 +281,36 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                   text: 'Experience: ',
                                   style: Theme.of(
                                     context,
-                                  ).textTheme.bodyMedium?.copyWith(
+                                  ).textTheme.bodyLarge?.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ), // Default style
                                   children: [
                                     TextSpan(
                                       text: snapshot.data!.experience,
                                       style:
-                                          Theme.of(
-                                            context,
-                                          ).textTheme.bodyMedium,
+                                          Theme.of(context).textTheme.bodyLarge,
                                     ),
                                   ],
                                 ),
+                              ),
+                              SizedBox(height: 8),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    'Notes: ',
+                                    style: Theme.of(context).textTheme.bodyLarge
+                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                  ),
+                                  Icon(Icons.star, color: Colors.amber),
+                                  const SizedBox(width: 6),
+                                  Text(
+                                    snapshot.data!.averageRating
+                                        .toStringAsFixed(2),
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                ],
                               ),
                             ],
                           ),
