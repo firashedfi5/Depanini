@@ -156,7 +156,7 @@ class _MapScreenState extends State<MapScreen> {
                   Polyline(
                     polylineId: PolylineId("route"),
                     points: polylineCoordinates,
-                    color: Colors.lightBlueAccent,
+                    color: Colors.cyanAccent,
                     width: 7,
                   ),
                 }
