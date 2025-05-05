@@ -47,7 +47,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   final List<Domains> _domains = Domains.values;
 
   Domains? _selectedDomain;
-  var _enteredDescription = '';
+  final TextEditingController _enteredDescription = TextEditingController();
   Domains? _enteredDomaine;
   File? _pickImageFile_1;
   File? _pickImageFile_2;
@@ -113,7 +113,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
         'username': username,
         'phone_number': phoneNumber,
         'profil_picture': profilPictureURL,
-        'description': _enteredDescription,
+        'description': _enteredDescription.text,
         'service': _enteredDomaine!.name,
         'date': _selectedDate == null ? '' : formatter.format(_selectedDate!),
         'imageURL_1': uploadedPostImageUrl_1,
@@ -129,6 +129,12 @@ class _NewPostScreenState extends State<NewPostScreen> {
   final formatter = DateFormat.yMd();
 
   @override
+  void dispose() {
+    super.dispose();
+    _enteredDescription.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Ajouter une annonce')),
@@ -141,6 +147,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
               child: Column(
                 children: [
                   TextFormField(
+                    controller: _enteredDescription,
                     maxLines: 4,
                     maxLength: 150,
                     decoration: InputDecoration(
@@ -157,7 +164,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                       return null;
                     },
                     onSaved: (value) {
-                      _enteredDescription = value!;
+                      _enteredDescription.text = value!;
                     },
                   ),
                   SizedBox(height: 10),

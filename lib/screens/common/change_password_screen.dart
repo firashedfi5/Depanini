@@ -91,6 +91,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _oldPasswordController.dispose();
+    _newPasswordController.dispose();
+    _confirmNewPasswordController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Changer le mot de passe')),

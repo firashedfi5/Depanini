@@ -30,7 +30,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
   final formatter = DateFormat.yMd();
 
   // String? _selectedDomain;
-  var _enteredDescription = '';
+  final TextEditingController _enteredDescription = TextEditingController();
   // var _enteredDomaine = '';
   File? _pickImageFile_1;
   File? _pickImageFile_2;
@@ -112,7 +112,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
 
     final hasImageChanged = pickedImages.any((image) => image != null);
     final hasTextChanged =
-        _enteredDescription.trim() != widget.originalDescription;
+        _enteredDescription.text.trim() != widget.originalDescription;
     final hasDateChanged = _selectedDate != null;
 
     if (!hasImageChanged && !hasTextChanged && !hasDateChanged) {
@@ -166,7 +166,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
       }
 
       if (hasTextChanged) {
-        updatedFields['description'] = _enteredDescription;
+        updatedFields['description'] = _enteredDescription.text;
       }
 
       if (hasDateChanged) {
@@ -218,6 +218,12 @@ class _EditPostScreenState extends State<EditPostScreen> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _enteredDescription.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Modifier une annonce')),
@@ -266,7 +272,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
                         label: Text('Description'),
                       ),
                       onSaved: (newValue) {
-                        _enteredDescription = newValue!;
+                        _enteredDescription.text = newValue!;
                       },
                     ),
                     SizedBox(height: 10),
