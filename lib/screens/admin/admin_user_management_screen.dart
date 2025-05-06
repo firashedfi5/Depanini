@@ -18,6 +18,13 @@ class AdminUserManagementScreen extends StatefulWidget {
 
 class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
   int? usersCount;
+  Future<List<UnifiedUser>> _foundedUsers = Future.value([]);
+
+  @override
+  void initState() {
+    super.initState();
+    _foundedUsers = getAllUsers();
+  }
 
   Future<List<UnifiedUser>> getAllUsers() async {
     final clientsSnap = await _firestore.collection("clients").get();
@@ -42,82 +49,113 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
     return [...clients, ...prestataires];
   }
 
+  void searchUsers(String search) {
+    String searchLower = search.toLowerCase().trim();
+
+    getAllUsers().then((users) {
+      final filtered =
+          searchLower.isEmpty
+              ? users
+              : users.where((user) {
+                final username = user.username.toLowerCase();
+                // final email = user.email.toLowerCase();
+                final phone = user.phoneNumber.toLowerCase();
+
+                return username.contains(searchLower) ||
+                    // email.contains(searchLower) ||
+                    phone.contains(searchLower);
+              }).toList();
+
+      setState(() {
+        _foundedUsers = Future.value(filtered);
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<UnifiedUser>>(
-        future: getAllUsers(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
-
-          if (snapshot.hasError) {
-            return Center(child: Text('Erreur: ${snapshot.error}'));
-          }
-
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('Aucun utilisateur trouvé.'));
-          }
-
-          final users = snapshot.data!;
-          final userCount = users.length;
-
-          return NestedScrollView(
-            headerSliverBuilder:
-                (context, innerBoxIsScrolled) => [
-                  SliverAppBar(
-                    expandedHeight: 110,
-                    automaticallyImplyLeading: false,
-                    pinned: true,
-                    floating: true,
-                    title: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Gestion des utilisateurs'),
-                        SizedBox(height: 4),
-                        Text.rich(
+      body: NestedScrollView(
+        headerSliverBuilder:
+            (context, innerBoxIsScrolled) => [
+              SliverAppBar(
+                expandedHeight: 110,
+                automaticallyImplyLeading: false,
+                pinned: true,
+                floating: true,
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text('Gestion des utilisateurs'),
+                    const SizedBox(height: 4),
+                    FutureBuilder<List<UnifiedUser>>(
+                      future: getAllUsers(),
+                      builder: (context, snapshot) {
+                        final count =
+                            snapshot.hasData ? snapshot.data!.length : 0;
+                        return Text.rich(
                           TextSpan(
                             text: 'Nombre total d\'utilisateurs: ',
                             style: Theme.of(context).textTheme.titleSmall
                                 ?.copyWith(fontWeight: FontWeight.bold),
                             children: [
                               TextSpan(
-                                text: userCount.toString(),
+                                text: count.toString(),
                                 style: Theme.of(context).textTheme.titleSmall,
                               ),
                             ],
                           ),
-                        ),
-                      ],
+                        );
+                      },
                     ),
-                    bottom: PreferredSize(
-                      preferredSize: const Size.fromHeight(50),
-                      child: Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
-                        child: SizedBox(
-                          height: 40,
-                          width: 370,
-                          child: SearchBar(
-                            leading: Icon(
-                              Icons.search,
-                              color: Theme.of(context).colorScheme.primary,
-                            ),
-                            hintText: 'Rechercher un utilisateur',
-                            backgroundColor: WidgetStateProperty.all(
-                              Theme.of(context).brightness == Brightness.dark
-                                  ? Theme.of(
-                                    context,
-                                  ).colorScheme.onSecondaryFixedVariant
-                                  : const Color.fromARGB(255, 228, 216, 240),
-                            ),
-                          ),
+                  ],
+                ),
+                bottom: PreferredSize(
+                  preferredSize: const Size.fromHeight(50),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: SizedBox(
+                      height: 40,
+                      width: 370,
+                      child: SearchBar(
+                        onChanged: searchUsers,
+                        onSubmitted: searchUsers,
+                        leading: Icon(
+                          Icons.search,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
+                        hintText: 'Rechercher un utilisateur',
+                        backgroundColor: WidgetStateProperty.all(
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Theme.of(
+                                context,
+                              ).colorScheme.onSecondaryFixedVariant
+                              : const Color.fromARGB(255, 228, 216, 240),
                         ),
                       ),
                     ),
                   ),
-                ],
-            body: Padding(
+                ),
+              ),
+            ],
+        body: FutureBuilder<List<UnifiedUser>>(
+          future: _foundedUsers,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (snapshot.hasError) {
+              return Center(child: Text('Erreur: ${snapshot.error}'));
+            }
+
+            if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(child: Text('Aucun utilisateur trouvé.'));
+            }
+
+            final users = snapshot.data!;
+
+            return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8),
               child: ListView.builder(
                 itemCount: users.length,
@@ -176,9 +214,9 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                   );
                 },
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
