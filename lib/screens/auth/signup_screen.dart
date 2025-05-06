@@ -79,7 +79,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                       SizedBox(
                         width: 350,
                         child: TextFormField(
-                          initialValue: userInfo.userName,
+                          initialValue: userInfo.username,
                           decoration: InputDecoration(
                             labelText: 'Nom d\'utilisateur',
                             hintText: 'Entrez le nom d\'utilisateur',

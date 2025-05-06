@@ -1,13 +1,13 @@
 import 'dart:io';
 import 'package:depanini/models/place.dart';
-import 'package:depanini/models/signup_model.dart';
+import 'package:depanini/models/client_account_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class UserInformationNotifier extends StateNotifier<SignupModel> {
-  UserInformationNotifier() : super(const SignupModel());
+class UserInformationNotifier extends StateNotifier<ClientModel> {
+  UserInformationNotifier() : super(const ClientModel());
 
-  void updateUsername(String userName) {
-    state = state.copyWith(userName: userName);
+  void updateUsername(String username) {
+    state = state.copyWith(username: username);
   }
 
   void updateEmail(String email) {
@@ -36,6 +36,6 @@ class UserInformationNotifier extends StateNotifier<SignupModel> {
 }
 
 final userInformationProvdier =
-    StateNotifierProvider<UserInformationNotifier, SignupModel>(
+    StateNotifierProvider<UserInformationNotifier, ClientModel>(
       (ref) => UserInformationNotifier(),
     );

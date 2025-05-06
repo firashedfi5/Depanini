@@ -91,7 +91,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                       .collection('clients')
                       .doc(userCredential.user!.uid)
                       .set({
-                        'Nom d\'utilisateur': userInfo.userName,
+                        'Nom d\'utilisateur': userInfo.username,
                         'Rôle': _enetredRole,
                         'Numéro de téléphone': userInfo.phoneNumber,
                         'Email': userInfo.email,

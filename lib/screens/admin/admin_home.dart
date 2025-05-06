@@ -1,5 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:depanini/screens/admin/admin_home_screen.dart';
+import 'package:depanini/screens/admin/admin_user_management_screen.dart';
 import 'package:flutter/material.dart';
 
 class AdminHome extends StatefulWidget {
@@ -19,9 +19,9 @@ class _AdminHomeState extends State<AdminHome> {
   }
 
   final List<Widget> _pages = [
-    AdminHomeScreen(),
-    AdminHomeScreen(),
-    AdminHomeScreen(),
+    AdminUserManagementScreen(),
+    AdminUserManagementScreen(),
+    AdminUserManagementScreen(),
   ];
 
   @override
