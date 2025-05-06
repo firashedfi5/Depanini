@@ -17,6 +17,8 @@ class AdminUserManagementScreen extends StatefulWidget {
 }
 
 class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
+  int? usersCount;
+
   Future<List<UnifiedUser>> getAllUsers() async {
     final clientsSnap = await _firestore.collection("clients").get();
     final prestatairesSnap = await _firestore.collection("prestataires").get();
@@ -43,85 +45,106 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: NestedScrollView(
-        headerSliverBuilder:
-            (context, innerBoxIsScrolled) => [
-              SliverAppBar(
-                automaticallyImplyLeading: false,
-                pinned: true,
-                floating: true,
-                title: Text('Gestion des utilisateurs'),
-                bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(50),
-                  child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: SizedBox(
-                      height: 40,
-                      width: 370,
-                      child: SearchBar(
-                        leading: Icon(
-                          Icons.search,
-                          color: Theme.of(context).colorScheme.primary,
+      body: FutureBuilder<List<UnifiedUser>>(
+        future: getAllUsers(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          if (snapshot.hasError) {
+            return Center(child: Text('Erreur: ${snapshot.error}'));
+          }
+
+          if (!snapshot.hasData || snapshot.data!.isEmpty) {
+            return const Center(child: Text('Aucun utilisateur trouvé.'));
+          }
+
+          final users = snapshot.data!;
+          final userCount = users.length;
+
+          return NestedScrollView(
+            headerSliverBuilder:
+                (context, innerBoxIsScrolled) => [
+                  SliverAppBar(
+                    expandedHeight: 110,
+                    automaticallyImplyLeading: false,
+                    pinned: true,
+                    floating: true,
+                    title: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('Gestion des utilisateurs'),
+                        SizedBox(height: 4),
+                        Text.rich(
+                          TextSpan(
+                            text: 'Nombre total d\'utilisateurs: ',
+                            style: Theme.of(context).textTheme.titleSmall
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                            children: [
+                              TextSpan(
+                                text: userCount.toString(),
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                            ],
+                          ),
                         ),
-                        hintText: 'Rechercher un utilisateur',
-                        backgroundColor: WidgetStateProperty.all(
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Theme.of(
-                                context,
-                              ).colorScheme.onSecondaryFixedVariant
-                              : const Color.fromARGB(255, 228, 216, 240),
+                      ],
+                    ),
+                    bottom: PreferredSize(
+                      preferredSize: const Size.fromHeight(50),
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: SizedBox(
+                          height: 40,
+                          width: 370,
+                          child: SearchBar(
+                            leading: Icon(
+                              Icons.search,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            hintText: 'Rechercher un utilisateur',
+                            backgroundColor: WidgetStateProperty.all(
+                              Theme.of(context).brightness == Brightness.dark
+                                  ? Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondaryFixedVariant
+                                  : const Color.fromARGB(255, 228, 216, 240),
+                            ),
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ),
-            ],
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: FutureBuilder<List<UnifiedUser>>(
-            future: getAllUsers(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
-              }
-
-              if (snapshot.hasError) {
-                return Center(child: Text('Erreur: ${snapshot.error}'));
-              }
-
-              if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                return Center(child: Text('Aucun utilisateur trouvé.'));
-              }
-
-              final users = snapshot.data!;
-
-              return ListView.builder(
+                ],
+            body: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: ListView.builder(
                 itemCount: users.length,
                 itemBuilder: (context, index) {
                   final user = users[index];
 
-                  final String name =
+                  final name =
                       user.type == UserType.client
                           ? user.clientData?.username ?? 'Nom inconnu'
                           : user.providerData?.username ?? 'Nom inconnu';
 
-                  final String email =
+                  final email =
                       user.type == UserType.client
                           ? user.clientData?.email ?? 'Nom inconnu'
                           : user.providerData?.email ?? 'Nom inconnu';
 
-                  final String phoneNumber =
+                  final phoneNumber =
                       user.type == UserType.client
                           ? user.clientData?.phoneNumber ?? 'Nom inconnu'
                           : user.providerData?.phoneNumber ?? 'Nom inconnu';
 
-                  final String address =
+                  final address =
                       user.type == UserType.client
                           ? user.clientData?.localisation ?? 'Nom inconnu'
                           : user.providerData?.localisation ?? 'Nom inconnu';
 
-                  final String roleText =
+                  final roleText =
                       user.type == UserType.client ? "Client" : "Prestataire";
 
                   return Card(
@@ -150,16 +173,12 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                         ],
                       ),
                     ),
-                    // ListTile(
-                    //   title: Text(name),
-                    //   subtitle: Text(roleText),
-                    // ),
                   );
                 },
-              );
-            },
-          ),
-        ),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
