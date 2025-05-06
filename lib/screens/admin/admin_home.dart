@@ -1,7 +1,10 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
+import 'package:depanini/screens/admin/admin_diy_screen.dart';
 import 'package:depanini/screens/admin/admin_profil_screen.dart';
+import 'package:depanini/screens/admin/admin_reports_screen.dart';
 import 'package:depanini/screens/admin/admin_user_management_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class AdminHome extends StatefulWidget {
   const AdminHome({super.key});
@@ -21,7 +24,8 @@ class _AdminHomeState extends State<AdminHome> {
 
   final List<Widget> _pages = [
     AdminUserManagementScreen(),
-    AdminUserManagementScreen(),
+    AdminReportsScreen(),
+    AdminDiyScreen(),
     AdminProfilScreen(),
   ];
 
@@ -36,8 +40,9 @@ class _AdminHomeState extends State<AdminHome> {
         animationDuration: Duration(milliseconds: 300),
         onTap: _navigateGoogleNavbar,
         items: [
-          Icon(Icons.home),
-          Icon(Icons.calendar_month),
+          FaIcon(FontAwesomeIcons.users),
+          Icon(Icons.flag),
+          Icon(Icons.tips_and_updates),
           Icon(Icons.account_circle),
         ],
       ),
