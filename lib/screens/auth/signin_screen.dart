@@ -17,8 +17,8 @@ class SigninScreen extends StatefulWidget {
 
 class _SigninScreenState extends State<SigninScreen> {
   // ************Form*************
-  var _enteredEmail = '';
-  var _enteredPassword = '';
+  final TextEditingController _enteredEmail = TextEditingController();
+  final TextEditingController _enteredPassword = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   void _submit() async {
     final isValid = _formKey.currentState!.validate();
@@ -30,8 +30,8 @@ class _SigninScreenState extends State<SigninScreen> {
     // **************Firabese Auth********************
     try {
       final userCredential = await _firebase.signInWithEmailAndPassword(
-        email: _enteredEmail,
-        password: _enteredPassword,
+        email: _enteredEmail.text,
+        password: _enteredPassword.text,
       );
       dev.log(userCredential.toString());
     } on FirebaseAuthException catch (error) {
@@ -119,8 +119,15 @@ class _SigninScreenState extends State<SigninScreen> {
       }
     }
   }
-
   // ********************************
+
+  @override
+  void dispose() {
+    super.dispose();
+    _enteredEmail.dispose();
+    _enteredPassword.dispose();
+  }
+
   bool _isVisible = false;
   @override
   Widget build(context) {
@@ -162,7 +169,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             return null;
                           },
                           onSaved: (newValue) {
-                            _enteredEmail = newValue!;
+                            _enteredEmail.text = newValue!;
                           },
                         ),
                       ),
@@ -194,7 +201,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             return null;
                           },
                           onSaved: (newValue) {
-                            _enteredPassword = newValue!;
+                            _enteredPassword.text = newValue!;
                           },
                         ),
                       ),
