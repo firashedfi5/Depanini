@@ -2,6 +2,7 @@ import 'dart:developer' as dev;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/astuce_model.dart';
+import 'package:depanini/screens/admin/diy/edit_diy_screen.dart';
 import 'package:depanini/screens/admin/diy/new_diy_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -253,7 +254,18 @@ class _AdminDiyScreenState extends State<AdminDiyScreen> {
                         Icons.edit_note_outlined,
                         color: Theme.of(context).colorScheme.primary,
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder:
+                                (context) => EditDiyScreen(
+                                  astuceId: astuce.id,
+                                  originalDescription: astuce.description,
+                                  originalTitle: astuce.titre,
+                                ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),

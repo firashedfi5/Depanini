@@ -51,7 +51,6 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
       // *************************************
       _formKey.currentState!.save();
       // *************************************
-      // Upload service images if they exist
       String? uploadedPostImageUrl_1;
       if (_foregroundImageFile != null) {
         uploadedPostImageUrl_1 = await uploadImageToFirebaseStorage(
