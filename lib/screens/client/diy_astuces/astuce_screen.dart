@@ -22,6 +22,7 @@ class AstuceScreen extends StatelessWidget {
         description: data["description"] ?? "Description non disponible",
         domaine: data["domaine"] ?? "Domaine non spécifié",
         foregroundImage: data["foreground_image"],
+        createdAt: data['createdAt']
       );
     } catch (e) {
       throw Exception('Erreur de récupération de l\'astuce : $e');

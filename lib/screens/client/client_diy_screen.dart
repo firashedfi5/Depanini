@@ -43,6 +43,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
               description: data['description'],
               domaine: data['domaine'],
               foregroundImage: data['foreground_image'],
+              createdAt: data['createdAt'],
             );
           }).toList();
 
