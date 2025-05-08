@@ -1,17 +1,96 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:depanini/screens/auth/signin_screen.dart';
 import 'package:depanini/screens/client/profil/client_account_screen.dart';
 import 'package:depanini/screens/common/change_location.dart';
 import 'package:depanini/screens/common/change_password_screen.dart';
 import 'package:depanini/theme/theme_provider.dart';
 import 'package:depanini/theme/themes.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ClientSettingsScreen extends ConsumerWidget {
+final _auth = FirebaseAuth.instance;
+final _firestore = FirebaseFirestore.instance;
+
+class ClientSettingsScreen extends ConsumerStatefulWidget {
   const ClientSettingsScreen({super.key});
 
   @override
-  Widget build(BuildContext context, ref) {
+  ConsumerState<ClientSettingsScreen> createState() =>
+      _ClientSettingsScreenState();
+}
+
+class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
+  void showDeleteConfirmationDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder:
+          (context) => AlertDialog(
+            title: Text(
+              'Supprimer le compte',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            ),
+            content: Text(
+              'Êtes-vous sûr de vouloir supprimer votre compte? Cette action est irréversible.',
+              style: TextStyle(fontWeight: FontWeight.w500),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.of(context).pop(), // Dismiss dialog
+                child: Text('Annuler'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  Navigator.of(context).pop(); // Dismiss dialog
+                  Navigator.of(context).pop();
+                  try {
+                    await _firestore
+                        .collection('clients')
+                        .doc(_auth.currentUser!.uid)
+                        .delete();
+                    await _auth.currentUser!.delete();
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Account deleted successfully.'),
+                        ),
+                      );
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (context) => SigninScreen()),
+                      );
+                    }
+                  } on FirebaseAuthException catch (e) {
+                    if (context.mounted) {
+                      if (e.code == 'requires-recent-login') {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Veuillez vous réauthentifier pour supprimer votre compte.',
+                            ),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text(
+                              'Échec de la suppression du compte: ${e.message}',
+                            ),
+                          ),
+                        );
+                      }
+                    }
+                  }
+                },
+                child: Text('Supprimer', style: TextStyle(color: Colors.red)),
+              ),
+            ],
+          ),
+    );
+  }
+
+  @override
+  Widget build(context) {
     final themeData = ref.watch(themeProvider);
     return Scaffold(
       appBar: AppBar(title: Text('Paramètres')),
@@ -114,6 +193,25 @@ class ClientSettingsScreen extends ConsumerWidget {
                       // Navigator.of(context).pop();
                     },
                   ),
+                ],
+              ),
+            ),
+            SizedBox(height: 7),
+            TextButton(
+              onPressed: () => showDeleteConfirmationDialog(context),
+              child: Row(
+                children: [
+                  FaIcon(FontAwesomeIcons.trash, size: 20),
+                  SizedBox(width: 10),
+                  Text(
+                    'Supprimer votre compte',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Theme.of(context).textTheme.bodyLarge!.color,
+                    ),
+                  ),
+                  Spacer(),
+                  Icon(Icons.arrow_forward_ios),
                 ],
               ),
             ),
