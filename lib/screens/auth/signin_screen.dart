@@ -205,12 +205,12 @@ class _SigninScreenState extends State<SigninScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 40),
+                      SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: _submit,
                         child: Text('Se connecter'),
                       ),
-                      SizedBox(height: 15),
+                      SizedBox(height: 10),
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
@@ -239,7 +239,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       ),
                       Divider(
                         thickness: 2,
-                        height: 40,
+                        height: 30,
                         indent: 35,
                         endIndent: 35,
                       ),
