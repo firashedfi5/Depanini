@@ -15,7 +15,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Prestataire Info')),
+      appBar: AppBar(title: const Text('Informations du prestataire')),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

@@ -35,7 +35,7 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Client Info')),
+      appBar: AppBar(title: const Text('Informations du client')),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -268,7 +268,7 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                               ), // Default style
                               children: [
                                 TextSpan(
-                                  text: "",
+                                  text: "0",
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],

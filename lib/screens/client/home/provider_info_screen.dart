@@ -200,7 +200,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Prestataire description')),
+      appBar: AppBar(title: Text('Informations du prestataire')),
       body: SingleChildScrollView(
         child: FutureBuilder(
           future: getUserData(),
