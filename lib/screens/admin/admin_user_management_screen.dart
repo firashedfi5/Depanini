@@ -221,7 +221,7 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                                 context,
                               ).colorScheme.surfaceContainerHighest,
                       child: Padding(
-                        padding: const EdgeInsets.all(12),
+                        padding: const EdgeInsets.all(8),
                         child: Row(
                           children: [
                             // Profile Image
@@ -286,30 +286,24 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                 ),
-                                const SizedBox(height: 10),
-
-                                // // Rating
                               ],
                             ),
                             Spacer(),
-                            Row(
-                              children: [
-                                Icon(
-                                  Icons.check_circle_rounded,
+                            Container(
+                              padding: const EdgeInsets.all(5.0),
+                              decoration: BoxDecoration(
+                                color: Colors.green.shade200.withAlpha(50),
+                                borderRadius: BorderRadius.circular(16),
+                              ),
+                              child: Text(
+                                'Activé',
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.titleSmall!.copyWith(
                                   color: Colors.green,
-                                  size: 20,
+                                  fontWeight: FontWeight.bold,
                                 ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  'Activé',
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.labelMedium?.copyWith(
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                              ],
+                              ),
                             ),
                           ],
                         ),
