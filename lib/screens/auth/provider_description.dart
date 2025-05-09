@@ -159,6 +159,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
               userInfo.location!.latitude,
               userInfo.location!.longitude,
             ),
+            'Inscrit Le': DateTime.now(),
           });
       // ************************************
       if (mounted) {

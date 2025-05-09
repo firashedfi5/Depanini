@@ -102,6 +102,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                           userInfo.location!.longitude,
                         ),
                         'Uid': userCredential.user!.uid,
+                        'Inscrit Le': DateTime.now(),
                       });
                   // ********************************************
                   if (context.mounted) {
