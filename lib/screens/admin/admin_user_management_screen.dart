@@ -239,54 +239,63 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                             const SizedBox(width: 10),
 
                             // Info Section
-                            Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  username,
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.titleLarge?.copyWith(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18,
-                                  ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                const SizedBox(height: 8),
-
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).colorScheme.primary
-                                        .withValues(alpha: 0.1),
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Text(
-                                    role,
+                            SizedBox(
+                              width: 180,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    username,
                                     style: Theme.of(
                                       context,
-                                    ).textTheme.bodyMedium?.copyWith(
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                      fontWeight: FontWeight.w600,
+                                    ).textTheme.titleLarge?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 8),
+
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          .withValues(alpha: 0.1),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      role,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.bodyMedium?.copyWith(
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
+                                        fontWeight: FontWeight.w600,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                const SizedBox(height: 8),
+                                  const SizedBox(height: 8),
 
-                                Text(
-                                  email,
-                                  style: Theme.of(context).textTheme.bodyMedium
-                                      ?.copyWith(fontWeight: FontWeight.w600),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
+                                  Text(
+                                    email,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium
+                                        ?.copyWith(fontWeight: FontWeight.w600),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
                             ),
                             Spacer(),
                             Container(
