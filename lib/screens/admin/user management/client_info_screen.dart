@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/client_account_model.dart';
-import 'package:depanini/models/post_model.dart';
-import 'package:depanini/widgets/image_container.dart';
 import 'package:flutter/material.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -16,37 +14,21 @@ class ClientInfoScreen extends StatefulWidget {
 }
 
 class _ClientInfoScreenState extends State<ClientInfoScreen> {
-  Future<List<PostModel>> _loadPosts() async {
-    final snapshot =
-        await _firestore
-            .collection('annonces')
-            .where('uid', isEqualTo: widget.clientData.uid)
-            .orderBy('createdAt', descending: true)
-            .get();
+  Stream<int> _postCountStream() {
+    return _firestore
+        .collection('annonces')
+        .where('uid', isEqualTo: widget.clientData.uid)
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.length);
+  }
 
-    final List<PostModel> loadedPosts =
-        snapshot.docs.map((doc) {
-          final data = doc.data();
-
-          return PostModel(
-            postId: data["post_id"],
-            email: data["email"],
-            uid: data["uid"],
-            username: data["username"],
-            phoneNumber: data["phone_number"],
-            profilPicture: data["profil_picture"],
-            description: data["description"],
-            service: data["service"],
-            date: data["date"],
-            createdAt: data["createdAt"],
-            image1: data["imageURL_1"],
-            image2: data["imageURL_2"],
-            image3: data["imageURL_3"],
-            image4: data["imageURL_4"],
-          );
-        }).toList();
-
-    return loadedPosts;
+  Stream<int> _rdvCountStream() {
+    return _firestore
+        .collection('rdvs')
+        .where('client_uid', isEqualTo: widget.clientData.uid)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.length);
   }
 
   @override
@@ -95,13 +77,44 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 8),
-                          Text(
-                            widget.clientData.role!,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                            textAlign: TextAlign.center,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                widget.clientData.role!,
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.titleLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                '•',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                              const SizedBox(width: 8),
+                              // Status
+                              Container(
+                                padding: const EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.green.shade200.withAlpha(50),
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                child: Text(
+                                  'Activé',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium!.copyWith(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 8),
-                          // Text('Diplôme: ${snapshot.data!.diplome}'),
                           Text.rich(
                             TextSpan(
                               text: 'Numéro de téléphone: ',
@@ -139,6 +152,24 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                           Text.rich(
                             textAlign: TextAlign.center,
                             TextSpan(
+                              text: 'Inscrit le: ',
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ), // Default style
+                              children: [
+                                TextSpan(
+                                  text: "",
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text.rich(
+                            textAlign: TextAlign.center,
+                            TextSpan(
                               text: 'Adresse: ',
                               style: Theme.of(
                                 context,
@@ -160,9 +191,50 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                 ),
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
 
-              // Post List
+              // Action Buttons
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FilledButton.icon(
+                        icon: const Icon(Icons.back_hand, size: 20),
+                        label: const Text('Suspendre'),
+                        onPressed: () {},
+                      ),
+                      const SizedBox(width: 16),
+                      FilledButton.icon(
+                        icon: const Icon(Icons.report, size: 20),
+                        label: const Text('Voir signalements'),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FilledButton.icon(
+                        icon: const Icon(Icons.article, size: 20),
+                        label: const Text('Voir annonces'),
+                        onPressed: () {},
+                      ),
+                      const SizedBox(width: 16),
+                      FilledButton.icon(
+                        icon: const Icon(Icons.calendar_today),
+                        label: const Text('Voir rendez-vous'),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 10),
+
+              // Information Card
               Card(
                 color:
                     Theme.of(context).brightness == Brightness.dark
@@ -176,94 +248,114 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        textAlign: TextAlign.start,
-                        'Annonces',
-                        style: Theme.of(context).textTheme.titleLarge,
-                      ),
-                      SizedBox(height: 10),
-                      FutureBuilder(
-                        future: _loadPosts(),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const SizedBox(
-                              height: 150,
-                              child: Center(child: CircularProgressIndicator()),
-                            );
-                          }
-                          if (snapshot.hasError) {
-                            return const SizedBox(
-                              height: 150,
-                              child: Center(
-                                child: Text(
-                                  'Erreur lors du chargement des annonces',
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.report,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          SizedBox(width: 8),
+                          Text.rich(
+                            TextSpan(
+                              text: 'Nombre des signalements: ',
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ), // Default style
+                              children: [
+                                TextSpan(
+                                  text: "",
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
-                              ),
-                            );
-                          }
-                          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                            return const SizedBox(
-                              height: 150,
-                              child: Center(
-                                child: Text('Aucun annonce disponible'),
-                              ),
-                            );
-                          }
-
-                          final posts = snapshot.data!;
-
-                          return SizedBox(
-                            height: 150,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: posts.length,
-                              itemBuilder: (context, index) {
-                                final post = posts[index];
-                                return Card(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8),
-                                    child: Column(
-                                      children: [
-                                        Text(post.description),
-                                        Text(post.service),
-                                        Text(post.date),
-                                        // SizedBox(
-                                        //   height: 50,
-                                        //   child: ListView.separated(
-                                        //     scrollDirection: Axis.horizontal,
-                                        //     itemCount: 4,
-                                        //     separatorBuilder:
-                                        //         (_, __) =>
-                                        //             const SizedBox(width: 12),
-                                        //     itemBuilder: (context, imgIndex) {
-                                        //       final images = [
-                                        //         post.image1,
-                                        //         post.image2,
-                                        //         post.image3,
-                                        //         post.image4,
-                                        //       ];
-                                        //       return ClipRRect(
-                                        //         borderRadius:
-                                        //             BorderRadius.circular(12),
-                                        //         child: ImageContainer(
-                                        //           height: 65,
-                                        //           width: 85,
-                                        //           imageUrl: images[imgIndex],
-                                        //           // placeholder: Icons.photo_library_outlined,
-                                        //         ),
-                                        //       );
-                                        //     },
-                                        //   ),
-                                        // ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
+                              ],
                             ),
-                          );
-                        },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.article,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          SizedBox(width: 8),
+                          StreamBuilder<int>(
+                            stream: _postCountStream(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Text('Chargement...');
+                              }
+
+                              if (snapshot.hasError) {
+                                return const Text('Erreur');
+                              }
+
+                              final count = snapshot.data ?? 0;
+                              return Text.rich(
+                                TextSpan(
+                                  text: 'Nombre d\'annonces: ',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ), // Default style
+                                  children: [
+                                    TextSpan(
+                                      text: count.toString(),
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_today,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          SizedBox(width: 8),
+                          StreamBuilder<int>(
+                            stream: _rdvCountStream(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Text('Chargement...');
+                              }
+
+                              if (snapshot.hasError) {
+                                return const Text('Erreur');
+                              }
+
+                              final count = snapshot.data ?? 0;
+                              return Text.rich(
+                                TextSpan(
+                                  text: 'Nombre de rendez-vous: ',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ), // Default style
+                                  children: [
+                                    TextSpan(
+                                      text: count.toString(),
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),
