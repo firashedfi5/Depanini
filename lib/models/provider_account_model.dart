@@ -11,6 +11,7 @@ class ProviderAccountModel {
     required this.experience,
     required this.phoneNumber,
     required this.profilPicture,
+    required this.role,
     required this.averageRating,
     this.workPicture_1,
     this.workPicture_2,
@@ -30,6 +31,7 @@ class ProviderAccountModel {
   final String experience;
   final String phoneNumber;
   final String profilPicture;
+  final String role;
   final String? workPicture_1;
   final String? workPicture_2;
   final String? workPicture_3;
@@ -58,6 +60,7 @@ class ProviderAccountModel {
       experience: data['Experience'],
       phoneNumber: data['Numéro de téléphone'],
       profilPicture: data['Photo de profile'],
+      role: data['Rôle'],
       workPicture_1: data['Photo de travail n°1'],
       workPicture_2: data['Photo de travail n°2'],
       workPicture_3: data['Photo de travail n°3'],

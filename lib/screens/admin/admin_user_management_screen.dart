@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/models/client_account_model.dart';
 import 'package:depanini/models/unified_model.dart';
+import 'package:depanini/screens/admin/user%20management/client_info_screen.dart';
+import 'package:depanini/screens/admin/user%20management/prestataire_info_screen.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -58,11 +60,11 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
               ? users
               : users.where((user) {
                 final username = user.username.toLowerCase();
-                // final email = user.email.toLowerCase();
+                final email = user.email.toLowerCase();
                 final phone = user.phoneNumber.toLowerCase();
 
                 return username.contains(searchLower) ||
-                    // email.contains(searchLower) ||
+                    email.contains(searchLower) ||
                     phone.contains(searchLower);
               }).toList();
 
@@ -162,7 +164,12 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                 itemBuilder: (context, index) {
                   final user = users[index];
 
-                  final name =
+                  final profilPicture =
+                      user.type == UserType.client
+                          ? user.clientData?.profilPicture
+                          : user.providerData?.profilPicture;
+
+                  final username =
                       user.type == UserType.client
                           ? user.clientData?.username ?? 'Nom inconnu'
                           : user.providerData?.username ?? 'Nom inconnu';
@@ -172,43 +179,140 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                           ? user.clientData?.email ?? 'Nom inconnu'
                           : user.providerData?.email ?? 'Nom inconnu';
 
-                  final phoneNumber =
-                      user.type == UserType.client
-                          ? user.clientData?.phoneNumber ?? 'Nom inconnu'
-                          : user.providerData?.phoneNumber ?? 'Nom inconnu';
-
-                  final address =
-                      user.type == UserType.client
-                          ? user.clientData?.localisation ?? 'Nom inconnu'
-                          : user.providerData?.localisation ?? 'Nom inconnu';
-
-                  final roleText =
+                  final role =
                       user.type == UserType.client ? "Client" : "Prestataire";
 
-                  return Card(
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                    color:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Theme.of(
-                              context,
-                            ).colorScheme.surfaceContainerHighest.withAlpha(120)
-                            : Theme.of(
-                              context,
-                            ).colorScheme.surfaceContainerHighest,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(name),
-                          Text(roleText),
-                          Text(email),
-                          Text(phoneNumber),
-                          Text(address),
-                        ],
+                  return InkWell(
+                    onTap: () {
+                      if (user.type == UserType.client) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => ClientInfoScreen(
+                                  clientData: user.clientData!,
+                                ),
+                          ),
+                        );
+                      } else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) => PrestataireInfoScreen(
+                                  providerData: user.providerData!,
+                                ),
+                          ),
+                        );
+                      }
+                    },
+                    child: Card(
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Theme.of(context)
+                                  .colorScheme
+                                  .surfaceContainerHighest
+                                  .withAlpha(120)
+                              : Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerHighest,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            // Profile Image
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.network(
+                                profilPicture!,
+                                fit: BoxFit.cover,
+                                scale: 1.75,
+                                errorBuilder:
+                                    (context, error, stackTrace) =>
+                                        const Icon(Icons.person, size: 48),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+
+                            // Info Section
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  username,
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 8),
+
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.primary
+                                        .withValues(alpha: 0.1),
+                                    borderRadius: BorderRadius.circular(8),
+                                  ),
+                                  child: Text(
+                                    role,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.bodyMedium?.copyWith(
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 8),
+
+                                Text(
+                                  email,
+                                  style: Theme.of(context).textTheme.bodyMedium
+                                      ?.copyWith(fontWeight: FontWeight.w600),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                const SizedBox(height: 10),
+
+                                // // Rating
+                              ],
+                            ),
+                            Spacer(),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.check_circle_rounded,
+                                  color: Colors.green,
+                                  size: 20,
+                                ),
+                                const SizedBox(width: 6),
+                                Text(
+                                  'Activé',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.labelMedium?.copyWith(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   );
