@@ -209,7 +209,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
               return Center(child: CircularProgressIndicator());
             }
             return Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -404,7 +404,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             'Portfolio',
                             style: Theme.of(context).textTheme.titleLarge,
                           ),
-                          const SizedBox(height: 12),
+                          const SizedBox(height: 10),
                           SizedBox(
                             height: 100,
                             child: ListView.separated(
@@ -426,8 +426,6 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                   ),
                             ),
                           ),
-
-                          const SizedBox(height: 24),
                         ],
                       ),
                     ),

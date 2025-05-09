@@ -5,6 +5,7 @@ import 'package:depanini/models/place.dart';
 
 class ClientModel {
   const ClientModel({
+    this.uid,
     this.username,
     this.phoneNumber,
     this.email,
@@ -17,6 +18,7 @@ class ClientModel {
     this.latitude,
     this.longitude,
   });
+  final String? uid;
   final String? username;
   final String? phoneNumber;
   final String? email;
@@ -59,8 +61,9 @@ class ClientModel {
     final geoPoint = data['Latitude&Longitude'] as GeoPoint;
 
     return ClientModel(
-      email: data['Email'],
+      uid: data['Uid'],
       username: data['Nom d\'utilisateur'],
+      email: data['Email'],
       phoneNumber: data['Numéro de téléphone'],
       role: data['Rôle'],
       profilPicture: data['Photo de profile'] ?? "",
