@@ -1,5 +1,6 @@
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class PrestataireInfoScreen extends StatefulWidget {
   final ProviderAccountModel providerData;
@@ -57,61 +58,42 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                           const SizedBox(height: 8),
-                          Text(
-                            widget.providerData.role,
-                            style: Theme.of(context).textTheme.bodyLarge,
-                            textAlign: TextAlign.center,
-                          ),
-                          const SizedBox(height: 8),
-                          Text.rich(
-                            TextSpan(
-                              text: 'Description: ',
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ), // Default style
-                              children: [
-                                TextSpan(
-                                  text: widget.providerData.description,
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                widget.providerData.role,
+                                style: Theme.of(
+                                  context,
+                                ).textTheme.titleLarge?.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  color: Theme.of(context).colorScheme.primary,
                                 ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text.rich(
-                            TextSpan(
-                              text: 'Diplôme: ',
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ), // Default style
-                              children: [
-                                TextSpan(
-                                  text: widget.providerData.diplome,
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              const SizedBox(width: 8),
+                              Text(
+                                '•',
+                                style: Theme.of(context).textTheme.titleLarge,
+                              ),
+                              const SizedBox(width: 8),
+                              // Status
+                              Container(
+                                padding: const EdgeInsets.all(8.0),
+                                decoration: BoxDecoration(
+                                  color: Colors.green.shade200.withAlpha(50),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(height: 8),
-                          Text.rich(
-                            TextSpan(
-                              text: 'Domaine: ',
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ), // Default style
-                              children: [
-                                TextSpan(
-                                  text: widget.providerData.domaine,
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                child: Text(
+                                  'Activé',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.titleMedium!.copyWith(
+                                    color: Colors.green,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                           const SizedBox(height: 8),
                           Text.rich(
@@ -151,6 +133,26 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                           Text.rich(
                             textAlign: TextAlign.center,
                             TextSpan(
+                              text: 'Inscrit le: ',
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyLarge?.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ), // Default style
+                              children: [
+                                TextSpan(
+                                  text: DateFormat.yMMMd('fr_FR').format(
+                                    widget.providerData.inscritLe.toDate(),
+                                  ),
+                                  style: Theme.of(context).textTheme.bodyLarge,
+                                ),
+                              ],
+                            ),
+                          ),
+                          SizedBox(height: 8),
+                          Text.rich(
+                            textAlign: TextAlign.center,
+                            TextSpan(
                               text: 'Adresse: ',
                               style: Theme.of(
                                 context,
@@ -169,6 +171,76 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                       ),
                     ),
                   ],
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
+              Card(
+                color:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Theme.of(
+                          context,
+                        ).colorScheme.secondaryContainer.withAlpha(100)
+                        : Theme.of(context).colorScheme.secondaryContainer,
+                elevation: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text.rich(
+                        TextSpan(
+                          text: 'Description: ',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ), // Default style
+                          children: [
+                            TextSpan(
+                              text: widget.providerData.description,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text.rich(
+                        TextSpan(
+                          text: 'Diplôme: ',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ), // Default style
+                          children: [
+                            TextSpan(
+                              text: widget.providerData.diplome,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text.rich(
+                        TextSpan(
+                          text: 'Domaine: ',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ), // Default style
+                          children: [
+                            TextSpan(
+                              text: widget.providerData.domaine,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],

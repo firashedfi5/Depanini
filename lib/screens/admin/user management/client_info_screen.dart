@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/client_account_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -160,7 +161,9 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                               ), // Default style
                               children: [
                                 TextSpan(
-                                  text: "",
+                                  text: DateFormat.yMMMd('fr_FR').format(
+                                    widget.clientData.inscritLe!.toDate(),
+                                  ),
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ],

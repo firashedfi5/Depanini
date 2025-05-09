@@ -20,6 +20,7 @@ class ProviderAccountModel {
     required this.localisation,
     required this.latitude,
     required this.longitude,
+    required this.inscritLe,
   });
 
   final String uid;
@@ -40,6 +41,7 @@ class ProviderAccountModel {
   final String localisation;
   final double latitude;
   final double longitude;
+  final Timestamp inscritLe;
 
   factory ProviderAccountModel.fromSnapshot(
     DocumentSnapshot<Map<String, dynamic>> document,
@@ -69,6 +71,7 @@ class ProviderAccountModel {
       localisation: data['Localisation'] ?? '',
       latitude: geoPoint.latitude,
       longitude: geoPoint.longitude,
+      inscritLe: data['Inscrit Le'] as Timestamp,
     );
   }
 }
