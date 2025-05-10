@@ -2,7 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/client_account_model.dart';
-import 'package:depanini/screens/admin/user%20management/client/rdv_screen.dart';
+import 'package:depanini/screens/admin/user%20management/client/cl_rdv_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // import 'package:cloud_functions/cloud_functions.dart';
@@ -280,7 +280,7 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                             MaterialPageRoute(
                               builder:
                                   (context) =>
-                                      RdvScreen(uid: widget.clientData.uid!),
+                                      ClRdvScreen(uid: widget.clientData.uid!),
                             ),
                           );
                         },

@@ -96,17 +96,30 @@ class _AccountScreenState extends State<AccountScreen> {
         'Numéro de téléphone': _phoneNumberController.text,
         'Photo de profile': finalImageUrl,
       });
-      final querySnapshot =
+      final postRef =
           await _firestore
               .collection('annonces')
               .where('uid', isEqualTo: user.uid)
               .get();
 
-      for (var doc in querySnapshot.docs) {
+      for (var doc in postRef.docs) {
         await doc.reference.update({
           'username': _userNameController.text,
           'phone_number': _phoneNumberController.text,
           'profil_picture': finalImageUrl,
+        });
+      }
+
+      final rdvRef =
+          await _firestore
+              .collection('rdvs')
+              .where('client_uid', isEqualTo: user.uid)
+              .get();
+
+      for (var doc in rdvRef.docs) {
+        await doc.reference.update({
+          'client_username': _userNameController.text,
+          'client_profile_picture': finalImageUrl,
         });
       }
 

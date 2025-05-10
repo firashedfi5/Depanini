@@ -120,6 +120,19 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
         'Diplôme': _enteredDiplome.text,
         'Experience': _enteredExperience,
       });
+
+      final rdvRef =
+          await _firestore
+              .collection('rdvs')
+              .where('prestataire_uid', isEqualTo: user.uid)
+              .get();
+
+      for (var doc in rdvRef.docs) {
+        await doc.reference.update({
+          'prestataire_username': _enteredUserName.text,
+          'prestataire_profile_picture': finalImageUrl,
+        });
+      }
       dev.log('Compte mis à jour');
       if (mounted) {
         Navigator.pop(context);

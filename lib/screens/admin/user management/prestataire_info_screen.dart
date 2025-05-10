@@ -1,4 +1,5 @@
 import 'package:depanini/models/provider_account_model.dart';
+import 'package:depanini/screens/admin/user%20management/prestataire/pr_rdv_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -195,6 +196,61 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                     ),
                   ],
                 ),
+              ),
+
+              const SizedBox(height: 10),
+
+              // Action Buttons
+              Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FilledButton.icon(
+                        icon: const Icon(Icons.back_hand, size: 20),
+                        label: const Text('Suspendre'),
+                        onPressed: () {},
+                      ),
+                      const SizedBox(width: 16),
+                      FilledButton.icon(
+                        icon: const Icon(Icons.thumb_up, size: 20),
+                        label: const Text('Réactiver'),
+                        onPressed: () {},
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 8),
+                  FilledButton.icon(
+                    icon: const Icon(Icons.report, size: 20),
+                    label: const Text('Voir signalements'),
+                    onPressed: () {},
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      FilledButton.icon(
+                        icon: const Icon(Icons.feedback, size: 20),
+                        label: const Text('Voir Feedbacks'),
+                        onPressed: () {},
+                      ),
+                      const SizedBox(width: 16),
+                      FilledButton.icon(
+                        icon: const Icon(Icons.calendar_today),
+                        label: const Text('Voir rendez-vous'),
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder:
+                                  (context) =>
+                                      PrRdvScreen(uid: widget.providerData.uid),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ),
 
               const SizedBox(height: 10),
