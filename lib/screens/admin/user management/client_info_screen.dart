@@ -1,7 +1,10 @@
+import 'dart:developer' as dev;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/client_account_model.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:cloud_functions/cloud_functions.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -15,6 +18,20 @@ class ClientInfoScreen extends StatefulWidget {
 }
 
 class _ClientInfoScreenState extends State<ClientInfoScreen> {
+  // *********************************
+  Future<void> setUserDisabledStatus(String uid, bool disable) async {
+    final callable = FirebaseFunctions.instance.httpsCallable(
+      'setUserDisabledStatus',
+    );
+    try {
+      final result = await callable.call({'uid': uid, 'disable': disable});
+      dev.log('User status changed: ${result.data['status']}');
+    } catch (e) {
+      dev.log('Failed to change user status: $e');
+    }
+  }
+  // *********************************
+
   Stream<int> _postCountStream() {
     return _firestore
         .collection('annonces')
@@ -209,11 +226,17 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                       ),
                       const SizedBox(width: 16),
                       FilledButton.icon(
-                        icon: const Icon(Icons.report, size: 20),
-                        label: const Text('Voir signalements'),
+                        icon: const Icon(Icons.thumb_up, size: 20),
+                        label: const Text('Réactiver'),
                         onPressed: () {},
                       ),
                     ],
+                  ),
+                  const SizedBox(height: 8),
+                  FilledButton.icon(
+                    icon: const Icon(Icons.report, size: 20),
+                    label: const Text('Voir signalements'),
+                    onPressed: () {},
                   ),
                   const SizedBox(height: 8),
                   Row(
