@@ -1,7 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
 import 'package:depanini/widgets/profil_image.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -30,18 +28,16 @@ class _AccountScreenState extends State<AccountScreen> {
   final user = _auth.currentUser!;
 
   Future<Map<String, dynamic>?> getUserData() async {
-    // if (user == null) return null; // No user logged in
-
     try {
       DocumentSnapshot doc =
           await _firestore.collection("clients").doc(user.uid).get();
       if (doc.exists) {
-        return doc.data() as Map<String, dynamic>; // Convert document to map
+        return doc.data() as Map<String, dynamic>;
       } else {
-        return null; // Document does not exist
+        return null;
       }
     } catch (e) {
-      // print("Error retrieving document: $e");
+      dev.log("Error retrieving document: $e");
       return null;
     }
   }
@@ -49,8 +45,8 @@ class _AccountScreenState extends State<AccountScreen> {
   // ***********************
   final _formKey = GlobalKey<FormState>();
   // Update data in the firestore
-  var _enteredUserName = '';
-  var _enteredPhoneNumber = '';
+  final TextEditingController _userNameController = TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   // ********************Image upload***************************
   File? _updatedImage;
   Future<String?> uploadImageToFirebaseStorage() async {
@@ -64,71 +60,75 @@ class _AccountScreenState extends State<AccountScreen> {
     return imageUrl;
   }
 
-  // ******************************************
-  void _updateUsernameAnnonces() async {
-    final url = Uri.http(
-      '10.0.2.2:3300',
-      'changer-username-annonces/${_auth.currentUser!.uid}',
-    ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
-    final response = await http.patch(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({'username': _enteredUserName}),
-    );
-    final responseData = json.decode(response.body);
-    dev.log('${responseData['message']}, ${response.statusCode}');
-  }
-
-  void _updateProfilPictureAnnonces(String finalImageUrl) async {
-    final url = Uri.http(
-      '10.0.2.2:3300',
-      'changer-profilPicture-annonces/${_auth.currentUser!.uid}',
-    ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
-    final response = await http.patch(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({'profile_picture': finalImageUrl}),
-    );
-    final responseData = json.decode(response.body);
-    dev.log('${responseData['message']}, ${response.statusCode}');
-  }
-
-  void _updatePhoneNumberAnnonces() async {
-    final url = Uri.http(
-      '10.0.2.2:3300',
-      'changer-phoneNumber-annonces/${_auth.currentUser!.uid}',
-    ); // Virtual Device: 10.0.2.2 - Actual Device: 192.168.1.11 (ipconfig -> IPv4)
-    final response = await http.patch(
-      url,
-      headers: {'Content-Type': 'application/json'},
-      body: json.encode({'phone_number': _enteredPhoneNumber}),
-    );
-    final responseData = json.decode(response.body);
-    dev.log('${responseData['message']}, ${response.statusCode}');
-  }
-
-  // ******************************************
   void _update() async {
     _formKey.currentState!.save();
-    DocumentSnapshot userDoc =
-        await _firestore.collection('clients').doc(user.uid).get();
-    final currentImageUrl = userDoc['Photo de profile'];
 
-    final finalImageUrl =
-        _updatedImage != null
-            ? await uploadImageToFirebaseStorage()
-            : currentImageUrl;
-    await _firestore.collection('clients').doc(user.uid).update({
-      'Nom d\'utilisateur': _enteredUserName,
-      'Numéro de téléphone': _enteredPhoneNumber,
-      'Photo de profile': finalImageUrl,
-    });
-    _updateUsernameAnnonces();
-    _updateProfilPictureAnnonces(finalImageUrl);
-    _updatePhoneNumberAnnonces();
-    dev.log('Compte mis à jour');
-    if (mounted) {
-      Navigator.pop(context);
+    final hasImageChanged = _updatedImage != null;
+    final hasUsernameChanged = _userNameController.text.trim().isNotEmpty;
+    final hasPhoneNumberChanged = _phoneNumberController.text.trim().isNotEmpty;
+
+    if (hasImageChanged && hasUsernameChanged && hasPhoneNumberChanged) {
+      DocumentSnapshot userDoc =
+          await _firestore.collection('clients').doc(user.uid).get();
+      final currentImageUrl = userDoc['Photo de profile'];
+
+      final finalImageUrl =
+          _updatedImage != null
+              ? await uploadImageToFirebaseStorage()
+              : currentImageUrl;
+      await _firestore.collection('clients').doc(user.uid).update({
+        'Nom d\'utilisateur': _userNameController.text,
+        'Numéro de téléphone': _phoneNumberController.text,
+        'Photo de profile': finalImageUrl,
+      });
+      final querySnapshot =
+          await _firestore
+              .collection('annonces')
+              .where('uid', isEqualTo: user.uid)
+              .get();
+
+      for (var doc in querySnapshot.docs) {
+        await doc.reference.update({
+          'username': _userNameController.text,
+          'phone_number': _phoneNumberController.text,
+          'profil_picture': finalImageUrl,
+        });
+      }
+
+      dev.log('Compte mis à jour');
+      if (mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Annonce mise à jour avec succès.',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFF2E7D32),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Veuillez changer au moins une chose pour enregistrer.',
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          backgroundColor: const Color(0xffb3261e),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
     }
   }
 
@@ -154,8 +154,9 @@ class _AccountScreenState extends State<AccountScreen> {
             child: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 20),
+                  SizedBox(height: 50),
                   // ********************************
                   ProfilImage(
                     onPickImage: (pickedImage) {
@@ -166,7 +167,7 @@ class _AccountScreenState extends State<AccountScreen> {
                     ),
                   ),
                   // ********************************
-                  SizedBox(height: 80),
+                  SizedBox(height: 30),
                   Form(
                     key: _formKey,
                     child: Column(
@@ -183,7 +184,7 @@ class _AccountScreenState extends State<AccountScreen> {
                             autocorrect: false,
                             enableSuggestions: false,
                             onSaved: (newValue) {
-                              _enteredUserName = newValue!;
+                              _userNameController.text = newValue!;
                             },
                           ),
                         ),
@@ -199,11 +200,11 @@ class _AccountScreenState extends State<AccountScreen> {
                             ),
                             keyboardType: TextInputType.phone,
                             onSaved: (newValue) {
-                              _enteredPhoneNumber = newValue!;
+                              _phoneNumberController.text = newValue!;
                             },
                           ),
                         ),
-                        SizedBox(height: 80),
+                        SizedBox(height: 30),
                         ElevatedButton(
                           onPressed: _update,
                           child: Text('Enregistrer'),
