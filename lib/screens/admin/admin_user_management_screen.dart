@@ -4,10 +4,8 @@ import 'package:depanini/models/client_account_model.dart';
 import 'package:depanini/models/unified_model.dart';
 import 'package:depanini/screens/admin/user%20management/client_info_screen.dart';
 import 'package:depanini/screens/admin/user%20management/prestataire_info_screen.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-// final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
 class AdminUserManagementScreen extends StatefulWidget {

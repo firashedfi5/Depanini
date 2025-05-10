@@ -17,9 +17,7 @@ void main() async {
   await initializeDateFormatting('fr_FR', null);
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  runApp(
-    const ProviderScope(child: MyApp()),
-  );
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends ConsumerWidget {
@@ -29,6 +27,7 @@ class MyApp extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final themeData = ref.watch(themeProvider);
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       theme: themeData,
       home: const AuthWrapper(),
     );
