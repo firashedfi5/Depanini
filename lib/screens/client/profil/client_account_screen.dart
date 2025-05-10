@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:depanini/models/client_account_model.dart';
 import 'package:depanini/widgets/profil_image.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -17,6 +18,9 @@ class AccountScreen extends StatefulWidget {
 }
 
 class _AccountScreenState extends State<AccountScreen> {
+  String? originalUsername;
+  String? originalPhoneNumber;
+
   late Future<Map<String, dynamic>?> userData;
 
   @override
@@ -32,6 +36,15 @@ class _AccountScreenState extends State<AccountScreen> {
       DocumentSnapshot doc =
           await _firestore.collection("clients").doc(user.uid).get();
       if (doc.exists) {
+        final client = ClientModel.fromSnapshot(
+          doc as DocumentSnapshot<Map<String, dynamic>>,
+        );
+        setState(() {
+          originalUsername = client.username ?? '';
+          originalPhoneNumber = client.phoneNumber ?? '';
+        });
+        dev.log('Client data: ${client.username}');
+        dev.log('Client data: ${client.phoneNumber}');
         return doc.data() as Map<String, dynamic>;
       } else {
         return null;
@@ -64,10 +77,12 @@ class _AccountScreenState extends State<AccountScreen> {
     _formKey.currentState!.save();
 
     final hasImageChanged = _updatedImage != null;
-    final hasUsernameChanged = _userNameController.text.trim().isNotEmpty;
-    final hasPhoneNumberChanged = _phoneNumberController.text.trim().isNotEmpty;
+    final hasUsernameChanged =
+        _userNameController.text.trim() != originalUsername;
+    final hasPhoneNumberChanged =
+        _phoneNumberController.text.trim() != originalPhoneNumber;
 
-    if (hasImageChanged && hasUsernameChanged && hasPhoneNumberChanged) {
+    if (hasImageChanged || hasUsernameChanged || hasPhoneNumberChanged) {
       DocumentSnapshot userDoc =
           await _firestore.collection('clients').doc(user.uid).get();
       final currentImageUrl = userDoc['Photo de profile'];
@@ -102,7 +117,7 @@ class _AccountScreenState extends State<AccountScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Annonce mise à jour avec succès.',
+              'Compte mise à jour avec succès.',
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,
@@ -133,6 +148,13 @@ class _AccountScreenState extends State<AccountScreen> {
   }
 
   // ****************************
+
+  @override
+  void dispose() {
+    super.dispose();
+    _userNameController.dispose();
+    _phoneNumberController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {

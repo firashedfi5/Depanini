@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'package:depanini/constants/domains.dart';
+import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/widgets/profil_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -18,8 +18,11 @@ class ProviderAccountScreen extends StatefulWidget {
 }
 
 class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
-  // ignore: unused_field
-  Domains? _selectedDomain;
+  String? originalUsername;
+  String? originalDescription;
+  String? originalDiplome;
+  String? originalPhoneNumber;
+  String? originalExperience;
 
   late Future<Map<String, dynamic>?> userData;
 
@@ -36,6 +39,21 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
       DocumentSnapshot doc =
           await _firestore.collection("prestataires").doc(user.uid).get();
       if (doc.exists) {
+        final prestataire = ProviderAccountModel.fromSnapshot(
+          doc as DocumentSnapshot<Map<String, dynamic>>,
+        );
+        setState(() {
+          originalUsername = prestataire.username;
+          originalPhoneNumber = prestataire.phoneNumber;
+          originalDescription = prestataire.description;
+          originalDiplome = prestataire.diplome;
+          originalExperience = prestataire.experience;
+        });
+        dev.log('Provider data: ${prestataire.username}');
+        dev.log('Provider data: ${prestataire.phoneNumber}');
+        dev.log('Provider data: ${prestataire.description}');
+        dev.log('Provider data: ${prestataire.diplome}');
+        dev.log('Provider data: ${prestataire.experience}');
         return doc.data() as Map<String, dynamic>;
       } else {
         return null;
@@ -48,14 +66,12 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
 
   // ***********************
   final _formKey = GlobalKey<FormState>();
-  var _enteredUserName = '';
-  var _enteredPhoneNumber = '';
-  var _enteredDescription = '';
-  var _enteredDiplome = '';
+  final TextEditingController _enteredUserName = TextEditingController();
+  final TextEditingController _enteredPhoneNumber = TextEditingController();
+  final TextEditingController _enteredDescription = TextEditingController();
+  final TextEditingController _enteredDiplome = TextEditingController();
   var _enteredExperience = '';
   final List<String> _experience = ["1-3 ans", "4-6 ans", "+6 ans"];
-  // ignore: unused_field
-  String? _selectedExperience = '';
   // ********************Image upload***************************
   File? _updatedImage;
   Future<String?> uploadImageToFirebaseStorage() async {
@@ -72,29 +88,85 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
   // ******************************************
   void _update() async {
     _formKey.currentState!.save();
-    DocumentSnapshot userDoc =
-        await _firestore.collection('prestataires').doc(user.uid).get();
-    final currentImageUrl = userDoc['Photo de profile'];
 
-    final finalImageUrl =
-        _updatedImage != null
-            ? await uploadImageToFirebaseStorage()
-            : currentImageUrl;
-    await _firestore.collection('prestataires').doc(user.uid).update({
-      'Nom d\'utilisateur': _enteredUserName,
-      'Numéro de téléphone': _enteredPhoneNumber,
-      'Photo de profile': finalImageUrl,
-      'Description': _enteredDescription,
-      'Diplôme': _enteredDiplome,
-      'Experience': _enteredExperience,
-    });
-    dev.log('Compte mis à jour');
-    if (mounted) {
-      Navigator.pop(context);
+    final hasImageChanged = _updatedImage != null;
+    final hasUsernameChanged = _enteredUserName.text != originalUsername;
+    final hasPhoneNumberChanged =
+        _enteredPhoneNumber.text != originalPhoneNumber;
+    final hasDescriptionChanged =
+        _enteredDescription.text != originalDescription;
+    final hasDiplomeChanged = _enteredDiplome.text != originalDiplome;
+    final hasExperienceChanged = _enteredExperience != originalExperience;
+
+    if (hasImageChanged ||
+        hasUsernameChanged ||
+        hasPhoneNumberChanged ||
+        hasDescriptionChanged ||
+        hasDiplomeChanged ||
+        hasExperienceChanged) {
+      DocumentSnapshot userDoc =
+          await _firestore.collection('prestataires').doc(user.uid).get();
+      final currentImageUrl = userDoc['Photo de profile'];
+
+      final finalImageUrl =
+          _updatedImage != null
+              ? await uploadImageToFirebaseStorage()
+              : currentImageUrl;
+      await _firestore.collection('prestataires').doc(user.uid).update({
+        'Nom d\'utilisateur': _enteredUserName.text,
+        'Numéro de téléphone': _enteredPhoneNumber.text,
+        'Photo de profile': finalImageUrl,
+        'Description': _enteredDescription.text,
+        'Diplôme': _enteredDiplome.text,
+        'Experience': _enteredExperience,
+      });
+      dev.log('Compte mis à jour');
+      if (mounted) {
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Compte mise à jour avec succès.',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFF2E7D32),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).clearSnackBars();
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            'Veuillez changer au moins une chose pour enregistrer.',
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.white,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          backgroundColor: const Color(0xffb3261e),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
     }
   }
 
   // ****************************
+
+  @override
+  void dispose() {
+    super.dispose();
+    _enteredUserName.dispose();
+    _enteredPhoneNumber.dispose();
+    _enteredDescription.dispose();
+    _enteredDiplome.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -145,7 +217,7 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
                             autocorrect: false,
                             enableSuggestions: false,
                             onSaved: (newValue) {
-                              _enteredUserName = newValue!;
+                              _enteredUserName.text = newValue!;
                             },
                           ),
                         ),
@@ -162,7 +234,7 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
                             autocorrect: false,
                             enableSuggestions: false,
                             onSaved: (newValue) {
-                              _enteredDescription = newValue!;
+                              _enteredDescription.text = newValue!;
                             },
                           ),
                         ),
@@ -179,7 +251,7 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
                             autocorrect: false,
                             enableSuggestions: false,
                             onSaved: (newValue) {
-                              _enteredDiplome = newValue!;
+                              _enteredDiplome.text = newValue!;
                             },
                           ),
                         ),
@@ -191,7 +263,12 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
                               label: Text('Experience'),
                               prefixIcon: Icon(Icons.timer_outlined),
                             ),
-                            value: snapshot.data!['Experience'],
+                            value:
+                                _experience.contains(
+                                      snapshot.data!['Experience'],
+                                    )
+                                    ? snapshot.data!['Experience']
+                                    : null,
                             items:
                                 _experience.map((experience) {
                                   return DropdownMenuItem(
@@ -201,7 +278,7 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
                                 }).toList(),
                             onChanged: (value) {
                               setState(() {
-                                _selectedExperience = value;
+                                _enteredExperience = value!;
                               });
                             },
                             validator: (value) {
@@ -227,7 +304,7 @@ class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
                             ),
                             keyboardType: TextInputType.phone,
                             onSaved: (newValue) {
-                              _enteredPhoneNumber = newValue!;
+                              _enteredPhoneNumber.text = newValue!;
                             },
                           ),
                         ),
