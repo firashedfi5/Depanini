@@ -51,6 +51,7 @@ class _ClientPendingAppointmentState extends State<ClientPendingAppointment> {
                   service: data['service'],
                   date: (data['date'] as Timestamp).toDate(),
                   heure: data['heure'],
+                  status: data['status'],
                 );
               }).toList(),
         );

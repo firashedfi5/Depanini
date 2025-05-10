@@ -53,6 +53,7 @@ class _ProviderPendingAppointmentState
                   service: data['service'],
                   date: (data['date'] as Timestamp).toDate(),
                   heure: data['heure'],
+                  status: data['status'],
                 );
               }).toList(),
         );

@@ -14,6 +14,7 @@ class RdvModel {
     required this.service,
     required this.date,
     required this.heure,
+    required this.status,
   });
 
   final String id;
@@ -28,4 +29,5 @@ class RdvModel {
   final String service;
   final DateTime date;
   final String heure;
+  final String status;
 }
