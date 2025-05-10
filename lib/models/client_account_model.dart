@@ -18,6 +18,7 @@ class ClientModel {
     this.latitude,
     this.longitude,
     this.inscritLe,
+    this.status,
   });
   final String? uid;
   final String? username;
@@ -32,6 +33,7 @@ class ClientModel {
   final double? latitude;
   final double? longitude;
   final Timestamp? inscritLe;
+  final String? status;
   // Method to copy state with new values
   ClientModel copyWith({
     String? username,
@@ -73,6 +75,7 @@ class ClientModel {
       latitude: geoPoint.latitude,
       longitude: geoPoint.longitude,
       inscritLe: data['Inscrit Le'] as Timestamp,
+      status: data['Status'],
     );
   }
 }

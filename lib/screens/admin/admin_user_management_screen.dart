@@ -177,6 +177,11 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                           ? user.clientData?.email ?? 'Nom inconnu'
                           : user.providerData?.email ?? 'Nom inconnu';
 
+                  final status =
+                      user.type == UserType.client
+                          ? user.clientData?.status ?? 'Nom inconnu'
+                          : user.providerData?.status ?? 'Nom inconnu';
+
                   final role =
                       user.type == UserType.client ? "Client" : "Prestataire";
 
@@ -298,18 +303,36 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                             Spacer(),
                             Container(
                               padding: const EdgeInsets.all(5.0),
-                              decoration: BoxDecoration(
-                                color: Colors.green.shade200.withAlpha(50),
-                                borderRadius: BorderRadius.circular(16),
-                              ),
+                              decoration:
+                                  status == "Activé"
+                                      ? BoxDecoration(
+                                        color: Colors.green.shade200.withAlpha(
+                                          50,
+                                        ),
+                                        borderRadius: BorderRadius.circular(16),
+                                      )
+                                      : BoxDecoration(
+                                        color: Colors.red.shade200.withAlpha(
+                                          50,
+                                        ),
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
                               child: Text(
-                                'Activé',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.titleSmall!.copyWith(
-                                  color: Colors.green,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                status == "Activé" ? "Activé" : "Désactivé",
+                                style:
+                                    status == "Activé"
+                                        ? Theme.of(
+                                          context,
+                                        ).textTheme.titleSmall!.copyWith(
+                                          color: Colors.green,
+                                          fontWeight: FontWeight.bold,
+                                        )
+                                        : Theme.of(
+                                          context,
+                                        ).textTheme.titleSmall!.copyWith(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                        ),
                               ),
                             ),
                           ],

@@ -116,18 +116,41 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                               // Status
                               Container(
                                 padding: const EdgeInsets.all(8.0),
-                                decoration: BoxDecoration(
-                                  color: Colors.green.shade200.withAlpha(50),
-                                  borderRadius: BorderRadius.circular(16),
-                                ),
+                                decoration:
+                                    widget.clientData.status == "Activé"
+                                        ? BoxDecoration(
+                                          color: Colors.green.shade200
+                                              .withAlpha(50),
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
+                                        )
+                                        : BoxDecoration(
+                                          color: Colors.red.shade200.withAlpha(
+                                            50,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
+                                        ),
                                 child: Text(
-                                  'Activé',
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.titleMedium!.copyWith(
-                                    color: Colors.green,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  widget.clientData.status == "Activé"
+                                      ? "Activé"
+                                      : "Désactivé",
+                                  style:
+                                      widget.clientData.status == "Activé"
+                                          ? Theme.of(
+                                            context,
+                                          ).textTheme.titleMedium!.copyWith(
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.bold,
+                                          )
+                                          : Theme.of(
+                                            context,
+                                          ).textTheme.titleMedium!.copyWith(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold,
+                                          ),
                                 ),
                               ),
                             ],
