@@ -1,6 +1,7 @@
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/admin/user%20management/prestataire/pr_feedback_screen.dart';
 import 'package:depanini/screens/admin/user%20management/prestataire/pr_rdv_screen.dart';
+import 'package:depanini/screens/admin/user%20management/prestataire/pr_reports_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -224,7 +225,17 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                   FilledButton.icon(
                     icon: const Icon(Icons.report, size: 20),
                     label: const Text('Voir signalements'),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder:
+                              (context) => PrReportsScreen(
+                                uid: widget.providerData.uid,
+                                username: widget.providerData.username,
+                              ),
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 8),
                   Row(
