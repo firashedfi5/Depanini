@@ -38,7 +38,6 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
     return _firestore
         .collection('annonces')
         .where('uid', isEqualTo: widget.clientData.uid)
-        .orderBy('createdAt', descending: true)
         .snapshots()
         .map((snapshot) => snapshot.docs.length);
   }

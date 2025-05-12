@@ -209,133 +209,140 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                         );
                       }
                     },
-                    child: Card(
-                      elevation: 2,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
-                      color:
-                          Theme.of(context).brightness == Brightness.dark
-                              ? Theme.of(context)
-                                  .colorScheme
-                                  .surfaceContainerHighest
-                                  .withAlpha(120)
-                              : Theme.of(
-                                context,
-                              ).colorScheme.surfaceContainerHighest,
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
-                        child: Row(
-                          children: [
-                            // Profile Image
-                            ClipRRect(
-                              borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                profilPicture!,
-                                fit: BoxFit.cover,
-                                scale: 1.75,
-                                errorBuilder:
-                                    (context, error, stackTrace) =>
-                                        const Icon(Icons.person, size: 48),
+                    child: SizedBox(
+                      height: 120,
+                      child: Card(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        color:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainerHighest
+                                    .withAlpha(120)
+                                : Theme.of(
+                                  context,
+                                ).colorScheme.surfaceContainerHighest,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            children: [
+                              // Profile Image
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: Image.network(
+                                  profilPicture!,
+                                  fit: BoxFit.cover,
+                                  scale: 1.75,
+                                  errorBuilder:
+                                      (context, error, stackTrace) =>
+                                          const Icon(Icons.person, size: 48),
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 10),
+                              const SizedBox(width: 10),
 
-                            // Info Section
-                            SizedBox(
-                              width: 180,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    username,
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.titleLarge?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 18,
+                              // Info Section
+                              SizedBox(
+                                width: 180,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      username,
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleLarge?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 8),
+                                    const SizedBox(height: 8),
 
-                                  Container(
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 8,
-                                      vertical: 4,
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal: 8,
+                                        vertical: 4,
+                                      ),
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .primary
+                                            .withValues(alpha: 0.1),
+                                        borderRadius: BorderRadius.circular(8),
+                                      ),
+                                      child: Text(
+                                        role,
+                                        style: Theme.of(
+                                          context,
+                                        ).textTheme.bodyMedium?.copyWith(
+                                          color:
+                                              Theme.of(
+                                                context,
+                                              ).colorScheme.primary,
+                                          fontWeight: FontWeight.w600,
+                                        ),
+                                      ),
                                     ),
-                                    decoration: BoxDecoration(
-                                      color: Theme.of(context)
-                                          .colorScheme
-                                          .primary
-                                          .withValues(alpha: 0.1),
-                                      borderRadius: BorderRadius.circular(8),
-                                    ),
-                                    child: Text(
-                                      role,
+                                    const SizedBox(height: 8),
+
+                                    Text(
+                                      email,
                                       style: Theme.of(
                                         context,
                                       ).textTheme.bodyMedium?.copyWith(
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.primary,
                                         fontWeight: FontWeight.w600,
                                       ),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                  ),
-                                  const SizedBox(height: 8),
-
-                                  Text(
-                                    email,
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(fontWeight: FontWeight.w600),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            Spacer(),
-                            Container(
-                              padding: const EdgeInsets.all(5.0),
-                              decoration:
-                                  status == "Activé"
-                                      ? BoxDecoration(
-                                        color: Colors.green.shade200.withAlpha(
-                                          50,
-                                        ),
-                                        borderRadius: BorderRadius.circular(16),
-                                      )
-                                      : BoxDecoration(
-                                        color: Colors.red.shade200.withAlpha(
-                                          50,
-                                        ),
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                              child: Text(
-                                status == "Activé" ? "Activé" : "Désactivé",
-                                style:
+                              Spacer(),
+                              Container(
+                                padding: const EdgeInsets.all(5.0),
+                                decoration:
                                     status == "Activé"
-                                        ? Theme.of(
-                                          context,
-                                        ).textTheme.titleSmall!.copyWith(
-                                          color: Colors.green,
-                                          fontWeight: FontWeight.bold,
+                                        ? BoxDecoration(
+                                          color: Colors.green.shade200
+                                              .withAlpha(50),
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
                                         )
-                                        : Theme.of(
-                                          context,
-                                        ).textTheme.titleSmall!.copyWith(
-                                          color: Colors.red,
-                                          fontWeight: FontWeight.bold,
+                                        : BoxDecoration(
+                                          color: Colors.red.shade200.withAlpha(
+                                            50,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            16,
+                                          ),
                                         ),
+                                child: Text(
+                                  status == "Activé" ? "Activé" : "Désactivé",
+                                  style:
+                                      status == "Activé"
+                                          ? Theme.of(
+                                            context,
+                                          ).textTheme.titleSmall!.copyWith(
+                                            color: Colors.green,
+                                            fontWeight: FontWeight.bold,
+                                          )
+                                          : Theme.of(
+                                            context,
+                                          ).textTheme.titleSmall!.copyWith(
+                                            color: Colors.red,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ),

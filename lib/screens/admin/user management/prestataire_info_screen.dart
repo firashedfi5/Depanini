@@ -1,9 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/admin/user%20management/prestataire/pr_feedback_screen.dart';
 import 'package:depanini/screens/admin/user%20management/prestataire/pr_rdv_screen.dart';
 import 'package:depanini/screens/admin/user%20management/prestataire/pr_reports_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+
+final _firestore = FirebaseFirestore.instance;
 
 class PrestataireInfoScreen extends StatefulWidget {
   final ProviderAccountModel providerData;
@@ -15,6 +18,32 @@ class PrestataireInfoScreen extends StatefulWidget {
 }
 
 class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
+  Stream<int> _rdvCountStream() {
+    return _firestore
+        .collection('rdvs')
+        .where('prestataire_uid', isEqualTo: widget.providerData.uid)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.length);
+  }
+
+  Stream<int> _feedbackCountStream() {
+    return _firestore
+        .collection('prestataires')
+        .doc(widget.providerData.uid)
+        .collection('feedbacks')
+        .snapshots()
+        .map((snapshot) => snapshot.docs.length);
+  }
+
+  Stream<int> _reportCountStream() {
+    return _firestore
+        .collection('prestataires')
+        .doc(widget.providerData.uid)
+        .collection('reports')
+        .snapshots()
+        .map((snapshot) => snapshot.docs.length);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -202,6 +231,76 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
 
               const SizedBox(height: 10),
 
+              Card(
+                color:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Theme.of(
+                          context,
+                        ).colorScheme.secondaryContainer.withAlpha(100)
+                        : Theme.of(context).colorScheme.secondaryContainer,
+                elevation: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text.rich(
+                        TextSpan(
+                          text: 'Description: ',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ), // Default style
+                          children: [
+                            TextSpan(
+                              text: widget.providerData.description,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text.rich(
+                        TextSpan(
+                          text: 'Diplôme: ',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ), // Default style
+                          children: [
+                            TextSpan(
+                              text: widget.providerData.diplome,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text.rich(
+                        TextSpan(
+                          text: 'Domaine: ',
+                          style: Theme.of(
+                            context,
+                          ).textTheme.bodyLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ), // Default style
+                          children: [
+                            TextSpan(
+                              text: widget.providerData.domaine,
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 10),
+
               // Action Buttons
               Column(
                 children: [
@@ -279,6 +378,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
 
               const SizedBox(height: 10),
 
+              // Information Card
               Card(
                 color:
                     Theme.of(context).brightness == Brightness.dark
@@ -292,55 +392,130 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text.rich(
-                        TextSpan(
-                          text: 'Description: ',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ), // Default style
-                          children: [
-                            TextSpan(
-                              text: widget.providerData.description,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.article,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          SizedBox(width: 8),
+                          StreamBuilder<int>(
+                            stream: _reportCountStream(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Text('Chargement...');
+                              }
+
+                              if (snapshot.hasError) {
+                                return const Text('Erreur');
+                              }
+
+                              final count = snapshot.data ?? 0;
+                              return Text.rich(
+                                TextSpan(
+                                  text: 'Nombre de signalements: ',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ), // Default style
+                                  children: [
+                                    TextSpan(
+                                      text: count.toString(),
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 8),
-                      Text.rich(
-                        TextSpan(
-                          text: 'Diplôme: ',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ), // Default style
-                          children: [
-                            TextSpan(
-                              text: widget.providerData.diplome,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.article,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          SizedBox(width: 8),
+                          StreamBuilder<int>(
+                            stream: _feedbackCountStream(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Text('Chargement...');
+                              }
+
+                              if (snapshot.hasError) {
+                                return const Text('Erreur');
+                              }
+
+                              final count = snapshot.data ?? 0;
+                              return Text.rich(
+                                TextSpan(
+                                  text: 'Nombre de feedbacks: ',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ), // Default style
+                                  children: [
+                                    TextSpan(
+                                      text: count.toString(),
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 8),
-                      Text.rich(
-                        TextSpan(
-                          text: 'Domaine: ',
-                          style: Theme.of(
-                            context,
-                          ).textTheme.bodyLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ), // Default style
-                          children: [
-                            TextSpan(
-                              text: widget.providerData.domaine,
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.calendar_today,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          SizedBox(width: 8),
+                          StreamBuilder<int>(
+                            stream: _rdvCountStream(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Text('Chargement...');
+                              }
+
+                              if (snapshot.hasError) {
+                                return const Text('Erreur');
+                              }
+
+                              final count = snapshot.data ?? 0;
+                              return Text.rich(
+                                TextSpan(
+                                  text: 'Nombre de rendez-vous: ',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ), // Default style
+                                  children: [
+                                    TextSpan(
+                                      text: count.toString(),
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                     ],
                   ),

@@ -90,7 +90,7 @@ class _MapScreenState extends State<MapScreen> {
         ],
       ),
       body: GoogleMap(
-        mapType: MapType.hybrid,
+        mapType: MapType.normal,
         onTap:
             !widget.isSelecting
                 ? null
@@ -158,7 +158,7 @@ class _MapScreenState extends State<MapScreen> {
                   Polyline(
                     polylineId: PolylineId("route"),
                     points: polylineCoordinates,
-                    color: Colors.cyanAccent,
+                    color: Colors.blueAccent,
                     width: 7,
                   ),
                 }
