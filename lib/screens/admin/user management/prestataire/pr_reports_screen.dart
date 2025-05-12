@@ -55,8 +55,12 @@ class _PrReportsScreenState extends State<PrReportsScreen> {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text('Aucun avis ajouté pour le moment'),
+            return Center(
+              child: Text(
+                'Aucun signalement ajouté pour le moment',
+                textAlign: TextAlign.center,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             );
           }
 
