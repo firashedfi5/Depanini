@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/client_account_model.dart';
 import 'package:depanini/screens/admin/user%20management/client/cl_posts_screen.dart';
 import 'package:depanini/screens/admin/user%20management/client/cl_rdv_screen.dart';
+import 'package:depanini/screens/admin/user%20management/client/cl_reports_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 // import 'package:cloud_functions/cloud_functions.dart';
@@ -46,6 +47,15 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
     return _firestore
         .collection('rdvs')
         .where('client_uid', isEqualTo: widget.clientData.uid)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.length);
+  }
+
+  Stream<int> _reportCountStream() {
+    return _firestore
+        .collection('clients')
+        .doc(widget.clientData.uid)
+        .collection('reports')
         .snapshots()
         .map((snapshot) => snapshot.docs.length);
   }
@@ -260,7 +270,17 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                   FilledButton.icon(
                     icon: const Icon(Icons.report, size: 20),
                     label: const Text('Voir signalements'),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder:
+                              (context) => ClReportsScreen(
+                                uid: widget.clientData.uid!,
+                                username: widget.clientData.username!,
+                              ),
+                        ),
+                      );
+                    },
                   ),
                   const SizedBox(height: 8),
                   Row(
@@ -321,25 +341,41 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                       Row(
                         children: [
                           Icon(
-                            Icons.report,
+                            Icons.article,
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           SizedBox(width: 8),
-                          Text.rich(
-                            TextSpan(
-                              text: 'Nombre des signalements: ',
-                              style: Theme.of(
-                                context,
-                              ).textTheme.bodyLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ), // Default style
-                              children: [
+                          StreamBuilder<int>(
+                            stream: _reportCountStream(),
+                            builder: (context, snapshot) {
+                              if (snapshot.connectionState ==
+                                  ConnectionState.waiting) {
+                                return const Text('Chargement...');
+                              }
+
+                              if (snapshot.hasError) {
+                                return const Text('Erreur');
+                              }
+
+                              final count = snapshot.data ?? 0;
+                              return Text.rich(
                                 TextSpan(
-                                  text: "0",
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                  text: 'Nombre de signalements: ',
+                                  style: Theme.of(
+                                    context,
+                                  ).textTheme.bodyLarge?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ), // Default style
+                                  children: [
+                                    TextSpan(
+                                      text: count.toString(),
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              );
+                            },
                           ),
                         ],
                       ),
