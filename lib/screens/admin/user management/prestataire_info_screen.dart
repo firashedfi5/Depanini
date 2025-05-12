@@ -1,4 +1,5 @@
 import 'package:depanini/models/provider_account_model.dart';
+import 'package:depanini/screens/admin/user%20management/prestataire/pr_feedback_screen.dart';
 import 'package:depanini/screens/admin/user%20management/prestataire/pr_rdv_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -232,7 +233,15 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                       FilledButton.icon(
                         icon: const Icon(Icons.feedback, size: 20),
                         label: const Text('Voir Feedbacks'),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder:
+                                  (context) =>
+                                      PrFeedbackScreen(uid: widget.providerData.uid),
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(width: 16),
                       FilledButton.icon(

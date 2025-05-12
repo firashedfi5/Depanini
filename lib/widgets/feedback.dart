@@ -10,7 +10,13 @@ class FeedbackItem extends StatefulWidget {
   final FeedbackModel feedback;
   final String uid;
 
-  const FeedbackItem({super.key, required this.feedback, required this.uid});
+  final bool isAdmin;
+  const FeedbackItem({
+    super.key,
+    required this.feedback,
+    required this.uid,
+    this.isAdmin = false,
+  });
 
   @override
   State<FeedbackItem> createState() => _FeedbackItemState();
@@ -42,8 +48,16 @@ class _FeedbackItemState extends State<FeedbackItem> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 300,
-      height: 200,
+      height: widget.isAdmin ? 100 : 200,
       child: Card(
+        color:
+            widget.isAdmin
+                ? Theme.of(context).brightness == Brightness.dark
+                    ? Theme.of(
+                      context,
+                    ).colorScheme.surfaceContainerHighest.withAlpha(120)
+                    : Theme.of(context).colorScheme.surfaceContainerHighest
+                : null,
         child: Padding(
           padding: const EdgeInsets.all(10.0),
           child: SingleChildScrollView(

@@ -161,6 +161,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
             .collection('prestataires')
             .doc(widget.uid)
             .collection('feedbacks')
+            .orderBy('date', descending: true)
             .get();
 
     final snapshot =
@@ -555,7 +556,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                           const SizedBox(height: 12),
                           // Existing feedbacks list
                           SizedBox(
-                            height: 110,
+                            height: 125,
                             child: FutureBuilder<List<FeedbackModel>>(
                               future: _feedbackList,
                               builder: (context, snapshot) {
