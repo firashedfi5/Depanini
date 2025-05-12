@@ -187,6 +187,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
               );
             }
             return GridView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.75,
