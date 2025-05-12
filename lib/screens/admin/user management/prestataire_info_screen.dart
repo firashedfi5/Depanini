@@ -395,7 +395,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                       Row(
                         children: [
                           Icon(
-                            Icons.article,
+                            Icons.report,
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           SizedBox(width: 8),
@@ -437,7 +437,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                       Row(
                         children: [
                           Icon(
-                            Icons.article,
+                            Icons.feedback,
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           SizedBox(width: 8),

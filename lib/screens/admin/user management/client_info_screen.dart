@@ -341,7 +341,7 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                       Row(
                         children: [
                           Icon(
-                            Icons.article,
+                            Icons.report,
                             color: Theme.of(context).colorScheme.primary,
                           ),
                           SizedBox(width: 8),
