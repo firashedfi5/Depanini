@@ -121,6 +121,7 @@ class _ClRdvScreenState extends State<ClRdvScreen> {
           }
           final List<RdvModel> rdvs = snapshot.data as List<RdvModel>;
           return ListView.builder(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
             itemCount: rdvs.length,
             itemBuilder: (context, index) {
               final rdv = rdvs[index];
