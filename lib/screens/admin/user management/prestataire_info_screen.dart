@@ -310,13 +310,31 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                       FilledButton.icon(
                         icon: const Icon(Icons.back_hand, size: 20),
                         label: const Text('Suspendre'),
-                        onPressed: () {},
+                        onPressed: () {
+                          // setUserDisabledStatus(
+                          //   widget.clientData.uid!,
+                          //   true,
+                          // );
+                          _firestore
+                              .collection('prestataires')
+                              .doc(widget.providerData.uid)
+                              .update({'Status': 'Désactivé'});
+                        },
                       ),
                       const SizedBox(width: 16),
                       FilledButton.icon(
                         icon: const Icon(Icons.thumb_up, size: 20),
                         label: const Text('Réactiver'),
-                        onPressed: () {},
+                        onPressed: () {
+                          // setUserDisabledStatus(
+                          //   widget.clientData.uid!,
+                          //   true,
+                          // );
+                          _firestore
+                              .collection('prestataires')
+                              .doc(widget.providerData.uid)
+                              .update({'Status': 'Activé'});
+                        },
                       ),
                     ],
                   ),
