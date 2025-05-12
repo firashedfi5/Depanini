@@ -237,8 +237,10 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder:
-                                  (context) =>
-                                      PrFeedbackScreen(uid: widget.providerData.uid),
+                                  (context) => PrFeedbackScreen(
+                                    uid: widget.providerData.uid,
+                                    username: widget.providerData.username,
+                                  ),
                             ),
                           );
                         },
@@ -251,8 +253,10 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder:
-                                  (context) =>
-                                      PrRdvScreen(uid: widget.providerData.uid),
+                                  (context) => PrRdvScreen(
+                                    uid: widget.providerData.uid,
+                                    username: widget.providerData.username,
+                                  ),
                             ),
                           );
                         },

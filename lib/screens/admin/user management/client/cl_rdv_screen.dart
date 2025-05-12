@@ -8,8 +8,9 @@ final _firestore = FirebaseFirestore.instance;
 
 class ClRdvScreen extends StatefulWidget {
   final String uid;
+  final String username;
 
-  const ClRdvScreen({super.key, required this.uid});
+  const ClRdvScreen({super.key, required this.uid, required this.username});
 
   @override
   State<ClRdvScreen> createState() => _ClRdvScreenState();
@@ -92,7 +93,7 @@ class _ClRdvScreenState extends State<ClRdvScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Rendez-vous de l\'utilisateur')),
+      appBar: AppBar(title: Text('Rendez-vous de ${widget.username}')),
       body: FutureBuilder(
         future: getRdv(),
         builder: (context, snapshot) {

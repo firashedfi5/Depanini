@@ -2,6 +2,7 @@
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/client_account_model.dart';
+import 'package:depanini/screens/admin/user%20management/client/cl_posts_screen.dart';
 import 'package:depanini/screens/admin/user%20management/client/cl_rdv_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -269,7 +270,17 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                       FilledButton.icon(
                         icon: const Icon(Icons.article, size: 20),
                         label: const Text('Voir annonces'),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder:
+                                  (context) => ClPostsScreen(
+                                    uid: widget.clientData.uid!,
+                                    username: widget.clientData.username!,
+                                  ),
+                            ),
+                          );
+                        },
                       ),
                       const SizedBox(width: 16),
                       FilledButton.icon(
@@ -279,8 +290,10 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder:
-                                  (context) =>
-                                      ClRdvScreen(uid: widget.clientData.uid!),
+                                  (context) => ClRdvScreen(
+                                    uid: widget.clientData.uid!,
+                                    username: widget.clientData.username!,
+                                  ),
                             ),
                           );
                         },

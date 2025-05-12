@@ -7,8 +7,13 @@ final _firestore = FirebaseFirestore.instance;
 
 class PrFeedbackScreen extends StatefulWidget {
   final String uid;
+  final String username;
 
-  const PrFeedbackScreen({super.key, required this.uid});
+  const PrFeedbackScreen({
+    super.key,
+    required this.uid,
+    required this.username,
+  });
 
   @override
   State<PrFeedbackScreen> createState() => _PrFeedbackScreenState();
@@ -41,7 +46,7 @@ class _PrFeedbackScreenState extends State<PrFeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Feedbacks')),
+      appBar: AppBar(title: Text('Feedbacks de ${widget.username}')),
       body: FutureBuilder<List<FeedbackModel>>(
         future: _feedbackList,
         builder: (context, snapshot) {
