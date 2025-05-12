@@ -10,14 +10,14 @@ import 'dart:developer' as dev;
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class ProviderAccountScreen extends StatefulWidget {
-  const ProviderAccountScreen({super.key});
+class ProviderPersonalInfo extends StatefulWidget {
+  const ProviderPersonalInfo({super.key});
 
   @override
-  State<ProviderAccountScreen> createState() => _ProviderAccountScreenState();
+  State<ProviderPersonalInfo> createState() => _ProviderPersonalInfoState();
 }
 
-class _ProviderAccountScreenState extends State<ProviderAccountScreen> {
+class _ProviderPersonalInfoState extends State<ProviderPersonalInfo> {
   String? originalUsername;
   String? originalDescription;
   String? originalDiplome;

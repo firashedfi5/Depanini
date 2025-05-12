@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/auth/signin_screen.dart';
 import 'package:depanini/screens/common/change_location.dart';
 import 'package:depanini/screens/common/change_password_screen.dart';
-import 'package:depanini/screens/provider/profil/provider_account_screen.dart';
+import 'package:depanini/screens/provider/profil/provider_personal_info.dart';
 import 'package:depanini/screens/provider/profil/provider_gallery.dart';
 import 'package:depanini/theme/theme_provider.dart';
 import 'package:depanini/theme/themes.dart';
@@ -24,7 +24,7 @@ class ProviderSettingsScreen extends ConsumerStatefulWidget {
 
 class _ProviderSettingsScreenState
     extends ConsumerState<ProviderSettingsScreen> {
-void showDeleteConfirmationDialog(BuildContext context) {
+  void showDeleteConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
       builder:
@@ -90,7 +90,7 @@ void showDeleteConfirmationDialog(BuildContext context) {
           ),
     );
   }
-      
+
   @override
   Widget build(context) {
     final themeData = ref.watch(themeProvider);
@@ -105,7 +105,7 @@ void showDeleteConfirmationDialog(BuildContext context) {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProviderAccountScreen(),
+                    builder: (context) => ProviderPersonalInfo(),
                   ),
                 );
               },

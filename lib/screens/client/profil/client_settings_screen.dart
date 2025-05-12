@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/auth/signin_screen.dart';
-import 'package:depanini/screens/client/profil/client_account_screen.dart';
+import 'package:depanini/screens/client/profil/client_personal_info.dart';
 import 'package:depanini/screens/common/change_location.dart';
 import 'package:depanini/screens/common/change_password_screen.dart';
 import 'package:depanini/theme/theme_provider.dart';
@@ -102,7 +102,7 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AccountScreen()),
+                  MaterialPageRoute(builder: (context) => ClientPersonalInfo()),
                 );
               },
               child: Row(

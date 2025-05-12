@@ -10,14 +10,14 @@ import 'dart:developer' as dev;
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class AccountScreen extends StatefulWidget {
-  const AccountScreen({super.key});
+class ClientPersonalInfo extends StatefulWidget {
+  const ClientPersonalInfo({super.key});
 
   @override
-  State<AccountScreen> createState() => _AccountScreenState();
+  State<ClientPersonalInfo> createState() => _ClientPersonalInfoState();
 }
 
-class _AccountScreenState extends State<AccountScreen> {
+class _ClientPersonalInfoState extends State<ClientPersonalInfo> {
   String? originalUsername;
   String? originalPhoneNumber;
 
