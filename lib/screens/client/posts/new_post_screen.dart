@@ -64,6 +64,22 @@ class _NewPostScreenState extends State<NewPostScreen> {
       // *************************************
       _formKey.currentState!.save();
       // *************************************
+      if (mounted) {
+        // Navigator.of(context).pop(true);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Annonce ajoutée avec succès.',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: Color(0xFF2E7D32),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
       // Upload service images if they exist
       String? uploadedPostImageUrl_1;
       if (_pickImageFile_1 != null) {
@@ -155,11 +171,12 @@ class _NewPostScreenState extends State<NewPostScreen> {
                       label: Text('Description'),
                     ),
                     validator: (value) {
-                      if (value == null ||
-                          value.isEmpty ||
-                          value.trim().length <= 5 ||
-                          value.trim().length > 150) {
+                      if (value == null || value.isEmpty) {
                         return 'Veuillez entrer votre description';
+                      }
+                      if (value.trim().length <= 15 ||
+                          value.trim().length > 150) {
+                        return 'La description doit contenir entre 15 et 150 caractères';
                       }
                       return null;
                     },
