@@ -87,6 +87,15 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
           widget.prestataireLatLong[1],
         ),
       });
+      _firestore.collection("notifications").add({
+        'client_uid': _auth.currentUser!.uid,
+        'prestataire_uid': widget.prestataireUid,
+        'type': 'rdv',
+        'titre': 'Nouvelle demande de rendez-vous',
+        'contenu':
+            'Vous avez une nouvelle demande de rendez-vous de la part de $clientUsername.',
+        'date': Timestamp.now(),
+      });
       if (mounted) {
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(

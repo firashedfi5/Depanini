@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
@@ -211,11 +212,9 @@ class ChatroomsScreen extends StatelessWidget {
                             ),
                             if (lastMessageTime != null)
                               Text(
-                                '${lastMessageTime.hour.toString().padLeft(2, '0')}:${lastMessageTime.minute.toString().padLeft(2, '0')}',
-                                style: const TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 12,
-                                ),
+                                timeago.format(lastMessageTime, locale: 'fr'),
+                                style: Theme.of(context).textTheme.bodySmall!
+                                    .copyWith(color: Colors.grey),
                               ),
                           ],
                         ),
