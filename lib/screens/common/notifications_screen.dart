@@ -1,9 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/notification_model.dart';
-// import 'package:depanini/screens/provider/rdv/provider_pending_appointment.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
 final _firestore = FirebaseFirestore.instance;
@@ -17,6 +15,24 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
+  Future<void> deleteAllNotificationsForCurrentUser() async {
+    final uid = _auth.currentUser!.uid;
+
+    final querySnapshot =
+        await _firestore
+            .collection('notifications')
+            .where('récepteur_uid', isEqualTo: uid)
+            .get();
+
+    final batch = _firestore.batch();
+
+    for (var doc in querySnapshot.docs) {
+      batch.delete(doc.reference);
+    }
+
+    await batch.commit();
+  }
+
   Stream<List<NotificationModel>> notificationStream() {
     return _firestore
         .collection('notifications')
@@ -44,9 +60,11 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         title: Text('Notifications'),
         actions: [
           TextButton.icon(
-            onPressed: () {},
+            onPressed: () async {
+              await deleteAllNotificationsForCurrentUser();
+            },
             icon: Icon(Icons.delete),
-            label: Text('Supprimer tout'),
+            label: Text('Effacer tout'),
             style: TextButton.styleFrom(foregroundColor: Colors.red),
           ),
         ],
@@ -71,62 +89,68 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             itemCount: notifications.length,
             itemBuilder: (context, index) {
               final notification = notifications[index];
-              return InkWell(
-                onTap: () {
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(
-                  //     builder:
-                  //         (context) =>
-                  //             ProviderPendingAppointment(), // Replace with your screen
-                  //   ),
-                  // );
-                },
-                child: Card(
-                  elevation: 2,
-                  color:
-                      Theme.of(context).brightness == Brightness.dark
-                          ? Theme.of(
-                            context,
-                          ).colorScheme.surfaceContainerHighest.withAlpha(120)
-                          : Theme.of(
-                            context,
-                          ).colorScheme.surfaceContainerHighest,
-                  margin: EdgeInsets.symmetric(horizontal: 8),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          notification.titre,
-                          style: Theme.of(context).textTheme.bodyLarge!
-                              .copyWith(fontWeight: FontWeight.bold),
+
+              IconData icon;
+              Color iconColor;
+
+              switch (notification.type) {
+                case 'rdv':
+                  icon = Icons.calendar_today;
+                  iconColor = Theme.of(context).colorScheme.primary;
+                  break;
+                case 'review':
+                  icon = Icons.thumb_up_sharp;
+                  iconColor = Colors.amber[600]!;
+                  break;
+                case 'annulation':
+                  icon = Icons.warning_rounded;
+                  iconColor = Colors.red[600]!;
+                  break;
+                default:
+                  icon = Icons.check_box;
+                  iconColor = Colors.green[600]!;
+              }
+
+              return Card(
+                elevation: 2,
+                color:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainerHighest.withAlpha(120)
+                        : Theme.of(context).colorScheme.surfaceContainerHighest,
+                margin: EdgeInsets.symmetric(horizontal: 8),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            notification.titre,
+                            style: Theme.of(context).textTheme.bodyLarge!
+                                .copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          Spacer(),
+                          Icon(icon, color: iconColor),
+                        ],
+                      ),
+                      SizedBox(height: 4),
+                      Text(
+                        notification.contenu,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
+                      SizedBox(height: 4),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          timeago.format(notification.date, locale: 'fr'),
+                          style: Theme.of(context).textTheme.bodySmall,
                         ),
-                        SizedBox(height: 4),
-                        Text(
-                          notification.contenu,
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                        SizedBox(height: 4),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              DateFormat(
-                                'dd MMM yyyy',
-                                'fr_FR',
-                              ).format(notification.date),
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            Text(
-                              timeago.format(notification.date, locale: 'fr'),
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               );
