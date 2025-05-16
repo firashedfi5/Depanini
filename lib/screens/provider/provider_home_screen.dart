@@ -114,6 +114,14 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
   // ***********Search************************
 
+  Stream<int> _notificationCountStream() {
+    return _firestore
+        .collection('notifications')
+        .where('récepteur_uid', isEqualTo: user.uid)
+        .snapshots()
+        .map((snapshot) => snapshot.docs.length);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -241,7 +249,61 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                   ),
                                 );
                               },
-                              icon: Icon(Icons.notifications),
+                              icon: SizedBox(
+                                width: 30,
+                                height: 30,
+                                child: Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    Icon(Icons.notifications, size: 30),
+                                    Positioned(
+                                      top: -2,
+                                      right: -2,
+                                      child: StreamBuilder<int>(
+                                        stream: _notificationCountStream(),
+                                        builder: (context, snapshot) {
+                                          if (snapshot.connectionState ==
+                                              ConnectionState.waiting) {
+                                            return SizedBox(); // or a subtle shimmer/dot
+                                          }
+
+                                          if (snapshot.hasError) {
+                                            return SizedBox(); // or an error indicator
+                                          }
+
+                                          final count = snapshot.data ?? 0;
+
+                                          if (count == 0) return SizedBox();
+
+                                          return Container(
+                                            padding: EdgeInsets.all(2),
+                                            constraints: BoxConstraints(
+                                              minWidth: 15,
+                                              minHeight: 15,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: Color(0xffc32c37),
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                count > 99
+                                                    ? '99+'
+                                                    : count.toString(),
+                                                style: TextStyle(
+                                                  color: Colors.white,
+                                                  fontSize: 10,
+                                                  fontWeight: FontWeight.bold,
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
                             ),
                           ],
                         ),
