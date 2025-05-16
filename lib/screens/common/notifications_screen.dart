@@ -109,7 +109,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   iconColor = Colors.amber[600]!;
                   break;
                 case 'annulation':
-                  icon = Icons.warning_rounded;
+                  icon = Icons.cancel;
                   iconColor = Colors.red[600]!;
                   break;
                 default:
