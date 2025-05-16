@@ -219,13 +219,26 @@ class _ProviderIncomingAppointmentState
                                         SizedBox(
                                           width: 150,
                                           child: FilledButton.icon(
-                                            onPressed:
-                                                () => _firestore
-                                                    .collection("rdvs")
-                                                    .doc(items[index].id)
-                                                    .update({
-                                                      'status': 'annulé',
-                                                    }),
+                                            onPressed: () {
+                                              _firestore
+                                                  .collection("rdvs")
+                                                  .doc(items[index].id)
+                                                  .update({'status': 'annulé'});
+                                              _firestore
+                                                  .collection("notifications")
+                                                  .add({
+                                                    'expéditeur_uid':
+                                                        _auth.currentUser!.uid,
+                                                    'récepteur_uid':
+                                                        items[index].clientUid,
+                                                    'type': 'annulation',
+                                                    'titre':
+                                                        'Rendez-vous annulé',
+                                                    'contenu':
+                                                        'Votre rendez-vous avec ${items[index].prestataireUsername} a été annulé.',
+                                                    'date': Timestamp.now(),
+                                                  });
+                                            },
                                             style: FilledButton.styleFrom(
                                               backgroundColor: Colors
                                                   .red

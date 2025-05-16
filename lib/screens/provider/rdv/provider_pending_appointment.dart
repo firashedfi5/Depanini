@@ -239,13 +239,28 @@ class _ProviderPendingAppointmentState
                                         SizedBox(
                                           width: 150,
                                           child: FilledButton.icon(
-                                            onPressed:
-                                                () => _firestore
-                                                    .collection("rdvs")
-                                                    .doc(items[index].id)
-                                                    .update({
-                                                      'status': 'confirmé',
-                                                    }),
+                                            onPressed: () {
+                                              _firestore
+                                                  .collection("rdvs")
+                                                  .doc(items[index].id)
+                                                  .update({
+                                                    'status': 'confirmé',
+                                                  });
+                                              _firestore
+                                                  .collection("notifications")
+                                                  .add({
+                                                    'expéditeur_uid':
+                                                        _auth.currentUser!.uid,
+                                                    'récepteur_uid':
+                                                        items[index].clientUid,
+                                                    'type': 'confirmation',
+                                                    'titre':
+                                                        'Rendez-vous confirmé',
+                                                    'contenu':
+                                                        'Votre rendez-vous avec ${items[index].prestataireUsername} a été confirmé.',
+                                                    'date': Timestamp.now(),
+                                                  });
+                                            },
                                             style: FilledButton.styleFrom(
                                               backgroundColor: Colors
                                                   .green

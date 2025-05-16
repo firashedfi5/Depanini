@@ -88,8 +88,8 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
         ),
       });
       _firestore.collection("notifications").add({
-        'client_uid': _auth.currentUser!.uid,
-        'prestataire_uid': widget.prestataireUid,
+        'expéditeur_uid': _auth.currentUser!.uid,
+        'récepteur_uid': widget.prestataireUid,
         'type': 'rdv',
         'titre': 'Nouvelle demande de rendez-vous',
         'contenu':

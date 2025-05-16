@@ -20,8 +20,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Stream<List<NotificationModel>> notificationStream() {
     return _firestore
         .collection('notifications')
-        .where('prestataire_uid', isEqualTo: _auth.currentUser!.uid)
-        .orderBy('date', descending: false)
+        .where('récepteur_uid', isEqualTo: _auth.currentUser!.uid)
+        .orderBy('date', descending: true)
         .snapshots()
         .map(
           (snapshot) =>
@@ -66,7 +66,8 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
           final notifications = snapshot.data!;
 
-          return ListView.builder(
+          return ListView.separated(
+            separatorBuilder: (_, _) => SizedBox(height: 8),
             itemCount: notifications.length,
             itemBuilder: (context, index) {
               final notification = notifications[index];

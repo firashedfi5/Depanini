@@ -117,6 +117,15 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
       'comment': _feedbackController.text,
     });
     _feedbackController.clear();
+
+    _firestore.collection("notifications").add({
+      'expéditeur_uid': _auth.currentUser!.uid,
+      'récepteur_uid': widget.uid,
+      'type': 'review',
+      'titre': 'Nouvel avis reçu',
+      'contenu': 'Vous avez reçu un nouvel avis de la part de $username.',
+      'date': Timestamp.now(),
+    });
   }
 
   // *****************************************
