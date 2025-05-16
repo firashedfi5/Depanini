@@ -6,6 +6,7 @@ import 'package:depanini/screens/common/notifications_screen.dart';
 import 'package:depanini/screens/provider/provider_home/show_post_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 // import 'dart:developer' as dev;
 
 final _auth = FirebaseAuth.instance;
@@ -58,7 +59,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
               profilPicture: data["profil_picture"],
               description: data["description"],
               service: data["service"],
-              date: data["date"],
+              date: (data['date'] as Timestamp).toDate(),
               createdAt: data["createdAt"],
               image1: data["imageURL_1"],
               image2: data["imageURL_2"],
@@ -364,7 +365,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                       ),
                                       const SizedBox(width: 8),
                                       Text(
-                                        snapshot.data![index].date,
+                                        DateFormat(
+                                          'dd/MM/yyyy',
+                                        ).format(snapshot.data![index].date),
                                         style: Theme.of(
                                           context,
                                         ).textTheme.bodySmall?.copyWith(

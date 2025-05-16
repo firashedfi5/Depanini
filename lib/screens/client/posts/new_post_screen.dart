@@ -1,3 +1,4 @@
+import 'dart:developer' as dev;
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/constants/domains.dart';
@@ -64,6 +65,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       // *************************************
       _formKey.currentState!.save();
       // *************************************
+      dev.log(_selectedDate.toString());
       if (mounted) {
         // Navigator.of(context).pop(true);
         ScaffoldMessenger.of(context).showSnackBar(
@@ -131,7 +133,14 @@ class _NewPostScreenState extends State<NewPostScreen> {
         'profil_picture': profilPictureURL,
         'description': _enteredDescription.text,
         'service': _enteredDomaine!.name,
-        'date': _selectedDate == null ? '' : formatter.format(_selectedDate!),
+        // 'date': _selectedDate == null ? '' : formatter.format(_selectedDate!),
+        'date': Timestamp.fromDate(
+          DateTime(
+            _selectedDate!.year,
+            _selectedDate!.month,
+            _selectedDate!.day,
+          ),
+        ),
         'imageURL_1': uploadedPostImageUrl_1,
         'imageURL_2': uploadedPostImageUrl_2,
         'imageURL_3': uploadedPostImageUrl_3,

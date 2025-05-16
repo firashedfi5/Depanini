@@ -74,7 +74,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
         profilPicture: data["profil_picture"],
         description: data["description"],
         service: data["service"],
-        date: data["date"],
+        date: (data['date'] as Timestamp).toDate(),
         createdAt: data["createdAt"],
         image1: data["imageURL_1"],
         image2: data["imageURL_2"],
@@ -170,7 +170,13 @@ class _EditPostScreenState extends State<EditPostScreen> {
       }
 
       if (hasDateChanged) {
-        updatedFields['date'] = formatter.format(_selectedDate!);
+        updatedFields['date'] = Timestamp.fromDate(
+          DateTime(
+            _selectedDate!.year,
+            _selectedDate!.month,
+            _selectedDate!.day,
+          ),
+        );
       }
 
       await _firestore
@@ -290,8 +296,10 @@ class _EditPostScreenState extends State<EditPostScreen> {
                       children: [
                         Text(
                           _selectedDate == null
-                              ? snapshot.data!.date
-                              : formatter.format(_selectedDate!),
+                              ? DateFormat(
+                                'dd/MM/yyyy',
+                              ).format(snapshot.data!.date)
+                              : DateFormat('dd/MM/yyyy').format(_selectedDate!),
                           style: Theme.of(context).textTheme.labelLarge,
                         ),
                         Row(

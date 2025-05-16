@@ -8,6 +8,7 @@ import 'package:depanini/models/post_model.dart';
 import 'dart:developer' as dev;
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:intl/intl.dart';
 
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
@@ -53,7 +54,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
               profilPicture: data["profil_picture"],
               description: data["description"],
               service: data["service"],
-              date: data["date"],
+              date: (data['date'] as Timestamp).toDate(),
               createdAt: data["createdAt"],
               image1: data["imageURL_1"],
               image2: data["imageURL_2"],
@@ -249,10 +250,12 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Text(
-                          'Le ${_postListed[index].date}',
+                          DateFormat(
+                            'dd/MM/yyyy',
+                          ).format(_postListed[index].date),
                           style: Theme.of(
                             context,
-                          ).textTheme.bodySmall?.copyWith(
+                          ).textTheme.bodyMedium?.copyWith(
                             color:
                                 Theme.of(context).colorScheme.onSurfaceVariant,
                             fontStyle: FontStyle.italic,

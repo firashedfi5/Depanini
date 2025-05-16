@@ -26,7 +26,7 @@ class PostModel {
   final String profilPicture;
   final String service;
   final String description;
-  final String date;
+  final DateTime date;
   final Timestamp createdAt;
   final String? image1;
   final String? image2;

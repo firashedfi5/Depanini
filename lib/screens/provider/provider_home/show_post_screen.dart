@@ -5,6 +5,7 @@ import 'package:depanini/models/post_model.dart';
 import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -62,7 +63,7 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
         profilPicture: data["profil_picture"],
         description: data["description"],
         service: data['service'],
-        date: data['date'],
+        date: (data['date'] as Timestamp).toDate(),
         createdAt: data['createdAt'],
         image1: data["imageURL_1"],
         image2: data["imageURL_2"],
@@ -221,7 +222,9 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
                                             ).textTheme.labelSmall,
                                       ),
                                       Text(
-                                        snapshot.data!.date,
+                                        DateFormat(
+                                          'dd/MM/yyyy',
+                                        ).format(snapshot.data!.date),
                                         style: Theme.of(
                                           context,
                                         ).textTheme.bodyMedium!.copyWith(
