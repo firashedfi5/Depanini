@@ -44,6 +44,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               snapshot.docs.map((doc) {
                 final data = doc.data();
                 return NotificationModel(
+                  id: doc.id,
                   type: data['type'],
                   titre: data['titre'],
                   contenu: data['contenu'],
@@ -79,7 +80,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No notifications found.'));
+            return Center(
+              child: Text(
+                'Aucune notification trouvée.',
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+            );
           }
 
           final notifications = snapshot.data!;
@@ -111,46 +117,64 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   iconColor = Colors.green[600]!;
               }
 
-              return Card(
-                elevation: 2,
-                color:
-                    Theme.of(context).brightness == Brightness.dark
-                        ? Theme.of(
-                          context,
-                        ).colorScheme.surfaceContainerHighest.withAlpha(120)
-                        : Theme.of(context).colorScheme.surfaceContainerHighest,
-                margin: EdgeInsets.symmetric(horizontal: 8),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            notification.titre,
-                            style: Theme.of(context).textTheme.bodyLarge!
-                                .copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          Spacer(),
-                          Icon(icon, color: iconColor),
-                        ],
-                      ),
-                      SizedBox(height: 4),
-                      Text(
-                        notification.contenu,
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      SizedBox(height: 4),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Text(
-                          timeago.format(notification.date, locale: 'fr'),
-                          style: Theme.of(context).textTheme.bodySmall,
+              return Dismissible(
+                key: ValueKey(notification.id),
+                background: Container(
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  color: Colors.red.withValues(alpha: 0.1),
+                  child: Icon(Icons.delete, color: Colors.red, size: 30),
+                ),
+                direction: DismissDirection.endToStart,
+                onDismissed: (direction) async {
+                  await FirebaseFirestore.instance
+                      .collection('notifications')
+                      .doc(notification.id)
+                      .delete();
+                },
+                child: Card(
+                  elevation: 2,
+                  color:
+                      Theme.of(context).brightness == Brightness.dark
+                          ? Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHighest.withAlpha(120)
+                          : Theme.of(
+                            context,
+                          ).colorScheme.surfaceContainerHighest,
+                  margin: EdgeInsets.symmetric(horizontal: 8),
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              notification.titre,
+                              style: Theme.of(context).textTheme.bodyLarge!
+                                  .copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            Spacer(),
+                            Icon(icon, color: iconColor),
+                          ],
                         ),
-                      ),
-                    ],
+                        SizedBox(height: 4),
+                        Text(
+                          notification.contenu,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        SizedBox(height: 4),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Text(
+                            timeago.format(notification.date, locale: 'fr'),
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );

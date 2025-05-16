@@ -177,14 +177,17 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
         itemCount: _postListed.length,
         itemBuilder:
             (ctx, index) => Dismissible(
+              key: ValueKey(_postListed[index].postId),
               background: Container(
-                color: Theme.of(context).colorScheme.error,
-                margin: EdgeInsets.symmetric(horizontal: 5),
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                color: Colors.red.withValues(alpha: 0.1),
+                child: Icon(Icons.delete, color: Colors.red, size: 30),
               ),
+              direction: DismissDirection.endToStart,
               onDismissed: (direction) {
                 _removePost(_postListed[index]);
               },
-              key: ValueKey(_postListed[index].postId),
               child: Card(
                 elevation: 4,
                 color:
