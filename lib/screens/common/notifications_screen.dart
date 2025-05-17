@@ -91,6 +91,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           final notifications = snapshot.data!;
 
           return ListView.separated(
+            padding: EdgeInsets.symmetric(horizontal: 8),
             separatorBuilder: (_, _) => SizedBox(height: 8),
             itemCount: notifications.length,
             itemBuilder: (context, index) {
@@ -142,7 +143,6 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                           : Theme.of(
                             context,
                           ).colorScheme.surfaceContainerHighest,
-                  margin: EdgeInsets.symmetric(horizontal: 8),
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Column(
