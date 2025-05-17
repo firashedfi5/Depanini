@@ -89,7 +89,7 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Ajouter une nouvelle astuces')),
+      appBar: AppBar(title: const Text('Ajouter une nouvelle astuces')),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(12),
@@ -102,7 +102,7 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
                     controller: _enteredTitle,
                     decoration: InputDecoration(
                       alignLabelWithHint: true,
-                      label: Text('Titre'),
+                      label: const Text('Titre'),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -114,14 +114,14 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
                       _enteredTitle.text = value!;
                     },
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   TextFormField(
                     controller: _enteredDescription,
                     maxLines: 4,
                     maxLength: 150,
                     decoration: InputDecoration(
                       alignLabelWithHint: true,
-                      label: Text('Description'),
+                      label: const Text('Description'),
                     ),
                     validator: (value) {
                       if (value == null ||
@@ -136,10 +136,10 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
                       _enteredDescription.text = value!;
                     },
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   DropdownButtonFormField<Domains>(
                     decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.domain_outlined),
+                      prefixIcon: const Icon(Icons.domain_outlined),
                       labelText: 'Service',
                     ),
                     value: _selectedDomain,
@@ -165,7 +165,7 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
                       _enteredDomaine = newValue!;
                     },
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   PostImage(
                     pickedImageFile: _foregroundImageFile,
                     onImagePicked: (file) {
@@ -174,11 +174,10 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
                       });
                     },
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _savePost,
-                    // _savePost,
-                    child: Text('Ajouter'),
+                    child: const Text('Ajouter'),
                   ),
                 ],
               ),

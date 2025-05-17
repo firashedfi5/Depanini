@@ -303,7 +303,7 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                                   ],
                                 ),
                               ),
-                              Spacer(),
+                              const Spacer(),
                               Container(
                                 padding: const EdgeInsets.all(5.0),
                                 decoration:

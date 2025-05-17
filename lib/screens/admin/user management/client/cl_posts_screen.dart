@@ -96,7 +96,7 @@ class _ClPostsScreenState extends State<ClPostsScreen> {
           SnackBar(
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 5),
-            content: Text('Annonce supprimée'),
+            content: const Text('Annonce supprimée'),
             action: SnackBarAction(
               label: 'Annuler',
               onPressed: () async {
@@ -146,15 +146,12 @@ class _ClPostsScreenState extends State<ClPostsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = Center(
-      child: Text(
-        'Aucun annonce ajouté pour le moment',
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
+    Widget content = const Center(
+      child: Text('Aucun annonce ajouté pour le moment'),
     );
 
     if (_isLoading) {
-      content = Center(child: CircularProgressIndicator());
+      content = const Center(child: CircularProgressIndicator());
     }
 
     if (_postListed.isNotEmpty) {
@@ -167,7 +164,7 @@ class _ClPostsScreenState extends State<ClPostsScreen> {
                 alignment: Alignment.centerRight,
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 color: Colors.red.withValues(alpha: 0.1),
-                child: Icon(Icons.delete, color: Colors.red, size: 30),
+                child: const Icon(Icons.delete, color: Colors.red, size: 30),
               ),
               direction: DismissDirection.endToStart,
               onDismissed: (direction) {

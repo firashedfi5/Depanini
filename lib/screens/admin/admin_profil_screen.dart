@@ -79,7 +79,7 @@ class _AdminProfilScreenState extends ConsumerState<AdminProfilScreen> {
                   ],
                 ),
               ),
-              SizedBox(height: 80),
+              const SizedBox(height: 80),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -94,8 +94,8 @@ class _AdminProfilScreenState extends ConsumerState<AdminProfilScreen> {
                     },
                     child: Row(
                       children: [
-                        FaIcon(FontAwesomeIcons.userShield, size: 20),
-                        SizedBox(width: 10),
+                        const FaIcon(FontAwesomeIcons.userShield, size: 20),
+                        const SizedBox(width: 10),
                         Text(
                           'Changer de mot de passe',
                           style: TextStyle(
@@ -103,18 +103,18 @@ class _AdminProfilScreenState extends ConsumerState<AdminProfilScreen> {
                             color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                         ),
-                        Spacer(),
-                        Icon(Icons.arrow_forward_ios),
+                        const Spacer(),
+                        const Icon(Icons.arrow_forward_ios),
                       ],
                     ),
                   ),
-                  SizedBox(height: 7),
+                  const SizedBox(height: 7),
                   TextButton(
                     onPressed: () {},
                     child: Row(
                       children: [
-                        Icon(Icons.dark_mode, size: 20),
-                        SizedBox(width: 10),
+                        const Icon(Icons.dark_mode, size: 20),
+                        const SizedBox(width: 10),
                         Text(
                           'Changer le thème',
                           style: TextStyle(
@@ -122,7 +122,7 @@ class _AdminProfilScreenState extends ConsumerState<AdminProfilScreen> {
                             color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                         ),
-                        Spacer(),
+                        const Spacer(),
                         Switch(
                           value: themeData == darkTheme,
                           onChanged: (bool value) {
@@ -133,12 +133,12 @@ class _AdminProfilScreenState extends ConsumerState<AdminProfilScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   TextButton.icon(
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
                     },
-                    icon: Icon(Icons.logout, color: Colors.red, size: 25),
+                    icon: const Icon(Icons.logout, color: Colors.red, size: 25),
                     style: TextButton.styleFrom(),
                     label: Text(
                       "Se déconnecter",

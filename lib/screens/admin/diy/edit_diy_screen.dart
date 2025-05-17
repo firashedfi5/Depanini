@@ -197,12 +197,12 @@ class _EditDiyScreenState extends State<EditDiyScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Modifier une astuce')),
+      appBar: AppBar(title: const Text('Modifier une astuce')),
       body: FutureBuilder(
         future: _loadedAstuce,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -228,7 +228,7 @@ class _EditDiyScreenState extends State<EditDiyScreen> {
                   children: [
                     TextFormField(
                       initialValue: snapshot.data!.titre,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         alignLabelWithHint: true,
                         label: Text('Titre'),
                       ),
@@ -242,12 +242,12 @@ class _EditDiyScreenState extends State<EditDiyScreen> {
                         _enteredTitle.text = value!;
                       },
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextFormField(
                       initialValue: snapshot.data!.description,
                       maxLines: 4,
                       maxLength: 150,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         alignLabelWithHint: true,
                         label: Text('Description'),
                       ),
@@ -264,26 +264,26 @@ class _EditDiyScreenState extends State<EditDiyScreen> {
                         _enteredDescription.text = value!;
                       },
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextFormField(
                       initialValue: snapshot.data!.domaine,
                       readOnly: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         alignLabelWithHint: true,
                         label: Text('Domaine'),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     UpdateImage(
                       initialImage: NetworkImage(image),
                       onPickImage: (pickedImage) {
                         _foregroundImageFile = pickedImage;
                       },
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     ElevatedButton(
                       onPressed: _update,
-                      child: Text('Enregistrer'),
+                      child: const Text('Enregistrer'),
                     ),
                   ],
                 ),

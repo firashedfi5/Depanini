@@ -92,7 +92,7 @@ class _AdminDiyScreenState extends State<AdminDiyScreen> {
           SnackBar(
             behavior: SnackBarBehavior.floating,
             duration: Duration(seconds: 5),
-            content: Text('Astuce supprimée'),
+            content: const Text('Astuce supprimée'),
             action: SnackBarAction(
               label: 'Annuler',
               onPressed: () async {
@@ -134,15 +134,12 @@ class _AdminDiyScreenState extends State<AdminDiyScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = Center(
-      child: Text(
-        ('Aucun astuce ajouté pour le moment'),
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
+    Widget content = const Center(
+      child: Text(('Aucun astuce ajouté pour le moment')),
     );
 
     if (_isLoading) {
-      content = Center(child: CircularProgressIndicator());
+      content = const Center(child: CircularProgressIndicator());
     }
 
     if (_astuceListed.isNotEmpty) {
@@ -288,9 +285,12 @@ class _AdminDiyScreenState extends State<AdminDiyScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Astuces de bricolage'),
+        title: const Text('Astuces de bricolage'),
         actions: [
-          IconButton(onPressed: _addAstuce, icon: Icon(Icons.add, size: 35)),
+          IconButton(
+            onPressed: _addAstuce,
+            icon: const Icon(Icons.add, size: 35),
+          ),
         ],
       ),
       body: content,

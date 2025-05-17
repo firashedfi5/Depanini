@@ -47,7 +47,7 @@ class _ClReportsScreenState extends State<ClReportsScreen> {
         future: _reportList,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -55,11 +55,10 @@ class _ClReportsScreenState extends State<ClReportsScreen> {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(
+            return const Center(
               child: Text(
                 'Aucun signalement ajouté pour le moment',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium,
               ),
             );
           }

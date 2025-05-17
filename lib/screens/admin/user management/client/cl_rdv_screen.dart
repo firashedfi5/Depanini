@@ -112,11 +112,10 @@ class _ClRdvScreenState extends State<ClRdvScreen> {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(
+            return const Center(
               child: Text(
                 'Aucun rendez-vous trouvé',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium,
               ),
             );
           }
@@ -179,7 +178,7 @@ class _ClRdvScreenState extends State<ClRdvScreen> {
                               ),
                             ],
                           ),
-                          Spacer(),
+                          const Spacer(),
                           Container(
                             padding: const EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
@@ -234,7 +233,7 @@ class _InfoChip extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
-        SizedBox(width: 6),
+        const SizedBox(width: 6),
         Text(text, style: Theme.of(context).textTheme.bodyMedium),
       ],
     );

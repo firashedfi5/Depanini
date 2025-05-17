@@ -31,16 +31,15 @@ class _AdminHomeState extends State<AdminHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      // IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
         animationDuration: Duration(milliseconds: 300),
         onTap: _navigateGoogleNavbar,
         items: [
-          FaIcon(FontAwesomeIcons.users),
-          Icon(Icons.tips_and_updates),
-          Icon(Icons.account_circle),
+          const FaIcon(FontAwesomeIcons.users),
+          const Icon(Icons.tips_and_updates),
+          const Icon(Icons.account_circle),
         ],
       ),
     );

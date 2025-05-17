@@ -184,7 +184,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text.rich(
                             textAlign: TextAlign.center,
                             TextSpan(
@@ -204,7 +204,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                               ],
                             ),
                           ),
-                          SizedBox(height: 8),
+                          const SizedBox(height: 8),
                           Text.rich(
                             textAlign: TextAlign.center,
                             TextSpan(
@@ -416,7 +416,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                             Icons.report,
                             color: Theme.of(context).colorScheme.primary,
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           StreamBuilder<int>(
                             stream: _reportCountStream(),
                             builder: (context, snapshot) {
@@ -458,7 +458,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                             Icons.feedback,
                             color: Theme.of(context).colorScheme.primary,
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           StreamBuilder<int>(
                             stream: _feedbackCountStream(),
                             builder: (context, snapshot) {
@@ -500,7 +500,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                             Icons.calendar_today,
                             color: Theme.of(context).colorScheme.primary,
                           ),
-                          SizedBox(width: 8),
+                          const SizedBox(width: 8),
                           StreamBuilder<int>(
                             stream: _rdvCountStream(),
                             builder: (context, snapshot) {
