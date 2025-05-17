@@ -43,177 +43,164 @@ class _ProviderReviewsScreenState extends State<ProviderReviewsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Mes notes et avis')),
-      body: FutureBuilder<List<FeedbackModel>>(
-        future: _feedbackList,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          }
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: [
+              Card(
+                elevation: 4,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                color:
+                    Theme.of(context).brightness == Brightness.dark
+                        ? Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainerHighest.withAlpha(120)
+                        : Theme.of(context).colorScheme.surfaceContainerHighest,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: FutureBuilder(
+                    future: Future.wait([
+                      _firestore.collection('prestataires').doc(uid).get(),
+                      _firestore
+                          .collection('prestataires')
+                          .doc(uid)
+                          .collection('ratings')
+                          .get(),
+                    ]),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16.0),
+                          child: Center(
+                            child: CircularProgressIndicator(strokeWidth: 2.5),
+                          ),
+                        );
+                      }
 
-          if (snapshot.hasError) {
-            return Center(child: Text('Erreur: ${snapshot.error}'));
-          }
-
-          if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(
-              child: Text('Aucun avis ajouté pour le moment'),
-            );
-          }
-
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  Card(
-                    elevation: 4,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    color:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Theme.of(
-                              context,
-                            ).colorScheme.surfaceContainerHighest.withAlpha(120)
-                            : Theme.of(
-                              context,
-                            ).colorScheme.surfaceContainerHighest,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: FutureBuilder(
-                        future: Future.wait([
-                          _firestore.collection('prestataires').doc(uid).get(),
-                          _firestore
-                              .collection('prestataires')
-                              .doc(uid)
-                              .collection('ratings')
-                              .get(),
-                        ]),
-                        builder: (context, snapshot) {
-                          if (snapshot.connectionState ==
-                              ConnectionState.waiting) {
-                            return const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 16.0),
-                              child: Center(
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2.5,
-                                ),
+                      if (snapshot.hasError) {
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              Icons.error_outline,
+                              color: Theme.of(context).colorScheme.error,
+                              size: 24,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              'Erreur de chargement',
+                              style: Theme.of(
+                                context,
+                              ).textTheme.bodyMedium?.copyWith(
+                                color: Theme.of(context).colorScheme.error,
                               ),
-                            );
-                          }
+                            ),
+                          ],
+                        );
+                      }
 
-                          if (snapshot.hasError) {
-                            return Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.error_outline,
-                                  color: Theme.of(context).colorScheme.error,
-                                  size: 24,
-                                ),
-                                const SizedBox(height: 8),
-                                Text(
-                                  'Erreur de chargement',
-                                  style: Theme.of(
-                                    context,
-                                  ).textTheme.bodyMedium?.copyWith(
-                                    color: Theme.of(context).colorScheme.error,
-                                  ),
-                                ),
-                              ],
-                            );
-                          }
+                      final prestataireSnapshot =
+                          snapshot.data![0] as DocumentSnapshot;
+                      final ratingsSnapshot =
+                          snapshot.data![1] as QuerySnapshot;
 
-                          final prestataireSnapshot =
-                              snapshot.data![0] as DocumentSnapshot;
-                          final ratingsSnapshot =
-                              snapshot.data![1] as QuerySnapshot;
+                      final prestataireData =
+                          prestataireSnapshot.data() as Map<String, dynamic>? ??
+                          {};
+                      final averageRating =
+                          (prestataireData['averageRating'] ?? 0).toDouble();
+                      final totalReviews =
+                          prestataireData['totalReviews'] ??
+                          ratingsSnapshot.docs.length;
 
-                          final prestataireData =
-                              prestataireSnapshot.data()
-                                  as Map<String, dynamic>? ??
-                              {};
-                          final averageRating =
-                              (prestataireData['averageRating'] ?? 0)
-                                  .toDouble();
-                          final totalReviews =
-                              prestataireData['totalReviews'] ??
-                              ratingsSnapshot.docs.length;
-
-                          return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                      return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'ÉVALUATION MOYENNE',
+                            style: Theme.of(
+                              context,
+                            ).textTheme.labelSmall?.copyWith(
+                              letterSpacing: 0.5,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
                             children: [
                               Text(
-                                'ÉVALUATION MOYENNE',
-                                style: Theme.of(
-                                  context,
-                                ).textTheme.labelSmall?.copyWith(
-                                  letterSpacing: 0.5,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                averageRating.toStringAsFixed(1),
+                                style: Theme.of(context).textTheme.displaySmall
+                                    ?.copyWith(fontWeight: FontWeight.bold),
                               ),
-                              const SizedBox(height: 8),
-                              Row(
+                              const SizedBox(width: 16),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    averageRating.toStringAsFixed(1),
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .displaySmall
-                                        ?.copyWith(fontWeight: FontWeight.bold),
+                                  RatingBarIndicator(
+                                    rating: averageRating,
+                                    itemBuilder:
+                                        (context, index) => Icon(
+                                          Icons.star_rounded,
+                                          color: Colors.amberAccent,
+                                        ),
+                                    itemCount: 5,
+                                    itemSize: 28,
+                                    unratedColor:
+                                        Theme.of(context).colorScheme.outline,
                                   ),
-                                  const SizedBox(width: 16),
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      RatingBarIndicator(
-                                        rating: averageRating,
-                                        itemBuilder:
-                                            (context, index) => Icon(
-                                              Icons.star_rounded,
-                                              color: Colors.amberAccent,
-                                            ),
-                                        itemCount: 5,
-                                        itemSize: 28,
-                                        unratedColor:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.outline,
-                                      ),
-                                      const SizedBox(height: 4),
-                                      Text(
-                                        '$totalReviews avis',
-                                        style:
-                                            Theme.of(
-                                              context,
-                                            ).textTheme.bodySmall,
-                                      ),
-                                    ],
+                                  const SizedBox(height: 4),
+                                  Text(
+                                    '$totalReviews avis',
+                                    style:
+                                        Theme.of(context).textTheme.bodySmall,
                                   ),
                                 ],
                               ),
                             ],
-                          );
-                        },
-                      ),
+                          ),
+                        ],
+                      );
+                    },
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  vertical: 12.0,
+                  horizontal: 4,
+                ),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Avis récents',
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 12.0,
-                      horizontal: 4,
-                    ),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        'Avis récents',
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                  ),
-                  ListView.builder(
+                ),
+              ),
+              FutureBuilder<List<FeedbackModel>>(
+                future: _feedbackList,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+
+                  if (snapshot.hasError) {
+                    return Center(child: Text('Erreur: ${snapshot.error}'));
+                  }
+
+                  if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return const Center(
+                      child: Text('Aucun avis ajouté pour le moment'),
+                    );
+                  }
+
+                  return ListView.builder(
                     shrinkWrap: true,
                     physics: const BouncingScrollPhysics(),
                     itemCount: snapshot.data!.length,
@@ -223,12 +210,12 @@ class _ProviderReviewsScreenState extends State<ProviderReviewsScreen> {
                           feedback: snapshot.data![index],
                           uid: uid,
                         ),
-                  ),
-                ],
+                  );
+                },
               ),
-            ),
-          );
-        },
+            ],
+          ),
+        ),
       ),
     );
   }
