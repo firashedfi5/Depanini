@@ -70,9 +70,14 @@ class _ProviderReviewsScreenState extends State<ProviderReviewsScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.primaryContainer.withAlpha(30),
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest.withAlpha(120)
+                            : Theme.of(
+                              context,
+                            ).colorScheme.surfaceContainerHighest,
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: FutureBuilder(
@@ -143,11 +148,8 @@ class _ProviderReviewsScreenState extends State<ProviderReviewsScreen> {
                                 style: Theme.of(
                                   context,
                                 ).textTheme.labelSmall?.copyWith(
-                                  color:
-                                      Theme.of(
-                                        context,
-                                      ).colorScheme.onSurfaceVariant,
                                   letterSpacing: 0.5,
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                               const SizedBox(height: 8),
@@ -155,13 +157,10 @@ class _ProviderReviewsScreenState extends State<ProviderReviewsScreen> {
                                 children: [
                                   Text(
                                     averageRating.toStringAsFixed(1),
-                                    style: Theme.of(
-                                      context,
-                                    ).textTheme.displaySmall?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color:
-                                          Theme.of(context).colorScheme.primary,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displaySmall
+                                        ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
                                   const SizedBox(width: 16),
                                   Column(
@@ -173,10 +172,7 @@ class _ProviderReviewsScreenState extends State<ProviderReviewsScreen> {
                                         itemBuilder:
                                             (context, index) => Icon(
                                               Icons.star_rounded,
-                                              color:
-                                                  Theme.of(
-                                                    context,
-                                                  ).colorScheme.primary,
+                                              color: Colors.amberAccent,
                                             ),
                                         itemCount: 5,
                                         itemSize: 28,
@@ -188,14 +184,10 @@ class _ProviderReviewsScreenState extends State<ProviderReviewsScreen> {
                                       const SizedBox(height: 4),
                                       Text(
                                         '$totalReviews avis',
-                                        style: Theme.of(
-                                          context,
-                                        ).textTheme.bodySmall?.copyWith(
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).colorScheme.outline,
-                                        ),
+                                        style:
+                                            Theme.of(
+                                              context,
+                                            ).textTheme.bodySmall,
                                       ),
                                     ],
                                   ),
