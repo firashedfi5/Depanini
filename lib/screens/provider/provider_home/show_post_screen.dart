@@ -131,7 +131,7 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
           }
           return SingleChildScrollView(
             child: Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

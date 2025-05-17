@@ -394,7 +394,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   return InkWell(
                     onTap: () async {
                       await Navigator.push(
-                        // <-- Add async/await
                         context,
                         MaterialPageRoute(
                           builder:

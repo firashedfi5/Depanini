@@ -74,7 +74,7 @@ class _FeedbackItemState extends State<FeedbackItem> {
                     ),
                     const Spacer(),
                     Text(
-                      DateFormat('dd MMM yyyy').format(widget.feedback.date),
+                      DateFormat.yMMMd('fr_FR').format(widget.feedback.date),
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ],

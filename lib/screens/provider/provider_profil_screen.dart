@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:depanini/screens/provider/profil/provider_reviews_screen.dart';
 // import 'package:depanini/screens/common/change_location.dart';
 // import 'package:depanini/screens/common/change_password_screen.dart';
 // import 'package:depanini/screens/provider/profil/provider_account_screen.dart';
@@ -118,6 +119,32 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                         SizedBox(width: 10),
                         Text(
                           'Paramètres',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: Theme.of(context).textTheme.bodyLarge!.color,
+                          ),
+                        ),
+                        Spacer(),
+                        Icon(Icons.arrow_forward_ios),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 7),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProviderReviewsScreen(),
+                        ),
+                      );
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.star, size: 25),
+                        SizedBox(width: 10),
+                        Text(
+                          'Notes et avis',
                           style: TextStyle(
                             fontSize: 20,
                             color: Theme.of(context).textTheme.bodyLarge!.color,
