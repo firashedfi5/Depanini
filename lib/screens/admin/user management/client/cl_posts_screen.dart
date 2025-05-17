@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/post_model.dart';
 import 'package:depanini/widgets/image_container.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -49,7 +50,7 @@ class _ClPostsScreenState extends State<ClPostsScreen> {
               profilPicture: data["profil_picture"],
               description: data["description"],
               service: data["service"],
-              date: data["date"],
+              date: (data['date'] as Timestamp).toDate(),
               createdAt: data["createdAt"],
               image1: data["imageURL_1"],
               image2: data["imageURL_2"],
@@ -163,9 +164,12 @@ class _ClPostsScreenState extends State<ClPostsScreen> {
         itemBuilder:
             (ctx, index) => Dismissible(
               background: Container(
-                color: Theme.of(context).colorScheme.error,
-                margin: EdgeInsets.symmetric(horizontal: 5),
+                alignment: Alignment.centerRight,
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                color: Colors.red.withValues(alpha: 0.1),
+                child: Icon(Icons.delete, color: Colors.red, size: 30),
               ),
+              direction: DismissDirection.endToStart,
               onDismissed: (direction) {
                 _removePost(_postListed[index]);
               },
@@ -216,7 +220,9 @@ class _ClPostsScreenState extends State<ClPostsScreen> {
                       Padding(
                         padding: const EdgeInsets.only(bottom: 12),
                         child: Text(
-                          'Le ${_postListed[index].date}',
+                          DateFormat(
+                            'dd/MM/yyyy',
+                          ).format(_postListed[index].date),
                           style: Theme.of(
                             context,
                           ).textTheme.bodySmall?.copyWith(

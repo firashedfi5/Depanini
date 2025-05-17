@@ -92,7 +92,7 @@ class _ClReportsScreenState extends State<ClReportsScreen> {
                           const Spacer(),
                           Text(
                             DateFormat(
-                              'dd MMM yyyy',
+                              'dd/MM/yyyy',
                             ).format(snapshot.data![index].date),
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
