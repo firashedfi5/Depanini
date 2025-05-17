@@ -75,12 +75,12 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           _selectedImage = pickedImage;
                         },
                       ),
-                      SizedBox(height: 15),
+                      const SizedBox(height: 15),
                       SizedBox(
                         width: 350,
                         child: TextFormField(
                           initialValue: userInfo.username,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Nom d\'utilisateur',
                             hintText: 'Entrez le nom d\'utilisateur',
                             prefixIcon: Icon(Icons.account_circle_outlined),
@@ -98,11 +98,11 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       SizedBox(
                         width: 350,
                         child: TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Numéro de téléphone',
                             hintText: 'Entrez le numéro de téléphone',
                             prefixIcon: Icon(Icons.phone_outlined),
@@ -122,11 +122,11 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       SizedBox(
                         width: 350,
                         child: TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Adresse Email',
                             hintText: 'Entrez votre email',
                             prefixIcon: Icon(Icons.email_outlined),
@@ -145,14 +145,14 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       SizedBox(
                         width: 350,
                         child: TextFormField(
                           decoration: InputDecoration(
                             labelText: 'Mot de Passe',
                             hintText: 'Entrez votre mot de passe',
-                            prefixIcon: Icon(Icons.lock_outlined),
+                            prefixIcon: const Icon(Icons.lock_outlined),
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
@@ -161,8 +161,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                               },
                               icon:
                                   _isVisible1
-                                      ? Icon(Icons.visibility)
-                                      : Icon(Icons.visibility_off),
+                                      ? const Icon(Icons.visibility)
+                                      : const Icon(Icons.visibility_off),
                             ),
                           ),
                           obscureText: !_isVisible1,
@@ -178,14 +178,14 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       SizedBox(
                         width: 350,
                         child: TextFormField(
                           decoration: InputDecoration(
                             labelText: 'Confirmer mot de passe',
                             hintText: 'Confirmer votre mot de passe',
-                            prefixIcon: Icon(Icons.lock_outlined),
+                            prefixIcon: const Icon(Icons.lock_outlined),
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
@@ -194,8 +194,8 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                               },
                               icon:
                                   _isVisible2
-                                      ? Icon(Icons.visibility)
-                                      : Icon(Icons.visibility_off),
+                                      ? const Icon(Icons.visibility)
+                                      : const Icon(Icons.visibility_off),
                             ),
                           ),
                           obscureText: !_isVisible2,
@@ -210,10 +210,10 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 30),
+                      const SizedBox(height: 30),
                       ElevatedButton(
                         onPressed: _submit,
-                        child: Text('S\'inscrire'),
+                        child: const Text('S\'inscrire'),
                       ),
                     ],
                   ),

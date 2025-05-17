@@ -35,7 +35,7 @@ class _LocalizationScreenState extends ConsumerState<LocalizationScreen> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          backgroundColor: Color(0xffb3261e),
+          backgroundColor: const Color(0xffb3261e),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -45,18 +45,18 @@ class _LocalizationScreenState extends ConsumerState<LocalizationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Localisation')),
+      appBar: AppBar(title: const Text('Localisation')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 170),
+          const SizedBox(height: 170),
           LocationInput(
             onSelectLocation: (location) {
               _selectedLocation = location;
             },
           ),
-          SizedBox(height: 80),
-          ElevatedButton(onPressed: _submit, child: Text('Suivant')),
+          const SizedBox(height: 80),
+          ElevatedButton(onPressed: _submit, child: const Text('Suivant')),
         ],
       ),
     );

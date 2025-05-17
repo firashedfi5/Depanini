@@ -22,9 +22,9 @@ class _AdminHomeState extends State<AdminHome> {
   }
 
   final List<Widget> _pages = [
-    AdminUserManagementScreen(),
-    AdminDiyScreen(),
-    AdminProfilScreen(),
+    const AdminUserManagementScreen(),
+    const AdminDiyScreen(),
+    const AdminProfilScreen(),
   ];
 
   @override
@@ -34,7 +34,7 @@ class _AdminHomeState extends State<AdminHome> {
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
-        animationDuration: Duration(milliseconds: 300),
+        animationDuration: const Duration(milliseconds: 300),
         onTap: _navigateGoogleNavbar,
         items: [
           const FaIcon(FontAwesomeIcons.users),

@@ -22,7 +22,7 @@ class AstuceScreen extends StatelessWidget {
         description: data["description"] ?? "Description non disponible",
         domaine: data["domaine"] ?? "Domaine non spécifié",
         foregroundImage: data["foreground_image"],
-        createdAt: data['createdAt']
+        createdAt: data['createdAt'],
       );
     } catch (e) {
       throw Exception('Erreur de récupération de l\'astuce : $e');
@@ -55,7 +55,7 @@ class AstuceScreen extends StatelessWidget {
             );
           }
           return Padding(
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -136,7 +136,7 @@ class AstuceScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Step ${index + 1}',
+                              'Étape ${index + 1}',
                               style: Theme.of(context).textTheme.labelSmall,
                             ),
                           ],

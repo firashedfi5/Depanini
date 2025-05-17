@@ -82,7 +82,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        backgroundColor: Color(0xFF2E7D32),
+                        backgroundColor: const Color(0xFF2E7D32),
                       ),
                     );
                   }
@@ -129,7 +129,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          backgroundColor: Color(0xffb3261e),
+                          backgroundColor: const Color(0xffb3261e),
                         ),
                       );
                     }
@@ -147,7 +147,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                               fontWeight: FontWeight.w500,
                             ),
                           ),
-                          backgroundColor: Color(0xffb3261e),
+                          backgroundColor: const Color(0xffb3261e),
                         ),
                       );
                     }
@@ -157,7 +157,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
               child: Card(
                 color:
                     Theme.of(context).brightness == Brightness.dark
-                        ? Color.fromARGB(255, 43, 43, 49)
+                        ? const Color.fromARGB(255, 43, 43, 49)
                         : const Color.fromARGB(255, 236, 229, 243),
                 child: Column(
                   children: [
@@ -190,7 +190,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
               child: Card(
                 color:
                     Theme.of(context).brightness == Brightness.dark
-                        ? Color.fromARGB(255, 43, 43, 49)
+                        ? const Color.fromARGB(255, 43, 43, 49)
                         : const Color.fromARGB(255, 236, 229, 243),
                 child: Column(
                   children: [

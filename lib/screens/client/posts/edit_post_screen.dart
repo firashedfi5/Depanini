@@ -232,12 +232,12 @@ class _EditPostScreenState extends State<EditPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Modifier une annonce')),
+      appBar: AppBar(title: const Text('Modifier une annonce')),
       body: FutureBuilder<PostModel>(
         future: _loadedPost,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -273,7 +273,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
                       maxLines: 4,
                       maxLength: 150,
                       initialValue: snapshot.data!.description,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         alignLabelWithHint: true,
                         label: Text('Description'),
                       ),
@@ -281,16 +281,16 @@ class _EditPostScreenState extends State<EditPostScreen> {
                         _enteredDescription.text = newValue!;
                       },
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     TextFormField(
                       initialValue: snapshot.data!.service,
                       readOnly: true,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         alignLabelWithHint: true,
                         label: Text('Domaine'),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -334,17 +334,17 @@ class _EditPostScreenState extends State<EditPostScreen> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Text(
                       'Changer les photos',
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     // ***********Images***********************
                     SizedBox(
                       height: 220,
                       child: ListView.separated(
-                        separatorBuilder: (__, _) => SizedBox(width: 10),
+                        separatorBuilder: (__, _) => const SizedBox(width: 10),
                         itemCount: images.length,
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
@@ -357,10 +357,10 @@ class _EditPostScreenState extends State<EditPostScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: _update,
-                      child: Text('Enregistrer'),
+                      child:const Text('Enregistrer'),
                     ),
                   ],
                 ),

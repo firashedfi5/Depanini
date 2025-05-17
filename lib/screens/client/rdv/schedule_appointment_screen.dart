@@ -107,7 +107,7 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            backgroundColor: Color(0xFF2E7D32),
+            backgroundColor: const Color(0xFF2E7D32),
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -124,7 +124,7 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          backgroundColor: Color(0xffb3261e),
+          backgroundColor: const Color(0xffb3261e),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -134,13 +134,13 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Détails de réservation')),
+      appBar: AppBar(title: const Text('Détails de réservation')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
             SizedBox(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -152,7 +152,7 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   DatePickerWidget(
                     onDateSelected: (selectedDate) {
                       _selectedDate = selectedDate;
@@ -162,7 +162,7 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
               ),
             ),
 
-            SizedBox(height: 20),
+            const SizedBox(height: 20),
 
             SizedBox(
               child: Column(
@@ -175,7 +175,7 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                       fontWeight: FontWeight.w500,
                     ),
                   ),
-                  SizedBox(height: 12),
+                  const SizedBox(height: 12),
                   TimePicker(
                     onTimeSelected: (selectedTime) {
                       _selectedTime = selectedTime;
@@ -185,10 +185,10 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
               ),
             ),
 
-            SizedBox(height: 100),
+            const SizedBox(height: 100),
             ElevatedButton(
               onPressed: _submit,
-              child: Text('Confirmer la réservation'),
+              child: const Text('Confirmer la réservation'),
             ),
           ],
         ),

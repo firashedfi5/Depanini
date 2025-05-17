@@ -28,7 +28,7 @@ class _ClientRdvScreenState extends State<ClientRdvScreen> {
                   sliver: SliverSafeArea(
                     top: false,
                     sliver: SliverAppBar(
-                      title: Text('Mes réservations'),
+                      title: const Text('Mes réservations'),
                       pinned: true,
                       floating: true,
                       bottom: TabBar(
@@ -39,10 +39,10 @@ class _ClientRdvScreenState extends State<ClientRdvScreen> {
                         // indicatorColor: Colors.transparent,
                         dividerColor: Colors.transparent,
                         tabs: [
-                          Tab(text: 'À venir'),
-                          Tab(text: 'Terminé'),
-                          Tab(text: 'Annulé'),
-                          Tab(text: 'En attente'),
+                          const Tab(text: 'À venir'),
+                          const Tab(text: 'Terminé'),
+                          const Tab(text: 'Annulé'),
+                          const Tab(text: 'En attente'),
                         ],
                       ),
                     ),

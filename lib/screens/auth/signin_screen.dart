@@ -47,7 +47,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: const Color(0xffb3261e),
             ),
           );
         }
@@ -63,7 +63,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Colors.red,
+              backgroundColor: const Color(0xffb3261e),
             ),
           );
         }
@@ -79,7 +79,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Color(0xffb3261e),
+              backgroundColor: const Color(0xffb3261e),
             ),
           );
         }
@@ -95,7 +95,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Color(0xffb3261e),
+              backgroundColor: const Color(0xffb3261e),
               // behavior: SnackBarBehavior.floating,
             ),
           );
@@ -112,7 +112,7 @@ class _SigninScreenState extends State<SigninScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Color(0xffb3261e),
+              backgroundColor: const Color(0xffb3261e),
             ),
           );
         }
@@ -142,8 +142,11 @@ class _SigninScreenState extends State<SigninScreen> {
                 'Se connecter à Depanini',
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              SizedBox(height: 10),
-              Image.asset('assets/images/Mobile_login_bro.png', width: 200),
+              const SizedBox(height: 10),
+              const Image(
+                image: AssetImage('assets/images/Mobile_login_bro.png'),
+                width: 200,
+              ),
               Form(
                 key: _formKey,
                 child: SizedBox(
@@ -154,7 +157,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       SizedBox(
                         width: 350,
                         child: TextFormField(
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             labelText: 'Adresse Email',
                             hintText: 'Entrez votre email',
                             prefixIcon: Icon(Icons.email_outlined),
@@ -173,14 +176,14 @@ class _SigninScreenState extends State<SigninScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       SizedBox(
                         width: 350,
                         child: TextFormField(
                           decoration: InputDecoration(
                             labelText: 'Mot de Passe',
                             hintText: 'Entrez votre mot de passe',
-                            prefixIcon: Icon(Icons.lock_outlined),
+                            prefixIcon: const Icon(Icons.lock_outlined),
                             suffixIcon: IconButton(
                               onPressed: () {
                                 setState(() {
@@ -189,8 +192,8 @@ class _SigninScreenState extends State<SigninScreen> {
                               },
                               icon:
                                   _isVisible
-                                      ? Icon(Icons.visibility)
-                                      : Icon(Icons.visibility_off),
+                                      ? const Icon(Icons.visibility)
+                                      : const Icon(Icons.visibility_off),
                             ),
                           ),
                           obscureText: !_isVisible,
@@ -205,12 +208,12 @@ class _SigninScreenState extends State<SigninScreen> {
                           },
                         ),
                       ),
-                      SizedBox(height: 20),
+                      const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: _submit,
                         child: Text('Se connecter'),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
@@ -237,7 +240,7 @@ class _SigninScreenState extends State<SigninScreen> {
                           ),
                         ),
                       ),
-                      Divider(
+                      const Divider(
                         thickness: 2,
                         height: 30,
                         indent: 35,

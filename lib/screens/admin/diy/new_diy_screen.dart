@@ -100,9 +100,9 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
                 children: [
                   TextFormField(
                     controller: _enteredTitle,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       alignLabelWithHint: true,
-                      label: const Text('Titre'),
+                      label: Text('Titre'),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
@@ -119,9 +119,9 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
                     controller: _enteredDescription,
                     maxLines: 4,
                     maxLength: 150,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       alignLabelWithHint: true,
-                      label: const Text('Description'),
+                      label: Text('Description'),
                     ),
                     validator: (value) {
                       if (value == null ||
@@ -138,8 +138,8 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
                   ),
                   const SizedBox(height: 10),
                   DropdownButtonFormField<Domains>(
-                    decoration: InputDecoration(
-                      prefixIcon: const Icon(Icons.domain_outlined),
+                    decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.domain_outlined),
                       labelText: 'Service',
                     ),
                     value: _selectedDomain,

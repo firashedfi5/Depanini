@@ -162,7 +162,7 @@ class _ClPostsScreenState extends State<ClPostsScreen> {
             (ctx, index) => Dismissible(
               background: Container(
                 alignment: Alignment.centerRight,
-                padding: EdgeInsets.symmetric(horizontal: 20),
+                padding:const EdgeInsets.symmetric(horizontal: 20),
                 color: Colors.red.withValues(alpha: 0.1),
                 child: const Icon(Icons.delete, color: Colors.red, size: 30),
               ),

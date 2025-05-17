@@ -23,29 +23,28 @@ class _HomeState extends State<Home> {
   }
 
   final List<Widget> _pages = [
-    HomeScreen(),
-    ClientRdvScreen(),
-    ClientPostScreen(),
-    ChatroomsScreen(),
-    ProfilScreen(),
+    const HomeScreen(),
+    const ClientRdvScreen(),
+    const ClientPostScreen(),
+    const ChatroomsScreen(),
+    const ProfilScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      // IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
-        animationDuration: Duration(milliseconds: 300),
+        animationDuration: const Duration(milliseconds: 300),
         onTap: _navigateGoogleNavbar,
         items: [
-          Icon(Icons.home),
-          Icon(Icons.calendar_month),
-          Icon(Icons.post_add),
-          Icon(Icons.chat),
-          Icon(Icons.account_circle),
+          const Icon(Icons.home),
+          const Icon(Icons.calendar_month),
+          const Icon(Icons.post_add),
+          const Icon(Icons.chat),
+          const Icon(Icons.account_circle),
         ],
       ),
     );

@@ -92,7 +92,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
   // ***********Rating Method***************
 
   // ***********Feedback Method***************
-  final _feedbackController = TextEditingController();
+  final TextEditingController _feedbackController = TextEditingController();
 
   void _submitFeedback() async {
     final user = _auth.currentUser!;
@@ -129,7 +129,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
   }
 
   // *****************************************
-  final _reportController = TextEditingController();
+  final TextEditingController _reportController = TextEditingController();
   void _submitReport() async {
     final user = _auth.currentUser!;
 
@@ -210,13 +210,13 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Informations du prestataire')),
+      appBar: AppBar(title: const Text('Informations du prestataire')),
       body: SingleChildScrollView(
         child: FutureBuilder(
           future: getUserData(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             }
             return Padding(
               padding: const EdgeInsets.all(8),
@@ -303,7 +303,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                   ],
                                 ),
                               ),
-                              SizedBox(height: 8),
+                              const SizedBox(height: 8),
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -312,7 +312,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                     style: Theme.of(context).textTheme.bodyLarge
                                         ?.copyWith(fontWeight: FontWeight.bold),
                                   ),
-                                  Icon(Icons.star, color: Colors.amber),
+                                  const Icon(Icons.star, color: Colors.amber),
                                   const SizedBox(width: 6),
                                   Text(
                                     snapshot.data!.averageRating
@@ -366,7 +366,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                           ),
                         ],
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       FilledButton.icon(
                         icon: const Icon(Icons.calendar_month, size: 20),
                         label: const Text('Réserver'),
@@ -522,10 +522,10 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                           const SizedBox(height: 16),
                           TextField(
                             controller: _reportController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Décrivez le problème...',
                               border: OutlineInputBorder(),
-                              contentPadding: const EdgeInsets.all(12),
+                              contentPadding: EdgeInsets.all(12),
                             ),
                             maxLines: 3,
                           ),
@@ -571,7 +571,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
-                                  return Center(
+                                  return const Center(
                                     child: CircularProgressIndicator(),
                                   );
                                 }
@@ -608,10 +608,10 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                           const SizedBox(height: 12),
                           TextField(
                             controller: _feedbackController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Écrivez votre avis...',
                               border: OutlineInputBorder(),
-                              contentPadding: const EdgeInsets.all(12),
+                              contentPadding: EdgeInsets.all(12),
                             ),
                             maxLines: 3,
                           ),

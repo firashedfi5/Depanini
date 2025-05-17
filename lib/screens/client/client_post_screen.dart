@@ -109,8 +109,8 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 5),
-            content: Text('Annonce supprimée'),
+            duration: const Duration(seconds: 5),
+            content: const Text('Annonce supprimée'),
             action: SnackBarAction(
               label: 'Annuler',
               onPressed: () async {
@@ -160,15 +160,12 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget content = Center(
-      child: Text(
-        'Aucun annonce ajouté pour le moment',
-        style: Theme.of(context).textTheme.titleMedium,
-      ),
+    Widget content = const Center(
+      child: Text('Aucun annonce ajouté pour le moment'),
     );
 
     if (_isLoading) {
-      content = Center(child: CircularProgressIndicator());
+      content = const Center(child: CircularProgressIndicator());
     }
 
     if (_postListed.isNotEmpty) {
@@ -182,7 +179,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                 alignment: Alignment.centerRight,
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 color: Colors.red.withValues(alpha: 0.1),
-                child: Icon(Icons.delete, color: Colors.red, size: 30),
+                child: const Icon(Icons.delete, color: Colors.red, size: 30),
               ),
               direction: DismissDirection.endToStart,
               onDismissed: (direction) {
@@ -326,9 +323,12 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Mes annonces'),
+        title: const Text('Mes annonces'),
         actions: [
-          IconButton(onPressed: _addPost, icon: Icon(Icons.add, size: 35)),
+          IconButton(
+            onPressed: _addPost,
+            icon: const Icon(Icons.add, size: 35),
+          ),
         ],
       ),
       body: content,

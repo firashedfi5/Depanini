@@ -71,7 +71,7 @@ class _ClientPendingAppointmentState extends State<ClientPendingAppointment> {
               (context, snapshot) => Builder(
                 builder: (context) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   if (snapshot.hasError) {
@@ -79,11 +79,8 @@ class _ClientPendingAppointmentState extends State<ClientPendingAppointment> {
                   }
 
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(
-                      child: Text(
-                        'Aucune réservation en attente',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
+                    return const Center(
+                      child: Text('Aucune réservation en attente'),
                     );
                   }
 
@@ -97,7 +94,11 @@ class _ClientPendingAppointmentState extends State<ClientPendingAppointment> {
                         ),
                       ),
                       SliverPadding(
-                        padding: EdgeInsets.only(left: 8, right: 8, top: 8),
+                        padding: const EdgeInsets.only(
+                          left: 8,
+                          right: 8,
+                          top: 8,
+                        ),
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate((
                             context,
@@ -164,7 +165,7 @@ class _ClientPendingAppointmentState extends State<ClientPendingAppointment> {
                                             ),
                                           ],
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: BoxDecoration(
@@ -233,7 +234,7 @@ class _InfoChip extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
-        SizedBox(width: 6),
+        const SizedBox(width: 6),
         Text(text, style: Theme.of(context).textTheme.bodyMedium),
       ],
     );

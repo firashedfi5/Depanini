@@ -152,9 +152,12 @@ class _AdminDiyScreenState extends State<AdminDiyScreen> {
 
           return Dismissible(
             background: Container(
-              color: Theme.of(context).colorScheme.error,
-              margin: EdgeInsets.symmetric(horizontal: 5),
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              color: Colors.red.withValues(alpha: 0.1),
+              child: const Icon(Icons.delete, color: Colors.red, size: 30),
             ),
+            direction: DismissDirection.endToStart,
             onDismissed: (direction) {
               _removeAstuce(astuce);
             },

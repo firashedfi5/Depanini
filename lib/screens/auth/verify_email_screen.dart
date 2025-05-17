@@ -67,7 +67,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(e.toString()),
-            backgroundColor: Color(0xffb3261e),
+            backgroundColor: const Color(0xffb3261e),
           ),
         );
       }
@@ -109,7 +109,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            backgroundColor: Color(0xffb3261e),
+            backgroundColor: const Color(0xffb3261e),
           ),
         );
       }
@@ -126,21 +126,24 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/images/Mail_sent_bro.png', width: 300),
+              const Image(
+                image: AssetImage('assets/images/Mail_sent_bro.png'),
+                width: 300,
+              ),
               Text(
                 'Un email de vérification vous a été envoyé.',
                 style: Theme.of(context).textTheme.titleLarge,
                 textAlign: TextAlign.center,
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               ElevatedButton(
                 onPressed: canResendEmail ? sendVerificationEmail : null,
-                child: Text('Renvoyer'),
+                child: const Text('Renvoyer'),
               ),
-              SizedBox(height: 10),
+              const SizedBox(height: 10),
               TextButton(
                 onPressed: () => FirebaseAuth.instance.signOut(),
-                child: Text('Annuler'),
+                child: const Text('Annuler'),
               ),
             ],
           ),

@@ -134,7 +134,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      separatorBuilder: (_, __) => SizedBox(width: 10),
+                      separatorBuilder: (_, __) =>const SizedBox(width: 10),
                       itemCount: _domains.length,
                       itemBuilder: (context, index) {
                         return FilterChip(

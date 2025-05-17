@@ -172,7 +172,7 @@ class _ClientPersonalInfoState extends State<ClientPersonalInfo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Modifier votre compte')),
+      appBar: AppBar(title: const Text('Modifier votre compte')),
       body: FutureBuilder(
         future: userData,
         builder: (context, snapshot) {
@@ -183,7 +183,7 @@ class _ClientPersonalInfoState extends State<ClientPersonalInfo> {
             return Center(child: Text(snapshot.error.toString()));
           }
           if (!snapshot.hasData || snapshot.data == null) {
-            return Center(child: Text("Aucune donnée trouvée"));
+            return const Center(child: Text("Aucune donnée trouvée"));
           }
           return SingleChildScrollView(
             child: Center(
@@ -191,7 +191,7 @@ class _ClientPersonalInfoState extends State<ClientPersonalInfo> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   // ********************************
                   ProfilImage(
                     onPickImage: (pickedImage) {
@@ -202,7 +202,7 @@ class _ClientPersonalInfoState extends State<ClientPersonalInfo> {
                     ),
                   ),
                   // ********************************
-                  SizedBox(height: 30),
+                  const SizedBox(height: 30),
                   Form(
                     key: _formKey,
                     child: Column(
@@ -211,7 +211,7 @@ class _ClientPersonalInfoState extends State<ClientPersonalInfo> {
                           width: 350,
                           child: TextFormField(
                             initialValue: snapshot.data!['Nom d\'utilisateur'],
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Nom d\'utilisateur',
                               hintText: 'Entrez le nom d\'utilisateur',
                               prefixIcon: Icon(Icons.account_circle_outlined),
@@ -223,12 +223,12 @@ class _ClientPersonalInfoState extends State<ClientPersonalInfo> {
                             },
                           ),
                         ),
-                        SizedBox(height: 20),
+                        const SizedBox(height: 20),
                         SizedBox(
                           width: 350,
                           child: TextFormField(
                             initialValue: snapshot.data!['Numéro de téléphone'],
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Numéro de téléphone',
                               hintText: 'Entrez le numéro de téléphone',
                               prefixIcon: Icon(Icons.phone_outlined),
@@ -239,10 +239,10 @@ class _ClientPersonalInfoState extends State<ClientPersonalInfo> {
                             },
                           ),
                         ),
-                        SizedBox(height: 30),
+                        const SizedBox(height: 30),
                         ElevatedButton(
                           onPressed: _update,
-                          child: Text('Enregistrer'),
+                          child: const Text('Enregistrer'),
                         ),
                       ],
                     ),

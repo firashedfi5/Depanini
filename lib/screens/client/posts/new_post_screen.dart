@@ -77,7 +77,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            backgroundColor: Color(0xFF2E7D32),
+            backgroundColor: const Color(0xFF2E7D32),
             behavior: SnackBarBehavior.floating,
           ),
         );
@@ -162,7 +162,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Ajouter une annonce')),
+      appBar: AppBar(title: const Text('Ajouter une annonce')),
       body: Center(
         child: Padding(
           padding: EdgeInsets.all(12),
@@ -175,7 +175,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                     controller: _enteredDescription,
                     maxLines: 4,
                     maxLength: 150,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       alignLabelWithHint: true,
                       label: Text('Description'),
                     ),
@@ -193,9 +193,9 @@ class _NewPostScreenState extends State<NewPostScreen> {
                       _enteredDescription.text = value!;
                     },
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   DropdownButtonFormField<Domains>(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       prefixIcon: Icon(Icons.domain_outlined),
                       labelText: 'Service',
                     ),
@@ -222,7 +222,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                       _enteredDomaine = newValue!;
                     },
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -264,12 +264,12 @@ class _NewPostScreenState extends State<NewPostScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Text(
                     'Ajouter des photos',
                     style: Theme.of(context).textTheme.titleMedium,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   // ***********Images***********************
                   SingleChildScrollView(
                     scrollDirection: Axis.horizontal,
@@ -283,7 +283,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             });
                           },
                         ),
-                        SizedBox(width: 7),
+                        const SizedBox(width: 7),
                         PostImage(
                           pickedImageFile: _pickImageFile_2,
                           onImagePicked: (file) {
@@ -292,7 +292,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             });
                           },
                         ),
-                        SizedBox(width: 7),
+                        const SizedBox(width: 7),
                         PostImage(
                           pickedImageFile: _pickImageFile_3,
                           onImagePicked: (file) {
@@ -301,7 +301,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                             });
                           },
                         ),
-                        SizedBox(width: 7),
+                        const SizedBox(width: 7),
                         PostImage(
                           pickedImageFile: _pickImageFile_4,
                           onImagePicked: (file) {
@@ -313,13 +313,13 @@ class _NewPostScreenState extends State<NewPostScreen> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _savePost,
                     // _savePost,
-                    child: Text('Ajouter'),
+                    child: const Text('Ajouter'),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                 ],
               ),
             ),

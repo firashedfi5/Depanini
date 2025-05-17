@@ -91,7 +91,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            backgroundColor: Color(0xFF2E7D32),
+            backgroundColor: const Color(0xFF2E7D32),
           ),
         );
       }
@@ -182,7 +182,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Color(0xffb3261e),
+              backgroundColor: const Color(0xffb3261e),
             ),
           );
         }
@@ -198,7 +198,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Color(0xffb3261e),
+              backgroundColor: const Color(0xffb3261e),
             ),
           );
         }
@@ -235,7 +235,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                         SizedBox(
                           width: 350,
                           child: TextFormField(
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Description',
                               prefixIcon: Icon(Icons.description_outlined),
                             ),
@@ -251,11 +251,11 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                             },
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
                           width: 350,
                           child: DropdownButtonFormField<Domains>(
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               prefixIcon: Icon(Icons.domain_outlined),
                               labelText: 'Domaine',
                             ),
@@ -284,12 +284,12 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                           ),
                           // ******************
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
                           width: 350,
                           child: TextFormField(
                             // initialValue: userInfo.userName,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               labelText: 'Diplôme',
                               hintText: 'Entrez votre diplôme',
                               prefixIcon: Icon(Icons.work_outline),
@@ -306,11 +306,11 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                             },
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         SizedBox(
                           width: 350,
                           child: DropdownButtonFormField<String>(
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               label: Text('Experience'),
                               prefixIcon: Icon(Icons.timer_outlined),
                             ),
@@ -338,12 +338,12 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                             },
                           ),
                         ),
-                        SizedBox(height: 10),
+                        const SizedBox(height: 10),
                         Text(
                           'Ajoutez des photos de vos prestations',
                           style: Theme.of(context).textTheme.titleSmall,
                         ),
-                        SizedBox(height: 5),
+                        const SizedBox(height: 5),
                         SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
@@ -395,7 +395,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               InkWell(
                                 onTap: () async {
                                   final pickedImage = await ImagePicker()
@@ -442,7 +442,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               InkWell(
                                 onTap: () async {
                                   final pickedImage = await ImagePicker()
@@ -489,7 +489,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                                   ),
                                 ),
                               ),
-                              SizedBox(width: 8),
+                              const SizedBox(width: 8),
                               InkWell(
                                 onTap: () async {
                                   final pickedImage = await ImagePicker()
@@ -539,12 +539,12 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                             ],
                           ),
                         ),
-                        SizedBox(height: 15),
+                        const SizedBox(height: 15),
                         SizedBox(
                           width: 350,
                           child: ElevatedButton(
                             onPressed: _submit,
-                            child: Text('Enregistrer'),
+                            child: const Text('Enregistrer'),
                           ),
                         ),
                       ],

@@ -164,7 +164,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                       )
                                       : null,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             InkWell(
                               onTap: () async {
                                 final prestataires =
@@ -219,8 +219,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   Row(
                                     children: [
-                                      Icon(Icons.pin_drop_outlined, size: 17),
-                                      SizedBox(width: 3),
+                                      const Icon(
+                                        Icons.pin_drop_outlined,
+                                        size: 17,
+                                      ),
+                                      const SizedBox(width: 3),
                                       SizedBox(
                                         width: 230,
                                         child: Text(
@@ -237,7 +240,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ],
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             IconButton(
                               onPressed: () {
                                 Navigator.push(
@@ -253,7 +256,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 child: Stack(
                                   clipBehavior: Clip.none,
                                   children: [
-                                    Icon(Icons.notifications, size: 30),
+                                    const Icon(Icons.notifications, size: 30),
                                     Positioned(
                                       top: -2,
                                       right: -2,
@@ -262,25 +265,27 @@ class _HomeScreenState extends State<HomeScreen> {
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
-                                            return SizedBox(); // or a subtle shimmer/dot
+                                            return const SizedBox(); // or a subtle shimmer/dot
                                           }
 
                                           if (snapshot.hasError) {
-                                            return SizedBox(); // or an error indicator
+                                            return const SizedBox(); // or an error indicator
                                           }
 
                                           final count = snapshot.data ?? 0;
 
-                                          if (count == 0) return SizedBox();
+                                          if (count == 0) {
+                                            return const SizedBox();
+                                          }
 
                                           return Container(
-                                            padding: EdgeInsets.all(2),
+                                            padding: const EdgeInsets.all(2),
                                             constraints: BoxConstraints(
                                               minWidth: 15,
                                               minHeight: 15,
                                             ),
                                             decoration: BoxDecoration(
-                                              color: Color(0xffc32c37),
+                                              color: const Color(0xffc32c37),
                                               shape: BoxShape.circle,
                                             ),
                                             child: Center(
@@ -337,7 +342,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                         ),
                       ),
-                      SizedBox(height: 16),
+                      const SizedBox(height: 16),
                       SizedBox(
                         height: 74,
                         child: ListView.builder(

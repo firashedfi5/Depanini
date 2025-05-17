@@ -107,8 +107,8 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
               },
               child: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.solidIdCard, size: 20),
-                  SizedBox(width: 10),
+                  const FaIcon(FontAwesomeIcons.solidIdCard, size: 20),
+                  const SizedBox(width: 10),
                   Text(
                     'Information personnelles',
                     style: TextStyle(
@@ -116,12 +116,12 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                       color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
                   ),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios),
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios),
                 ],
               ),
             ),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             TextButton(
               onPressed: () {
                 Navigator.push(
@@ -133,8 +133,8 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
               },
               child: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.userShield, size: 20),
-                  SizedBox(width: 10),
+                  const FaIcon(FontAwesomeIcons.userShield, size: 20),
+                  const SizedBox(width: 10),
                   Text(
                     'Changer de mot de passe',
                     style: TextStyle(
@@ -142,12 +142,12 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                       color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
                   ),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios),
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios),
                 ],
               ),
             ),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             TextButton(
               onPressed: () {
                 Navigator.push(
@@ -157,8 +157,8 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
               },
               child: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.mapLocationDot, size: 20),
-                  SizedBox(width: 10),
+                  const FaIcon(FontAwesomeIcons.mapLocationDot, size: 20),
+                  const SizedBox(width: 10),
                   Text(
                     'Changer votre adresse',
                     style: TextStyle(
@@ -166,18 +166,18 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                       color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
                   ),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios),
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios),
                 ],
               ),
             ),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             TextButton(
               onPressed: () {},
               child: Row(
                 children: [
-                  Icon(Icons.dark_mode, size: 20),
-                  SizedBox(width: 10),
+                  const Icon(Icons.dark_mode, size: 20),
+                  const SizedBox(width: 10),
                   Text(
                     'Changer le thème',
                     style: TextStyle(
@@ -185,7 +185,7 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                       color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Switch(
                     value: themeData == darkTheme,
                     onChanged: (bool value) {
@@ -196,13 +196,13 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                 ],
               ),
             ),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             TextButton(
               onPressed: () => showDeleteConfirmationDialog(context),
               child: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.trash, size: 20),
-                  SizedBox(width: 10),
+                  const FaIcon(FontAwesomeIcons.trash, size: 20),
+                  const SizedBox(width: 10),
                   Text(
                     'Supprimer votre compte',
                     style: TextStyle(
@@ -210,8 +210,8 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                       color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
                   ),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios),
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios),
                 ],
               ),
             ),

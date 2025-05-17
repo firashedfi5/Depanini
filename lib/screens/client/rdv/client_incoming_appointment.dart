@@ -71,7 +71,7 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
               (context, snapshot) => Builder(
                 builder: (context) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   if (snapshot.hasError) {
@@ -79,11 +79,8 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                   }
 
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(
-                      child: Text(
-                        'Aucune réservation confirmé',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
+                    return const Center(
+                      child: Text('Aucune réservation confirmé'),
                     );
                   }
 
@@ -97,7 +94,7 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                         ),
                       ),
                       SliverPadding(
-                        padding: EdgeInsets.only(left: 8, right: 8, top: 8),
+                        padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate((
                             context,
@@ -164,7 +161,7 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                                             ),
                                           ],
                                         ),
-                                        Spacer(),
+                                      const  Spacer(),
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: BoxDecoration(
@@ -246,7 +243,7 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            icon: FaIcon(
+                                            icon: const FaIcon(
                                               FontAwesomeIcons.xmark,
                                               color: Colors.red,
                                             ),
@@ -275,7 +272,7 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            icon: FaIcon(
+                                            icon: const FaIcon(
                                               FontAwesomeIcons.check,
                                               color: Colors.blue,
                                             ),
@@ -311,7 +308,7 @@ class _InfoChip extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
-        SizedBox(width: 6),
+        const SizedBox(width: 6),
         Text(text, style: Theme.of(context).textTheme.bodyMedium),
       ],
     );

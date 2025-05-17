@@ -10,7 +10,7 @@ class ForgetPasswordScreen extends StatefulWidget {
 }
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
-  final _emailController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
 
   @override
   void dispose() {
@@ -38,7 +38,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 fontWeight: FontWeight.w500,
               ),
             ),
-            backgroundColor: Color(0xFF2E7D32),
+            backgroundColor: const Color(0xFF2E7D32),
           ),
         );
       }
@@ -55,7 +55,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Color(0xffb3261e),
+              backgroundColor: const Color(0xffb3261e),
             ),
           );
         }
@@ -71,7 +71,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Color(0xffb3261e),
+              backgroundColor: const Color(0xffb3261e),
             ),
           );
         }
@@ -87,7 +87,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Color(0xffb3261e),
+              backgroundColor: const Color(0xffb3261e),
             ),
           );
         }
@@ -104,20 +104,23 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
           key: _formKey,
           child: Column(
             children: [
-              SizedBox(height: 50),
-              Image.asset('assets/images/Reset_password_bro.png', width: 200),
-              SizedBox(height: 30),
+              const SizedBox(height: 50),
+              const Image(
+                image: AssetImage('assets/images/Reset_password_bro.png'),
+                width: 200,
+              ),
+              const SizedBox(height: 30),
               Text(
                 'Entrez votre email et nous vous enverrons un lien de réinitialisation du mot de passe',
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              SizedBox(height: 50),
+              const SizedBox(height: 50),
               SizedBox(
                 width: 350,
                 child: TextFormField(
                   controller: _emailController,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                     labelText: 'Adresse Email',
                     hintText: 'Entrez votre email',
                     prefixIcon: Icon(Icons.email_outlined),
@@ -133,11 +136,11 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   },
                 ),
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               ElevatedButton(
                 style: Theme.of(context).elevatedButtonTheme.style,
                 onPressed: _submit,
-                child: Text('Réinitialiser le mot de passe'),
+                child: const Text('Réinitialiser le mot de passe'),
               ),
             ],
           ),
