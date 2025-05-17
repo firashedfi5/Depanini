@@ -48,7 +48,7 @@ class _FeedbackItemState extends State<FeedbackItem> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 300,
-      height: widget.isAdmin ? 100 : 200,
+      height: widget.isAdmin ? 110 : 200,
       child: Card(
         color:
             widget.isAdmin

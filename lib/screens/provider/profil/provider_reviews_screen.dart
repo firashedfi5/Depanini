@@ -111,10 +111,8 @@ class _ProviderReviewsScreenState extends State<ProviderReviewsScreen> {
                           prestataireSnapshot.data() as Map<String, dynamic>? ??
                           {};
                       final averageRating =
-                          (prestataireData['averageRating'] ?? 0).toDouble();
-                      final totalReviews =
-                          prestataireData['totalReviews'] ??
-                          ratingsSnapshot.docs.length;
+                          (prestataireData['averageRating']).toDouble();
+                      final totalReviews = ratingsSnapshot.docs.length;
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
