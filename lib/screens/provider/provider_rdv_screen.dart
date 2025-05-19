@@ -25,7 +25,7 @@ class _ProviderRdvScreenState extends State<ProviderRdvScreen> {
                   handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                     context,
                   ),
-                  sliver: SliverSafeArea(
+                  sliver: const SliverSafeArea(
                     top: false,
                     sliver: SliverAppBar(
                       title: Text('Mes réservations'),
@@ -49,7 +49,7 @@ class _ProviderRdvScreenState extends State<ProviderRdvScreen> {
                   ),
                 ),
               ],
-          body: TabBarView(
+          body: const TabBarView(
             children: [
               ProviderIncomingAppointment(),
 

@@ -57,7 +57,9 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                         ),
                       );
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => SigninScreen()),
+                        MaterialPageRoute(
+                          builder: (context) => const SigninScreen(),
+                        ),
                       );
                     }
                   } on FirebaseAuthException catch (e) {
@@ -102,7 +104,9 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ClientPersonalInfo()),
+                  MaterialPageRoute(
+                    builder: (context) => const ClientPersonalInfo(),
+                  ),
                 );
               },
               child: Row(
@@ -127,7 +131,7 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ChangePasswordScreen(),
+                    builder: (context) => const ChangePasswordScreen(),
                   ),
                 );
               },
@@ -152,7 +156,9 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ChangeLocation()),
+                  MaterialPageRoute(
+                    builder: (context) => const ChangeLocation(),
+                  ),
                 );
               },
               child: Row(

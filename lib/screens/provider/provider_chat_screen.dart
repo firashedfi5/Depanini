@@ -10,6 +10,6 @@ class ProviderChatScreen extends StatefulWidget {
 class _ProviderChatScreenState extends State<ProviderChatScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text('Provider Chat Screen')));
+    return const Scaffold(body: Center(child: Text('Provider Chat Screen')));
   }
 }

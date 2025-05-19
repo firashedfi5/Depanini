@@ -58,9 +58,9 @@ class _ProviderGalleryState extends State<ProviderGallery> {
       context: context,
       barrierDismissible: false,
       builder:
-          (ctx) => AlertDialog(
-            title: const Text('Envoi en cours...'),
-            content: const Column(
+          (ctx) => const AlertDialog(
+            title: Text('Envoi en cours...'),
+            content: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircularProgressIndicator(),
@@ -166,7 +166,7 @@ class _ProviderGalleryState extends State<ProviderGallery> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Modifier votre gallerie')),
+      appBar: AppBar(title: const Text('Modifier votre gallerie')),
       body: FutureBuilder(
         future: userData,
         builder: (context, snapshot) {
@@ -177,7 +177,7 @@ class _ProviderGalleryState extends State<ProviderGallery> {
             return Center(child: Text(snapshot.error.toString()));
           }
           if (!snapshot.hasData || snapshot.data == null) {
-            return Center(child: Text("Aucune donnée trouvée"));
+            return const Center(child: Text("Aucune donnée trouvée"));
           }
           List<dynamic> images = [
             snapshot.data!['Photo de travail n°1'] ?? '',
@@ -191,7 +191,7 @@ class _ProviderGalleryState extends State<ProviderGallery> {
               mainAxisSize: MainAxisSize.max,
               spacing: 20,
               children: [
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.6,
                   child: GridView.builder(
@@ -218,7 +218,10 @@ class _ProviderGalleryState extends State<ProviderGallery> {
                     },
                   ),
                 ),
-                ElevatedButton(onPressed: _update, child: Text('Enregistrer')),
+                ElevatedButton(
+                  onPressed: _update,
+                  child: const Text('Enregistrer'),
+                ),
               ],
             ),
           );

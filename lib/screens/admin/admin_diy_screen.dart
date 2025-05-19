@@ -66,7 +66,7 @@ class _AdminDiyScreenState extends State<AdminDiyScreen> {
 
   void _addAstuce() async {
     await Navigator.of(context).push<AstuceModel>(
-      MaterialPageRoute(builder: (context) => NewDiyScreen()),
+      MaterialPageRoute(builder: (context) => const NewDiyScreen()),
     );
     _loadAstuces();
     dev.log("Astuce crée");

@@ -100,7 +100,7 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                   ),
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -109,14 +109,14 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProviderSettingsScreen(),
+                          builder: (context) => const ProviderSettingsScreen(),
                         ),
                       );
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.settings, size: 25),
-                        SizedBox(width: 10),
+                        const Icon(Icons.settings, size: 25),
+                        const SizedBox(width: 10),
                         Text(
                           'Paramètres',
                           style: TextStyle(
@@ -124,25 +124,25 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                             color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                         ),
-                        Spacer(),
-                        Icon(Icons.arrow_forward_ios),
+                        const Spacer(),
+                        const Icon(Icons.arrow_forward_ios),
                       ],
                     ),
                   ),
-                  SizedBox(height: 7),
+                  const SizedBox(height: 7),
                   TextButton(
                     onPressed: () {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ProviderReviewsScreen(),
+                          builder: (context) => const ProviderReviewsScreen(),
                         ),
                       );
                     },
                     child: Row(
                       children: [
-                        Icon(Icons.star, size: 25),
-                        SizedBox(width: 10),
+                        const Icon(Icons.star, size: 25),
+                        const SizedBox(width: 10),
                         Text(
                           'Notes et avis',
                           style: TextStyle(
@@ -150,18 +150,18 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                             color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                         ),
-                        Spacer(),
-                        Icon(Icons.arrow_forward_ios),
+                        const Spacer(),
+                        const Icon(Icons.arrow_forward_ios),
                       ],
                     ),
                   ),
-                  SizedBox(height: 7),
+                  const SizedBox(height: 7),
                   TextButton(
                     onPressed: () {},
                     child: Row(
                       children: [
-                        Icon(Icons.headset_mic, size: 25),
-                        SizedBox(width: 10),
+                        const Icon(Icons.headset_mic, size: 25),
+                        const SizedBox(width: 10),
                         Text(
                           'Support',
                           style: TextStyle(
@@ -169,18 +169,18 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                             color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                         ),
-                        Spacer(),
-                        Icon(Icons.arrow_forward_ios),
+                        const Spacer(),
+                        const Icon(Icons.arrow_forward_ios),
                       ],
                     ),
                   ),
-                  SizedBox(height: 7),
+                  const SizedBox(height: 7),
                   TextButton(
                     onPressed: () {},
                     child: Row(
                       children: [
-                        Icon(Icons.info, size: 25),
-                        SizedBox(width: 10),
+                        const Icon(Icons.info, size: 25),
+                        const SizedBox(width: 10),
                         Text(
                           'A propos de nous',
                           style: TextStyle(
@@ -188,17 +188,17 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                             color: Theme.of(context).textTheme.bodyLarge!.color,
                           ),
                         ),
-                        Spacer(),
-                        Icon(Icons.arrow_forward_ios),
+                        const Spacer(),
+                        const Icon(Icons.arrow_forward_ios),
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   TextButton.icon(
                     onPressed: () {
                       FirebaseAuth.instance.signOut();
                     },
-                    icon: Icon(Icons.logout, color: Colors.red, size: 25),
+                    icon: const Icon(Icons.logout, color: Colors.red, size: 25),
                     style: TextButton.styleFrom(),
                     label: Text(
                       "Se déconnecter",
@@ -209,12 +209,12 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   Text(
                     'Suivez-nous',
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -228,7 +228,7 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                           size: 30,
                         ),
                       ),
-                      SizedBox(width: 30),
+                      const SizedBox(width: 30),
                       IconButton(
                         onPressed: () {
                           openSocial(
@@ -242,7 +242,7 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                           size: 30,
                         ),
                       ),
-                      SizedBox(width: 20),
+                      const SizedBox(width: 20),
                       IconButton(
                         onPressed: () {
                           openSocial(appName: 'x', username: 'elonmusk');

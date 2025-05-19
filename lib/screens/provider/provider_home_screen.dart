@@ -245,7 +245,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => NotificationsScreen(),
+                                    builder: (context) =>
+                                            const NotificationsScreen(),
                                   ),
                                 );
                               },

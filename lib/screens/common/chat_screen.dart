@@ -50,13 +50,13 @@ class _ChatScreenState extends State<ChatScreen> {
               radius: 23,
               backgroundImage: NetworkImage(widget.receiverProfilPicture),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(widget.receiverUsername),
           ],
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.only(bottom: 10),
+        padding: const EdgeInsets.only(bottom: 10),
         child: Column(
           children: [
             Expanded(child: ChatMessages(receiverEmail: widget.receiverEmail)),

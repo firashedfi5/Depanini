@@ -88,7 +88,7 @@ class _AdminProfilScreenState extends ConsumerState<AdminProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ChangePasswordScreen(),
+                          builder: (context) => const ChangePasswordScreen(),
                         ),
                       );
                     },

@@ -128,7 +128,7 @@ class _LocationInputState extends State<LocationInput> {
     return Column(
       children: [
         Text(_pickedLocation?.address ?? ''),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         Container(
           height: 250,
           width: MediaQuery.of(context).size.width * 0.9,
@@ -141,19 +141,19 @@ class _LocationInputState extends State<LocationInput> {
           ),
           child: previwContenet,
         ),
-        SizedBox(height: 15),
+        const SizedBox(height: 15),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             TextButton.icon(
               onPressed: _getCurrentLocation,
-              icon: Icon(Icons.location_on),
-              label: Text('Ma position actuelle'),
+              icon: const Icon(Icons.location_on),
+              label: const Text('Ma position actuelle'),
             ),
             TextButton.icon(
               onPressed: _selectOnMap,
-              icon: Icon(Icons.map),
-              label: Text('Choisir sur la carte'),
+              icon: const Icon(Icons.map),
+              label: const Text('Choisir sur la carte'),
             ),
           ],
         ),

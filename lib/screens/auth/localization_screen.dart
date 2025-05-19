@@ -23,7 +23,7 @@ class _LocalizationScreenState extends ConsumerState<LocalizationScreen> {
           .updateLocation(_selectedLocation!);
       Navigator.of(
         context,
-      ).push(MaterialPageRoute(builder: (context) => ChoosingScreen()));
+      ).push(MaterialPageRoute(builder: (context) => const ChoosingScreen()));
     } else {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(

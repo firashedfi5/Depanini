@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/place.dart';
-// import 'package:depanini/screens/auth/choosing_screen.dart';
 import 'package:depanini/widgets/location_input.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -31,7 +30,7 @@ class _ChangeLocationState extends ConsumerState<ChangeLocation> {
               fontWeight: FontWeight.w500,
             ),
           ),
-          backgroundColor: Color(0xffb3261e),
+          backgroundColor: const Color(0xffb3261e),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -77,18 +76,18 @@ class _ChangeLocationState extends ConsumerState<ChangeLocation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Change votre adresse')),
+      appBar: AppBar(title: const Text('Change votre adresse')),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          SizedBox(height: 150),
+          const SizedBox(height: 150),
           LocationInput(
             onSelectLocation: (location) {
               _selectedLocation = location;
             },
           ),
-          SizedBox(height: 50),
-          ElevatedButton(onPressed: _submit, child: Text('Enregistrer')),
+          const SizedBox(height: 50),
+          ElevatedButton(onPressed: _submit, child: const Text('Enregistrer')),
         ],
       ),
     );

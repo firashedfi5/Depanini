@@ -46,16 +46,16 @@ class _ProfilImageState extends State<ProfilImage> {
           (ctx) => Wrap(
             children: [
               ListTile(
-                leading: Icon(Icons.camera_alt),
-                title: Text('Take a Picture'),
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Take a Picture'),
                 onTap: () {
                   Navigator.of(ctx).pop();
                   _pickImage(ImageSource.camera);
                 },
               ),
               ListTile(
-                leading: Icon(Icons.image),
-                title: Text('Choose from Gallery'),
+                leading: const Icon(Icons.image),
+                title: const Text('Choose from Gallery'),
                 onTap: () {
                   Navigator.of(ctx).pop();
                   _pickImage(ImageSource.gallery);
@@ -81,8 +81,8 @@ class _ProfilImageState extends State<ProfilImage> {
         SizedBox(height: 10),
         TextButton.icon(
           onPressed: _showImageSourceDialog,
-          icon: Icon(Icons.image),
-          label: Text('Changer la photo'),
+          icon: const Icon(Icons.image),
+          label: const Text('Changer la photo'),
         ),
       ],
     );

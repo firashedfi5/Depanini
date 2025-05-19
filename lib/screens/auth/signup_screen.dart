@@ -42,7 +42,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
           .updateProfilImage(_selectedImage!);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (contexte) => LocalizationScreen()),
+        MaterialPageRoute(builder: (contexte) => const LocalizationScreen()),
       );
     }
   }

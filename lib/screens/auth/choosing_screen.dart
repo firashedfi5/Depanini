@@ -110,7 +110,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => VerifyEmailScreen(),
+                        builder: (context) => const VerifyEmailScreen(),
                       ),
                     );
                   }
@@ -183,7 +183,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (contexte) => ProviderDescription(),
+                    builder: (contexte) => const ProviderDescription(),
                   ),
                 );
               },

@@ -166,7 +166,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
       if (mounted) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => VerifyEmailScreen()),
+          MaterialPageRoute(builder: (context) => const VerifyEmailScreen()),
         );
       }
     } on FirebaseAuthException catch (error) {

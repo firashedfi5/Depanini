@@ -156,7 +156,7 @@ class _MapScreenState extends State<MapScreen> {
             widget.isDrectionning == true
                 ? {
                   Polyline(
-                    polylineId: PolylineId("route"),
+                    polylineId: const PolylineId("route"),
                     points: polylineCoordinates,
                     color: Colors.blueAccent,
                     width: 7,

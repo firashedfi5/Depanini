@@ -195,10 +195,12 @@ class ChatroomsScreen extends StatelessWidget {
                                 children: [
                                   Text(
                                     otherUsername,
-                                    style:
-                                        Theme.of(context).textTheme.titleLarge,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleMedium!
+                                        .copyWith(fontWeight: FontWeight.bold),
                                   ),
-                                  const SizedBox(height: 8),
+                                  const SizedBox(height: 4),
                                   Text(
                                     messageData['senderEmail'] ==
                                             currentUserEmail
@@ -206,6 +208,8 @@ class ChatroomsScreen extends StatelessWidget {
                                         : lastMessageText,
                                     overflow: TextOverflow.ellipsis,
                                     maxLines: 1,
+                                    style:
+                                        Theme.of(context).textTheme.bodyMedium,
                                   ),
                                 ],
                               ),

@@ -62,8 +62,8 @@ class _UpdateImageState extends State<UpdateImage> {
         TextButton.icon(
           onPressed: _pickImage,
 
-          icon: Icon(Icons.image),
-          label: Text('Changer la photo'),
+          icon: const Icon(Icons.image),
+          label: const Text('Changer la photo'),
         ),
       ],
     );

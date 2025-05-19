@@ -44,18 +44,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Color(0xFF2E7D32),
+              backgroundColor: const Color(0xFF2E7D32),
               behavior: SnackBarBehavior.floating,
             ),
           );
           Navigator.of(context).pop();
         }
-        // Navigator.pop(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (BuildContext context) => const ProfilPage(),
-        //   ),
-        // );
       } catch (e) {
         dev.log("Erreur : $e");
         if (mounted) {
@@ -68,7 +62,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   fontWeight: FontWeight.w500,
                 ),
               ),
-              backgroundColor: Color(0xffb3261e),
+              backgroundColor: const Color(0xffb3261e),
               behavior: SnackBarBehavior.floating,
             ),
           );
@@ -101,14 +95,17 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Changer le mot de passe')),
+      appBar: AppBar(title: const Text('Changer le mot de passe')),
       body: SingleChildScrollView(
         child: Center(
           child: Column(
             children: [
-              SizedBox(height: 70),
-              Image.asset('assets/images/change_password.png', width: 200),
-              SizedBox(height: 30),
+              const SizedBox(height: 70),
+              const Image(
+                image: AssetImage('assets/images/change_password.png'),
+                width: 200,
+              ),
+              const SizedBox(height: 30),
               Form(
                 key: _formKey,
                 child: Column(
@@ -119,7 +116,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         controller: _oldPasswordController,
                         decoration: InputDecoration(
                           labelText: 'Ancien mot de passe',
-                          prefixIcon: Icon(Icons.lock_outlined),
+                          prefixIcon: const Icon(Icons.lock_outlined),
                           suffixIcon: IconButton(
                             onPressed: () {
                               setState(() {
@@ -135,14 +132,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         obscureText: !_isVisible1,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     SizedBox(
                       width: 350,
                       child: TextFormField(
                         controller: _newPasswordController,
                         decoration: InputDecoration(
                           labelText: 'Nouveau mot de passe',
-                          prefixIcon: Icon(Icons.lock_outlined),
+                          prefixIcon: const Icon(Icons.lock_outlined),
                           suffixIcon: IconButton(
                             onPressed: () {
                               setState(() {
@@ -164,14 +161,14 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     SizedBox(
                       width: 350,
                       child: TextFormField(
                         controller: _confirmNewPasswordController,
                         decoration: InputDecoration(
                           labelText: 'Confirmer le nouveau mot de passe',
-                          prefixIcon: Icon(Icons.lock_outlined),
+                          prefixIcon: const Icon(Icons.lock_outlined),
                           suffixIcon: IconButton(
                             onPressed: () {
                               setState(() {
@@ -193,10 +190,10 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                         },
                       ),
                     ),
-                    SizedBox(height: 50),
+                    const SizedBox(height: 50),
                     ElevatedButton(
                       onPressed: _submit,
-                      child: Text('Enregistrer'),
+                      child: const Text('Enregistrer'),
                     ),
                   ],
                 ),

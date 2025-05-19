@@ -83,9 +83,9 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
   // ***********************************************
 
   void _addPost() async {
-    await Navigator.of(
-      context,
-    ).push<PostModel>(MaterialPageRoute(builder: (context) => NewPostScreen()));
+    await Navigator.of(context).push<PostModel>(
+      MaterialPageRoute(builder: (context) => const NewPostScreen()),
+    );
     _loadPosts();
     dev.log("Annonce crée");
   }

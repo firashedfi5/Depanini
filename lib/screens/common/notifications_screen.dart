@@ -58,14 +58,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Notifications'),
+        title: const Text('Notifications'),
         actions: [
           TextButton.icon(
             onPressed: () async {
               await deleteAllNotificationsForCurrentUser();
             },
             icon: Icon(Icons.delete),
-            label: Text('Effacer tout'),
+            label: const Text('Effacer tout'),
             style: TextButton.styleFrom(foregroundColor: Colors.red),
           ),
         ],
@@ -92,7 +92,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
           return ListView.separated(
             padding: EdgeInsets.symmetric(horizontal: 8),
-            separatorBuilder: (_, _) => SizedBox(height: 8),
+            separatorBuilder: (_, _) => const SizedBox(height: 8),
             itemCount: notifications.length,
             itemBuilder: (context, index) {
               final notification = notifications[index];
@@ -160,12 +160,12 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                             Icon(icon, color: iconColor),
                           ],
                         ),
-                        SizedBox(height: 4),
+                      const  SizedBox(height: 4),
                         Text(
                           notification.contenu,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
-                        SizedBox(height: 4),
+                      const  SizedBox(height: 4),
                         Align(
                           alignment: Alignment.centerRight,
                           child: Text(

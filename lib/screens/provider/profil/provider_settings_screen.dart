@@ -29,7 +29,7 @@ class _ProviderSettingsScreenState
       context: context,
       builder:
           (context) => AlertDialog(
-            title: Text(
+            title: const Text(
               'Supprimer le compte',
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
@@ -40,7 +40,7 @@ class _ProviderSettingsScreenState
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(), // Dismiss dialog
-                child: Text('Annuler'),
+                child: const Text('Annuler'),
               ),
               TextButton(
                 onPressed: () async {
@@ -54,7 +54,7 @@ class _ProviderSettingsScreenState
                     await _auth.currentUser!.delete();
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Account deleted successfully.'),
                         ),
                       );
@@ -66,7 +66,7 @@ class _ProviderSettingsScreenState
                     if (context.mounted) {
                       if (e.code == 'requires-recent-login') {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text(
                               'Veuillez vous réauthentifier pour supprimer votre compte.',
                             ),
@@ -84,7 +84,10 @@ class _ProviderSettingsScreenState
                     }
                   }
                 },
-                child: Text('Supprimer', style: TextStyle(color: Colors.red)),
+                child: const Text(
+                  'Supprimer',
+                  style: TextStyle(color: Colors.red),
+                ),
               ),
             ],
           ),
@@ -95,7 +98,7 @@ class _ProviderSettingsScreenState
   Widget build(context) {
     final themeData = ref.watch(themeProvider);
     return Scaffold(
-      appBar: AppBar(title: Text('Paramètres')),
+      appBar: AppBar(title: const Text('Paramètres')),
       body: Padding(
         padding: const EdgeInsets.only(top: 10),
         child: Column(
@@ -105,14 +108,14 @@ class _ProviderSettingsScreenState
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ProviderPersonalInfo(),
+                    builder: (context) => const ProviderPersonalInfo(),
                   ),
                 );
               },
               child: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.solidIdCard, size: 20),
-                  SizedBox(width: 10),
+                  const FaIcon(FontAwesomeIcons.solidIdCard, size: 20),
+                  const SizedBox(width: 10),
                   Text(
                     'Information personnelles',
                     style: TextStyle(
@@ -120,25 +123,25 @@ class _ProviderSettingsScreenState
                       color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
                   ),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios),
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios),
                 ],
               ),
             ),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ChangePasswordScreen(),
+                    builder: (context) => const ChangePasswordScreen(),
                   ),
                 );
               },
               child: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.userShield, size: 20),
-                  SizedBox(width: 10),
+                  const FaIcon(FontAwesomeIcons.userShield, size: 20),
+                  const SizedBox(width: 10),
                   Text(
                     'Changer de mot de passe',
                     style: TextStyle(
@@ -146,23 +149,25 @@ class _ProviderSettingsScreenState
                       color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
                   ),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios),
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios),
                 ],
               ),
             ),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ChangeLocation()),
+                  MaterialPageRoute(
+                    builder: (context) => const ChangeLocation(),
+                  ),
                 );
               },
               child: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.mapLocationDot, size: 20),
-                  SizedBox(width: 10),
+                  const FaIcon(FontAwesomeIcons.mapLocationDot, size: 20),
+                  const SizedBox(width: 10),
                   Text(
                     'Changer votre adresse',
                     style: TextStyle(
@@ -170,23 +175,25 @@ class _ProviderSettingsScreenState
                       color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
                   ),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios),
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios),
                 ],
               ),
             ),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             TextButton(
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => ProviderGallery()),
+                  MaterialPageRoute(
+                    builder: (context) => const ProviderGallery(),
+                  ),
                 );
               },
               child: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.image, size: 20),
-                  SizedBox(width: 10),
+                  const FaIcon(FontAwesomeIcons.image, size: 20),
+                  const SizedBox(width: 10),
                   Text(
                     'Portfolio',
                     style: TextStyle(
@@ -194,18 +201,18 @@ class _ProviderSettingsScreenState
                       color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
                   ),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios),
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios),
                 ],
               ),
             ),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             TextButton(
               onPressed: () {},
               child: Row(
                 children: [
-                  Icon(Icons.dark_mode, size: 20),
-                  SizedBox(width: 10),
+                  const Icon(Icons.dark_mode, size: 20),
+                  const SizedBox(width: 10),
                   Text(
                     'Changer le thème',
                     style: TextStyle(
@@ -213,7 +220,7 @@ class _ProviderSettingsScreenState
                       color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
                   ),
-                  Spacer(),
+                  const Spacer(),
                   Switch(
                     value: themeData == darkTheme,
                     onChanged: (bool value) {
@@ -223,13 +230,13 @@ class _ProviderSettingsScreenState
                 ],
               ),
             ),
-            SizedBox(height: 7),
+            const SizedBox(height: 7),
             TextButton(
               onPressed: () => showDeleteConfirmationDialog(context),
               child: Row(
                 children: [
-                  FaIcon(FontAwesomeIcons.trash, size: 20),
-                  SizedBox(width: 10),
+                  const FaIcon(FontAwesomeIcons.trash, size: 20),
+                  const SizedBox(width: 10),
                   Text(
                     'Supprimer votre compte',
                     style: TextStyle(
@@ -237,8 +244,8 @@ class _ProviderSettingsScreenState
                       color: Theme.of(context).textTheme.bodyLarge!.color,
                     ),
                   ),
-                  Spacer(),
-                  Icon(Icons.arrow_forward_ios),
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward_ios),
                 ],
               ),
             ),

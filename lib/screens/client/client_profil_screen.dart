@@ -105,7 +105,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ClientSettingsScreen(),
+                          builder: (context) => const ClientSettingsScreen(),
                         ),
                       );
                     },
@@ -131,7 +131,7 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => ClientDiyScreen(),
+                          builder: (context) => const ClientDiyScreen(),
                         ),
                       );
                     },
