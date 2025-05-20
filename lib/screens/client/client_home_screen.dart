@@ -4,8 +4,8 @@ import 'package:depanini/models/place.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/client/home/provider_info_screen.dart';
 import 'package:depanini/screens/common/map.dart';
-// import 'package:depanini/screens/common/notifications_screen.dart';
-import 'package:depanini/screens/common/onboarding_screen.dart';
+import 'package:depanini/screens/common/notifications_screen.dart';
+// import 'package:depanini/screens/common/onboarding_screen.dart';
 import 'package:depanini/widgets/custom_radio_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -244,21 +244,21 @@ class _HomeScreenState extends State<HomeScreen> {
                             const Spacer(),
                             IconButton(
                               onPressed: () {
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder:
-                                //         (context) =>
-                                //             const NotificationsScreen(),
-                                //   ),
-                                // );
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                     builder:
-                                        (context) => const OnboardingScreen(),
+                                        (context) =>
+                                            const NotificationsScreen(),
                                   ),
                                 );
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder:
+                                //         (context) => const OnboardingScreen(),
+                                //   ),
+                                // );
                               },
                               icon: SizedBox(
                                 width: 30,
