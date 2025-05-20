@@ -74,24 +74,19 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         stream: notificationStream(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(
-              child: Text(
-                'Aucune notification trouvée.',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            );
+            return const Center(child: Text('Aucune notification trouvée.'));
           }
 
           final notifications = snapshot.data!;
 
           return ListView.separated(
-            padding: EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8),
             separatorBuilder: (_, _) => const SizedBox(height: 8),
             itemCount: notifications.length,
             itemBuilder: (context, index) {
@@ -122,9 +117,9 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 key: ValueKey(notification.id),
                 background: Container(
                   alignment: Alignment.centerRight,
-                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
                   color: Colors.red.withValues(alpha: 0.1),
-                  child: Icon(Icons.delete, color: Colors.red, size: 30),
+                  child: const Icon(Icons.delete, color: Colors.red, size: 30),
                 ),
                 direction: DismissDirection.endToStart,
                 onDismissed: (direction) async {
@@ -149,23 +144,22 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
                               notification.titre,
                               style: Theme.of(context).textTheme.bodyLarge!
                                   .copyWith(fontWeight: FontWeight.bold),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             Icon(icon, color: iconColor),
                           ],
                         ),
-                      const  SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Text(
                           notification.contenu,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
-                      const  SizedBox(height: 4),
+                        const SizedBox(height: 4),
                         Align(
                           alignment: Alignment.centerRight,
                           child: Text(
