@@ -101,7 +101,8 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              'Rdv est enregistré.',
+              textAlign: TextAlign.center,
+              'Demande de rendez-vous envoyée avec succès.',
               style: Theme.of(context).textTheme.titleMedium!.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w500,

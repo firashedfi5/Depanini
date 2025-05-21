@@ -58,95 +58,134 @@ class _NewPostScreenState extends State<NewPostScreen> {
   void _savePost() async {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
-      // if (mounted) {
-      //   dev.log(Navigator.of(context).canPop().toString());
-      //   Navigator.of(context).pop(true);
-      // }
-      // *************************************
-      _formKey.currentState!.save();
-      // *************************************
-      dev.log(_selectedDate.toString());
-      if (mounted) {
-        // Navigator.of(context).pop(true);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              'Annonce ajoutée avec succès.',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
+      try {
+        // if (mounted) {
+        //   dev.log(Navigator.of(context).canPop().toString());
+        //   Navigator.of(context).pop(true);
+        // }
+        // *************************************
+        _formKey.currentState!.save();
+        // *************************************
+        dev.log(_selectedDate.toString());
+
+        // Upload service images if they exist
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder:
+              (_) => const AlertDialog(
+                title: Text('Veuillez patienter'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 20),
+                    Text(
+                      'Cela peut prendre quelques secondes...',
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
               ),
+        );
+        String? uploadedPostImageUrl_1;
+        if (_pickImageFile_1 != null) {
+          uploadedPostImageUrl_1 = await uploadImageToFirebaseStorage(
+            _pickImageFile_1!,
+            1,
+          );
+        }
+        String? uploadedPostImageUrl_2;
+        if (_pickImageFile_2 != null) {
+          uploadedPostImageUrl_2 = await uploadImageToFirebaseStorage(
+            _pickImageFile_2!,
+            2,
+          );
+        }
+        String? uploadedPostImageUrl_3;
+        if (_pickImageFile_3 != null) {
+          uploadedPostImageUrl_3 = await uploadImageToFirebaseStorage(
+            _pickImageFile_3!,
+            3,
+          );
+        }
+        String? uploadedPostImageUrl_4;
+        if (_pickImageFile_4 != null) {
+          uploadedPostImageUrl_4 = await uploadImageToFirebaseStorage(
+            _pickImageFile_4!,
+            4,
+          );
+        }
+        if (mounted) {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Annonce ajoutée avec succès.',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              backgroundColor: const Color(0xFF2E7D32),
+              behavior: SnackBarBehavior.floating,
             ),
-            backgroundColor: const Color(0xFF2E7D32),
-            behavior: SnackBarBehavior.floating,
+          );
+        }
+        // **********Fetch Data From Firestore**********
+        final user = _auth.currentUser!;
+        final userDoc =
+            await _firestore.collection("clients").doc(user.uid).get();
+        final userData = userDoc.data();
+        if (userData == null || !userData.containsKey('Nom d\'utilisateur')) {
+          throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
+        }
+        final username = userData['Nom d\'utilisateur'];
+        final email = userData['Email'];
+        final phoneNumber = userData['Numéro de téléphone'];
+        final profilPictureURL = userData['Photo de profile'];
+        // ***********Storing data in Firestore**************
+        _firestore.collection('annonces').doc(postId).set({
+          "post_id": postId,
+          'uid': _auth.currentUser!.uid,
+          'email': email,
+          'username': username,
+          'phone_number': phoneNumber,
+          'profil_picture': profilPictureURL,
+          'description': _enteredDescription.text,
+          'service': _enteredDomaine!.name,
+          // 'date': _selectedDate == null ? '' : formatter.format(_selectedDate!),
+          'date': Timestamp.fromDate(
+            DateTime(
+              _selectedDate!.year,
+              _selectedDate!.month,
+              _selectedDate!.day,
+            ),
           ),
-        );
+          'imageURL_1': uploadedPostImageUrl_1,
+          'imageURL_2': uploadedPostImageUrl_2,
+          'imageURL_3': uploadedPostImageUrl_3,
+          'imageURL_4': uploadedPostImageUrl_4,
+          'createdAt': Timestamp.now(),
+        });
+      } catch (e) {
+        dev.log('Error: $e');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Une erreur s\'est produite lors de l\'ajout de l\'annonce.',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              backgroundColor: const Color(0xFFB00020),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
       }
-      // Upload service images if they exist
-      String? uploadedPostImageUrl_1;
-      if (_pickImageFile_1 != null) {
-        uploadedPostImageUrl_1 = await uploadImageToFirebaseStorage(
-          _pickImageFile_1!,
-          1,
-        );
-      }
-      String? uploadedPostImageUrl_2;
-      if (_pickImageFile_2 != null) {
-        uploadedPostImageUrl_2 = await uploadImageToFirebaseStorage(
-          _pickImageFile_2!,
-          2,
-        );
-      }
-      String? uploadedPostImageUrl_3;
-      if (_pickImageFile_3 != null) {
-        uploadedPostImageUrl_3 = await uploadImageToFirebaseStorage(
-          _pickImageFile_3!,
-          3,
-        );
-      }
-      String? uploadedPostImageUrl_4;
-      if (_pickImageFile_4 != null) {
-        uploadedPostImageUrl_4 = await uploadImageToFirebaseStorage(
-          _pickImageFile_4!,
-          4,
-        );
-      }
-      // **********Fetch Data From Firestore**********
-      final user = _auth.currentUser!;
-      final userDoc =
-          await _firestore.collection("clients").doc(user.uid).get();
-      final userData = userDoc.data();
-      if (userData == null || !userData.containsKey('Nom d\'utilisateur')) {
-        throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
-      }
-      final username = userData['Nom d\'utilisateur'];
-      final email = userData['Email'];
-      final phoneNumber = userData['Numéro de téléphone'];
-      final profilPictureURL = userData['Photo de profile'];
-      // ***********Storing data in Firestore**************
-      _firestore.collection('annonces').doc(postId).set({
-        "post_id": postId,
-        'uid': _auth.currentUser!.uid,
-        'email': email,
-        'username': username,
-        'phone_number': phoneNumber,
-        'profil_picture': profilPictureURL,
-        'description': _enteredDescription.text,
-        'service': _enteredDomaine!.name,
-        // 'date': _selectedDate == null ? '' : formatter.format(_selectedDate!),
-        'date': Timestamp.fromDate(
-          DateTime(
-            _selectedDate!.year,
-            _selectedDate!.month,
-            _selectedDate!.day,
-          ),
-        ),
-        'imageURL_1': uploadedPostImageUrl_1,
-        'imageURL_2': uploadedPostImageUrl_2,
-        'imageURL_3': uploadedPostImageUrl_3,
-        'imageURL_4': uploadedPostImageUrl_4,
-        'createdAt': Timestamp.now(),
-      });
     }
   }
 
