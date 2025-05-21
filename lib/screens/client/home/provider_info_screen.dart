@@ -369,7 +369,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                       const SizedBox(height: 10),
                       FilledButton.icon(
                         icon: const Icon(Icons.calendar_month, size: 20),
-                        label: const Text('Réserver'),
+                        label: const Text('Demander un rendez-vous'),
                         onPressed:
                             () => Navigator.of(context).push(
                               MaterialPageRoute(

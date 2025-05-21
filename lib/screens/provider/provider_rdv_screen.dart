@@ -28,7 +28,7 @@ class _ProviderRdvScreenState extends State<ProviderRdvScreen> {
                   sliver: const SliverSafeArea(
                     top: false,
                     sliver: SliverAppBar(
-                      title: Text('Mes réservations'),
+                      title: Text('Mes rendez-vous'),
                       pinned: true,
                       floating: true,
                       bottom: TabBar(

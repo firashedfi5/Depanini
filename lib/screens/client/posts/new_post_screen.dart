@@ -174,7 +174,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
                   TextFormField(
                     controller: _enteredDescription,
                     maxLines: 4,
-                    maxLength: 150,
+                    maxLength: 200,
                     decoration: const InputDecoration(
                       alignLabelWithHint: true,
                       label: Text('Description'),
@@ -184,8 +184,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
                         return 'Veuillez entrer votre description';
                       }
                       if (value.trim().length <= 15 ||
-                          value.trim().length > 150) {
-                        return 'La description doit contenir entre 15 et 150 caractères';
+                          value.trim().length > 200) {
+                        return 'La description doit contenir entre 15 et 200 caractères';
                       }
                       return null;
                     },

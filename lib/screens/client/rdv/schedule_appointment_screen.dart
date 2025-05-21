@@ -134,7 +134,7 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Détails de réservation')),
+      appBar: AppBar(title: const Text('Demander un rendez-vous')),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -188,7 +188,7 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
             const SizedBox(height: 100),
             ElevatedButton(
               onPressed: _submit,
-              child: const Text('Confirmer la réservation'),
+              child: const Text('Confirmer le rendez-vous'),
             ),
           ],
         ),

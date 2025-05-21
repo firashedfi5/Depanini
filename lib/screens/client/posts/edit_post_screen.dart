@@ -271,7 +271,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
                   children: [
                     TextFormField(
                       maxLines: 4,
-                      maxLength: 150,
+                      maxLength: 200,
                       initialValue: snapshot.data!.description,
                       decoration: const InputDecoration(
                         alignLabelWithHint: true,
@@ -360,7 +360,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
                     const SizedBox(height: 10),
                     ElevatedButton(
                       onPressed: _update,
-                      child:const Text('Enregistrer'),
+                      child: const Text('Enregistrer'),
                     ),
                   ],
                 ),
