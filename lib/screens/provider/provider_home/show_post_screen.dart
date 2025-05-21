@@ -3,6 +3,7 @@ import 'dart:developer' as dev;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/post_model.dart';
 import 'package:depanini/screens/common/chat_screen.dart';
+import 'package:depanini/widgets/image_container.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -79,29 +80,63 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
   final _reportController = TextEditingController();
 
   void _submitReport() async {
-    final user = _auth.currentUser!;
+    try {
+      final user = _auth.currentUser!;
 
-    final userDoc =
-        await _firestore.collection("prestataires").doc(user.uid).get();
-    final userData = userDoc.data();
-    if (userData == null || !userData.containsKey('Nom d\'utilisateur')) {
-      throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
+      final userDoc =
+          await _firestore.collection("prestataires").doc(user.uid).get();
+      final userData = userDoc.data();
+      if (userData == null || !userData.containsKey('Nom d\'utilisateur')) {
+        throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
+      }
+      final username = userData['Nom d\'utilisateur'];
+
+      final feedbackRef = _firestore
+          .collection('clients')
+          .doc(clientUid)
+          .collection('reports')
+          .doc(user.email);
+
+      await feedbackRef.set({
+        'date': Timestamp.now(),
+        'username': username,
+        'client_email': user.email,
+        'report': _reportController.text,
+      });
+      _reportController.clear();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Signalement envoyé.",
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFF2E7D32),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } catch (e) {
+      dev.log("Error: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Erreur lors de l\'envoi du rapport : $e',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFFB00020),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
-    final username = userData['Nom d\'utilisateur'];
-
-    final feedbackRef = _firestore
-        .collection('clients')
-        .doc(clientUid)
-        .collection('reports')
-        .doc(user.email);
-
-    await feedbackRef.set({
-      'date': Timestamp.now(),
-      'username': username,
-      'client_email': user.email,
-      'report': _reportController.text,
-    });
-    _reportController.clear();
   }
 
   @override
@@ -163,6 +198,33 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
                           Text(
                             snapshot.data!.description,
                             style: Theme.of(context).textTheme.bodyLarge,
+                          ),
+                          const SizedBox(height: 8),
+                          SizedBox(
+                            height: 100,
+                            child: ListView.separated(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: 4,
+                              separatorBuilder:
+                                  (_, __) => const SizedBox(width: 12),
+                              itemBuilder: (context, imgIndex) {
+                                final images = [
+                                  snapshot.data!.image1,
+                                  snapshot.data!.image2,
+                                  snapshot.data!.image3,
+                                  snapshot.data!.image4,
+                                ];
+                                return ClipRRect(
+                                  borderRadius: BorderRadius.circular(12),
+                                  child: ImageContainer(
+                                    height: 65,
+                                    width: 85,
+                                    imageUrl: images[imgIndex],
+                                    // placeholder: Icons.photo_library_outlined,
+                                  ),
+                                );
+                              },
+                            ),
                           ),
                           const Divider(height: 24),
                           Row(

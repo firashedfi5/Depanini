@@ -1,3 +1,5 @@
+import 'dart:developer' as dev;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/feedback_model.dart';
 import 'package:depanini/models/provider_account_model.dart';
@@ -36,39 +38,75 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
   double rating = 0;
   // ***********Rating Method***************
   void _submitRating() async {
-    final user = _auth.currentUser!;
-    final ratingRef = _firestore
-        .collection('prestataires')
-        .doc(widget.uid)
-        .collection('ratings')
-        .doc(user.email);
+    try {
+      final user = _auth.currentUser!;
+      final ratingRef = _firestore
+          .collection('prestataires')
+          .doc(widget.uid)
+          .collection('ratings')
+          .doc(user.email);
 
-    await ratingRef.set({
-      'ratedAt': Timestamp.now(),
-      'client_uid': user.uid,
-      'client_email': user.email,
-      'rating': rating,
-    });
+      await ratingRef.set({
+        'ratedAt': Timestamp.now(),
+        'client_uid': user.uid,
+        'client_email': user.email,
+        'rating': rating,
+      });
 
-    // Recalculate average
-    final ratingsSnapshot =
-        await _firestore
-            .collection('prestataires')
-            .doc(widget.uid)
-            .collection('ratings')
-            .get();
+      // Recalculate average
+      final ratingsSnapshot =
+          await _firestore
+              .collection('prestataires')
+              .doc(widget.uid)
+              .collection('ratings')
+              .get();
 
-    double total = 0;
-    for (var doc in ratingsSnapshot.docs) {
-      total += (doc.data()['rating'] ?? 0).toDouble();
+      double total = 0;
+      for (var doc in ratingsSnapshot.docs) {
+        total += (doc.data()['rating'] ?? 0).toDouble();
+      }
+
+      double avgRating = total / ratingsSnapshot.docs.length;
+
+      // Save average to main doc
+      await _firestore.collection('prestataires').doc(widget.uid).update({
+        'averageRating': avgRating,
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Évaluation enregistrée.",
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFF2E7D32),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } catch (e) {
+      dev.log("Error: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Erreur lors de l\'envoi de l\'avis : $e',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFFB00020),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
-
-    double avgRating = total / ratingsSnapshot.docs.length;
-
-    // Save average to main doc
-    await _firestore.collection('prestataires').doc(widget.uid).update({
-      'averageRating': avgRating,
-    });
   }
 
   // ****************************************
@@ -95,64 +133,138 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
   final TextEditingController _feedbackController = TextEditingController();
 
   void _submitFeedback() async {
-    final user = _auth.currentUser!;
+    try {
+      final user = _auth.currentUser!;
 
-    final userDoc = await _firestore.collection("clients").doc(user.uid).get();
-    final userData = userDoc.data();
-    if (userData == null || !userData.containsKey('Nom d\'utilisateur')) {
-      throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
+      final userDoc =
+          await _firestore.collection("clients").doc(user.uid).get();
+      final userData = userDoc.data();
+      if (userData == null || !userData.containsKey('Nom d\'utilisateur')) {
+        throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
+      }
+      final username = userData['Nom d\'utilisateur'];
+
+      final feedbackRef = _firestore
+          .collection('prestataires')
+          .doc(widget.uid)
+          .collection('feedbacks')
+          .doc(user.email);
+
+      await feedbackRef.set({
+        'date': Timestamp.now(),
+        'username': username,
+        'client_email': user.email,
+        'comment': _feedbackController.text,
+      });
+      _feedbackController.clear();
+
+      _firestore.collection("notifications").add({
+        'expéditeur_uid': _auth.currentUser!.uid,
+        'récepteur_uid': widget.uid,
+        'type': 'review',
+        'titre': 'Nouvel avis reçu',
+        'contenu': 'Vous avez reçu un nouvel avis de la part de $username.',
+        'date': Timestamp.now(),
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Avis envoyé.",
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFF2E7D32),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } catch (e) {
+      dev.log("Error: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Erreur lors de l\'envoi de l\'avis : $e',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFFB00020),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
-    final username = userData['Nom d\'utilisateur'];
-
-    final feedbackRef = _firestore
-        .collection('prestataires')
-        .doc(widget.uid)
-        .collection('feedbacks')
-        .doc(user.email);
-
-    await feedbackRef.set({
-      'date': Timestamp.now(),
-      'username': username,
-      'client_email': user.email,
-      'comment': _feedbackController.text,
-    });
-    _feedbackController.clear();
-
-    _firestore.collection("notifications").add({
-      'expéditeur_uid': _auth.currentUser!.uid,
-      'récepteur_uid': widget.uid,
-      'type': 'review',
-      'titre': 'Nouvel avis reçu',
-      'contenu': 'Vous avez reçu un nouvel avis de la part de $username.',
-      'date': Timestamp.now(),
-    });
   }
 
   // *****************************************
   final TextEditingController _reportController = TextEditingController();
   void _submitReport() async {
-    final user = _auth.currentUser!;
+    try {
+      final user = _auth.currentUser!;
 
-    final userDoc = await _firestore.collection("clients").doc(user.uid).get();
-    final userData = userDoc.data();
-    if (userData == null || !userData.containsKey('Nom d\'utilisateur')) {
-      throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
+      final userDoc =
+          await _firestore.collection("clients").doc(user.uid).get();
+      final userData = userDoc.data();
+      if (userData == null || !userData.containsKey('Nom d\'utilisateur')) {
+        throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
+      }
+      final username = userData['Nom d\'utilisateur'];
+
+      final feedbackRef = _firestore
+          .collection('prestataires')
+          .doc(widget.uid)
+          .collection('reports')
+          .doc(user.email);
+
+      await feedbackRef.set({
+        'date': Timestamp.now(),
+        'username': username,
+        'client_email': user.email,
+        'report': _reportController.text,
+      });
+      _reportController.clear();
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Signalement envoyé.",
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFF2E7D32),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } catch (e) {
+      dev.log("Error: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Erreur lors de l\'envoi du rapport : $e',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFFB00020),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
-    final username = userData['Nom d\'utilisateur'];
-
-    final feedbackRef = _firestore
-        .collection('prestataires')
-        .doc(widget.uid)
-        .collection('reports')
-        .doc(user.email);
-
-    await feedbackRef.set({
-      'date': Timestamp.now(),
-      'username': username,
-      'client_email': user.email,
-      'report': _reportController.text,
-    });
-    _reportController.clear();
   }
 
   // *****************************************
