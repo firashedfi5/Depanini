@@ -144,6 +144,24 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
       }
       final username = userData['Nom d\'utilisateur'];
 
+      if (_feedbackController.text.isEmpty && mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Veuillez entrer votre avis.',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFFB00020),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        return;
+      }
+
       final feedbackRef = _firestore
           .collection('prestataires')
           .doc(widget.uid)
@@ -216,6 +234,24 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
         throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
       }
       final username = userData['Nom d\'utilisateur'];
+
+      if (_reportController.text.isEmpty && mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Veuillez entrer un message.',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFFB00020),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        return;
+      }
 
       final feedbackRef = _firestore
           .collection('prestataires')

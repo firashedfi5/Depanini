@@ -91,6 +91,24 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
       }
       final username = userData['Nom d\'utilisateur'];
 
+      if (_reportController.text.isEmpty && mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Veuillez entrer un message.',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFFB00020),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        return;
+      }
+
       final feedbackRef = _firestore
           .collection('clients')
           .doc(clientUid)
