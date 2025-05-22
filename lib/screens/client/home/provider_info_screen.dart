@@ -646,49 +646,6 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
 
                   const SizedBox(height: 20),
 
-                  // New Reporting Section
-                  Card(
-                    color:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Theme.of(
-                              context,
-                            ).colorScheme.secondaryContainer.withAlpha(100)
-                            : Theme.of(context).colorScheme.secondaryContainer,
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            'Signaler un abus',
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          const SizedBox(height: 16),
-                          TextField(
-                            controller: _reportController,
-                            decoration: const InputDecoration(
-                              hintText: 'Décrivez le problème...',
-                              border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.all(12),
-                            ),
-                            maxLines: 3,
-                          ),
-                          const SizedBox(height: 16),
-                          FilledButton(
-                            onPressed: _submitReport,
-                            child: const Text('Soumettre'),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
                   // New Feedback Section
                   Card(
                     color:
@@ -766,6 +723,49 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                           const SizedBox(height: 16),
                           FilledButton(
                             onPressed: _submitFeedback,
+                            child: const Text('Soumettre'),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // New Reporting Section
+                  Card(
+                    color:
+                        Theme.of(context).brightness == Brightness.dark
+                            ? Theme.of(
+                              context,
+                            ).colorScheme.secondaryContainer.withAlpha(100)
+                            : Theme.of(context).colorScheme.secondaryContainer,
+                    elevation: 2,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Text(
+                            'Signaler un abus',
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          const SizedBox(height: 16),
+                          TextField(
+                            controller: _reportController,
+                            decoration: const InputDecoration(
+                              hintText: 'Décrivez le problème...',
+                              border: OutlineInputBorder(),
+                              contentPadding: EdgeInsets.all(12),
+                            ),
+                            maxLines: 3,
+                          ),
+                          const SizedBox(height: 16),
+                          FilledButton(
+                            onPressed: _submitReport,
                             child: const Text('Soumettre'),
                           ),
                         ],
