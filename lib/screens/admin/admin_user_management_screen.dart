@@ -177,13 +177,13 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                           ? user.clientData?.email ?? 'Nom inconnu'
                           : user.providerData?.email ?? 'Nom inconnu';
 
-                  final status =
-                      user.type == UserType.client
-                          ? user.clientData?.status ?? 'Nom inconnu'
-                          : user.providerData?.status ?? 'Nom inconnu';
-
                   final role =
                       user.type == UserType.client ? "Client" : "Prestataire";
+
+                  final uid =
+                      user.type == UserType.client
+                          ? user.clientData?.uid ?? 'Nom inconnu'
+                          : user.providerData?.uid ?? 'Nom inconnu';
 
                   return InkWell(
                     onTap: () {
@@ -304,42 +304,62 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                                 ),
                               ),
                               const Spacer(),
-                              Container(
-                                padding: const EdgeInsets.all(5.0),
-                                decoration:
-                                    status == "Activé"
-                                        ? BoxDecoration(
-                                          color: Colors.green.shade200
-                                              .withAlpha(50),
-                                          borderRadius: BorderRadius.circular(
-                                            16,
-                                          ),
+                              StreamBuilder<DocumentSnapshot>(
+                                stream:
+                                    FirebaseFirestore.instance
+                                        .collection(
+                                          role == 'Client'
+                                              ? 'clients'
+                                              : 'prestataires',
                                         )
-                                        : BoxDecoration(
-                                          color: Colors.red.shade200.withAlpha(
-                                            50,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            16,
-                                          ),
-                                        ),
-                                child: Text(
-                                  status == "Activé" ? "Activé" : "Désactivé",
-                                  style:
-                                      status == "Activé"
-                                          ? Theme.of(
-                                            context,
-                                          ).textTheme.titleSmall!.copyWith(
-                                            color: Colors.green,
-                                            fontWeight: FontWeight.bold,
-                                          )
-                                          : Theme.of(
-                                            context,
-                                          ).textTheme.titleSmall!.copyWith(
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                ),
+                                        .doc(
+                                          uid,
+                                        ) // Ensure `uid` exists in clientData
+                                        .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const CircularProgressIndicator();
+                                  }
+
+                                  if (!snapshot.hasData ||
+                                      !snapshot.data!.exists) {
+                                    return const Text(
+                                      "Utilisateur introuvable",
+                                    );
+                                  }
+
+                                  final data =
+                                      snapshot.data!.data()
+                                          as Map<String, dynamic>;
+                                  final status =
+                                      data['Status'] as String? ?? 'Inconnu';
+                                  final isActive = status == "Activé";
+
+                                  return Container(
+                                    padding: const EdgeInsets.all(5.0),
+                                    decoration: BoxDecoration(
+                                      color: (isActive
+                                              ? Colors.green
+                                              : Colors.red)
+                                          .shade200
+                                          .withAlpha(50),
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Text(
+                                      isActive ? "Activé" : "Désactivé",
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleSmall!.copyWith(
+                                        color:
+                                            isActive
+                                                ? Colors.green
+                                                : Colors.red,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),

@@ -163,44 +163,56 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                               ),
                               const SizedBox(width: 8),
                               // Status
-                              Container(
-                                padding: const EdgeInsets.all(8.0),
-                                decoration:
-                                    widget.providerData.status == "Activé"
-                                        ? BoxDecoration(
-                                          color: Colors.green.shade200
-                                              .withAlpha(50),
-                                          borderRadius: BorderRadius.circular(
-                                            16,
-                                          ),
-                                        )
-                                        : BoxDecoration(
-                                          color: Colors.red.shade200.withAlpha(
-                                            50,
-                                          ),
-                                          borderRadius: BorderRadius.circular(
-                                            16,
-                                          ),
-                                        ),
-                                child: Text(
-                                  widget.providerData.status == "Activé"
-                                      ? "Activé"
-                                      : "Désactivé",
-                                  style:
-                                      widget.providerData.status == "Activé"
-                                          ? Theme.of(
-                                            context,
-                                          ).textTheme.titleMedium!.copyWith(
-                                            color: Colors.green,
-                                            fontWeight: FontWeight.bold,
-                                          )
-                                          : Theme.of(
-                                            context,
-                                          ).textTheme.titleMedium!.copyWith(
-                                            color: Colors.red,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                ),
+                              StreamBuilder<DocumentSnapshot>(
+                                stream:
+                                    FirebaseFirestore.instance
+                                        .collection('prestataires')
+                                        .doc(
+                                          widget.providerData.uid,
+                                        ) // Make sure `uid` exists in `clientData`
+                                        .snapshots(),
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return const CircularProgressIndicator();
+                                  }
+
+                                  if (!snapshot.hasData ||
+                                      !snapshot.data!.exists) {
+                                    return const Text("User not found");
+                                  }
+
+                                  final data =
+                                      snapshot.data!.data()
+                                          as Map<String, dynamic>;
+                                  final status =
+                                      data['Status'] as String? ?? 'Inconnu';
+                                  final isActive = status == "Activé";
+
+                                  return Container(
+                                    padding: const EdgeInsets.all(8.0),
+                                    decoration: BoxDecoration(
+                                      color: (isActive
+                                              ? Colors.green
+                                              : Colors.red)
+                                          .shade200
+                                          .withAlpha(50),
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    child: Text(
+                                      isActive ? "Activé" : "Désactivé",
+                                      style: Theme.of(
+                                        context,
+                                      ).textTheme.titleMedium!.copyWith(
+                                        color:
+                                            isActive
+                                                ? Colors.green
+                                                : Colors.red,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  );
+                                },
                               ),
                             ],
                           ),

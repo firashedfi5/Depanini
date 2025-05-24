@@ -19,7 +19,10 @@ app.post("/disableUser", async (req, res) => {
   }
 
   try {
+    // Disable the user
     await admin.auth().updateUser(uid, { disabled: true });
+    // Revoke their tokens so they are signed out immediately
+    await admin.auth().revokeRefreshTokens(uid);
     res.json({ success: true });
   } catch (error) {
     console.error("Disable user error:", error.message);
@@ -34,6 +37,7 @@ app.post("/enableUser", async (req, res) => {
   }
 
   try {
+    // Enable the user
     await admin.auth().updateUser(uid, { disabled: false });
     res.json({ success: true });
   } catch (error) {
