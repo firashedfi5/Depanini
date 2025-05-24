@@ -1,9 +1,13 @@
+import 'dart:convert';
+import 'dart:developer' as dev;
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/admin/user%20management/prestataire/pr_feedback_screen.dart';
 import 'package:depanini/screens/admin/user%20management/prestataire/pr_rdv_screen.dart';
 import 'package:depanini/screens/admin/user%20management/prestataire/pr_reports_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 final _firestore = FirebaseFirestore.instance;
@@ -18,6 +22,56 @@ class PrestataireInfoScreen extends StatefulWidget {
 }
 
 class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
+  // *********************************
+  // Functions to disable and enable user
+  // These functions call the Cloud Function to disable or enable a user
+  Future<void> disableUser(String uid) async {
+    final url = Uri.parse(
+      'https://us-central1-depanini-3304e.cloudfunctions.net/userManagement/disableUser',
+    );
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'uid': uid}),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body); // ✅ Now it's JSON
+      if (data['success'] == true) {
+        dev.log("User disabled");
+      } else {
+        dev.log("Failed: ${data['error']}");
+      }
+    } else {
+      dev.log("Server error: ${response.body}"); // <- add this for debugging
+    }
+  }
+
+  Future<void> enableUser(String uid) async {
+    final url = Uri.parse(
+      'https://us-central1-depanini-3304e.cloudfunctions.net/userManagement/enableUser',
+    );
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'uid': uid}),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body); // ✅ Now it's JSON
+      if (data['success'] == true) {
+        dev.log("User enabled");
+      } else {
+        dev.log("Failed: ${data['error']}");
+      }
+    } else {
+      dev.log("Server error: ${response.body}"); // <- add this for debugging
+    }
+  }
+  // *********************************
+
   Stream<int> _rdvCountStream() {
     return _firestore
         .collection('rdvs')
@@ -311,10 +365,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                         icon: const Icon(Icons.back_hand, size: 20),
                         label: const Text('Suspendre'),
                         onPressed: () {
-                          // setUserDisabledStatus(
-                          //   widget.clientData.uid!,
-                          //   true,
-                          // );
+                          disableUser(widget.providerData.uid);
                           _firestore
                               .collection('prestataires')
                               .doc(widget.providerData.uid)
@@ -326,10 +377,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                         icon: const Icon(Icons.thumb_up, size: 20),
                         label: const Text('Réactiver'),
                         onPressed: () {
-                          // setUserDisabledStatus(
-                          //   widget.clientData.uid!,
-                          //   true,
-                          // );
+                          enableUser(widget.providerData.uid);
                           _firestore
                               .collection('prestataires')
                               .doc(widget.providerData.uid)

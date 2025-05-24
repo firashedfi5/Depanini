@@ -5,29 +5,6 @@ const { getFirestore } = require("firebase-admin/firestore");
 
 admin.initializeApp();
 
-// Disable user
-exports.setUserDisabledStatus = functions.https.onCall(
-  async (data, context) => {
-    // Optional: Add admin auth check here using context.auth.token
-    const uid = data.uid;
-    const disable = data.disable;
-
-    if (!uid || typeof disable !== "boolean") {
-      throw new functions.https.HttpsError(
-        "invalid-argument",
-        "Missing uid or disable flag."
-      );
-    }
-
-    try {
-      await admin.auth().updateUser(uid, { disabled: disable });
-      return { success: true, status: disable ? "disabled" : "enabled" };
-    } catch (error) {
-      throw new functions.https.HttpsError("unknown", error.message);
-    }
-  }
-);
-
 // Delete expired posts
 // This function deletes posts older than the current date
 exports.deleteExpiredPosts = onSchedule(
@@ -54,3 +31,7 @@ exports.deleteExpiredPosts = onSchedule(
     console.log(`${snapshot.size} expired posts deleted.`);
   }
 );
+
+// Import and export user management routes from adminFunctions.js
+const { userManagement } = require('./adminFunctions');
+exports.userManagement = userManagement;

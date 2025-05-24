@@ -1,4 +1,4 @@
-// import 'dart:developer' as dev;
+import 'dart:developer' as dev;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/client_account_model.dart';
@@ -7,7 +7,9 @@ import 'package:depanini/screens/admin/user%20management/client/cl_rdv_screen.da
 import 'package:depanini/screens/admin/user%20management/client/cl_reports_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-// import 'package:cloud_functions/cloud_functions.dart';
+
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -22,17 +24,53 @@ class ClientInfoScreen extends StatefulWidget {
 
 class _ClientInfoScreenState extends State<ClientInfoScreen> {
   // *********************************
-  // Future<void> setUserDisabledStatus(String uid, bool disable) async {
-  //   final callable = FirebaseFunctions.instance.httpsCallable(
-  //     'setUserDisabledStatus',
-  //   );
-  //   try {
-  //     final result = await callable.call({'uid': uid, 'disable': disable});
-  //     dev.log('User status changed: ${result.data['status']}');
-  //   } catch (e) {
-  //     dev.log('Failed to change user status: $e');
-  //   }
-  // }
+  // Functions to disable and enable user
+  // These functions call the Cloud Function to disable or enable a user
+  Future<void> disableUser(String uid) async {
+    final url = Uri.parse(
+      'https://us-central1-depanini-3304e.cloudfunctions.net/userManagement/disableUser',
+    );
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'uid': uid}),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body); // ✅ Now it's JSON
+      if (data['success'] == true) {
+        dev.log("User disabled");
+      } else {
+        dev.log("Failed: ${data['error']}");
+      }
+    } else {
+      dev.log("Server error: ${response.body}"); // <- add this for debugging
+    }
+  }
+
+  Future<void> enableUser(String uid) async {
+    final url = Uri.parse(
+      'https://us-central1-depanini-3304e.cloudfunctions.net/userManagement/enableUser',
+    );
+
+    final response = await http.post(
+      url,
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'uid': uid}),
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body); // ✅ Now it's JSON
+      if (data['success'] == true) {
+        dev.log("User enabled");
+      } else {
+        dev.log("Failed: ${data['error']}");
+      }
+    } else {
+      dev.log("Server error: ${response.body}"); // <- add this for debugging
+    }
+  }
   // *********************************
 
   Stream<int> _postCountStream() {
@@ -257,10 +295,8 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                         icon: const Icon(Icons.back_hand, size: 20),
                         label: const Text('Suspendre'),
                         onPressed: () {
-                          // setUserDisabledStatus(
-                          //   widget.clientData.uid!,
-                          //   true,
-                          // );
+                          dev.log('Suspending user: ${widget.clientData.uid}');
+                          disableUser(widget.clientData.uid!);
                           _firestore
                               .collection('clients')
                               .doc(widget.clientData.uid)
@@ -272,10 +308,10 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                         icon: const Icon(Icons.thumb_up, size: 20),
                         label: const Text('Réactiver'),
                         onPressed: () {
-                          // setUserDisabledStatus(
-                          //   widget.clientData.uid!,
-                          //   false,
-                          // );
+                          dev.log(
+                            'Reactivating user: ${widget.clientData.uid}',
+                          );
+                          enableUser(widget.clientData.uid!);
                           _firestore
                               .collection('clients')
                               .doc(widget.clientData.uid)
