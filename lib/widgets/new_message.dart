@@ -106,7 +106,9 @@ class _NewMessageState extends State<NewMessage> {
                 textCapitalization: TextCapitalization.sentences,
                 autocorrect: true,
                 enableSuggestions: true,
-                decoration: const InputDecoration(hintText: 'Envoyer un message...'),
+                decoration: const InputDecoration(
+                  hintText: 'Envoyer un message...',
+                ),
               ),
             ),
             IconButton(
