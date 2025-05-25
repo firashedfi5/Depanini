@@ -245,7 +245,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) =>
+                                    builder:
+                                        (context) =>
                                             const NotificationsScreen(),
                                   ),
                                 );
@@ -355,14 +356,11 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
             future: _foundedPosts,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               if (snapshot.data!.isEmpty) {
-                return Center(
-                  child: Text(
-                    'Aucune annonce ajouté pour le moment',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
+                return const Center(
+                  child: Text('Aucune annonce ajouté pour le moment'),
                 );
               }
               return ListView.builder(

@@ -71,7 +71,7 @@ class _ProviderCancelledAppointmentState
               (context, snapshot) => Builder(
                 builder: (context) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   if (snapshot.hasError) {
@@ -79,11 +79,8 @@ class _ProviderCancelledAppointmentState
                   }
 
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(
-                      child: Text(
-                        'Aucune réservation annulé',
-                        style: Theme.of(context).textTheme.titleMedium,
-                      ),
+                    return const Center(
+                      child: Text('Aucune réservation annulé'),
                     );
                   }
 

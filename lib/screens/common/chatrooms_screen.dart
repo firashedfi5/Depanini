@@ -91,12 +91,7 @@ class ChatroomsScreen extends StatelessWidget {
           final chatRooms = snapshot.data?.docs ?? [];
 
           if (chatRooms.isEmpty) {
-            return Center(
-              child: Text(
-                'Aucune conversation trouvée.',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            );
+            return const Center(child: Text('Aucune conversation trouvée.'));
           }
 
           final currentUserEmail = _auth.currentUser?.email;

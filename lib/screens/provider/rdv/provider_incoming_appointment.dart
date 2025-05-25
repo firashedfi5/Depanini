@@ -73,7 +73,7 @@ class _ProviderIncomingAppointmentState
               (context, snapshot) => Builder(
                 builder: (context) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   if (snapshot.hasError) {
@@ -81,10 +81,9 @@ class _ProviderIncomingAppointmentState
                   }
 
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return Center(
+                    return const Center(
                       child: Text(
                         'Aucune réservation confirmé',
-                        style: Theme.of(context).textTheme.titleMedium,
                       ),
                     );
                   }
