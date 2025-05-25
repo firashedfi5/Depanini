@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/models/client_account_model.dart';
@@ -232,13 +233,21 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                               // Profile Image
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(12),
-                                child: Image.network(
-                                  profilPicture!,
+                                child: CachedNetworkImage(
+                                  key: ValueKey(profilPicture!),
+                                  imageUrl: profilPicture,
+                                  placeholder:
+                                      (context, url) => const SizedBox(
+                                        height: 100,
+                                        width: 100,
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                  errorWidget:
+                                      (context, url, error) => const Icon(
+                                        Icons.error,
+                                        color: Colors.red,
+                                      ),
                                   fit: BoxFit.cover,
-                                  scale: 1.75,
-                                  errorBuilder:
-                                      (context, error, stackTrace) =>
-                                          const Icon(Icons.person, size: 48),
                                 ),
                               ),
                               const SizedBox(width: 10),

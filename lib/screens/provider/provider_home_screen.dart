@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/place.dart';
 import 'package:depanini/models/post_model.dart';
@@ -162,8 +163,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                               radius: 25,
                               foregroundImage:
                                   userData['Photo de profile'] != null
-                                      ? NetworkImage(
+                                      ? CachedNetworkImageProvider(
                                         userData['Photo de profile'],
+                                        cacheKey: userData['Photo de profile'],
                                       )
                                       : null,
                               child:

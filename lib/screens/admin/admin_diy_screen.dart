@@ -1,5 +1,6 @@
 import 'dart:developer' as dev;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/astuce_model.dart';
 import 'package:depanini/screens/admin/diy/edit_diy_screen.dart';
@@ -182,25 +183,21 @@ class _AdminDiyScreenState extends State<AdminDiyScreen> {
                     // Image
                     ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        astuce.foregroundImage ?? '',
+                      child: CachedNetworkImage(
+                        key: ValueKey(astuce.foregroundImage),
+                        imageUrl: astuce.foregroundImage!,
+                        placeholder:
+                            (context, url) => const SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: CircularProgressIndicator(),
+                            ),
+                        errorWidget:
+                            (context, url, error) =>
+                                const Icon(Icons.error, color: Colors.red),
+                        fit: BoxFit.fitHeight,
                         width: 100,
                         height: 100,
-                        fit: BoxFit.fitHeight,
-                        errorBuilder:
-                            (context, error, stackTrace) => Container(
-                              width: 100,
-                              height: 100,
-                              color: Theme.of(context).colorScheme.onSecondary,
-                              child: Icon(
-                                Icons.image_not_supported,
-                                color:
-                                    Theme.of(
-                                      context,
-                                    ).colorScheme.onSurfaceVariant,
-                                size: 40,
-                              ),
-                            ),
                       ),
                     ),
                     const SizedBox(width: 12),

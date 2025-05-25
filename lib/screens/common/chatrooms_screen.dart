@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -177,7 +178,10 @@ class ChatroomsScreen extends StatelessWidget {
                               radius: 25,
                               backgroundImage:
                                   otherProfilePicture != null
-                                      ? NetworkImage(otherProfilePicture)
+                                      ? CachedNetworkImageProvider(
+                                        otherProfilePicture,
+                                        cacheKey: otherProfilePicture,
+                                      )
                                       : const AssetImage(
                                             'assets/images/default_avatar.png',
                                           )

@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer' as dev;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/admin/user%20management/prestataire/pr_feedback_screen.dart';
@@ -126,8 +127,26 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(15),
                       ),
-                      child: Image.network(
-                        widget.providerData.profilPicture,
+                      child:
+                      // Image.network(
+                      //   widget.providerData.profilPicture,
+                      // height: 200,
+                      // width: double.infinity,
+                      // fit: BoxFit.contain,
+                      // alignment: Alignment.topCenter,
+                      // ),
+                      CachedNetworkImage(
+                        key: ValueKey(widget.providerData.profilPicture),
+                        imageUrl: widget.providerData.profilPicture,
+                        placeholder:
+                            (context, url) => const SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: CircularProgressIndicator(),
+                            ),
+                        errorWidget:
+                            (context, url, error) =>
+                                const Icon(Icons.error, color: Colors.red),
                         height: 200,
                         width: double.infinity,
                         fit: BoxFit.contain,

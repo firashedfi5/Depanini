@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/constants/domains.dart';
 import 'package:depanini/models/place.dart';
@@ -152,8 +153,9 @@ class _HomeScreenState extends State<HomeScreen> {
                               radius: 25,
                               foregroundImage:
                                   userData['Photo de profile'] != null
-                                      ? NetworkImage(
+                                      ? CachedNetworkImageProvider(
                                         userData['Photo de profile'],
+                                        cacheKey: userData['Photo de profile'],
                                       )
                                       : null,
                               child:
@@ -456,12 +458,24 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(12),
-                                  child: Image.network(
-                                    snapshot.data![index].profilPicture,
+                                  child: CachedNetworkImage(
+                                    key: ValueKey(
+                                      snapshot.data![index].profilPicture,
+                                    ),
+                                    imageUrl:
+                                        snapshot.data![index].profilPicture,
+                                    placeholder:
+                                        (context, url) => const SizedBox(
+                                          height: 100,
+                                          width: 100,
+                                          child: CircularProgressIndicator(),
+                                        ),
+                                    errorWidget:
+                                        (context, url, error) => const Icon(
+                                          Icons.error,
+                                          color: Colors.red,
+                                        ),
                                     fit: BoxFit.cover,
-                                    errorBuilder:
-                                        (context, error, stackTrace) =>
-                                            const Icon(Icons.person, size: 48),
                                   ),
                                 ),
                               ),

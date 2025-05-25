@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/common/change_password_screen.dart';
 import 'package:depanini/theme/theme_provider.dart';
@@ -60,7 +61,10 @@ class _AdminProfilScreenState extends ConsumerState<AdminProfilScreen> {
                       radius: 75,
                       foregroundImage:
                           userData['Photo de profile'] != null
-                              ? NetworkImage(userData['Photo de profile'])
+                              ? CachedNetworkImageProvider(
+                                userData['Photo de profile'],
+                                cacheKey: userData['Photo de profile'],
+                              )
                               : null,
                       child:
                           userData['Photo de profile'] == null

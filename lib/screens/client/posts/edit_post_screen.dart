@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/post_model.dart';
 import 'package:depanini/widgets/update_image.dart';
@@ -349,7 +350,10 @@ class _EditPostScreenState extends State<EditPostScreen> {
                         scrollDirection: Axis.horizontal,
                         itemBuilder: (context, index) {
                           return UpdateImage(
-                            initialImage: NetworkImage(images[index]),
+                            initialImage: CachedNetworkImageProvider(
+                              images[index],
+                              cacheKey: images[index],
+                            ),
                             onPickImage: (pickedImage) {
                               pickedImages[index] = pickedImage;
                             },

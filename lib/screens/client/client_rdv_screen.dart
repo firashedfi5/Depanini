@@ -25,10 +25,10 @@ class _ClientRdvScreenState extends State<ClientRdvScreen> {
                   handle: NestedScrollView.sliverOverlapAbsorberHandleFor(
                     context,
                   ),
-                  sliver: SliverSafeArea(
+                  sliver: const SliverSafeArea(
                     top: false,
                     sliver: SliverAppBar(
-                      title: const Text('Mes rendez-vous'),
+                      title: Text('Mes rendez-vous'),
                       pinned: true,
                       floating: true,
                       bottom: TabBar(
@@ -39,17 +39,17 @@ class _ClientRdvScreenState extends State<ClientRdvScreen> {
                         // indicatorColor: Colors.transparent,
                         dividerColor: Colors.transparent,
                         tabs: [
-                          const Tab(text: 'À venir'),
-                          const Tab(text: 'Terminé'),
-                          const Tab(text: 'Annulé'),
-                          const Tab(text: 'En attente'),
+                          Tab(text: 'À venir'),
+                          Tab(text: 'Terminé'),
+                          Tab(text: 'Annulé'),
+                          Tab(text: 'En attente'),
                         ],
                       ),
                     ),
                   ),
                 ),
               ],
-          body: TabBarView(
+          body: const TabBarView(
             children: [
               ClientIncomingAppointment(),
 

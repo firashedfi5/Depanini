@@ -1,6 +1,7 @@
 import 'dart:developer' as dev;
 
 // import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:depanini/widgets/chat_messages.dart';
 import 'package:depanini/widgets/new_message.dart';
 // import 'package:firebase_auth/firebase_auth.dart';
@@ -89,7 +90,11 @@ class _ChatScreenState extends State<ChatScreen> {
           children: [
             CircleAvatar(
               radius: 23,
-              backgroundImage: NetworkImage(widget.receiverProfilPicture),
+              backgroundImage: CachedNetworkImageProvider(
+                widget.receiverProfilPicture,
+                cacheKey: widget.receiverProfilPicture,
+              ),
+              // NetworkImage(widget.receiverProfilPicture),
             ),
             const SizedBox(width: 10),
             Text(widget.receiverUsername),

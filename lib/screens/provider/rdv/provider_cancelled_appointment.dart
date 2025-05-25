@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/place.dart';
 import 'package:depanini/models/rdv_model.dart';
@@ -125,9 +126,12 @@ class _ProviderCancelledAppointmentState
                                               items[index]
                                                       .clientProfilePicture
                                                       .isNotEmpty
-                                                  ? NetworkImage(
+                                                  ? CachedNetworkImageProvider(
                                                     items[index]
                                                         .clientProfilePicture,
+                                                    cacheKey:
+                                                        items[index]
+                                                            .clientProfilePicture,
                                                   )
                                                   : null,
                                           child:

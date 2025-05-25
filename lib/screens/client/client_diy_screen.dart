@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/constants/domains.dart';
 import 'package:depanini/data/word_to_field.dart';
@@ -134,7 +135,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       physics: const BouncingScrollPhysics(),
                       scrollDirection: Axis.horizontal,
-                      separatorBuilder: (_, __) =>const SizedBox(width: 10),
+                      separatorBuilder: (_, __) => const SizedBox(width: 10),
                       itemCount: _domains.length,
                       itemBuilder: (context, index) {
                         return FilterChip(
@@ -228,20 +229,22 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                             height: 150,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(12),
-                              child: Image.network(
-                                snapshot.data![index].foregroundImage!,
-                                fit: BoxFit.contain,
-                                errorBuilder:
-                                    (context, error, stackTrace) => Center(
-                                      child: Icon(
-                                        Icons.image_not_supported_outlined,
-                                        color:
-                                            Theme.of(
-                                              context,
-                                            ).colorScheme.onSurfaceVariant,
-                                        size: 40,
-                                      ),
+                              child: CachedNetworkImage(
+                                key: ValueKey(
+                                  snapshot.data![index].foregroundImage!,
+                                ),
+                                imageUrl:
+                                    snapshot.data![index].foregroundImage!,
+                                placeholder:
+                                    (context, url) => const SizedBox(
+                                      height: 100,
+                                      width: 100,
+                                      child: CircularProgressIndicator(),
                                     ),
+                                errorWidget:
+                                    (context, url, error) =>
+                                        const Icon(Icons.error),
+                                fit: BoxFit.contain,
                               ),
                             ),
                           ),

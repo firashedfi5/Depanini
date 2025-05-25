@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:developer' as dev;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/widgets/update_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -210,9 +211,14 @@ class _ProviderGalleryState extends State<ProviderGallery> {
                         },
                         initialImage:
                             images[index].isNotEmpty
-                                ? NetworkImage(images[index])
-                                : const NetworkImage(
+                                ? CachedNetworkImageProvider(
+                                  images[index],
+                                  cacheKey: images[index],
+                                )
+                                : const CachedNetworkImageProvider(
                                   'https://firebasestorage.googleapis.com/v0/b/depanini-3304e.firebasestorage.app/o/no_picture.png?alt=media&token=7cfab603-fc3e-4241-a9d3-6e1569aa46d7',
+                                  cacheKey:
+                                      'https://firebasestorage.googleapis.com/v0/b/depanini-3304e.firebasestorage.app/o/no_picture.png?alt=media&token=7cfab603-fc3e-4241-a9d3-6e1569aa46d7',
                                 ),
                       );
                     },

@@ -1,5 +1,6 @@
 import 'dart:developer' as dev;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/client_account_model.dart';
 import 'package:depanini/screens/admin/user%20management/client/cl_posts_screen.dart';
@@ -126,8 +127,19 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(15),
                       ),
-                      child: Image.network(
-                        widget.clientData.profilPicture!,
+                      child:
+                      CachedNetworkImage(
+                        key: ValueKey(widget.clientData.profilPicture!),
+                        imageUrl: widget.clientData.profilPicture!,
+                        placeholder:
+                            (context, url) => const SizedBox(
+                              height: 100,
+                              width: 100,
+                              child: CircularProgressIndicator(),
+                            ),
+                        errorWidget:
+                            (context, url, error) =>
+                                const Icon(Icons.error, color: Colors.red),
                         height: 200,
                         width: double.infinity,
                         fit: BoxFit.contain,

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/client/client_diy_screen.dart';
 import 'package:depanini/screens/client/profil/client_settings_screen.dart';
@@ -77,7 +78,10 @@ class _ProfilScreenState extends State<ProfilScreen> {
                       radius: 75,
                       foregroundImage:
                           userData['Photo de profile'] != null
-                              ? NetworkImage(userData['Photo de profile'])
+                              ? CachedNetworkImageProvider(
+                                userData['Photo de profile']!,
+                                cacheKey: userData['Photo de profile']!,
+                              )
                               : null,
                       child:
                           userData['Photo de profile'] == null

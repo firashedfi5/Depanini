@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/place.dart';
 import 'package:depanini/models/rdv_model.dart';
@@ -125,9 +126,14 @@ class _ProviderPendingAppointmentState
                                       children: [
                                         CircleAvatar(
                                           radius: 30,
-                                          foregroundImage: NetworkImage(
-                                            items[index].clientProfilePicture,
-                                          ),
+                                          foregroundImage:
+                                              CachedNetworkImageProvider(
+                                                items[index]
+                                                    .clientProfilePicture,
+                                                cacheKey:
+                                                    items[index]
+                                                        .clientProfilePicture,
+                                              ),
                                           backgroundColor: Colors.blue.shade50,
                                           child: Icon(
                                             Icons.person,

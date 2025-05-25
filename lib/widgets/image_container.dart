@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 
 class ImageContainer extends StatelessWidget {
@@ -23,7 +24,10 @@ class ImageContainer extends StatelessWidget {
         image:
             imageUrl != null
                 ? DecorationImage(
-                  image: NetworkImage(imageUrl!),
+                  image: CachedNetworkImageProvider(
+                    imageUrl!,
+                    cacheKey: imageUrl,
+                  ),
                   fit: BoxFit.cover, // Optional: Adjusts the image fit
                 )
                 : null,

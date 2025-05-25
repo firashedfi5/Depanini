@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/place.dart';
 import 'package:depanini/models/rdv_model.dart';
@@ -147,7 +148,10 @@ class _PrRdvScreenState extends State<PrRdvScreen> {
                             radius: 24,
                             backgroundImage:
                                 rdv.clientProfilePicture.isNotEmpty
-                                    ? NetworkImage(rdv.clientProfilePicture)
+                                    ? CachedNetworkImageProvider(
+                                      rdv.clientProfilePicture,
+                                      cacheKey: rdv.clientProfilePicture,
+                                    )
                                     : null,
                             child:
                                 rdv.clientProfilePicture.isEmpty
