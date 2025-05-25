@@ -39,12 +39,12 @@ class _HomeState extends State<Home> {
         color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
         animationDuration: const Duration(milliseconds: 300),
         onTap: _navigateGoogleNavbar,
-        items: [
-          const Icon(Icons.home),
-          const Icon(Icons.calendar_month),
-          const Icon(Icons.post_add),
-          const Icon(Icons.chat),
-          const Icon(Icons.account_circle),
+        items: const [
+          Icon(Icons.home),
+          Icon(Icons.calendar_month),
+          Icon(Icons.post_add),
+          Icon(Icons.chat),
+          Icon(Icons.account_circle),
         ],
       ),
     );

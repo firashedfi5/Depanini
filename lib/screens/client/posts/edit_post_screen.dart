@@ -263,7 +263,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
           ];
 
           return Padding(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             child: SingleChildScrollView(
               child: Form(
                 key: _formKey,

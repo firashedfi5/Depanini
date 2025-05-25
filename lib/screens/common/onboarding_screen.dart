@@ -36,20 +36,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 (index) => setState(() {
                   isOnLastPage = (index == 2);
                 }),
-            children: [
-              const OnBoardingPage(
+            children: const [
+              OnBoardingPage(
                 image: 'assets/images/onBoarding_1.png',
                 title: 'Experts à Votre Service',
                 subTitle:
                     'Trouvez rapidement des experts fiables pour vos besoins quotidiens.',
               ),
-              const OnBoardingPage(
+              OnBoardingPage(
                 image: 'assets/images/onBoarding_2.png',
                 title: 'Rapide et Efficace',
                 subTitle:
                     'Choisissez un service, réservez, et laissez nos experts s\'occuper du reste.',
               ),
-              const OnBoardingPage(
+              OnBoardingPage(
                 image: 'assets/images/onBoarding_3.png',
                 title: 'Votre Satisfaction, Notre Priorité',
                 subTitle:
@@ -115,7 +115,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     : ElevatedButton(
                       onPressed: () {
                         pageController.nextPage(
-                          duration: Duration(milliseconds: 300),
+                          duration: const Duration(milliseconds: 300),
                           curve: Curves.easeIn,
                         );
                       },

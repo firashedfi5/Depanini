@@ -96,7 +96,7 @@ class _ProviderPendingAppointmentState
                         ),
                       ),
                       SliverPadding(
-                        padding: EdgeInsets.only(left: 8, right: 8, top: 8),
+                        padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate((
                             context,
@@ -115,7 +115,7 @@ class _ProviderPendingAppointmentState
                                         context,
                                       ).colorScheme.surfaceContainerHighest,
                               child: Padding(
-                                padding: EdgeInsets.only(
+                                padding: const EdgeInsets.only(
                                   left: 8,
                                   right: 8,
                                   top: 8,
@@ -140,7 +140,7 @@ class _ProviderPendingAppointmentState
                                             color: Colors.blue.shade800,
                                           ),
                                         ),
-                                        SizedBox(width: 12),
+                                        const SizedBox(width: 12),
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -161,7 +161,7 @@ class _ProviderPendingAppointmentState
                                             ),
                                           ],
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: BoxDecoration(
@@ -184,7 +184,7 @@ class _ProviderPendingAppointmentState
                                       ],
                                     ),
 
-                                    SizedBox(height: 10),
+                                    const SizedBox(height: 10),
 
                                     Row(
                                       mainAxisAlignment:
@@ -196,7 +196,7 @@ class _ProviderPendingAppointmentState
                                             'dd/MM/yyyy',
                                           ).format(items[index].date),
                                         ),
-                                        SizedBox(width: 30),
+                                        const SizedBox(width: 30),
                                         _InfoChip(
                                           icon: Icons.access_time,
                                           text: items[index].heure,
@@ -204,7 +204,7 @@ class _ProviderPendingAppointmentState
                                       ],
                                     ),
 
-                                    Divider(height: 20),
+                                    const Divider(height: 20),
 
                                     Row(
                                       mainAxisAlignment:
@@ -239,14 +239,14 @@ class _ProviderPendingAppointmentState
                                                   .shade200
                                                   .withAlpha(50),
                                             ),
-                                            label: Text(
+                                            label: const Text(
                                               'Refuser',
                                               style: TextStyle(
                                                 color: Colors.red,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            icon: FaIcon(
+                                            icon: const FaIcon(
                                               FontAwesomeIcons.xmark,
                                               color: Colors.red,
                                             ),
@@ -283,14 +283,14 @@ class _ProviderPendingAppointmentState
                                                   .shade200
                                                   .withAlpha(50),
                                             ),
-                                            label: Text(
+                                            label: const Text(
                                               'Accepter',
                                               style: TextStyle(
                                                 color: Colors.green,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            icon: FaIcon(
+                                            icon: const FaIcon(
                                               FontAwesomeIcons.check,
                                               color: Colors.green,
                                             ),
@@ -298,7 +298,7 @@ class _ProviderPendingAppointmentState
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 10),
+                                    const SizedBox(height: 10),
                                   ],
                                 ),
                               ),
@@ -327,7 +327,7 @@ class _InfoChip extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
-        SizedBox(width: 6),
+        const SizedBox(width: 6),
         Text(text, style: Theme.of(context).textTheme.bodyMedium),
       ],
     );

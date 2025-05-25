@@ -99,7 +99,7 @@ class _ProviderIncomingAppointmentState
                         ),
                       ),
                       SliverPadding(
-                        padding: EdgeInsets.only(left: 8, right: 8, top: 8),
+                        padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate((
                             context,
@@ -171,7 +171,7 @@ class _ProviderIncomingAppointmentState
                                             ),
                                           ],
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: BoxDecoration(
@@ -212,7 +212,7 @@ class _ProviderIncomingAppointmentState
                                       ],
                                     ),
                                     // const SizedBox(height: 12),
-                                    Divider(height: 20),
+                                    const Divider(height: 20),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -246,14 +246,14 @@ class _ProviderIncomingAppointmentState
                                                   .shade200
                                                   .withAlpha(50),
                                             ),
-                                            label: Text(
+                                            label: const Text(
                                               'Annulé',
                                               style: TextStyle(
                                                 color: Colors.red,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            icon: FaIcon(
+                                            icon: const FaIcon(
                                               FontAwesomeIcons.xmark,
                                               color: Colors.red,
                                             ),
@@ -275,14 +275,14 @@ class _ProviderIncomingAppointmentState
                                                   .shade200
                                                   .withAlpha(50),
                                             ),
-                                            label: Text(
+                                            label: const Text(
                                               'Terminé',
                                               style: TextStyle(
                                                 color: Colors.blue,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
-                                            icon: FaIcon(
+                                            icon: const FaIcon(
                                               FontAwesomeIcons.check,
                                               color: Colors.blue,
                                             ),
@@ -290,14 +290,14 @@ class _ProviderIncomingAppointmentState
                                         ),
                                       ],
                                     ),
-                                    SizedBox(height: 10),
+                                    const SizedBox(height: 10),
                                     Align(
                                       alignment: Alignment.center,
                                       child: OutlinedButton.icon(
                                         style: OutlinedButton.styleFrom(
-                                          fixedSize: Size(170, 30),
+                                          fixedSize: const Size(170, 30),
                                         ),
-                                        icon: Icon(Icons.directions),
+                                        icon: const Icon(Icons.directions),
                                         onPressed: () {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
@@ -335,7 +335,7 @@ class _ProviderIncomingAppointmentState
                                                                 .longitude,
                                                       ),
                                                     ],
-                                                    prestataireInfo: [],
+                                                    prestataireInfo: const [],
                                                     clientUsername:
                                                         items[index]
                                                             .clientUsername,
@@ -343,7 +343,7 @@ class _ProviderIncomingAppointmentState
                                             ),
                                           );
                                         },
-                                        label: Text('Voir l’itinéraire'),
+                                        label: const Text('Voir l’itinéraire'),
                                       ),
                                     ),
                                   ],
@@ -374,7 +374,7 @@ class _InfoChip extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
-        SizedBox(width: 6),
+        const SizedBox(width: 6),
         Text(text, style: Theme.of(context).textTheme.bodyMedium),
       ],
     );

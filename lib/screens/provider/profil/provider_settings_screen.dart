@@ -33,7 +33,7 @@ class _ProviderSettingsScreenState
               'Supprimer le compte',
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
-            content: Text(
+            content: const Text(
               'Êtes-vous sûr de vouloir supprimer votre compte? Cette action est irréversible.',
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
@@ -59,7 +59,7 @@ class _ProviderSettingsScreenState
                         ),
                       );
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => SigninScreen()),
+                        MaterialPageRoute(builder: (context) => const SigninScreen()),
                       );
                     }
                   } on FirebaseAuthException catch (e) {

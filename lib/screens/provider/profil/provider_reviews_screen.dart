@@ -141,7 +141,7 @@ class _ProviderReviewsScreenState extends State<ProviderReviewsScreen> {
                                   RatingBarIndicator(
                                     rating: averageRating,
                                     itemBuilder:
-                                        (context, index) => Icon(
+                                        (context, index) => const Icon(
                                           Icons.star_rounded,
                                           color: Colors.amberAccent,
                                         ),

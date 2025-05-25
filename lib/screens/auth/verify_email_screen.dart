@@ -31,7 +31,8 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
     if (!isEmailVerified) {
       sendVerificationEmail();
 
-      timer = Timer.periodic(Duration(seconds: 3), (_) => checkEmailVerified());
+      timer = Timer.periodic(
+        const Duration(seconds: 3), (_) => checkEmailVerified());
     }
   }
 
@@ -95,7 +96,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       await user.sendEmailVerification();
 
       setState(() => canResendEmail = false);
-      await Future.delayed(Duration(seconds: 5));
+      await Future.delayed(const Duration(seconds: 5));
       setState(() => canResendEmail = true);
     } catch (e) {
       if (mounted) {

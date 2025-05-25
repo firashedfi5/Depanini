@@ -710,7 +710,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                 return ListView.builder(
                                   scrollDirection: Axis.horizontal,
                                   shrinkWrap: true,
-                                  physics: BouncingScrollPhysics(),
+                                  physics: const BouncingScrollPhysics(),
                                   itemCount: snapshot.data!.length,
                                   itemBuilder:
                                       (context, index) => FeedbackItem(

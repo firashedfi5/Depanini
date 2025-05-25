@@ -51,7 +51,7 @@ class _PrFeedbackScreenState extends State<PrFeedbackScreen> {
         future: _feedbackList,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -67,7 +67,7 @@ class _PrFeedbackScreenState extends State<PrFeedbackScreen> {
           return ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemCount: snapshot.data!.length,
             itemBuilder:
                 (context, index) => FeedbackItem(

@@ -27,18 +27,18 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
       context: context,
       builder:
           (context) => AlertDialog(
-            title: Text(
+            title: const Text(
               'Supprimer le compte',
               style: TextStyle(fontWeight: FontWeight.w600),
             ),
-            content: Text(
+            content: const Text(
               'Êtes-vous sûr de vouloir supprimer votre compte? Cette action est irréversible.',
               style: TextStyle(fontWeight: FontWeight.w500),
             ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(), // Dismiss dialog
-                child: Text('Annuler'),
+                child: const Text('Annuler'),
               ),
               TextButton(
                 onPressed: () async {
@@ -52,7 +52,7 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                     await _auth.currentUser!.delete();
                     if (context.mounted) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
+                        const SnackBar(
                           content: Text('Account deleted successfully.'),
                         ),
                       );
@@ -66,7 +66,7 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                     if (context.mounted) {
                       if (e.code == 'requires-recent-login') {
                         ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(
+                          const SnackBar(
                             content: Text(
                               'Veuillez vous réauthentifier pour supprimer votre compte.',
                             ),
@@ -84,7 +84,7 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                     }
                   }
                 },
-                child: Text('Supprimer', style: TextStyle(color: Colors.red)),
+                child: const Text('Supprimer', style: TextStyle(color: Colors.red)),
               ),
             ],
           ),
@@ -95,7 +95,7 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
   Widget build(context) {
     final themeData = ref.watch(themeProvider);
     return Scaffold(
-      appBar: AppBar(title: Text('Paramètres')),
+      appBar: AppBar(title: const Text('Paramètres')),
       body: Padding(
         padding: const EdgeInsets.only(top: 10),
         child: Column(

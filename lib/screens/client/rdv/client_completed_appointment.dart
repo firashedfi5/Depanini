@@ -71,7 +71,7 @@ class _ClientCompletedAppointmentState
               (context, snapshot) => Builder(
                 builder: (context) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(child: CircularProgressIndicator());
+                    return const Center(child: CircularProgressIndicator());
                   }
 
                   if (snapshot.hasError) {

@@ -181,7 +181,7 @@ class _PrRdvScreenState extends State<PrRdvScreen> {
                               ),
                             ],
                           ),
-                          Spacer(),
+                         const Spacer(),
                           Container(
                             padding: const EdgeInsets.all(8.0),
                             decoration: BoxDecoration(
@@ -236,7 +236,7 @@ class _InfoChip extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
-        SizedBox(width: 6),
+      const  SizedBox(width: 6),
         Text(text, style: Theme.of(context).textTheme.bodyMedium),
       ],
     );

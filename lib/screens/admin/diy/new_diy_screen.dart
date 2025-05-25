@@ -17,7 +17,7 @@ class NewDiyScreen extends StatefulWidget {
 }
 
 class _NewDiyScreenState extends State<NewDiyScreen> {
-  final uuid = Uuid();
+  final uuid = const Uuid();
   late String astuceId;
   final List<Domains> _domains = Domains.values;
   final _formKey = GlobalKey<FormState>();

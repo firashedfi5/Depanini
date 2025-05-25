@@ -95,7 +95,7 @@ class _ClPostsScreenState extends State<ClPostsScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             behavior: SnackBarBehavior.floating,
-            duration: Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             content: const Text('Annonce supprimée'),
             action: SnackBarAction(
               label: 'Annuler',

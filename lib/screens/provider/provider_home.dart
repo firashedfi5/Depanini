@@ -23,10 +23,10 @@ class _ProviderHomeState extends State<ProviderHome> {
   }
 
   final List<Widget> _pages = [
-    ProviderHomeScreen(),
-    ProviderRdvScreen(),
-    ChatroomsScreen(),
-    ProviderProfilScreen(),
+    const ProviderHomeScreen(),
+    const ProviderRdvScreen(),
+    const ChatroomsScreen(),
+    const ProviderProfilScreen(),
   ];
 
   @override
@@ -37,9 +37,9 @@ class _ProviderHomeState extends State<ProviderHome> {
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
-        animationDuration: Duration(milliseconds: 300),
+        animationDuration: const Duration(milliseconds: 300),
         onTap: _navigateGoogleNavbar,
-        items: [
+        items: const [
           Icon(Icons.home),
           Icon(Icons.calendar_month),
           Icon(Icons.chat),

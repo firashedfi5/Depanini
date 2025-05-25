@@ -201,7 +201,7 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                                         ),
                                       ],
                                     ),
-                                    Divider(height: 20),
+                                    const Divider(height: 20),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -236,7 +236,7 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                                                   .shade200
                                                   .withAlpha(50),
                                             ),
-                                            label: Text(
+                                            label: const Text(
                                               'Annulé',
                                               style: TextStyle(
                                                 color: Colors.red,
@@ -265,7 +265,7 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                                                   .shade200
                                                   .withAlpha(50),
                                             ),
-                                            label: Text(
+                                            label: const Text(
                                               'Terminé',
                                               style: TextStyle(
                                                 color: Colors.blue,

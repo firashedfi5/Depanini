@@ -36,10 +36,10 @@ class _AdminHomeState extends State<AdminHome> {
         color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
         animationDuration: const Duration(milliseconds: 300),
         onTap: _navigateGoogleNavbar,
-        items: [
-          const FaIcon(FontAwesomeIcons.users),
-          const Icon(Icons.tips_and_updates),
-          const Icon(Icons.account_circle),
+        items: const [
+           FaIcon(FontAwesomeIcons.users),
+           Icon(Icons.tips_and_updates),
+           Icon(Icons.account_circle),
         ],
       ),
     );

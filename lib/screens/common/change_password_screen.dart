@@ -125,8 +125,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             },
                             icon:
                                 _isVisible1
-                                    ? Icon(Icons.visibility)
-                                    : Icon(Icons.visibility_off),
+                                    ? const Icon(Icons.visibility)
+                                    : const Icon(Icons.visibility_off),
                           ),
                         ),
                         obscureText: !_isVisible1,
@@ -148,8 +148,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             },
                             icon:
                                 _isVisible2
-                                    ? Icon(Icons.visibility)
-                                    : Icon(Icons.visibility_off),
+                                    ? const Icon(Icons.visibility)
+                                    : const Icon(Icons.visibility_off),
                           ),
                         ),
                         obscureText: !_isVisible2,
@@ -177,8 +177,8 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                             },
                             icon:
                                 _isVisible3
-                                    ? Icon(Icons.visibility)
-                                    : Icon(Icons.visibility_off),
+                                    ? const Icon(Icons.visibility)
+                                    : const Icon(Icons.visibility_off),
                           ),
                         ),
                         obscureText: !_isVisible3,

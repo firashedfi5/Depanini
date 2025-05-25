@@ -211,14 +211,14 @@ class _SigninScreenState extends State<SigninScreen> {
                       const SizedBox(height: 20),
                       ElevatedButton(
                         onPressed: _submit,
-                        child: Text('Se connecter'),
+                        child: const Text('Se connecter'),
                       ),
                       const SizedBox(height: 10),
                       Align(
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           style: TextButton.styleFrom(
-                            padding: EdgeInsets.only(right: 35),
+                            padding: const EdgeInsets.only(right: 35),
                             overlayColor: Colors.transparent,
                           ),
                           onPressed: () {

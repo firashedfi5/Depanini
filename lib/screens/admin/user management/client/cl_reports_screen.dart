@@ -66,7 +66,7 @@ class _ClReportsScreenState extends State<ClReportsScreen> {
           return ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               return Card(

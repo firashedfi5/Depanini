@@ -37,7 +37,7 @@ class _DatePickerWidgetState extends State<DatePickerWidget> {
     return SizedBox(
       height: 60,
       child: ListView.separated(
-        separatorBuilder: (_, _) => SizedBox(width: 10),
+        separatorBuilder: (_, _) => const SizedBox(width: 10),
         scrollDirection: Axis.horizontal,
         itemCount: _dates.length,
         itemBuilder: (context, index) {

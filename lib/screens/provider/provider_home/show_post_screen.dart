@@ -166,7 +166,7 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Description d\'annonce')),
+      appBar: AppBar(title: const Text('Description d\'annonce')),
       body: FutureBuilder(
         future: _annonceList,
         builder: (context, snapshot) {
@@ -449,10 +449,10 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
                           const SizedBox(height: 16),
                           TextField(
                             controller: _reportController,
-                            decoration: InputDecoration(
+                            decoration: const InputDecoration(
                               hintText: 'Décrivez le problème...',
                               border: OutlineInputBorder(),
-                              contentPadding: const EdgeInsets.all(12),
+                              contentPadding: EdgeInsets.all(12),
                             ),
                             maxLines: 3,
                           ),

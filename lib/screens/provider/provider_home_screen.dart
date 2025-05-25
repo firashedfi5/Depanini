@@ -177,7 +177,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                       )
                                       : null,
                             ),
-                            SizedBox(width: 10),
+                            const SizedBox(width: 10),
                             InkWell(
                               onTap: () {
                                 Navigator.of(context).push(
@@ -223,8 +223,8 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                   ),
                                   Row(
                                     children: [
-                                      Icon(Icons.pin_drop_outlined, size: 17),
-                                      SizedBox(width: 3),
+                                      const Icon(Icons.pin_drop_outlined, size: 17),
+                                      const SizedBox(width: 3),
                                       SizedBox(
                                         width: 230,
                                         child: Text(
@@ -241,7 +241,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                 ],
                               ),
                             ),
-                            Spacer(),
+                            const Spacer(),
                             IconButton(
                               onPressed: () {
                                 Navigator.push(
@@ -259,7 +259,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                 child: Stack(
                                   clipBehavior: Clip.none,
                                   children: [
-                                    Icon(Icons.notifications, size: 30),
+                                    const Icon(Icons.notifications, size: 30),
                                     Positioned(
                                       top: -2,
                                       right: -2,
@@ -268,24 +268,24 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                         builder: (context, snapshot) {
                                           if (snapshot.connectionState ==
                                               ConnectionState.waiting) {
-                                            return SizedBox(); // or a subtle shimmer/dot
+                                            return const SizedBox(); // or a subtle shimmer/dot
                                           }
 
                                           if (snapshot.hasError) {
-                                            return SizedBox(); // or an error indicator
+                                            return const SizedBox(); // or an error indicator
                                           }
 
                                           final count = snapshot.data ?? 0;
 
-                                          if (count == 0) return SizedBox();
+                                          if (count == 0) return const SizedBox();
 
                                           return Container(
-                                            padding: EdgeInsets.all(2),
-                                            constraints: BoxConstraints(
+                                            padding: const EdgeInsets.all(2),
+                                            constraints: const BoxConstraints(
                                               minWidth: 15,
                                               minHeight: 15,
                                             ),
-                                            decoration: BoxDecoration(
+                                            decoration: const BoxDecoration(
                                               color: Color(0xffc32c37),
                                               shape: BoxShape.circle,
                                             ),
@@ -294,7 +294,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                                 count > 99
                                                     ? '99+'
                                                     : count.toString(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.bold,
@@ -316,7 +316,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                   },
                 ),
                 bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(65),
+                  preferredSize: const Size.fromHeight(65),
                   child: Column(
                     children: [
                       Padding(
@@ -366,7 +366,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                 );
               }
               return ListView.builder(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {

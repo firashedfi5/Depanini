@@ -21,7 +21,7 @@ class NewPostScreen extends StatefulWidget {
 
 class _NewPostScreenState extends State<NewPostScreen> {
   final user = _auth.currentUser!;
-  final uuid = Uuid();
+  final uuid = const Uuid();
   late String postId;
   @override
   void initState() {
@@ -204,7 +204,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
       appBar: AppBar(title: const Text('Ajouter une annonce')),
       body: Center(
         child: Padding(
-          padding: EdgeInsets.all(12),
+          padding: const EdgeInsets.all(12),
           child: SingleChildScrollView(
             child: Form(
               key: _formKey,

@@ -204,7 +204,7 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                     },
                     icon: const Icon(Icons.logout, color: Colors.red, size: 25),
                     style: TextButton.styleFrom(),
-                    label: Text(
+                    label: const Text(
                       "Se déconnecter",
                       style: TextStyle(
                         color: Colors.red,

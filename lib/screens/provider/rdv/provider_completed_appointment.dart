@@ -95,7 +95,7 @@ class _ProviderCompletedAppointmentState
                         ),
                       ),
                       SliverPadding(
-                        padding: EdgeInsets.only(left: 8, right: 8, top: 8),
+                        padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate((
                             context,
@@ -163,7 +163,7 @@ class _ProviderCompletedAppointmentState
                                             ),
                                           ],
                                         ),
-                                        Spacer(),
+                                        const Spacer(),
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: BoxDecoration(
@@ -232,7 +232,7 @@ class _InfoChip extends StatelessWidget {
     return Row(
       children: [
         Icon(icon, size: 16, color: Theme.of(context).colorScheme.primary),
-        SizedBox(width: 6),
+        const SizedBox(width: 6),
         Text(text, style: Theme.of(context).textTheme.bodyMedium),
       ],
     );

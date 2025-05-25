@@ -292,12 +292,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                                           return Container(
                                             padding: const EdgeInsets.all(2),
-                                            constraints: BoxConstraints(
+                                            constraints: const BoxConstraints(
                                               minWidth: 15,
                                               minHeight: 15,
                                             ),
-                                            decoration: BoxDecoration(
-                                              color: const Color(0xffc32c37),
+                                            decoration: const BoxDecoration(
+                                              color:  Color(0xffc32c37),
                                               shape: BoxShape.circle,
                                             ),
                                             child: Center(
@@ -305,7 +305,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 count > 99
                                                     ? '99+'
                                                     : count.toString(),
-                                                style: TextStyle(
+                                                style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 10,
                                                   fontWeight: FontWeight.bold,
@@ -327,7 +327,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   },
                 ),
                 bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(125),
+                  preferredSize: const Size.fromHeight(125),
                   child: Column(
                     children: [
                       SizedBox(
@@ -396,7 +396,7 @@ class _HomeScreenState extends State<HomeScreen> {
             future: _foundedUsers,
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(child: CircularProgressIndicator());
+                return const Center(child: CircularProgressIndicator());
               }
               if (snapshot.data!.isEmpty) {
                 return const Center(
@@ -404,7 +404,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 );
               }
               return ListView.builder(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 shrinkWrap: true,
                 itemCount: snapshot.data!.length,
                 itemBuilder: (context, index) {

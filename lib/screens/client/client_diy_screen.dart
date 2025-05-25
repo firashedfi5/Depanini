@@ -122,13 +122,13 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                     hintText: 'Salut, de quoi as-tu besoin d\'aide ?',
                     backgroundColor: WidgetStateProperty.all(
                       Theme.of(context).brightness == Brightness.dark
-                          ? Color.fromARGB(255, 43, 43, 49) // Dark theme color
+                          ? const Color.fromARGB(255, 43, 43, 49) // Dark theme color
                           : const Color.fromARGB(255, 236, 229, 243),
                     ),
                   ),
                 ),
                 bottom: PreferredSize(
-                  preferredSize: Size.fromHeight(50),
+                  preferredSize: const Size.fromHeight(50),
                   child: SizedBox(
                     height: 50,
                     child: ListView.separated(
@@ -189,11 +189,11 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
             }
             return GridView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 8),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.75,
               ),
-              physics: BouncingScrollPhysics(),
+              physics: const BouncingScrollPhysics(),
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 return InkWell(

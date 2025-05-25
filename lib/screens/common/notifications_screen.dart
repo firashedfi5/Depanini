@@ -64,7 +64,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             onPressed: () async {
               await deleteAllNotificationsForCurrentUser();
             },
-            icon: Icon(Icons.delete),
+            icon: const Icon(Icons.delete),
             label: const Text('Effacer tout'),
             style: TextButton.styleFrom(foregroundColor: Colors.red),
           ),

@@ -196,13 +196,13 @@ class _ProviderGalleryState extends State<ProviderGallery> {
                 SizedBox(
                   height: MediaQuery.of(context).size.height * 0.6,
                   child: GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       crossAxisSpacing: 20,
                       mainAxisSpacing: 20,
                       childAspectRatio: 0.8,
                     ),
-                    physics: NeverScrollableScrollPhysics(),
+                    physics: const NeverScrollableScrollPhysics(),
                     itemCount: images.length,
                     itemBuilder: (context, index) {
                       return UpdateImage(

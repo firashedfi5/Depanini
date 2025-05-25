@@ -78,7 +78,7 @@ class _ProfilImageState extends State<ProfilImage> {
                   ? FileImage(_pickImageFile!)
                   : widget.initialImage,
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         TextButton.icon(
           onPressed: _showImageSourceDialog,
           icon: const Icon(Icons.image),

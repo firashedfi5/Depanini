@@ -47,7 +47,7 @@ class _PrReportsScreenState extends State<PrReportsScreen> {
         future: _reportList,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (snapshot.hasError) {
@@ -67,7 +67,7 @@ class _PrReportsScreenState extends State<PrReportsScreen> {
           return ListView.builder(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             shrinkWrap: true,
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             itemCount: snapshot.data!.length,
             itemBuilder: (context, index) {
               return Card(
