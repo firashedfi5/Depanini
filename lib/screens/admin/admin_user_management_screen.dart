@@ -254,7 +254,7 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
 
                               // Info Section
                               SizedBox(
-                                width: 180,
+                                width: 170,
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   crossAxisAlignment: CrossAxisAlignment.start,
