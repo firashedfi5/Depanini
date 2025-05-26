@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 class TimePicker extends StatefulWidget {
   final Function(String) onTimeSelected;
   final List<String> bookedTimes;
+  final DateTime? selectedDate;
 
   const TimePicker({
     super.key,
     required this.onTimeSelected,
     required this.bookedTimes,
+    this.selectedDate,
   });
 
   @override
@@ -48,9 +50,33 @@ class _TimePickerState extends State<TimePicker> {
               width: 70,
               height: 50,
               decoration: BoxDecoration(
-                color: Colors.red.withValues(alpha: 0.4),
+                color: Colors.red.withValues(alpha: 0.3),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: Colors.red),
+              ),
+              child: Center(
+                child: Text(
+                  time[index],
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontSize: 18,
+                    fontWeight:
+                        isSelected ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+              ),
+            );
+          }
+
+          if (widget.selectedDate == null) {
+            return Container(
+              width: 70,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: Theme.of(context).colorScheme.primary,
+                ),
               ),
               child: Center(
                 child: Text(

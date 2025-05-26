@@ -214,6 +214,7 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                   const SizedBox(height: 12),
                   TimePicker(
                     bookedTimes: _bookedTimes,
+                    selectedDate: _selectedDate,
                     onTimeSelected: (selectedTime) {
                       _selectedTime = selectedTime;
                     },
