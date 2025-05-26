@@ -349,7 +349,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
     final data =
         await _firestore
             .collection("prestataires")
-            .where("Email", isEqualTo: widget.email)
+            .where("Uid", isEqualTo: widget.uid)
             .get();
     final snapshot =
         data.docs.map((doc) => ProviderAccountModel.fromSnapshot(doc)).single;
