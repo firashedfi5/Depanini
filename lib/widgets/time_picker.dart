@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 
 class TimePicker extends StatefulWidget {
   final Function(String) onTimeSelected;
+  final List<String> bookedTimes;
 
-  const TimePicker({super.key, required this.onTimeSelected});
+  const TimePicker({
+    super.key,
+    required this.onTimeSelected,
+    required this.bookedTimes,
+  });
 
   @override
   State<TimePicker> createState() => _TimePickerState();
@@ -37,6 +42,29 @@ class _TimePickerState extends State<TimePicker> {
         itemCount: time.length,
         itemBuilder: (context, index) {
           final isSelected = _selectedIndex == index;
+
+          if (widget.bookedTimes.contains(time[index])) {
+            return Container(
+              width: 70,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.red.withValues(alpha: 0.4),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: Colors.red),
+              ),
+              child: Center(
+                child: Text(
+                  time[index],
+                  style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    fontSize: 18,
+                    fontWeight:
+                        isSelected ? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+              ),
+            );
+          }
+
           return GestureDetector(
             onTap: () {
               setState(() {

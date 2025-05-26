@@ -34,6 +34,34 @@ class ScheduleAppointmentScreen extends StatefulWidget {
 }
 
 class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
+  // ************************
+  List<String> _bookedTimes = [];
+
+  Future<List<String>> getBookedTimes() async {
+    final startOfDay = DateTime(
+      _selectedDate!.year,
+      _selectedDate!.month,
+      _selectedDate!.day,
+    );
+    final startOfNextDay = startOfDay.add(const Duration(days: 1));
+
+    final querySnapshot =
+        await _firestore
+            .collection('rdvs')
+            .where('prestataire_uid', isEqualTo: widget.prestataireUid)
+            .where('status', isEqualTo: 'confirmé')
+            .where('date', isGreaterThanOrEqualTo: startOfDay)
+            .where('date', isLessThan: startOfNextDay)
+            .get();
+
+    return querySnapshot.docs
+        .map((doc) => doc.data()['heure'] as String)
+        .toSet()
+        .toList();
+  }
+
+  // *************************
+
   int selected = -1;
   String? _selectedTime;
 
@@ -155,8 +183,15 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                   ),
                   const SizedBox(height: 12),
                   DatePickerWidget(
-                    onDateSelected: (selectedDate) {
+                    onDateSelected: (selectedDate) async {
                       _selectedDate = selectedDate;
+                      if (_selectedDate != null) {
+                        final List<String> times = await getBookedTimes();
+                        dev.log('heures réservées: $times');
+                        setState(() {
+                          _bookedTimes = times;
+                        });
+                      }
                     },
                   ),
                 ],
@@ -178,6 +213,7 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
                   ),
                   const SizedBox(height: 12),
                   TimePicker(
+                    bookedTimes: _bookedTimes,
                     onTimeSelected: (selectedTime) {
                       _selectedTime = selectedTime;
                     },
