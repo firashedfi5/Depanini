@@ -108,6 +108,10 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   icon = Icons.cancel;
                   iconColor = Colors.red[600]!;
                   break;
+                case 'proposition':
+                  icon = Icons.diamond;
+                  iconColor = Colors.lightBlueAccent;
+                  break;
                 default:
                   icon = Icons.check_box;
                   iconColor = Colors.green[600]!;

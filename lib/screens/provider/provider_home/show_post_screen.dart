@@ -1,5 +1,6 @@
 import 'dart:developer' as dev;
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/post_model.dart';
 import 'package:depanini/screens/common/chat_screen.dart';
@@ -53,7 +54,7 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
       setState(() {
         clientUid = data["uid"];
       });
-      dev.log("UID: $clientUid");
+      // dev.log("UID: $clientUid");
 
       return PostModel(
         postId: data["post_id"],
@@ -156,6 +157,79 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
       }
     }
   }
+
+  // **********************************
+  // TODO: submit proposal on post
+  // void _submitProposal() async {
+  void _submitProposal() async {
+    try {
+      final user = _auth.currentUser!;
+
+      final userDoc =
+          await _firestore.collection("prestataires").doc(user.uid).get();
+      final userData = userDoc.data();
+      if (userData == null || !userData.containsKey('Nom d\'utilisateur')) {
+        throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
+      }
+      final username = userData['Nom d\'utilisateur'];
+
+      final annonceRef = _firestore
+          .collection('annonces')
+          .doc(widget.id)
+          .collection('propositions')
+          .doc(user.email);
+
+      await annonceRef.set({
+        'date': Timestamp.now(),
+        'username': username,
+        'prestataire_email': user.email,
+      });
+      await _firestore.collection("notifications").add({
+        'expéditeur_uid': _auth.currentUser!.uid,
+        'récepteur_uid': clientUid,
+        'type': 'proposition',
+        'titre': 'Nouvelle proposition reçue',
+        'contenu':
+            '$username souhaite vous proposer ses services pour résoudre votre problème.',
+        'date': Timestamp.now(),
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              "Proposition envoyé.",
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFF2E7D32),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    } catch (e) {
+      dev.log("Error: $e");
+      if (mounted) {
+        ScaffoldMessenger.of(context).clearSnackBars();
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              'Erreur lors de l\'envoi du propostion : $e',
+              style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            backgroundColor: const Color(0xFFB00020),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    }
+  }
+  // **********************************
 
   @override
   void dispose() {
@@ -322,6 +396,17 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
                     ),
                   ),
                   const SizedBox(height: 16),
+                  Align(
+                    alignment: Alignment.center,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        minimumSize: const Size(200, 40),
+                      ),
+                      onPressed: _submitProposal,
+                      child: const Text('Proposer un offre'),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
                   Card(
                     color:
                         Theme.of(context).brightness == Brightness.dark
@@ -340,11 +425,23 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
                           children: [
                             ClipRRect(
                               borderRadius: BorderRadius.circular(8),
-                              child: Image.network(
-                                snapshot.data!.profilPicture,
+                              child: CachedNetworkImage(
+                                key: ValueKey(snapshot.data!.profilPicture),
+                                imageUrl: snapshot.data!.profilPicture,
+                                placeholder:
+                                    (context, url) => const SizedBox(
+                                      height: 100,
+                                      width: 100,
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                errorWidget:
+                                    (context, url, error) => const Icon(
+                                      Icons.error,
+                                      color: Colors.red,
+                                    ),
+                                fit: BoxFit.cover,
                                 width: 80,
                                 height: 80,
-                                fit: BoxFit.cover,
                               ),
                             ),
                             const SizedBox(width: 16),

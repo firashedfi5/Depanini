@@ -127,8 +127,7 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                       borderRadius: const BorderRadius.vertical(
                         top: Radius.circular(15),
                       ),
-                      child:
-                      CachedNetworkImage(
+                      child: CachedNetworkImage(
                         key: ValueKey(widget.clientData.profilPicture!),
                         imageUrl: widget.clientData.profilPicture!,
                         placeholder:
