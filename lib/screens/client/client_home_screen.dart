@@ -297,7 +297,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                               minHeight: 15,
                                             ),
                                             decoration: const BoxDecoration(
-                                              color:  Color(0xffc32c37),
+                                              color: Color(0xffc32c37),
                                               shape: BoxShape.circle,
                                             ),
                                             child: Center(
@@ -390,184 +390,179 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ],
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: FutureBuilder<List<ProviderAccountModel>>(
-            future: _foundedUsers,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(child: CircularProgressIndicator());
-              }
-              if (snapshot.data!.isEmpty) {
-                return const Center(
-                  child: Text('Aucun prestataire ajouté pour le moment'),
-                );
-              }
-              return ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: snapshot.data!.length,
-                itemBuilder: (context, index) {
-                  return InkWell(
-                    onTap: () async {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder:
-                              (context) => ProviderInfoScreen(
-                                uid: snapshot.data![index].uid,
-                                email: snapshot.data![index].email,
+        body: FutureBuilder<List<ProviderAccountModel>>(
+          future: _foundedUsers,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.data!.isEmpty) {
+              return const Center(
+                child: Text('Aucun prestataire ajouté pour le moment'),
+              );
+            }
+            return ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              physics: const BouncingScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: snapshot.data!.length,
+              itemBuilder: (context, index) {
+                return InkWell(
+                  onTap: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder:
+                            (context) => ProviderInfoScreen(
+                              uid: snapshot.data![index].uid,
+                              email: snapshot.data![index].email,
+                            ),
+                      ),
+                    );
+                    // Reload data when returning
+                    if (mounted) {
+                      setState(() {
+                        _foundedUsers = getAllData(); // <-- Trigger rebuild
+                      });
+                    }
+                  },
+                  child: Container(
+                    height: 135,
+                    margin: const EdgeInsets.symmetric(vertical: 5),
+                    child: Card(
+                      elevation: 2,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                      color:
+                          Theme.of(context).brightness == Brightness.dark
+                              ? Theme.of(context)
+                                  .colorScheme
+                                  .surfaceContainerHighest
+                                  .withAlpha(120)
+                              : Theme.of(
+                                context,
+                              ).colorScheme.surfaceContainerHighest,
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Row(
+                          children: [
+                            // Profile Image
+                            Container(
+                              width: 100,
+                              height: double.infinity,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(12),
+                                color: Colors.grey.shade200,
                               ),
-                        ),
-                      );
-                      // Reload data when returning
-                      if (mounted) {
-                        setState(() {
-                          _foundedUsers = getAllData(); // <-- Trigger rebuild
-                        });
-                      }
-                    },
-                    child: Container(
-                      height: 135,
-                      margin: const EdgeInsets.symmetric(vertical: 5),
-                      child: Card(
-                        elevation: 2,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                        color:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Theme.of(context)
-                                    .colorScheme
-                                    .surfaceContainerHighest
-                                    .withAlpha(120)
-                                : Theme.of(
-                                  context,
-                                ).colorScheme.surfaceContainerHighest,
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Row(
-                            children: [
-                              // Profile Image
-                              Container(
-                                width: 100,
-                                height: double.infinity,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(12),
-                                  color: Colors.grey.shade200,
-                                ),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(12),
-                                  child: CachedNetworkImage(
-                                    key: ValueKey(
-                                      snapshot.data![index].profilPicture,
-                                    ),
-                                    imageUrl:
-                                        snapshot.data![index].profilPicture,
-                                    placeholder:
-                                        (context, url) => const SizedBox(
-                                          height: 100,
-                                          width: 100,
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                    errorWidget:
-                                        (context, url, error) => const Icon(
-                                          Icons.error,
-                                          color: Colors.red,
-                                        ),
-                                    fit: BoxFit.cover,
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: CachedNetworkImage(
+                                  key: ValueKey(
+                                    snapshot.data![index].profilPicture,
                                   ),
+                                  imageUrl: snapshot.data![index].profilPicture,
+                                  placeholder:
+                                      (context, url) => const SizedBox(
+                                        height: 100,
+                                        width: 100,
+                                        child: CircularProgressIndicator(),
+                                      ),
+                                  errorWidget:
+                                      (context, url, error) => const Icon(
+                                        Icons.error,
+                                        color: Colors.red,
+                                      ),
+                                  fit: BoxFit.cover,
                                 ),
                               ),
-                              const SizedBox(width: 16),
+                            ),
+                            const SizedBox(width: 16),
 
-                              // Info Section
-                              Expanded(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      snapshot.data![index].username,
+                            // Info Section
+                            Expanded(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    snapshot.data![index].username,
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleLarge?.copyWith(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 8),
+
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 4,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .primary
+                                          .withValues(alpha: 0.1),
+                                      borderRadius: BorderRadius.circular(8),
+                                    ),
+                                    child: Text(
+                                      snapshot.data![index].domaine,
                                       style: Theme.of(
                                         context,
-                                      ).textTheme.titleLarge?.copyWith(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                                      ).textTheme.bodyMedium?.copyWith(
+                                        color:
+                                            Theme.of(
+                                              context,
+                                            ).colorScheme.primary,
+                                        fontWeight: FontWeight.w600,
                                       ),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
                                     ),
-                                    const SizedBox(height: 8),
+                                  ),
+                                  const SizedBox(height: 10),
 
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 8,
-                                        vertical: 4,
+                                  // Rating
+                                  Row(
+                                    children: [
+                                      RatingBarIndicator(
+                                        rating:
+                                            snapshot.data![index].averageRating,
+                                        itemBuilder:
+                                            (context, index) => const Icon(
+                                              Icons.star,
+                                              color: Colors.amber,
+                                            ),
+                                        itemCount: 5,
+                                        itemSize: 18,
                                       ),
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .primary
-                                            .withValues(alpha: 0.1),
-                                        borderRadius: BorderRadius.circular(8),
-                                      ),
-                                      child: Text(
-                                        snapshot.data![index].domaine,
+                                      const SizedBox(width: 6),
+                                      Text(
+                                        snapshot.data![index].averageRating
+                                            .toStringAsFixed(2),
                                         style: Theme.of(
                                           context,
-                                        ).textTheme.bodyMedium?.copyWith(
-                                          color:
-                                              Theme.of(
-                                                context,
-                                              ).colorScheme.primary,
-                                          fontWeight: FontWeight.w600,
+                                        ).textTheme.bodyLarge?.copyWith(
+                                          fontWeight: FontWeight.bold,
                                         ),
                                       ),
-                                    ),
-                                    const SizedBox(height: 10),
-
-                                    // Rating
-                                    Row(
-                                      children: [
-                                        RatingBarIndicator(
-                                          rating:
-                                              snapshot
-                                                  .data![index]
-                                                  .averageRating,
-                                          itemBuilder:
-                                              (context, index) => const Icon(
-                                                Icons.star,
-                                                color: Colors.amber,
-                                              ),
-                                          itemCount: 5,
-                                          itemSize: 18,
-                                        ),
-                                        const SizedBox(width: 6),
-                                        Text(
-                                          snapshot.data![index].averageRating
-                                              .toStringAsFixed(2),
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.bodyLarge?.copyWith(
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
+                                    ],
+                                  ),
+                                ],
                               ),
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
-                  );
-                },
-              );
-            },
-          ),
+                  ),
+                );
+              },
+            );
+          },
         ),
       ),
     );

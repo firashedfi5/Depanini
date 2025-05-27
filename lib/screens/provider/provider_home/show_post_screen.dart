@@ -159,8 +159,6 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
   }
 
   // **********************************
-  // TODO: submit proposal on post
-  // void _submitProposal() async {
   void _submitProposal() async {
     try {
       final user = _auth.currentUser!;
@@ -172,6 +170,8 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
         throw Exception("Nom d'utilisateur non trouvé pour l'utilisateur");
       }
       final username = userData['Nom d\'utilisateur'];
+      final profilPicture = userData['Photo de profile'];
+      final averageRating = userData['averageRating'];
 
       final annonceRef = _firestore
           .collection('annonces')
@@ -183,6 +183,9 @@ class _ShowPostScreenState extends State<ShowPostScreen> {
         'date': Timestamp.now(),
         'username': username,
         'prestataire_email': user.email,
+        'prestataire_uid': user.uid,
+        'prestataire_photo': profilPicture,
+        'prestataire_averageRating': averageRating,
       });
       await _firestore.collection("notifications").add({
         'expéditeur_uid': _auth.currentUser!.uid,

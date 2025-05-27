@@ -2,6 +2,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/client/posts/edit_post_screen.dart';
 import 'package:depanini/screens/client/posts/new_post_screen.dart';
+import 'package:depanini/screens/client/posts/propostions_screen.dart';
 import 'package:depanini/widgets/image_container.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/models/post_model.dart';
@@ -213,6 +214,24 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                               ),
                             ),
                           ),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              minimumSize: const Size(0, 35),
+                            ),
+                            onPressed: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder:
+                                      (context) => PropostionsScreen(
+                                        postId: _postListed[index].postId,
+                                      ),
+                                ),
+                              );
+                            },
+                            label: const Text('Voir propositions'),
+                            icon: const Icon(Icons.remove_red_eye),
+                          ),
+                          const SizedBox(width: 15),
                           IconButton(
                             icon: Icon(
                               Icons.edit_note_outlined,
