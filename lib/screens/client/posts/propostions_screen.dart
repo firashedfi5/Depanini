@@ -94,7 +94,7 @@ class _PropostionsScreenState extends State<PropostionsScreen> {
                         ).colorScheme.surfaceContainerHighest.withAlpha(120)
                         : Theme.of(context).colorScheme.surfaceContainerHighest,
                 child: Padding(
-                  padding: const EdgeInsets.all(5.0),
+                  padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
                       CircleAvatar(
@@ -114,6 +114,7 @@ class _PropostionsScreenState extends State<PropostionsScreen> {
                               style: Theme.of(context).textTheme.titleMedium!
                                   .copyWith(fontWeight: FontWeight.w500),
                             ),
+                            const SizedBox(height: 4),
                             Row(
                               children: [
                                 RatingBarIndicator(
@@ -130,7 +131,7 @@ class _PropostionsScreenState extends State<PropostionsScreen> {
                                 Text(
                                   proposals[index].averageRating
                                       .toStringAsFixed(2),
-                                  style: Theme.of(context).textTheme.bodyLarge
+                                  style: Theme.of(context).textTheme.bodyMedium
                                       ?.copyWith(fontWeight: FontWeight.w500),
                                 ),
                               ],
