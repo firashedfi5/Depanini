@@ -506,7 +506,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     decoration: BoxDecoration(
                                       color: Theme.of(context)
                                           .colorScheme
-                                          .primary
+                                          .tertiary
                                           .withValues(alpha: 0.1),
                                       borderRadius: BorderRadius.circular(8),
                                     ),
@@ -518,7 +518,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color:
                                             Theme.of(
                                               context,
-                                            ).colorScheme.primary,
+                                            ).colorScheme.tertiary,
                                         fontWeight: FontWeight.w600,
                                       ),
                                     ),

@@ -216,6 +216,11 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                           ),
                           ElevatedButton.icon(
                             style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor:
+                                  Theme.of(
+                                    context,
+                                  ).colorScheme.tertiaryContainer,
                               minimumSize: const Size(0, 35),
                             ),
                             onPressed: () {
@@ -228,7 +233,15 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                                 ),
                               );
                             },
-                            label: const Text('Voir propositions'),
+                            label: Text(
+                              'Voir propositions',
+                              style: TextStyle(
+                                color:
+                                    Theme.of(
+                                      context,
+                                    ).textTheme.bodyLarge!.color,
+                              ),
+                            ),
                             icon: const Icon(Icons.remove_red_eye),
                           ),
                           const SizedBox(width: 15),
