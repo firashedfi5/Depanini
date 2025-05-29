@@ -122,7 +122,12 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
                     hintText: 'Salut, de quoi as-tu besoin d\'aide ?',
                     backgroundColor: WidgetStateProperty.all(
                       Theme.of(context).brightness == Brightness.dark
-                          ? const Color.fromARGB(255, 43, 43, 49) // Dark theme color
+                          ? const Color.fromARGB(
+                            255,
+                            43,
+                            43,
+                            49,
+                          ) // Dark theme color
                           : const Color.fromARGB(255, 236, 229, 243),
                     ),
                   ),
@@ -191,7 +196,7 @@ class _ClientDiyScreenState extends State<ClientDiyScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 8),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.75,
+                childAspectRatio: 0.7,
               ),
               physics: const BouncingScrollPhysics(),
               itemCount: snapshot.data!.length,

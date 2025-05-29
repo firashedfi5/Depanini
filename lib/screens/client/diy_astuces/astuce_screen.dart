@@ -90,61 +90,61 @@ class AstuceScreen extends StatelessWidget {
                 const SizedBox(height: 24),
 
                 // DIY Pictures Section
-                Text(
-                  'Étapes de bricolage',
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.w600,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                ),
-                const SizedBox(height: 12),
-                Container(
-                  height: 120,
-                  decoration: BoxDecoration(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.surfaceContainerHighest.withAlpha(70),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: ListView.separated(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                      horizontal: 12,
-                    ),
-                    scrollDirection: Axis.horizontal,
-                    separatorBuilder: (_, __) => const SizedBox(width: 12),
-                    itemCount: 4, // Replace with actual image count
-                    itemBuilder: (context, index) {
-                      return Container(
-                        width: 100,
-                        decoration: BoxDecoration(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.surfaceContainerHighest.withAlpha(100),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.add_photo_alternate_outlined,
-                              size: 32,
-                              color:
-                                  Theme.of(
-                                    context,
-                                  ).colorScheme.onSurfaceVariant,
-                            ),
-                            const SizedBox(height: 4),
-                            Text(
-                              'Étape ${index + 1}',
-                              style: Theme.of(context).textTheme.labelSmall,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                // Text(
+                //   'Étapes de bricolage',
+                //   style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                //     fontWeight: FontWeight.w600,
+                //     color: Theme.of(context).colorScheme.primary,
+                //   ),
+                // ),
+                // const SizedBox(height: 12),
+                // Container(
+                //   height: 120,
+                //   decoration: BoxDecoration(
+                //     color: Theme.of(
+                //       context,
+                //     ).colorScheme.surfaceContainerHighest.withAlpha(70),
+                //     borderRadius: BorderRadius.circular(12),
+                //   ),
+                //   child: ListView.separated(
+                //     padding: const EdgeInsets.symmetric(
+                //       vertical: 8,
+                //       horizontal: 12,
+                //     ),
+                //     scrollDirection: Axis.horizontal,
+                //     separatorBuilder: (_, __) => const SizedBox(width: 12),
+                //     itemCount: 4, // Replace with actual image count
+                //     itemBuilder: (context, index) {
+                //       return Container(
+                //         width: 100,
+                //         decoration: BoxDecoration(
+                //           color: Theme.of(
+                //             context,
+                //           ).colorScheme.surfaceContainerHighest.withAlpha(100),
+                //           borderRadius: BorderRadius.circular(8),
+                //         ),
+                //         child: Column(
+                //           mainAxisAlignment: MainAxisAlignment.center,
+                //           children: [
+                //             Icon(
+                //               Icons.add_photo_alternate_outlined,
+                //               size: 32,
+                //               color:
+                //                   Theme.of(
+                //                     context,
+                //                   ).colorScheme.onSurfaceVariant,
+                //             ),
+                //             const SizedBox(height: 4),
+                //             Text(
+                //               'Étape ${index + 1}',
+                //               style: Theme.of(context).textTheme.labelSmall,
+                //             ),
+                //           ],
+                //         ),
+                //       );
+                //     },
+                //   ),
+                // ),
               ],
             ),
           );
