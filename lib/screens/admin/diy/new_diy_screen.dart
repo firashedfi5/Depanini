@@ -118,7 +118,7 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
                   TextFormField(
                     controller: _enteredDescription,
                     maxLines: 4,
-                    maxLength: 150,
+                    maxLength: 300,
                     decoration: const InputDecoration(
                       alignLabelWithHint: true,
                       label: Text('Description'),
@@ -126,8 +126,8 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
                     validator: (value) {
                       if (value == null ||
                           value.isEmpty ||
-                          value.trim().length <= 5 ||
-                          value.trim().length > 150) {
+                          value.trim().length <= 15 ||
+                          value.trim().length > 300) {
                         return 'Veuillez entrer votre description';
                       }
                       return null;

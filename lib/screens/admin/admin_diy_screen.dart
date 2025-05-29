@@ -92,7 +92,7 @@ class _AdminDiyScreenState extends State<AdminDiyScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             behavior: SnackBarBehavior.floating,
-            duration:const Duration(seconds: 5),
+            duration: const Duration(seconds: 5),
             content: const Text('Astuce supprimée'),
             action: SnackBarAction(
               label: 'Annuler',
