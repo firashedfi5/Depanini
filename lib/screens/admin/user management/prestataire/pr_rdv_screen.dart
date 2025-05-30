@@ -107,17 +107,15 @@ class _PrRdvScreenState extends State<PrRdvScreen> {
               child: Text(
                 snapshot.error.toString(),
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium,
               ),
             );
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(
+            return const Center(
               child: Text(
                 'Aucun rendez-vous trouvé',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium,
               ),
             );
           }

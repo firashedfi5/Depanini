@@ -1,3 +1,4 @@
+import 'dart:developer' as dev;
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -44,32 +45,82 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
   void _savePost() async {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
-      // if (mounted) {
-      //   dev.log(Navigator.of(context).canPop().toString());
-      //   Navigator.of(context).pop(true);
-      // }
-      // *************************************
-      _formKey.currentState!.save();
-      // *************************************
-      String? uploadedPostImageUrl_1;
-      if (_foregroundImageFile != null) {
-        uploadedPostImageUrl_1 = await uploadImageToFirebaseStorage(
-          _foregroundImageFile!,
-          1,
+      try {
+        // *************************************
+        _formKey.currentState!.save();
+        // *************************************
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder:
+              (_) => const AlertDialog(
+                title: Text('Veuillez patienter'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    CircularProgressIndicator(),
+                    SizedBox(height: 20),
+                    Text(
+                      'Cela peut prendre quelques secondes...',
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
         );
+        String? uploadedPostImageUrl_1;
+        if (_foregroundImageFile != null) {
+          uploadedPostImageUrl_1 = await uploadImageToFirebaseStorage(
+            _foregroundImageFile!,
+            1,
+          );
+        }
+        if (mounted) {
+          Navigator.of(context).pop();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Astuce ajoutée avec succès.',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              backgroundColor: const Color(0xFF2E7D32),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+        // ***********Storing data in Firestore**************
+        _firestore.collection('astuces').doc(astuceId).set({
+          'astuce_id': astuceId,
+          'titre': _enteredTitle.text,
+          'description': _enteredDescription.text,
+          'domaine': _enteredDomaine!.name,
+          'foreground_image': uploadedPostImageUrl_1,
+          // 'imageURL_2': uploadedPostImageUrl_2,
+          // 'imageURL_3': uploadedPostImageUrl_3,
+          // 'imageURL_4': uploadedPostImageUrl_4,
+          'createdAt': Timestamp.now(),
+        });
+      } catch (e) {
+        dev.log('Error: $e');
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Une erreur s\'est produite lors de l\'ajout de l\'annonce.',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              backgroundColor: const Color(0xFFB00020),
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
       }
-      // ***********Storing data in Firestore**************
-      _firestore.collection('astuces').doc(astuceId).set({
-        'astuce_id': astuceId,
-        'titre': _enteredTitle.text,
-        'description': _enteredDescription.text,
-        'domaine': _enteredDomaine!.name,
-        'foreground_image': uploadedPostImageUrl_1,
-        // 'imageURL_2': uploadedPostImageUrl_2,
-        // 'imageURL_3': uploadedPostImageUrl_3,
-        // 'imageURL_4': uploadedPostImageUrl_4,
-        'createdAt': Timestamp.now(),
-      });
     }
   }
 

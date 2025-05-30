@@ -42,7 +42,7 @@ class _PrReportsScreenState extends State<PrReportsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Reports de ${widget.username}')),
+      appBar: AppBar(title: Text('Signalements sur ${widget.username}')),
       body: FutureBuilder<List<ReportModel>>(
         future: _reportList,
         builder: (context, snapshot) {
@@ -55,11 +55,10 @@ class _PrReportsScreenState extends State<PrReportsScreen> {
           }
 
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(
+            return const Center(
               child: Text(
                 'Aucun signalement ajouté pour le moment',
                 textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.titleMedium,
               ),
             );
           }
@@ -87,21 +86,22 @@ class _PrReportsScreenState extends State<PrReportsScreen> {
                         children: [
                           Text(
                             snapshot.data![index].username,
-                            style: Theme.of(context).textTheme.titleLarge,
+                            style: Theme.of(context).textTheme.titleMedium!
+                                .copyWith(fontWeight: FontWeight.bold),
                           ),
                           const Spacer(),
                           Text(
                             DateFormat(
                               'dd MMM yyyy',
+                              'fr',
                             ).format(snapshot.data![index].date),
                             style: Theme.of(context).textTheme.bodySmall,
                           ),
                         ],
                       ),
-                      const SizedBox(height: 5),
                       Text(
                         snapshot.data![index].report,
-                        style: Theme.of(context).textTheme.bodyLarge,
+                        style: Theme.of(context).textTheme.bodyMedium,
                       ),
                     ],
                   ),
