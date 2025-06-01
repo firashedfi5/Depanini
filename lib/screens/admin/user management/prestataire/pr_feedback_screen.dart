@@ -46,7 +46,7 @@ class _PrFeedbackScreenState extends State<PrFeedbackScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Feedbacks de ${widget.username}')),
+      appBar: AppBar(title: Text('Avis sur ${widget.username}')),
       body: FutureBuilder<List<FeedbackModel>>(
         future: _feedbackList,
         builder: (context, snapshot) {

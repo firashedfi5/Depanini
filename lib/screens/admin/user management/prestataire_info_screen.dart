@@ -439,7 +439,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                     children: [
                       FilledButton.icon(
                         icon: const Icon(Icons.feedback, size: 20),
-                        label: const Text('Voir Feedbacks'),
+                        label: const Text('Voir Avis'),
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(

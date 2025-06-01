@@ -75,10 +75,13 @@ class _MapScreenState extends State<MapScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          widget.isSelecting
+          widget.isDrectionning
+              ? 'Itinéraire'
+              : widget.isSelecting
               ? 'Choisir votre position'
               : 'Ta position actuelle',
         ),
+
         actions: [
           if (widget.isSelecting)
             IconButton(
