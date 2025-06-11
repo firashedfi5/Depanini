@@ -32,7 +32,9 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       sendVerificationEmail();
 
       timer = Timer.periodic(
-        const Duration(seconds: 3), (_) => checkEmailVerified());
+        const Duration(seconds: 3),
+        (_) => checkEmailVerified(),
+      );
     }
   }
 
@@ -100,19 +102,19 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       setState(() => canResendEmail = true);
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).clearSnackBars();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              e.toString(),
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                color: Colors.white,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-            backgroundColor: const Color(0xffb3261e),
-          ),
-        );
+        // ScaffoldMessenger.of(context).clearSnackBars();
+        // ScaffoldMessenger.of(context).showSnackBar(
+        //   SnackBar(
+        //     content: Text(
+        //       e.toString(),
+        //       style: Theme.of(context).textTheme.titleMedium!.copyWith(
+        //         color: Colors.white,
+        //         fontWeight: FontWeight.w500,
+        //       ),
+        //     ),
+        //     backgroundColor: const Color(0xffb3261e),
+        //   ),
+        // );
       }
     }
   }

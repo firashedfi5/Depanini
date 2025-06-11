@@ -194,14 +194,15 @@ class _ProviderGalleryState extends State<ProviderGallery> {
               children: [
                 const SizedBox(height: 20),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.65,
                   child: GridView.builder(
-                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      crossAxisSpacing: 20,
-                      mainAxisSpacing: 20,
-                      childAspectRatio: 0.8,
-                    ),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 20,
+                          // mainAxisSpacing: 20,
+                          childAspectRatio: 0.8,
+                        ),
                     physics: const NeverScrollableScrollPhysics(),
                     itemCount: images.length,
                     itemBuilder: (context, index) {
