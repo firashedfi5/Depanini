@@ -69,6 +69,40 @@ class _ChangeLocationState extends ConsumerState<ChangeLocation> {
         ),
       });
 
+      if (collectionToUpdate == "clients") {
+        final rdvRef =
+            await _firestore
+                .collection('rdvs')
+                .where('client_uid', isEqualTo: user.uid)
+                .get();
+
+        for (var doc in rdvRef.docs) {
+          await doc.reference.update({
+            'client_location': _selectedLocation!.address,
+            'client_Lat&Long': GeoPoint(
+              _selectedLocation!.latitude,
+              _selectedLocation!.longitude,
+            ),
+          });
+        }
+      } else {
+        final rdvRef =
+            await _firestore
+                .collection('rdvs')
+                .where('prestataire_uid', isEqualTo: user.uid)
+                .get();
+
+        for (var doc in rdvRef.docs) {
+          await doc.reference.update({
+            'prestataire_location': _selectedLocation!.address,
+            'prestataire_Lat&Long': GeoPoint(
+              _selectedLocation!.latitude,
+              _selectedLocation!.longitude,
+            ),
+          });
+        }
+      }
+
       if (mounted) {
         Navigator.of(context).pop();
       }
