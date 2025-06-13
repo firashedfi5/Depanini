@@ -25,7 +25,6 @@ class _SigninScreenState extends State<SigninScreen> {
     if (!isValid) {
       return;
     }
-    // print(_enteredEmail);// print(_enteredPassword);
     _formKey.currentState!.save();
     // **************Firabese Auth********************
     try {
@@ -172,9 +171,6 @@ class _SigninScreenState extends State<SigninScreen> {
                             }
                             return null;
                           },
-                          onSaved: (newValue) {
-                            _enteredEmail.text = newValue!;
-                          },
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -204,9 +200,6 @@ class _SigninScreenState extends State<SigninScreen> {
                               return 'Veuillez entrer votre mot de passe';
                             }
                             return null;
-                          },
-                          onSaved: (newValue) {
-                            _enteredPassword.text = newValue!;
                           },
                         ),
                       ),
