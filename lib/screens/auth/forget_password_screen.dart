@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+final _firebase = FirebaseAuth.instance;
+
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
   @override
@@ -11,20 +13,20 @@ class ForgetPasswordScreen extends StatefulWidget {
 
 class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void dispose() {
-    _emailController.dispose();
     super.dispose();
+    _emailController.dispose();
   }
 
-  final _formKey = GlobalKey<FormState>();
   void _submit() async {
     final isValid = _formKey.currentState!.validate();
     if (!isValid) return;
 
     try {
-      await FirebaseAuth.instance.sendPasswordResetEmail(
+      await _firebase.sendPasswordResetEmail(
         email: _emailController.text.trim(),
       );
       if (mounted) {
@@ -115,7 +117,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.titleLarge,
               ),
-              const SizedBox(height: 50),
+              const SizedBox(height: 30),
               SizedBox(
                 width: 350,
                 child: TextFormField(
@@ -136,9 +138,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   },
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 50),
               ElevatedButton(
-                style: Theme.of(context).elevatedButtonTheme.style,
                 onPressed: _submit,
                 child: const Text('Réinitialiser le mot de passe'),
               ),
