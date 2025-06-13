@@ -7,7 +7,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final _firebase = FirebaseAuth.instance;
+final _auth = FirebaseAuth.instance;
+final _firestore = FirebaseFirestore.instance;
+final _storage = FirebaseStorage.instance;
 
 class ChoosingScreen extends ConsumerStatefulWidget {
   const ChoosingScreen({super.key});
@@ -22,7 +24,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
   // ********************Image upload***************************
   Future<String?> uploadImageToFirebaseStorage(String userUid) async {
     final userInfo = ref.watch(userInformationProvdier);
-    final storageRef = FirebaseStorage.instance
+    final storageRef = _storage
         .ref()
         .child('users_profile_pictures')
         .child('clients_profile_pictures')
@@ -59,7 +61,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                       .updateRole(_enetredRole);
 
                   // **************Firabese Auth********************
-                  final userCredential = await _firebase
+                  final userCredential = await _auth
                       .createUserWithEmailAndPassword(
                         email: userInfo.email!,
                         password: userInfo.password!,
@@ -87,7 +89,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                     );
                   }
                   // *****************Firestore*******************
-                  await FirebaseFirestore.instance
+                  await _firestore
                       .collection('clients')
                       .doc(userCredential.user!.uid)
                       .set({

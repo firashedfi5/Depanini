@@ -9,7 +9,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-final _firebase = FirebaseAuth.instance;
+final _auth = FirebaseAuth.instance;
+final _firestore = FirebaseFirestore.instance;
+final _storage = FirebaseStorage.instance;
 
 class ProviderDescription extends ConsumerStatefulWidget {
   const ProviderDescription({super.key});
@@ -41,7 +43,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
   // ********************Firebase Storage image upload***************************
   Future<String?> uploadProfileImageToFirebaseStorage(String userUid) async {
     final userInfo = ref.watch(userInformationProvdier);
-    final storageRef = FirebaseStorage.instance
+    final storageRef = _storage
         .ref()
         .child('users_profile_pictures')
         .child('prestataires_profile_pictures')
@@ -56,7 +58,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
     required File imageFile,
     required int fileNumber,
   }) async {
-    final storageRef = FirebaseStorage.instance
+    final storageRef = _storage
         .ref()
         .child('prestataires_portfolio_pictures')
         .child('$userUid+$fileNumber.jpg');
@@ -75,7 +77,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
     final userInfo = ref.watch(userInformationProvdier);
     // **************Firabese Auth********************
     try {
-      final userCredential = await _firebase.createUserWithEmailAndPassword(
+      final userCredential = await _auth.createUserWithEmailAndPassword(
         email: userInfo.email!,
         password: userInfo.password!,
       );
@@ -135,7 +137,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
       }
 
       // *****************Firestore*******************
-      await FirebaseFirestore.instance
+      await _firestore
           .collection('prestataires')
           .doc(userCredential.user!.uid)
           .set({

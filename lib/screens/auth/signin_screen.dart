@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as dev;
 
-final _firebase = FirebaseAuth.instance;
+final _auth = FirebaseAuth.instance;
 
 class SigninScreen extends StatefulWidget {
   const SigninScreen({super.key});
@@ -28,7 +28,7 @@ class _SigninScreenState extends State<SigninScreen> {
     _formKey.currentState!.save();
     // **************Firabese Auth********************
     try {
-      final userCredential = await _firebase.signInWithEmailAndPassword(
+      final userCredential = await _auth.signInWithEmailAndPassword(
         email: _enteredEmail.text,
         password: _enteredPassword.text,
       );
