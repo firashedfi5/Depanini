@@ -157,6 +157,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       SizedBox(
                         width: 350,
                         child: TextFormField(
+                          controller: _enteredEmail,
                           decoration: const InputDecoration(
                             labelText: 'Adresse Email',
                             hintText: 'Entrez votre email',
@@ -180,6 +181,7 @@ class _SigninScreenState extends State<SigninScreen> {
                       SizedBox(
                         width: 350,
                         child: TextFormField(
+                          controller: _enteredPassword,
                           decoration: InputDecoration(
                             labelText: 'Mot de Passe',
                             hintText: 'Entrez votre mot de passe',
