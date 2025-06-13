@@ -315,7 +315,7 @@ class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
                               const Spacer(),
                               StreamBuilder<DocumentSnapshot>(
                                 stream:
-                                    FirebaseFirestore.instance
+                                    _firestore
                                         .collection(
                                           role == 'Client'
                                               ? 'clients'

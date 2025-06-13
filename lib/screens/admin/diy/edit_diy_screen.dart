@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 final _firestore = FirebaseFirestore.instance;
+final _storage = FirebaseStorage.instance;
 
 class EditDiyScreen extends StatefulWidget {
   const EditDiyScreen({
@@ -68,7 +69,7 @@ class _EditDiyScreenState extends State<EditDiyScreen> {
     required File imageFile,
     required int fileNumber,
   }) async {
-    final storageRef = FirebaseStorage.instance
+    final storageRef = _storage
         .ref()
         .child('astuces_pictures')
         .child(widget.astuceId)

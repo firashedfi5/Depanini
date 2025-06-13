@@ -176,7 +176,7 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                               // Status
                               StreamBuilder<DocumentSnapshot>(
                                 stream:
-                                    FirebaseFirestore.instance
+                                    _firestore
                                         .collection('clients')
                                         .doc(
                                           widget.clientData.uid,

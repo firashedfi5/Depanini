@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-final _firebase = FirebaseAuth.instance;
+final _auth = FirebaseAuth.instance;
 
 class ForgetPasswordScreen extends StatefulWidget {
   const ForgetPasswordScreen({super.key});
@@ -26,7 +26,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
     if (!isValid) return;
 
     try {
-      await _firebase.sendPasswordResetEmail(
+      await _auth.sendPasswordResetEmail(
         email: _emailController.text.trim(),
       );
       if (mounted) {

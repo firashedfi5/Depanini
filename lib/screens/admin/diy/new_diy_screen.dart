@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 final _firestore = FirebaseFirestore.instance;
+final _storage = FirebaseStorage.instance;
 
 class NewDiyScreen extends StatefulWidget {
   const NewDiyScreen({super.key});
@@ -32,7 +33,7 @@ class _NewDiyScreenState extends State<NewDiyScreen> {
     File imageFile,
     int fileNumber,
   ) async {
-    final storageRef = FirebaseStorage.instance
+    final storageRef = _storage
         .ref()
         .child('astuces_pictures')
         .child(astuceId)

@@ -8,7 +8,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as dev;
 
 final _auth = FirebaseAuth.instance;
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final _firestore = FirebaseFirestore.instance;
+final _storage = FirebaseStorage.instance;
 
 class ProviderPersonalInfo extends StatefulWidget {
   const ProviderPersonalInfo({super.key});
@@ -75,7 +76,7 @@ class _ProviderPersonalInfoState extends State<ProviderPersonalInfo> {
   // ********************Image upload***************************
   File? _updatedImage;
   Future<String?> uploadImageToFirebaseStorage() async {
-    final storageRef = FirebaseStorage.instance
+    final storageRef = _storage
         .ref()
         .child('users_profile_pictures')
         .child('prestataires_profile_pictures')

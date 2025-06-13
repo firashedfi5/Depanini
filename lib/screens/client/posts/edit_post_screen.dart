@@ -11,6 +11,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
+final _storage = FirebaseStorage.instance;
 
 class EditPostScreen extends StatefulWidget {
   const EditPostScreen({
@@ -95,7 +96,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
     required File imageFile,
     required int fileNumber,
   }) async {
-    final storageRef = FirebaseStorage.instance
+    final storageRef = _storage
         .ref()
         .child('posts_pictures')
         .child(user.uid)

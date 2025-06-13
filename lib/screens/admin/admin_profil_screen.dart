@@ -140,7 +140,7 @@ class _AdminProfilScreenState extends ConsumerState<AdminProfilScreen> {
                   const SizedBox(height: 30),
                   TextButton.icon(
                     onPressed: () {
-                      FirebaseAuth.instance.signOut();
+                      _auth.signOut();
                     },
                     icon: const Icon(Icons.logout, color: Colors.red, size: 25),
                     style: TextButton.styleFrom(),

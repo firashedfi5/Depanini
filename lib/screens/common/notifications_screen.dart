@@ -127,7 +127,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 ),
                 direction: DismissDirection.endToStart,
                 onDismissed: (direction) async {
-                  await FirebaseFirestore.instance
+                  await _firestore
                       .collection('notifications')
                       .doc(notification.id)
                       .delete();

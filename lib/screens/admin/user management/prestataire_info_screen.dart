@@ -184,7 +184,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                               // Status
                               StreamBuilder<DocumentSnapshot>(
                                 stream:
-                                    FirebaseFirestore.instance
+                                    _firestore
                                         .collection('prestataires')
                                         .doc(
                                           widget.providerData.uid,

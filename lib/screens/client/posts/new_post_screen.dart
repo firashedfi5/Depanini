@@ -11,6 +11,7 @@ import 'package:uuid/uuid.dart';
 
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
+final _storage = FirebaseStorage.instance;
 
 class NewPostScreen extends StatefulWidget {
   const NewPostScreen({super.key});
@@ -34,7 +35,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     File imageFile,
     int fileNumber,
   ) async {
-    final storageRef = FirebaseStorage.instance
+    final storageRef = _storage
         .ref()
         .child('posts_pictures')
         .child(user.uid)

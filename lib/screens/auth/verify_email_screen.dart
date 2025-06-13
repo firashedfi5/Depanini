@@ -7,7 +7,7 @@ import 'package:depanini/screens/provider/provider_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 
 class VerifyEmailScreen extends StatefulWidget {
@@ -26,7 +26,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   void initState() {
     super.initState();
 
-    isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+    isEmailVerified = _auth.currentUser!.emailVerified;
 
     if (!isEmailVerified) {
       sendVerificationEmail();
@@ -81,10 +81,10 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
   // *******************User Role************************
 
   Future checkEmailVerified() async {
-    await FirebaseAuth.instance.currentUser!.reload();
+    await _auth.currentUser!.reload();
 
     setState(() {
-      isEmailVerified = FirebaseAuth.instance.currentUser!.emailVerified;
+      isEmailVerified = _auth.currentUser!.emailVerified;
     });
 
     if (isEmailVerified) {
@@ -94,7 +94,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
 
   Future sendVerificationEmail() async {
     try {
-      final user = FirebaseAuth.instance.currentUser!;
+      final user = _auth.currentUser!;
       await user.sendEmailVerification();
 
       setState(() => canResendEmail = false);
@@ -145,7 +145,7 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
               ),
               const SizedBox(height: 10),
               TextButton(
-                onPressed: () => FirebaseAuth.instance.signOut(),
+                onPressed: () => _auth.signOut(),
                 child: const Text('Annuler'),
               ),
             ],

@@ -9,7 +9,8 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 final _auth = FirebaseAuth.instance;
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final _firestore = FirebaseFirestore.instance;
+final _storage = FirebaseStorage.instance;
 
 class ProviderGallery extends StatefulWidget {
   const ProviderGallery({super.key});
@@ -43,7 +44,7 @@ class _ProviderGalleryState extends State<ProviderGallery> {
     required File imageFile,
     required int fileNumber,
   }) async {
-    final storageRef = FirebaseStorage.instance
+    final storageRef = _storage
         .ref()
         .child('prestataires_portfolio_pictures')
         .child('${user.uid}+$fileNumber.jpg');
