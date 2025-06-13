@@ -1,5 +1,3 @@
-// TODO: ki tetbadel el localisation lezem tetsajel l'adresse jdida fel les RDV lkol
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/place.dart';
 import 'package:depanini/widgets/location_input.dart';
