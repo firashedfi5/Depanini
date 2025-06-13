@@ -38,7 +38,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
   var _enteredDiplome = '';
   var _enteredExperience = '';
   final _formKey = GlobalKey<FormState>();
-  // ********************Cloudinary image upload***************************
+  // ********************Firebase Storage image upload***************************
   Future<String?> uploadProfileImageToFirebaseStorage(String userUid) async {
     final userInfo = ref.watch(userInformationProvdier);
     final storageRef = FirebaseStorage.instance
@@ -390,7 +390,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       if (_pickImageFile_1 == null)
-                                     const  Icon(Icons.add_a_photo, size: 60),
+                                        const Icon(Icons.add_a_photo, size: 60),
                                     ],
                                   ),
                                 ),
@@ -437,7 +437,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       if (_pickImageFile_2 == null)
-                                      const  Icon(Icons.add_a_photo, size: 60),
+                                        const Icon(Icons.add_a_photo, size: 60),
                                     ],
                                   ),
                                 ),
@@ -484,7 +484,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       if (_pickImageFile_3 == null)
-                                     const   Icon(Icons.add_a_photo, size: 60),
+                                        const Icon(Icons.add_a_photo, size: 60),
                                     ],
                                   ),
                                 ),
@@ -531,7 +531,7 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       if (_pickImageFile_4 == null)
-                                      const  Icon(Icons.add_a_photo, size: 60),
+                                        const Icon(Icons.add_a_photo, size: 60),
                                     ],
                                   ),
                                 ),
