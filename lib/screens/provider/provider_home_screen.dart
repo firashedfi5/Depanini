@@ -223,7 +223,10 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                                   ),
                                   Row(
                                     children: [
-                                      const Icon(Icons.pin_drop_outlined, size: 17),
+                                      const Icon(
+                                        Icons.pin_drop_outlined,
+                                        size: 17,
+                                      ),
                                       const SizedBox(width: 3),
                                       SizedBox(
                                         width: 230,
@@ -277,7 +280,9 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
 
                                           final count = snapshot.data ?? 0;
 
-                                          if (count == 0) return const SizedBox();
+                                          if (count == 0) {
+                                            return const SizedBox();
+                                          }
 
                                           return Container(
                                             padding: const EdgeInsets.all(2),

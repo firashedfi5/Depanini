@@ -83,9 +83,7 @@ class _ProviderIncomingAppointmentState
 
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(
-                      child: Text(
-                        'Aucune réservation confirmé',
-                      ),
+                      child: Text('Aucune réservation confirmé'),
                     );
                   }
 
@@ -99,7 +97,11 @@ class _ProviderIncomingAppointmentState
                         ),
                       ),
                       SliverPadding(
-                        padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+                        padding: const EdgeInsets.only(
+                          left: 8,
+                          right: 8,
+                          top: 8,
+                        ),
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate((
                             context,
@@ -136,7 +138,9 @@ class _ProviderIncomingAppointmentState
                                                       .isNotEmpty
                                                   ? CachedNetworkImageProvider(
                                                     items[index]
-                                                        .clientProfilePicture,cacheKey: items[index]
+                                                        .clientProfilePicture,
+                                                    cacheKey:
+                                                        items[index]
                                                             .clientProfilePicture,
                                                   )
                                                   : null,

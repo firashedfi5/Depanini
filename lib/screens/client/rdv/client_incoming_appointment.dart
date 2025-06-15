@@ -94,7 +94,11 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                         ),
                       ),
                       SliverPadding(
-                        padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+                        padding: const EdgeInsets.only(
+                          left: 8,
+                          right: 8,
+                          top: 8,
+                        ),
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate((
                             context,
@@ -161,7 +165,7 @@ class _ClientIncomingAppointmentState extends State<ClientIncomingAppointment> {
                                             ),
                                           ],
                                         ),
-                                      const  Spacer(),
+                                        const Spacer(),
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: BoxDecoration(

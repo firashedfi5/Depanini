@@ -1,15 +1,16 @@
+import 'dart:developer' as dev;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/client/client_diy_screen.dart';
 import 'package:depanini/screens/client/profil/client_settings_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:depanini/theme/theme_provider.dart';
 // import 'package:depanini/theme/themes.dart';
 // import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:developer' as dev;
 
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;

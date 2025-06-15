@@ -1,11 +1,12 @@
+import 'dart:developer' as dev;
 import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/widgets/profil_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'dart:developer' as dev;
 
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;

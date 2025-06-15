@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/auth/signin_screen.dart';
 import 'package:depanini/screens/common/change_location.dart';
 import 'package:depanini/screens/common/change_password_screen.dart';
-import 'package:depanini/screens/provider/profil/provider_personal_info.dart';
 import 'package:depanini/screens/provider/profil/provider_gallery.dart';
+import 'package:depanini/screens/provider/profil/provider_personal_info.dart';
 import 'package:depanini/theme/theme_provider.dart';
 import 'package:depanini/theme/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -59,7 +59,9 @@ class _ProviderSettingsScreenState
                         ),
                       );
                       Navigator.of(context).push(
-                        MaterialPageRoute(builder: (context) => const SigninScreen()),
+                        MaterialPageRoute(
+                          builder: (context) => const SigninScreen(),
+                        ),
                       );
                     }
                   } on FirebaseAuthException catch (e) {

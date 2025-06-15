@@ -35,7 +35,7 @@ ThemeData lightTheme = ThemeData(
       color: Color(0xdd000000),
       fontFamily: 'Roboto',
     ),
-    bodyMedium:  TextStyle(
+    bodyMedium: TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w400,
       color: Color(0xdd000000),

@@ -95,7 +95,11 @@ class _ProviderCancelledAppointmentState
                         ),
                       ),
                       SliverPadding(
-                        padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+                        padding: const EdgeInsets.only(
+                          left: 8,
+                          right: 8,
+                          top: 8,
+                        ),
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate((
                             context,

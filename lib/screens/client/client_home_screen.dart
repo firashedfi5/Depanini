@@ -1,6 +1,9 @@
+import 'dart:developer' as dev;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/constants/domains.dart';
+import 'package:depanini/data/word_to_field.dart';
 import 'package:depanini/models/place.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/client/home/provider_info_screen.dart';
@@ -10,9 +13,7 @@ import 'package:depanini/screens/common/notifications_screen.dart';
 import 'package:depanini/widgets/custom_radio_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:depanini/data/word_to_field.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
-import 'dart:developer' as dev;
 
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;

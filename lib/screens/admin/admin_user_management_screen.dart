@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/models/client_account_model.dart';
+import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/models/unified_model.dart';
 import 'package:depanini/screens/admin/user%20management/client_info_screen.dart';
 import 'package:depanini/screens/admin/user%20management/prestataire_info_screen.dart';

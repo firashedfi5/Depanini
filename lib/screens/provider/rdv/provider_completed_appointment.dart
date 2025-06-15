@@ -95,7 +95,11 @@ class _ProviderCompletedAppointmentState
                         ),
                       ),
                       SliverPadding(
-                        padding: const EdgeInsets.only(left: 8, right: 8, top: 8),
+                        padding: const EdgeInsets.only(
+                          left: 8,
+                          right: 8,
+                          top: 8,
+                        ),
                         sliver: SliverList(
                           delegate: SliverChildBuilderDelegate((
                             context,
@@ -128,7 +132,9 @@ class _ProviderCompletedAppointmentState
                                                       .isNotEmpty
                                                   ? CachedNetworkImageProvider(
                                                     items[index]
-                                                        .clientProfilePicture,cacheKey: items[index]
+                                                        .clientProfilePicture,
+                                                    cacheKey:
+                                                        items[index]
                                                             .clientProfilePicture,
                                                   )
                                                   : null,

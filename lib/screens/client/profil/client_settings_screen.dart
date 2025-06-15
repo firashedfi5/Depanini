@@ -84,7 +84,10 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                     }
                   }
                 },
-                child: const Text('Supprimer', style: TextStyle(color: Colors.red)),
+                child: const Text(
+                  'Supprimer',
+                  style: TextStyle(color: Colors.red),
+                ),
               ),
             ],
           ),
