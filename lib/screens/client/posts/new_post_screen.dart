@@ -61,10 +61,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
       try {
-        // if (mounted) {
-        //   dev.log(Navigator.of(context).canPop().toString());
-        //   Navigator.of(context).pop(true);
-        // }
         // *************************************
         _formKey.currentState!.save();
         // *************************************
@@ -156,7 +152,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
           'profil_picture': profilPictureURL,
           'description': _enteredDescription.text,
           'service': _enteredDomaine!.name,
-          // 'date': _selectedDate == null ? '' : formatter.format(_selectedDate!),
           'date': Timestamp.fromDate(
             DateTime(
               _selectedDate!.year,
