@@ -25,30 +25,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
   final user = _auth.currentUser!;
   final uuid = const Uuid();
   late String postId;
-  @override
-  void initState() {
-    super.initState();
-    postId = uuid.v4();
-  }
-
-  // **************Image upload******************
-  Future<String?> uploadImageToFirebaseStorage(
-    File imageFile,
-    int fileNumber,
-  ) async {
-    final storageRef = _storage
-        .ref()
-        .child('posts_pictures')
-        .child(user.uid)
-        .child('$postId+${fileNumber.toString()}.jpg');
-    await storageRef.putFile(imageFile);
-    final imageUrl = await storageRef.getDownloadURL();
-    return imageUrl;
-  }
-  // ******************************************
-
   final List<Domains> _domains = Domains.values;
-
   Domains? _selectedDomain;
   final TextEditingController _enteredDescription = TextEditingController();
   Domains? _enteredDomaine;
@@ -57,16 +34,45 @@ class _NewPostScreenState extends State<NewPostScreen> {
   File? _pickImageFile_3;
   File? _pickImageFile_4;
   final _formKey = GlobalKey<FormState>();
+  DateTime? _selectedDate;
+  final formatter = DateFormat.yMd();
+
+  @override
+  void initState() {
+    super.initState();
+    postId = uuid.v4();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _enteredDescription.dispose();
+  }
+
+  // **************Méthode nuploadi beha tsawer lel Firebase Storage******************
+  Future<String?> uploadImageToFirebaseStorage(
+    File imageFile,
+    int fileNumber,
+  ) async {
+    final storageRef = _storage
+        .ref()
+        .child('posts_pictures')
+        .child(user.uid)
+        .child('$postId+${fileNumber.toString()}.jpg'); // *ficher
+    await storageRef.putFile(imageFile);
+    final imageUrl = await storageRef.getDownloadURL();
+    return imageUrl;
+  }
+
+  // ********************Méthode nsajel beha l post**********************
   void _savePost() async {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
       try {
-        // *************************************
         _formKey.currentState!.save();
-        // *************************************
         dev.log(_selectedDate.toString());
 
-        // Upload service images if they exist
+        // *Méthode tbayen dialog
         showDialog(
           context: context,
           barrierDismissible: false,
@@ -86,6 +92,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
                 ),
               ),
         );
+
+        // ************Upload tsawer lel Firebase Storage idha kenhom mawjoudin*********
         String? uploadedPostImageUrl_1;
         if (_pickImageFile_1 != null) {
           uploadedPostImageUrl_1 = await uploadImageToFirebaseStorage(
@@ -114,6 +122,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
             4,
           );
         }
+
+        // ************Tna7i dialog w tafichi msg de succés***********
         if (mounted) {
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -130,7 +140,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
             ),
           );
         }
-        // **********Fetch Data From Firestore**********
+
+        // **********Tfetchi les données men Firestore**********
         final user = _auth.currentUser!;
         final userDoc =
             await _firestore.collection("clients").doc(user.uid).get();
@@ -142,7 +153,8 @@ class _NewPostScreenState extends State<NewPostScreen> {
         final email = userData['Email'];
         final phoneNumber = userData['Numéro de téléphone'];
         final profilPictureURL = userData['Photo de profile'];
-        // ***********Storing data in Firestore**************
+
+        // ***********Tsajel les données fel Firestore**************
         _firestore.collection('annonces').doc(postId).set({
           "post_id": postId,
           'uid': _auth.currentUser!.uid,
@@ -184,15 +196,6 @@ class _NewPostScreenState extends State<NewPostScreen> {
         }
       }
     }
-  }
-
-  DateTime? _selectedDate;
-  final formatter = DateFormat.yMd();
-
-  @override
-  void dispose() {
-    super.dispose();
-    _enteredDescription.dispose();
   }
 
   @override

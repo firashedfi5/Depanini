@@ -32,7 +32,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
     _loadPosts();
   }
 
-  // *****************HTTP Response*************************
+  // *Tfetchi les données (les annonces mte3 l ustilisateur courant) men Firestore
   void _loadPosts() async {
     try {
       final snapshot =
@@ -81,8 +81,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
     }
   }
 
-  // ***********************************************
-
+  // *Temchi lel screen mte3 l add w tab3thelha l model
   void _addPost() async {
     await Navigator.of(context).push<PostModel>(
       MaterialPageRoute(builder: (context) => const NewPostScreen()),
@@ -91,21 +90,26 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
     dev.log("Annonce crée");
   }
 
+  // *Tfasa5 l annonce Firestore
   void _removePost(PostModel post) async {
-    final postIndex = _postListed.indexOf(post);
-    final postRef = _firestore.collection('annonces').doc(post.postId);
+    final postIndex = _postListed.indexOf(post); // *7adedt l index
+    final postRef = _firestore
+        .collection('annonces')
+        .doc(post.postId); // *7adedt l blasa
 
-    // Remove from UI
+    // *Tna7eha mel UI
     setState(() {
       _postListed.remove(post);
     });
 
     try {
-      // Delete From Firestore
+      // *Tfasa5ha fel Firestore
       await postRef.delete();
       dev.log("Annonce supprimée");
 
+      // *Traja3 l annonce (annulation)
       if (mounted) {
+        // *Ytala3 Snackbar feha bouton d'annulation
         ScaffoldMessenger.of(context).clearSnackBars();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -115,12 +119,12 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
             action: SnackBarAction(
               label: 'Annuler',
               onPressed: () async {
-                // Add back to UI
+                // *Traja3ha lel UI
                 setState(() {
                   _postListed.insert(postIndex, post);
                 });
 
-                // Restore in Firestore
+                // *Traja3ha fel Firestore (tasna3ha men owel jdid b nafs les données)
                 await _firestore.collection('annonces').doc(post.postId).set({
                   'post_id': post.postId,
                   'uid': post.uid,
@@ -146,7 +150,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
       }
     } catch (e) {
       dev.log("Erreur lors de la suppression: $e");
-      // Revert UI change on error
+      // *Traja3 l UI l 7altou loula ken fama error
       setState(() {
         _postListed.insert(postIndex, post);
       });

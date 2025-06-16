@@ -8,7 +8,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-// import 'dart:developer' as dev;
 
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
@@ -31,17 +30,13 @@ class EditPostScreen extends StatefulWidget {
 class _EditPostScreenState extends State<EditPostScreen> {
   DateTime? _selectedDate;
   final formatter = DateFormat.yMd();
-
-  // String? _selectedDomain;
   final TextEditingController _enteredDescription = TextEditingController();
-  // var _enteredDomaine = '';
   File? _pickImageFile_1;
   File? _pickImageFile_2;
   File? _pickImageFile_3;
   File? _pickImageFile_4;
   late List<File?> pickedImages;
   final _formKey = GlobalKey<FormState>();
-
   late Future<PostModel> _loadedPost;
 
   @override
@@ -56,7 +51,13 @@ class _EditPostScreenState extends State<EditPostScreen> {
     ];
   }
 
-  // *******************GET Method************************
+  @override
+  void dispose() {
+    super.dispose();
+    _enteredDescription.dispose();
+  }
+
+  // *Tfetchi les données men Firestore
   Future<PostModel> _loadPost() async {
     try {
       final docSnapshot =
@@ -91,7 +92,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
     }
   }
 
-  // ***************************Image upload**************************
+  // *Méthode nuploadi beha tsawer lel Firebase Storage
   final user = _auth.currentUser!;
   Future<String?> uploadImageToFirebaseStorage({
     required File imageFile,
@@ -106,18 +107,20 @@ class _EditPostScreenState extends State<EditPostScreen> {
     final imageUrl = await storageRef.getDownloadURL();
     return imageUrl;
   }
-  // ******************************************
 
+  // *Méthode nupdati beha l post
   void _update() async {
-    final updatedFields = <String, dynamic>{};
+    final updatedFields = <String, dynamic>{}; // *Map
 
     _formKey.currentState!.save();
 
+    // *Tverifi idha fama données tbadlet wala lee (bool)
     final hasImageChanged = pickedImages.any((image) => image != null);
     final hasTextChanged =
         _enteredDescription.text.trim() != widget.originalDescription;
     final hasDateChanged = _selectedDate != null;
 
+    // *Condition tafichi snackbar idha ken mafamech changement
     if (!hasImageChanged && !hasTextChanged && !hasDateChanged) {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
@@ -136,6 +139,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
       return;
     }
 
+    // *Méthode tbayen dialog
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -157,6 +161,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
     );
 
     try {
+      // *Tchouf anehi taswira eli tbadlet w tuploadeha w tzid paire fel map
       for (int i = 0; i < pickedImages.length; i++) {
         final imageFile = pickedImages[i];
         if (imageFile != null) {
@@ -168,10 +173,12 @@ class _EditPostScreenState extends State<EditPostScreen> {
         }
       }
 
+      // *Tchouf ken description tbadlet tzid paire fel map
       if (hasTextChanged) {
         updatedFields['description'] = _enteredDescription.text;
       }
 
+      // *Tchouf ken date tbadel tzid paire fel map
       if (hasDateChanged) {
         updatedFields['date'] = Timestamp.fromDate(
           DateTime(
@@ -182,6 +189,7 @@ class _EditPostScreenState extends State<EditPostScreen> {
         );
       }
 
+      // *Update fel Firestore (b este3mel l map eli tsalet feha les changements)
       await _firestore
           .collection('annonces')
           .doc(widget.postId)
@@ -204,11 +212,12 @@ class _EditPostScreenState extends State<EditPostScreen> {
         );
       }
     } finally {
-      if (mounted) Navigator.of(context).pop(); // Close dialog
+      if (mounted) Navigator.of(context).pop(); // *Tna7i dialog
     }
 
+    // *To5rejlek mel screen mte3 l update
     if (mounted) {
-      Navigator.of(context).pop(); // Close screen
+      Navigator.of(context).pop();
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -224,12 +233,6 @@ class _EditPostScreenState extends State<EditPostScreen> {
         ),
       );
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _enteredDescription.dispose();
   }
 
   @override
