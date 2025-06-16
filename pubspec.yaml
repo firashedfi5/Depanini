@@ -1,6 +1,6 @@
 name: depanini
 description: "A new Flutter project."
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 version: 1.0.0+1
 
@@ -36,6 +36,7 @@ dependencies:
   timeago: ^3.7.1
   smooth_page_indicator: ^1.2.1
   cached_network_image: ^3.4.1
+  flutter_native_splash: ^2.4.6
 
 dev_dependencies:
   flutter_test:
@@ -67,6 +68,9 @@ flutter:
     - assets/images/onBoarding_1.png
     - assets/images/onBoarding_2.png
     - assets/images/onBoarding_3.png
+    - assets/logos/white_logo.png
+    - assets/logos/black_logo.png
+    - assets/branding/black_branding.png
 
   # fonts:
   #   - family: Schyler
