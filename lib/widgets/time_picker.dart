@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class TimePicker extends StatefulWidget {
+  // *Méthode traja3lek String (temp sélectionné)
   final Function(String) onTimeSelected;
   final List<String> bookedTimes;
   final DateTime? selectedDate;
@@ -45,6 +46,7 @@ class _TimePickerState extends State<TimePicker> {
         itemBuilder: (context, index) {
           final isSelected = _selectedIndex == index;
 
+          // *Condition bech tafichi les heures indisponibles bel a7mer w non cliquable
           if (widget.bookedTimes.contains(time[index])) {
             return Container(
               width: 70,
@@ -67,6 +69,7 @@ class _TimePickerState extends State<TimePicker> {
             );
           }
 
+          // *Condition mat5likch ta5tar heure 9bal date
           if (widget.selectedDate == null) {
             return Container(
               width: 70,
@@ -91,6 +94,7 @@ class _TimePickerState extends State<TimePicker> {
             );
           }
 
+          // *Ken yabda me5tar date ynajem ya5tar l'heure
           return GestureDetector(
             onTap: () {
               setState(() {

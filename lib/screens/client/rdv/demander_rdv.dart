@@ -10,7 +10,7 @@ import 'package:intl/intl.dart';
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
-class ScheduleAppointmentScreen extends StatefulWidget {
+class DemanderRdv extends StatefulWidget {
   final String prestataireUid;
   final String prestataireUsername;
   final String prestataireProfilePicture;
@@ -18,7 +18,7 @@ class ScheduleAppointmentScreen extends StatefulWidget {
   final List<double> prestataireLatLong;
   final String service;
 
-  const ScheduleAppointmentScreen({
+  const DemanderRdv({
     super.key,
     required this.prestataireUid,
     required this.prestataireUsername,
@@ -26,17 +26,21 @@ class ScheduleAppointmentScreen extends StatefulWidget {
     required this.prestataireLocation,
     required this.prestataireLatLong,
     required this.service,
-  });
+  }); // *Constructeur
 
   @override
-  State<ScheduleAppointmentScreen> createState() =>
-      _ScheduleAppointmentScreenState();
+  State<DemanderRdv> createState() => _DemanderRdvState();
 }
 
-class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
-  // ************************
-  List<String> _bookedTimes = [];
+class _DemanderRdvState extends State<DemanderRdv> {
+  List<String> _bookedTimes =
+      []; // *Liste pour enregistrer les temps indisponibles
+  int selected = -1;
+  String? _selectedTime;
+  DateTime? _selectedDate;
+  final formatter = DateFormat.yMd('fr_FR');
 
+  // *Fetchina les temps indisponibles
   Future<List<String>> getBookedTimes() async {
     final startOfDay = DateTime(
       _selectedDate!.year,
@@ -60,23 +64,17 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
         .toList();
   }
 
-  // *************************
-
-  int selected = -1;
-  String? _selectedTime;
-
-  DateTime? _selectedDate;
-  final formatter = DateFormat.yMd('fr_FR');
-
+  // *Tsajel RDV fel Firestore
   void _submit() async {
     if (_selectedDate != null && _selectedTime != null) {
       dev.log(formatter.format(_selectedDate!));
       dev.log(_selectedTime!);
-      // *********************************
+
       if (mounted) {
         Navigator.of(context).pop();
       }
-      // *********************************
+
+      // *Tfetchi les données mte3 l client mel Firestore
       final user = _auth.currentUser!;
       final userDoc =
           await _firestore.collection("clients").doc(user.uid).get();
@@ -85,7 +83,8 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
       final clientProfilePicture = userData['Photo de profile'];
       final clientLocation = userData['Localisation'];
       final clientLatLong = userData['Latitude&Longitude'];
-      // *********************************
+
+      // *Tsajel les données mte3 RDV fel Firestore
       _firestore.collection("rdvs").add({
         'client_uid': _auth.currentUser!.uid,
         'prestataire_uid': widget.prestataireUid,
@@ -115,6 +114,8 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
           widget.prestataireLatLong[1],
         ),
       });
+
+      // *Bech tetsajel notification fel Firestore
       _firestore.collection("notifications").add({
         'expéditeur_uid': _auth.currentUser!.uid,
         'récepteur_uid': widget.prestataireUid,
@@ -141,7 +142,6 @@ class _ScheduleAppointmentScreenState extends State<ScheduleAppointmentScreen> {
           ),
         );
       }
-      // *********************************
     } else {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(

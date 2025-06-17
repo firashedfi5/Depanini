@@ -49,7 +49,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     _enteredDescription.dispose();
   }
 
-  // **************Méthode nuploadi beha tsawer lel Firebase Storage******************
+  // *Méthode nuploadi beha tsawer lel Firebase Storage
   Future<String?> uploadImageToFirebaseStorage(
     File imageFile,
     int fileNumber,
@@ -64,7 +64,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
     return imageUrl;
   }
 
-  // ********************Méthode nsajel beha l post**********************
+  // *Méthode nsajel beha l annonce
   void _savePost() async {
     final isValid = _formKey.currentState!.validate();
     if (isValid) {
@@ -93,7 +93,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
               ),
         );
 
-        // ************Upload tsawer lel Firebase Storage idha kenhom mawjoudin*********
+        // *Upload tsawer lel Firebase Storage idha kenhom mawjoudin
         String? uploadedPostImageUrl_1;
         if (_pickImageFile_1 != null) {
           uploadedPostImageUrl_1 = await uploadImageToFirebaseStorage(
@@ -123,7 +123,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
           );
         }
 
-        // ************Tna7i dialog w tafichi msg de succés***********
+        // *Tna7i dialog w tafichi msg de succés
         if (mounted) {
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(
@@ -141,7 +141,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
           );
         }
 
-        // **********Tfetchi les données men Firestore**********
+        // *Tfetchi les données mte3 l client mel Firestore
         final user = _auth.currentUser!;
         final userDoc =
             await _firestore.collection("clients").doc(user.uid).get();
@@ -154,7 +154,7 @@ class _NewPostScreenState extends State<NewPostScreen> {
         final phoneNumber = userData['Numéro de téléphone'];
         final profilPictureURL = userData['Photo de profile'];
 
-        // ***********Tsajel les données fel Firestore**************
+        // *Tsajel les données mte3 l annonce fel Firestore
         _firestore.collection('annonces').doc(postId).set({
           "post_id": postId,
           'uid': _auth.currentUser!.uid,

@@ -4,7 +4,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/feedback_model.dart';
 import 'package:depanini/models/provider_account_model.dart';
-import 'package:depanini/screens/client/rdv/schedule_appointment_screen.dart';
+import 'package:depanini/screens/client/rdv/demander_rdv.dart';
 import 'package:depanini/screens/common/chat_screen.dart';
 import 'package:depanini/widgets/feedback.dart';
 import 'package:depanini/widgets/image_container.dart';
@@ -533,7 +533,7 @@ class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             () => Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder:
-                                    (context) => ScheduleAppointmentScreen(
+                                    (context) => DemanderRdv(
                                       prestataireUid: snapshot.data!.uid,
                                       prestataireUsername:
                                           snapshot.data!.username,
