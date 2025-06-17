@@ -28,9 +28,18 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final List<Domains> _domains = Domains.values;
   int selected = -1;
-
   Future<List<ProviderAccountModel>> _foundedUsers = Future.value([]);
+  late Stream<DocumentSnapshot> userStream;
+  final user = _auth.currentUser!;
 
+  @override
+  void initState() {
+    super.initState();
+    userStream = _firestore.collection("clients").doc(user.uid).snapshots();
+    _foundedUsers = getAllData();
+  }
+
+  // *Tfetchi les prestataires lkol
   Future<List<ProviderAccountModel>> getAllData() async {
     final data =
         await _firestore
@@ -42,21 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
     return snapshot;
   }
 
-  late Stream<DocumentSnapshot> userStream;
-  final user = _auth.currentUser!;
-
-  @override
-  void initState() {
-    super.initState();
-    userStream = _firestore.collection("clients").doc(user.uid).snapshots();
-    _foundedUsers = getAllData();
-  }
-
-  // ***********Search************************
+  // *Méthode mte3 recherche
   void searchUsers(String search) {
     String searchLower = search.toLowerCase().trim();
 
-    // If search input is empty, return all users
+    // *Idha ken makteb chay traja3lou liste kemla
     if (searchLower.isEmpty) {
       getAllData().then((users) {
         setState(() {
@@ -66,7 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
       return;
     }
 
-    // Check if the search term matches part of any keyword in the map
+    // *Ychouf l 7aja l ktebha mawjouda fel map (ysajel l valeur) wala lee
     String mappedField = '';
     wordToField.forEach((key, value) {
       if (key.contains(searchLower)) {
@@ -74,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
 
-    // If no match is found in the map, use the original search term
+    // *Ken mahouch mawjoud bech yesta3mel l kelma eli ktebha
     mappedField = mappedField.isEmpty ? searchLower : mappedField;
 
     getAllData().then((users) {
@@ -89,9 +88,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  // ***********Search************************
-
-  // **********Prestataires Localisation*************
+  // *Te5edh les localisations mte3 les prestataires w t7othom fi liste
   List<PlaceLocation> extractPrestataireLocations(
     List<ProviderAccountModel> providers,
   ) {
@@ -104,8 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }).toList();
   }
 
-  // **********Prestataires Localisation*************
-
+  // *Compteur mte3 notification
   Stream<int> _notificationCountStream() {
     return _firestore
         .collection('notifications')
@@ -171,8 +167,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             const SizedBox(width: 10),
                             InkWell(
                               onTap: () async {
-                                final prestataires =
-                                    await _foundedUsers; // Await the current list
+                                final prestataires = await _foundedUsers;
                                 final prestataireLocations =
                                     extractPrestataireLocations(prestataires);
 

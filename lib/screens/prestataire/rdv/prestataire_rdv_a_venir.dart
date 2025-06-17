@@ -303,7 +303,9 @@ class _PrestataireRdvAVenirState extends State<PrestataireRdvAVenir> {
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder:
+                                                  // *Thezek lel Map screen
                                                   (context) => MapScreen(
+                                                    // *Lezem n3adilha localisation mte3 l current user
                                                     location: PlaceLocation(
                                                       address:
                                                           items[index]
@@ -318,8 +320,11 @@ class _PrestataireRdvAVenirState extends State<PrestataireRdvAVenir> {
                                                               .prestataireLocation
                                                               .longitude,
                                                     ),
-                                                    isSelecting: false,
-                                                    isDrectionning: true,
+                                                    isSelecting:
+                                                        false, // *Maynajemch ya5tar position fel map
+                                                    isDrectionning:
+                                                        true, // *Bech twarih tri9
+                                                    // *Lezem n3adilha localisation mte3 l other users
                                                     othersLocations: [
                                                       PlaceLocation(
                                                         address:

@@ -32,7 +32,7 @@ class MapScreen extends StatefulWidget {
 }
 
 class _MapScreenState extends State<MapScreen> {
-  // ***********Direction*********************
+  // *Direction
   List<LatLng> polylineCoordinates = [];
   void getPolyPoints() async {
     PolylinePoints polylinePoints = PolylinePoints();
