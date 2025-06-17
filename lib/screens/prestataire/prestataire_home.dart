@@ -1,6 +1,5 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:depanini/screens/commun/chatrooms_screen.dart';
-// import 'package:depanini/screens/provider/provider_chat_screen.dart';
 import 'package:depanini/screens/prestataire/prestataire_home_screen.dart';
 import 'package:depanini/screens/prestataire/prestataire_profil_screen.dart';
 import 'package:depanini/screens/prestataire/prestataire_rdv_screen.dart';
@@ -33,7 +32,6 @@ class _PrestataireHomeState extends State<PrestataireHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _pages[_selectedIndex],
-      // IndexedStack(index: _selectedIndex, children: _pages),
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         color: Theme.of(context).bottomNavigationBarTheme.backgroundColor!,
