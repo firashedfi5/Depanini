@@ -15,6 +15,7 @@ class NotificationsScreen extends StatefulWidget {
 }
 
 class _NotificationsScreenState extends State<NotificationsScreen> {
+  // *Méthode de suppression de tout les notifications
   Future<void> deleteAllNotificationsForCurrentUser() async {
     final uid = _auth.currentUser!.uid;
 
@@ -33,6 +34,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     await batch.commit();
   }
 
+  // *Tfetchi les notifications en temps réel
   Stream<List<NotificationModel>> notificationStream() {
     return _firestore
         .collection('notifications')
@@ -95,16 +97,17 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
               IconData icon;
               Color iconColor;
 
+              // *T7aded type de notification
               switch (notification.type) {
-                case 'rdv':
+                case 'rdv': // *Demande de RDV
                   icon = Icons.calendar_today;
                   iconColor = Theme.of(context).colorScheme.primary;
                   break;
-                case 'review':
+                case 'review': // *Avis jdid
                   icon = Icons.thumb_up_sharp;
                   iconColor = Colors.amber[600]!;
                   break;
-                case 'annulation':
+                case 'annulation': // *Annulation de RDV
                   icon = Icons.cancel;
                   iconColor = Colors.red[600]!;
                   break;
@@ -112,7 +115,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   icon = Icons.diamond;
                   iconColor = Colors.lightBlueAccent;
                   break;
-                default:
+                default: // *Confirmation de RDV
                   icon = Icons.check_box;
                   iconColor = Colors.green[600]!;
               }
@@ -126,6 +129,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   child: const Icon(Icons.delete, color: Colors.red, size: 30),
                 ),
                 direction: DismissDirection.endToStart,
+                // *Suppression de notification (Swipe mel ymin lel ysar)
                 onDismissed: (direction) async {
                   await _firestore
                       .collection('notifications')
