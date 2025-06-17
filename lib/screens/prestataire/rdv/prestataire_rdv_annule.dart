@@ -9,22 +9,22 @@ import 'package:intl/intl.dart';
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
-class ProviderCompletedAppointment extends StatefulWidget {
-  const ProviderCompletedAppointment({super.key});
+class PrestataireRdvAnnule extends StatefulWidget {
+  const PrestataireRdvAnnule({super.key});
 
   @override
-  State<ProviderCompletedAppointment> createState() =>
-      _ProviderCompletedAppointmentState();
+  State<PrestataireRdvAnnule> createState() =>
+      _PrestataireRdvAnnuleState();
 }
 
-class _ProviderCompletedAppointmentState
-    extends State<ProviderCompletedAppointment> {
+class _PrestataireRdvAnnuleState
+    extends State<PrestataireRdvAnnule> {
   // *******************************
-  Stream<List<RdvModel>> getCompletedRdvsStream() {
+  Stream<List<RdvModel>> getCancelledRdvsStream() {
     return _firestore
         .collection('rdvs')
         .where('prestataire_uid', isEqualTo: _auth.currentUser!.uid)
-        .where('status', isEqualTo: 'completé')
+        .where('status', isEqualTo: 'annulé')
         .orderBy('date', descending: false)
         .snapshots()
         .map(
@@ -67,7 +67,7 @@ class _ProviderCompletedAppointmentState
         top: false,
         bottom: false,
         child: StreamBuilder(
-          stream: getCompletedRdvsStream(),
+          stream: getCancelledRdvsStream(),
           builder:
               (context, snapshot) => Builder(
                 builder: (context) {
@@ -81,7 +81,7 @@ class _ProviderCompletedAppointmentState
 
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(
-                      child: Text('Aucune réservation completé'),
+                      child: Text('Aucune réservation annulé'),
                     );
                   }
 
@@ -173,18 +173,18 @@ class _ProviderCompletedAppointmentState
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: BoxDecoration(
-                                            color: Colors.blue.shade200
+                                            color: Colors.red.shade200
                                                 .withAlpha(50),
                                             borderRadius: BorderRadius.circular(
                                               16,
                                             ),
                                           ),
                                           child: Text(
-                                            'Completé',
+                                            'Annulé',
                                             style: Theme.of(
                                               context,
                                             ).textTheme.titleMedium!.copyWith(
-                                              color: Colors.blue,
+                                              color: Colors.red,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),

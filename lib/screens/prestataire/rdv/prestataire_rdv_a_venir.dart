@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/place.dart';
 import 'package:depanini/models/rdv_model.dart';
+import 'package:depanini/screens/common/map.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,23 +11,23 @@ import 'package:intl/intl.dart';
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
-class ProviderPendingAppointment extends StatefulWidget {
-  const ProviderPendingAppointment({super.key});
+class PrestataireRdvAVenir extends StatefulWidget {
+  const PrestataireRdvAVenir({super.key});
 
   @override
-  State<ProviderPendingAppointment> createState() =>
-      _ProviderPendingAppointmentState();
+  State<PrestataireRdvAVenir> createState() =>
+      _PrestataireRdvAVenirState();
 }
 
-class _ProviderPendingAppointmentState
-    extends State<ProviderPendingAppointment> {
+class _PrestataireRdvAVenirState
+    extends State<PrestataireRdvAVenir> {
   // *******************************
-  Stream<List<RdvModel>> getPendingRdvsStream() {
+  Stream<List<RdvModel>> getIncomingRdvsStream() {
     return _firestore
         .collection('rdvs')
         .where('prestataire_uid', isEqualTo: _auth.currentUser!.uid)
-        .where('status', isEqualTo: 'en_attente')
-        .orderBy('createdAt', descending: true)
+        .where('status', isEqualTo: 'confirmé')
+        .orderBy('date', descending: false)
         .snapshots()
         .map(
           (snapshot) =>
@@ -68,7 +69,7 @@ class _ProviderPendingAppointmentState
         top: false,
         bottom: false,
         child: StreamBuilder(
-          stream: getPendingRdvsStream(),
+          stream: getIncomingRdvsStream(),
           builder:
               (context, snapshot) => Builder(
                 builder: (context) {
@@ -82,7 +83,7 @@ class _ProviderPendingAppointmentState
 
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(
-                      child: Text('Aucune réservation en attente'),
+                      child: Text('Aucune réservation confirmé'),
                     );
                   }
 
@@ -119,32 +120,41 @@ class _ProviderPendingAppointmentState
                                         context,
                                       ).colorScheme.surfaceContainerHighest,
                               child: Padding(
-                                padding: const EdgeInsets.only(
-                                  left: 8,
-                                  right: 8,
-                                  top: 8,
-                                ),
+                                padding: const EdgeInsets.all(8.0),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    // Text(
+                                    //   items[index].prestataireLocation.longitude
+                                    //       .toString(),
+                                    // ),
                                     Row(
                                       children: [
                                         CircleAvatar(
-                                          radius: 30,
-                                          foregroundImage:
-                                              CachedNetworkImageProvider(
-                                                items[index]
-                                                    .clientProfilePicture,
-                                                cacheKey:
+                                          radius: 24,
+                                          backgroundImage:
+                                              items[index]
+                                                      .clientProfilePicture
+                                                      .isNotEmpty
+                                                  ? CachedNetworkImageProvider(
                                                     items[index]
                                                         .clientProfilePicture,
-                                              ),
-                                          backgroundColor: Colors.blue.shade50,
-                                          child: Icon(
-                                            Icons.person,
-                                            color: Colors.blue.shade800,
-                                          ),
+                                                    cacheKey:
+                                                        items[index]
+                                                            .clientProfilePicture,
+                                                  )
+                                                  : null,
+                                          child:
+                                              items[index]
+                                                      .clientProfilePicture
+                                                      .isEmpty
+                                                  ? const Icon(
+                                                    Icons.person,
+                                                    color: Colors.white,
+                                                  )
+                                                  : null,
                                         ),
-                                        const SizedBox(width: 12),
+                                        const SizedBox(width: 16),
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -169,27 +179,25 @@ class _ProviderPendingAppointmentState
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: BoxDecoration(
-                                            color: Colors.orange.shade200
+                                            color: Colors.green.shade200
                                                 .withAlpha(50),
                                             borderRadius: BorderRadius.circular(
                                               16,
                                             ),
                                           ),
                                           child: Text(
-                                            'En attente',
+                                            'Confirmé',
                                             style: Theme.of(
                                               context,
                                             ).textTheme.titleMedium!.copyWith(
-                                              color: Colors.orange,
+                                              color: Colors.green,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
                                       ],
                                     ),
-
-                                    const SizedBox(height: 10),
-
+                                    const SizedBox(height: 16),
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -207,9 +215,8 @@ class _ProviderPendingAppointmentState
                                         ),
                                       ],
                                     ),
-
+                                    // const SizedBox(height: 12),
                                     const Divider(height: 20),
-
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.spaceEvenly,
@@ -244,7 +251,7 @@ class _ProviderPendingAppointmentState
                                                   .withAlpha(50),
                                             ),
                                             label: const Text(
-                                              'Refuser',
+                                              'Annulé',
                                               style: TextStyle(
                                                 color: Colors.red,
                                                 fontWeight: FontWeight.bold,
@@ -259,50 +266,90 @@ class _ProviderPendingAppointmentState
                                         SizedBox(
                                           width: 150,
                                           child: FilledButton.icon(
-                                            onPressed: () {
-                                              _firestore
-                                                  .collection("rdvs")
-                                                  .doc(items[index].id)
-                                                  .update({
-                                                    'status': 'confirmé',
-                                                  });
-                                              _firestore
-                                                  .collection("notifications")
-                                                  .add({
-                                                    'expéditeur_uid':
-                                                        _auth.currentUser!.uid,
-                                                    'récepteur_uid':
-                                                        items[index].clientUid,
-                                                    'type': 'confirmation',
-                                                    'titre':
-                                                        'Rendez-vous confirmé',
-                                                    'contenu':
-                                                        'Votre rendez-vous avec ${items[index].prestataireUsername} a été confirmé.',
-                                                    'date': Timestamp.now(),
-                                                  });
-                                            },
+                                            onPressed:
+                                                () => _firestore
+                                                    .collection("rdvs")
+                                                    .doc(items[index].id)
+                                                    .update({
+                                                      'status': 'completé',
+                                                    }),
                                             style: FilledButton.styleFrom(
                                               backgroundColor: Colors
-                                                  .green
+                                                  .blue
                                                   .shade200
                                                   .withAlpha(50),
                                             ),
                                             label: const Text(
-                                              'Accepter',
+                                              'Terminé',
                                               style: TextStyle(
-                                                color: Colors.green,
+                                                color: Colors.blue,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                             icon: const FaIcon(
                                               FontAwesomeIcons.check,
-                                              color: Colors.green,
+                                              color: Colors.blue,
                                             ),
                                           ),
                                         ),
                                       ],
                                     ),
                                     const SizedBox(height: 10),
+                                    Align(
+                                      alignment: Alignment.center,
+                                      child: OutlinedButton.icon(
+                                        style: OutlinedButton.styleFrom(
+                                          fixedSize: const Size(170, 30),
+                                        ),
+                                        icon: const Icon(Icons.directions),
+                                        onPressed: () {
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder:
+                                                  (context) => MapScreen(
+                                                    location: PlaceLocation(
+                                                      address:
+                                                          items[index]
+                                                              .prestataireLocation
+                                                              .address,
+                                                      latitude:
+                                                          items[index]
+                                                              .prestataireLocation
+                                                              .latitude,
+                                                      longitude:
+                                                          items[index]
+                                                              .prestataireLocation
+                                                              .longitude,
+                                                    ),
+                                                    isSelecting: false,
+                                                    isDrectionning: true,
+                                                    othersLocations: [
+                                                      PlaceLocation(
+                                                        address:
+                                                            items[index]
+                                                                .clientLocation
+                                                                .address,
+                                                        latitude:
+                                                            items[index]
+                                                                .clientLocation
+                                                                .latitude,
+                                                        longitude:
+                                                            items[index]
+                                                                .clientLocation
+                                                                .longitude,
+                                                      ),
+                                                    ],
+                                                    prestataireInfo: const [],
+                                                    clientUsername:
+                                                        items[index]
+                                                            .clientUsername,
+                                                  ),
+                                            ),
+                                          );
+                                        },
+                                        label: const Text('Voir l’itinéraire'),
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),

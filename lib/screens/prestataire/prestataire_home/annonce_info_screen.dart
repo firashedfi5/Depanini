@@ -13,15 +13,15 @@ import 'package:url_launcher/url_launcher.dart';
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 
-class ShowPostScreen extends StatefulWidget {
+class AnnonceInfoScreen extends StatefulWidget {
   final String id;
-  const ShowPostScreen({super.key, required this.id});
+  const AnnonceInfoScreen({super.key, required this.id});
 
   @override
-  State<ShowPostScreen> createState() => _ShowPostScreenState();
+  State<AnnonceInfoScreen> createState() => _AnnonceInfoScreenState();
 }
 
-class _ShowPostScreenState extends State<ShowPostScreen> {
+class _AnnonceInfoScreenState extends State<AnnonceInfoScreen> {
   late Future<PostModel> _annonceList;
   String? clientUid;
   @override

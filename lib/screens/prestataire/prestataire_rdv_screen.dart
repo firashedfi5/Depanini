@@ -1,17 +1,17 @@
-import 'package:depanini/screens/provider/rdv/provider_cancelled_appointment.dart';
-import 'package:depanini/screens/provider/rdv/provider_completed_appointment.dart';
-import 'package:depanini/screens/provider/rdv/provider_incoming_appointment.dart';
-import 'package:depanini/screens/provider/rdv/provider_pending_appointment.dart';
+import 'package:depanini/screens/prestataire/rdv/prestataire_rdv_a_venir.dart';
+import 'package:depanini/screens/prestataire/rdv/prestataire_rdv_annule.dart';
+import 'package:depanini/screens/prestataire/rdv/prestataire_rdv_en_attente.dart';
+import 'package:depanini/screens/prestataire/rdv/prestataire_rdv_termine.dart';
 import 'package:flutter/material.dart';
 
-class ProviderRdvScreen extends StatefulWidget {
-  const ProviderRdvScreen({super.key});
+class PrestataireRdvScreen extends StatefulWidget {
+  const PrestataireRdvScreen({super.key});
 
   @override
-  State<ProviderRdvScreen> createState() => _ProviderRdvScreenState();
+  State<PrestataireRdvScreen> createState() => _PrestataireRdvScreenState();
 }
 
-class _ProviderRdvScreenState extends State<ProviderRdvScreen> {
+class _PrestataireRdvScreenState extends State<PrestataireRdvScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -51,13 +51,13 @@ class _ProviderRdvScreenState extends State<ProviderRdvScreen> {
               ],
           body: const TabBarView(
             children: [
-              ProviderIncomingAppointment(),
+              PrestataireRdvAVenir(),
 
-              ProviderCompletedAppointment(),
+              PrestataireRdvTermine(),
 
-              ProviderCancelledAppointment(),
+              PrestataireRdvAnnule(),
 
-              ProviderPendingAppointment(),
+              PrestataireRdvEnAttente(),
             ],
           ),
         ),

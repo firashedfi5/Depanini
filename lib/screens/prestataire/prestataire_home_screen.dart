@@ -4,7 +4,7 @@ import 'package:depanini/models/place.dart';
 import 'package:depanini/models/post_model.dart';
 import 'package:depanini/screens/common/map.dart';
 import 'package:depanini/screens/common/notifications_screen.dart';
-import 'package:depanini/screens/provider/provider_home/show_post_screen.dart';
+import 'package:depanini/screens/prestataire/prestataire_home/annonce_info_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -13,14 +13,14 @@ import 'package:intl/intl.dart';
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
-class ProviderHomeScreen extends StatefulWidget {
-  const ProviderHomeScreen({super.key});
+class PrestataireHomeScreen extends StatefulWidget {
+  const PrestataireHomeScreen({super.key});
 
   @override
-  State<ProviderHomeScreen> createState() => _ProviderHomeScreenState();
+  State<PrestataireHomeScreen> createState() => _PrestataireHomeScreenState();
 }
 
-class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
+class _PrestataireHomeScreenState extends State<PrestataireHomeScreen> {
   // List<PostModel> _postListed = [];
   // var _isLoading = true;
   // String? _error;
@@ -381,7 +381,7 @@ class _ProviderHomeScreenState extends State<ProviderHomeScreen> {
                         context,
                         MaterialPageRoute(
                           builder:
-                              (context) => ShowPostScreen(
+                              (context) => AnnonceInfoScreen(
                                 id: snapshot.data![index].postId,
                               ),
                         ),

@@ -1,19 +1,19 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:depanini/screens/common/chatrooms_screen.dart';
 // import 'package:depanini/screens/provider/provider_chat_screen.dart';
-import 'package:depanini/screens/provider/provider_home_screen.dart';
-import 'package:depanini/screens/provider/provider_profil_screen.dart';
-import 'package:depanini/screens/provider/provider_rdv_screen.dart';
+import 'package:depanini/screens/prestataire/prestataire_home_screen.dart';
+import 'package:depanini/screens/prestataire/prestataire_profil_screen.dart';
+import 'package:depanini/screens/prestataire/prestataire_rdv_screen.dart';
 import 'package:flutter/material.dart';
 
-class ProviderHome extends StatefulWidget {
-  const ProviderHome({super.key});
+class PrestataireHome extends StatefulWidget {
+  const PrestataireHome({super.key});
 
   @override
-  State<ProviderHome> createState() => _ProviderHomeState();
+  State<PrestataireHome> createState() => _PrestataireHomeState();
 }
 
-class _ProviderHomeState extends State<ProviderHome> {
+class _PrestataireHomeState extends State<PrestataireHome> {
   int _selectedIndex = 0;
 
   void _navigateGoogleNavbar(int index) {
@@ -23,10 +23,10 @@ class _ProviderHomeState extends State<ProviderHome> {
   }
 
   final List<Widget> _pages = [
-    const ProviderHomeScreen(),
-    const ProviderRdvScreen(),
+    const PrestataireHomeScreen(),
+    const PrestataireRdvScreen(),
     const ChatroomsScreen(),
-    const ProviderProfilScreen(),
+    const PrestataireProfilScreen(),
   ];
 
   @override

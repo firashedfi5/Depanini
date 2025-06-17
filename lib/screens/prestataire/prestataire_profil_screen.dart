@@ -2,14 +2,8 @@ import 'dart:developer' as dev;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:depanini/screens/provider/profil/provider_reviews_screen.dart';
-// import 'package:depanini/screens/common/change_location.dart';
-// import 'package:depanini/screens/common/change_password_screen.dart';
-// import 'package:depanini/screens/provider/profil/provider_account_screen.dart';
-// import 'package:depanini/screens/provider/profil/provider_gallery.dart';
-// import 'package:depanini/theme/theme_provider.dart';
-// import 'package:depanini/theme/themes.dart';
-import 'package:depanini/screens/provider/profil/provider_settings_screen.dart';
+import 'package:depanini/screens/prestataire/profil/prestataire_avis_screen.dart';
+import 'package:depanini/screens/prestataire/profil/prestataire_parametres_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,15 +13,16 @@ import 'package:url_launcher/url_launcher.dart';
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class ProviderProfilScreen extends ConsumerStatefulWidget {
-  const ProviderProfilScreen({super.key});
+class PrestataireProfilScreen extends ConsumerStatefulWidget {
+  const PrestataireProfilScreen({super.key});
 
   @override
-  ConsumerState<ProviderProfilScreen> createState() =>
-      _ProviderProfilScreenState();
+  ConsumerState<PrestataireProfilScreen> createState() =>
+      _PrestataireProfilScreenState();
 }
 
-class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
+class _PrestataireProfilScreenState
+    extends ConsumerState<PrestataireProfilScreen> {
   // *********Social Media*****************
   Future<void> openSocial({
     required String appName,
@@ -114,7 +109,8 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ProviderSettingsScreen(),
+                          builder:
+                              (context) => const PrestataireParametresScreen(),
                         ),
                       );
                     },
@@ -140,7 +136,7 @@ class _ProviderProfilScreenState extends ConsumerState<ProviderProfilScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ProviderReviewsScreen(),
+                          builder: (context) => const PrestataireAvisScreen(),
                         ),
                       );
                     },

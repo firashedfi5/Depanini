@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/auth/signin_screen.dart';
 import 'package:depanini/screens/common/change_location.dart';
 import 'package:depanini/screens/common/change_password_screen.dart';
-import 'package:depanini/screens/provider/profil/provider_gallery.dart';
-import 'package:depanini/screens/provider/profil/provider_personal_info.dart';
+import 'package:depanini/screens/prestataire/profil/prestataire_portfolio.dart';
+import 'package:depanini/screens/prestataire/profil/prestataire_info_personnelles.dart';
 import 'package:depanini/theme/theme_provider.dart';
 import 'package:depanini/theme/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,16 +14,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
-class ProviderSettingsScreen extends ConsumerStatefulWidget {
-  const ProviderSettingsScreen({super.key});
+class PrestataireParametresScreen extends ConsumerStatefulWidget {
+  const PrestataireParametresScreen({super.key});
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() =>
-      _ProviderSettingsScreenState();
+      _PrestataireParametresScreenState();
 }
 
-class _ProviderSettingsScreenState
-    extends ConsumerState<ProviderSettingsScreen> {
+class _PrestataireParametresScreenState
+    extends ConsumerState<PrestataireParametresScreen> {
   void showDeleteConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -110,7 +110,7 @@ class _ProviderSettingsScreenState
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ProviderPersonalInfo(),
+                    builder: (context) => const PrestataireInfoPersonnelles(),
                   ),
                 );
               },
@@ -188,7 +188,7 @@ class _ProviderSettingsScreenState
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ProviderGallery(),
+                    builder: (context) => const PrestatairePortfolio(),
                   ),
                 );
               },

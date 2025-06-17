@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/admin/admin_home.dart';
-import 'package:depanini/screens/client/home.dart';
-import 'package:depanini/screens/provider/provider_home.dart';
+import 'package:depanini/screens/client/client_home.dart';
+import 'package:depanini/screens/prestataire/prestataire_home.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
@@ -172,11 +172,11 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
           final role = snapshot.data;
           switch (role) {
             case 'provider':
-              return const ProviderHome();
+              return const PrestataireHome();
             case 'admin':
               return const AdminHome();
             case 'client':
-              return const Home();
+              return const ClientHome();
             default:
               return const Scaffold(body: Center(child: Text('Unknown role')));
           }

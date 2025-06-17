@@ -6,14 +6,14 @@ import 'package:depanini/screens/client/client_rdv_screen.dart';
 import 'package:depanini/screens/common/chatrooms_screen.dart';
 import 'package:flutter/material.dart';
 
-class Home extends StatefulWidget {
-  const Home({super.key});
+class ClientHome extends StatefulWidget {
+  const ClientHome({super.key});
 
   @override
-  State<Home> createState() => _HomeState();
+  State<ClientHome> createState() => _ClientHomeState();
 }
 
-class _HomeState extends State<Home> {
+class _ClientHomeState extends State<ClientHome> {
   int _selectedIndex = 0;
 
   void _navigateGoogleNavbar(int index) {

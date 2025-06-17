@@ -8,14 +8,14 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 
-class ProviderReviewsScreen extends StatefulWidget {
-  const ProviderReviewsScreen({super.key});
+class PrestataireAvisScreen extends StatefulWidget {
+  const PrestataireAvisScreen({super.key});
 
   @override
-  State<ProviderReviewsScreen> createState() => _ProviderReviewsScreenState();
+  State<PrestataireAvisScreen> createState() => _PrestataireAvisScreenState();
 }
 
-class _ProviderReviewsScreenState extends State<ProviderReviewsScreen> {
+class _PrestataireAvisScreenState extends State<PrestataireAvisScreen> {
   Future<List<FeedbackModel>> _feedbackList = Future.value([]);
   final String uid = _auth.currentUser!.uid;
 

@@ -12,14 +12,14 @@ final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 final _storage = FirebaseStorage.instance;
 
-class ProviderGallery extends StatefulWidget {
-  const ProviderGallery({super.key});
+class PrestatairePortfolio extends StatefulWidget {
+  const PrestatairePortfolio({super.key});
 
   @override
-  State<ProviderGallery> createState() => _ProviderGalleryState();
+  State<PrestatairePortfolio> createState() => _PrestatairePortfolioState();
 }
 
-class _ProviderGalleryState extends State<ProviderGallery> {
+class _PrestatairePortfolioState extends State<PrestatairePortfolio> {
   final user = _auth.currentUser!;
   File? _pickImageFile_1;
   File? _pickImageFile_2;

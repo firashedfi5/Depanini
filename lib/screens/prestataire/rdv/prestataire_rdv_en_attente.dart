@@ -4,28 +4,29 @@ import 'package:depanini/models/place.dart';
 import 'package:depanini/models/rdv_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
-class ProviderCancelledAppointment extends StatefulWidget {
-  const ProviderCancelledAppointment({super.key});
+class PrestataireRdvEnAttente extends StatefulWidget {
+  const PrestataireRdvEnAttente({super.key});
 
   @override
-  State<ProviderCancelledAppointment> createState() =>
-      _ProviderCancelledAppointmentState();
+  State<PrestataireRdvEnAttente> createState() =>
+      _PrestataireRdvEnAttenteState();
 }
 
-class _ProviderCancelledAppointmentState
-    extends State<ProviderCancelledAppointment> {
+class _PrestataireRdvEnAttenteState
+    extends State<PrestataireRdvEnAttente> {
   // *******************************
-  Stream<List<RdvModel>> getCancelledRdvsStream() {
+  Stream<List<RdvModel>> getPendingRdvsStream() {
     return _firestore
         .collection('rdvs')
         .where('prestataire_uid', isEqualTo: _auth.currentUser!.uid)
-        .where('status', isEqualTo: 'annulé')
-        .orderBy('date', descending: false)
+        .where('status', isEqualTo: 'en_attente')
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .map(
           (snapshot) =>
@@ -67,7 +68,7 @@ class _ProviderCancelledAppointmentState
         top: false,
         bottom: false,
         child: StreamBuilder(
-          stream: getCancelledRdvsStream(),
+          stream: getPendingRdvsStream(),
           builder:
               (context, snapshot) => Builder(
                 builder: (context) {
@@ -81,7 +82,7 @@ class _ProviderCancelledAppointmentState
 
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(
-                      child: Text('Aucune réservation annulé'),
+                      child: Text('Aucune réservation en attente'),
                     );
                   }
 
@@ -118,37 +119,32 @@ class _ProviderCancelledAppointmentState
                                         context,
                                       ).colorScheme.surfaceContainerHighest,
                               child: Padding(
-                                padding: const EdgeInsets.all(8.0),
+                                padding: const EdgeInsets.only(
+                                  left: 8,
+                                  right: 8,
+                                  top: 8,
+                                ),
                                 child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [
                                         CircleAvatar(
-                                          radius: 24,
-                                          backgroundImage:
-                                              items[index]
-                                                      .clientProfilePicture
-                                                      .isNotEmpty
-                                                  ? CachedNetworkImageProvider(
+                                          radius: 30,
+                                          foregroundImage:
+                                              CachedNetworkImageProvider(
+                                                items[index]
+                                                    .clientProfilePicture,
+                                                cacheKey:
                                                     items[index]
                                                         .clientProfilePicture,
-                                                    cacheKey:
-                                                        items[index]
-                                                            .clientProfilePicture,
-                                                  )
-                                                  : null,
-                                          child:
-                                              items[index]
-                                                      .clientProfilePicture
-                                                      .isEmpty
-                                                  ? const Icon(
-                                                    Icons.person,
-                                                    color: Colors.white,
-                                                  )
-                                                  : null,
+                                              ),
+                                          backgroundColor: Colors.blue.shade50,
+                                          child: Icon(
+                                            Icons.person,
+                                            color: Colors.blue.shade800,
+                                          ),
                                         ),
-                                        const SizedBox(width: 16),
+                                        const SizedBox(width: 12),
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -173,25 +169,27 @@ class _ProviderCancelledAppointmentState
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: BoxDecoration(
-                                            color: Colors.red.shade200
+                                            color: Colors.orange.shade200
                                                 .withAlpha(50),
                                             borderRadius: BorderRadius.circular(
                                               16,
                                             ),
                                           ),
                                           child: Text(
-                                            'Annulé',
+                                            'En attente',
                                             style: Theme.of(
                                               context,
                                             ).textTheme.titleMedium!.copyWith(
-                                              color: Colors.red,
+                                              color: Colors.orange,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 16),
+
+                                    const SizedBox(height: 10),
+
                                     Row(
                                       mainAxisAlignment:
                                           MainAxisAlignment.center,
@@ -209,7 +207,102 @@ class _ProviderCancelledAppointmentState
                                         ),
                                       ],
                                     ),
-                                    const SizedBox(height: 12),
+
+                                    const Divider(height: 20),
+
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        SizedBox(
+                                          width: 150,
+                                          child: FilledButton.icon(
+                                            onPressed: () {
+                                              _firestore
+                                                  .collection("rdvs")
+                                                  .doc(items[index].id)
+                                                  .update({'status': 'annulé'});
+                                              _firestore
+                                                  .collection("notifications")
+                                                  .add({
+                                                    'expéditeur_uid':
+                                                        _auth.currentUser!.uid,
+                                                    'récepteur_uid':
+                                                        items[index].clientUid,
+                                                    'type': 'annulation',
+                                                    'titre':
+                                                        'Rendez-vous annulé',
+                                                    'contenu':
+                                                        'Votre rendez-vous avec ${items[index].prestataireUsername} a été annulé.',
+                                                    'date': Timestamp.now(),
+                                                  });
+                                            },
+                                            style: FilledButton.styleFrom(
+                                              backgroundColor: Colors
+                                                  .red
+                                                  .shade200
+                                                  .withAlpha(50),
+                                            ),
+                                            label: const Text(
+                                              'Refuser',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            icon: const FaIcon(
+                                              FontAwesomeIcons.xmark,
+                                              color: Colors.red,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 150,
+                                          child: FilledButton.icon(
+                                            onPressed: () {
+                                              _firestore
+                                                  .collection("rdvs")
+                                                  .doc(items[index].id)
+                                                  .update({
+                                                    'status': 'confirmé',
+                                                  });
+                                              _firestore
+                                                  .collection("notifications")
+                                                  .add({
+                                                    'expéditeur_uid':
+                                                        _auth.currentUser!.uid,
+                                                    'récepteur_uid':
+                                                        items[index].clientUid,
+                                                    'type': 'confirmation',
+                                                    'titre':
+                                                        'Rendez-vous confirmé',
+                                                    'contenu':
+                                                        'Votre rendez-vous avec ${items[index].prestataireUsername} a été confirmé.',
+                                                    'date': Timestamp.now(),
+                                                  });
+                                            },
+                                            style: FilledButton.styleFrom(
+                                              backgroundColor: Colors
+                                                  .green
+                                                  .shade200
+                                                  .withAlpha(50),
+                                            ),
+                                            label: const Text(
+                                              'Accepter',
+                                              style: TextStyle(
+                                                color: Colors.green,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            ),
+                                            icon: const FaIcon(
+                                              FontAwesomeIcons.check,
+                                              color: Colors.green,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 10),
                                   ],
                                 ),
                               ),

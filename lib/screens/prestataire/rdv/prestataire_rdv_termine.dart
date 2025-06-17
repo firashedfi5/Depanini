@@ -2,31 +2,29 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/place.dart';
 import 'package:depanini/models/rdv_model.dart';
-import 'package:depanini/screens/common/map.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:intl/intl.dart';
 
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
-class ProviderIncomingAppointment extends StatefulWidget {
-  const ProviderIncomingAppointment({super.key});
+class PrestataireRdvTermine extends StatefulWidget {
+  const PrestataireRdvTermine({super.key});
 
   @override
-  State<ProviderIncomingAppointment> createState() =>
-      _ProviderIncomingAppointmentState();
+  State<PrestataireRdvTermine> createState() =>
+      _PrestataireRdvTermineState();
 }
 
-class _ProviderIncomingAppointmentState
-    extends State<ProviderIncomingAppointment> {
+class _PrestataireRdvTermineState
+    extends State<PrestataireRdvTermine> {
   // *******************************
-  Stream<List<RdvModel>> getIncomingRdvsStream() {
+  Stream<List<RdvModel>> getCompletedRdvsStream() {
     return _firestore
         .collection('rdvs')
         .where('prestataire_uid', isEqualTo: _auth.currentUser!.uid)
-        .where('status', isEqualTo: 'confirmé')
+        .where('status', isEqualTo: 'completé')
         .orderBy('date', descending: false)
         .snapshots()
         .map(
@@ -69,7 +67,7 @@ class _ProviderIncomingAppointmentState
         top: false,
         bottom: false,
         child: StreamBuilder(
-          stream: getIncomingRdvsStream(),
+          stream: getCompletedRdvsStream(),
           builder:
               (context, snapshot) => Builder(
                 builder: (context) {
@@ -83,7 +81,7 @@ class _ProviderIncomingAppointmentState
 
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(
-                      child: Text('Aucune réservation confirmé'),
+                      child: Text('Aucune réservation completé'),
                     );
                   }
 
@@ -124,10 +122,6 @@ class _ProviderIncomingAppointmentState
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    // Text(
-                                    //   items[index].prestataireLocation.longitude
-                                    //       .toString(),
-                                    // ),
                                     Row(
                                       children: [
                                         CircleAvatar(
@@ -179,18 +173,18 @@ class _ProviderIncomingAppointmentState
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: BoxDecoration(
-                                            color: Colors.green.shade200
+                                            color: Colors.blue.shade200
                                                 .withAlpha(50),
                                             borderRadius: BorderRadius.circular(
                                               16,
                                             ),
                                           ),
                                           child: Text(
-                                            'Confirmé',
+                                            'Completé',
                                             style: Theme.of(
                                               context,
                                             ).textTheme.titleMedium!.copyWith(
-                                              color: Colors.green,
+                                              color: Colors.blue,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),
@@ -215,141 +209,7 @@ class _ProviderIncomingAppointmentState
                                         ),
                                       ],
                                     ),
-                                    // const SizedBox(height: 12),
-                                    const Divider(height: 20),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        SizedBox(
-                                          width: 150,
-                                          child: FilledButton.icon(
-                                            onPressed: () {
-                                              _firestore
-                                                  .collection("rdvs")
-                                                  .doc(items[index].id)
-                                                  .update({'status': 'annulé'});
-                                              _firestore
-                                                  .collection("notifications")
-                                                  .add({
-                                                    'expéditeur_uid':
-                                                        _auth.currentUser!.uid,
-                                                    'récepteur_uid':
-                                                        items[index].clientUid,
-                                                    'type': 'annulation',
-                                                    'titre':
-                                                        'Rendez-vous annulé',
-                                                    'contenu':
-                                                        'Votre rendez-vous avec ${items[index].prestataireUsername} a été annulé.',
-                                                    'date': Timestamp.now(),
-                                                  });
-                                            },
-                                            style: FilledButton.styleFrom(
-                                              backgroundColor: Colors
-                                                  .red
-                                                  .shade200
-                                                  .withAlpha(50),
-                                            ),
-                                            label: const Text(
-                                              'Annulé',
-                                              style: TextStyle(
-                                                color: Colors.red,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            icon: const FaIcon(
-                                              FontAwesomeIcons.xmark,
-                                              color: Colors.red,
-                                            ),
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          width: 150,
-                                          child: FilledButton.icon(
-                                            onPressed:
-                                                () => _firestore
-                                                    .collection("rdvs")
-                                                    .doc(items[index].id)
-                                                    .update({
-                                                      'status': 'completé',
-                                                    }),
-                                            style: FilledButton.styleFrom(
-                                              backgroundColor: Colors
-                                                  .blue
-                                                  .shade200
-                                                  .withAlpha(50),
-                                            ),
-                                            label: const Text(
-                                              'Terminé',
-                                              style: TextStyle(
-                                                color: Colors.blue,
-                                                fontWeight: FontWeight.bold,
-                                              ),
-                                            ),
-                                            icon: const FaIcon(
-                                              FontAwesomeIcons.check,
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 10),
-                                    Align(
-                                      alignment: Alignment.center,
-                                      child: OutlinedButton.icon(
-                                        style: OutlinedButton.styleFrom(
-                                          fixedSize: const Size(170, 30),
-                                        ),
-                                        icon: const Icon(Icons.directions),
-                                        onPressed: () {
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder:
-                                                  (context) => MapScreen(
-                                                    location: PlaceLocation(
-                                                      address:
-                                                          items[index]
-                                                              .prestataireLocation
-                                                              .address,
-                                                      latitude:
-                                                          items[index]
-                                                              .prestataireLocation
-                                                              .latitude,
-                                                      longitude:
-                                                          items[index]
-                                                              .prestataireLocation
-                                                              .longitude,
-                                                    ),
-                                                    isSelecting: false,
-                                                    isDrectionning: true,
-                                                    othersLocations: [
-                                                      PlaceLocation(
-                                                        address:
-                                                            items[index]
-                                                                .clientLocation
-                                                                .address,
-                                                        latitude:
-                                                            items[index]
-                                                                .clientLocation
-                                                                .latitude,
-                                                        longitude:
-                                                            items[index]
-                                                                .clientLocation
-                                                                .longitude,
-                                                      ),
-                                                    ],
-                                                    prestataireInfo: const [],
-                                                    clientUsername:
-                                                        items[index]
-                                                            .clientUsername,
-                                                  ),
-                                            ),
-                                          );
-                                        },
-                                        label: const Text('Voir l’itinéraire'),
-                                      ),
-                                    ),
+                                    const SizedBox(height: 12),
                                   ],
                                 ),
                               ),
