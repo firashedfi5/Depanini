@@ -1,5 +1,5 @@
 import 'package:depanini/providers/user_information.dart';
-import 'package:depanini/screens/auth/localization_screen.dart';
+import 'package:depanini/screens/auth/localisation_screen.dart';
 import 'package:depanini/widgets/user_image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,7 +42,7 @@ class _SignupScreenState extends ConsumerState<SignupScreen> {
           .updateProfilImage(_selectedImage!);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (contexte) => const LocalizationScreen()),
+        MaterialPageRoute(builder: (contexte) => const LocalisationScreen()),
       );
     }
   }

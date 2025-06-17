@@ -1,8 +1,9 @@
-import 'package:depanini/screens/auth/forget_password_screen.dart';
-import 'package:depanini/screens/auth/signup_screen.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'dart:developer' as dev;
+
+import 'package:depanini/screens/auth/mdp_oublie_screen.dart';
+import 'package:depanini/screens/auth/signup_screen.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 final _auth = FirebaseAuth.instance;
 
@@ -220,8 +221,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder:
-                                    (context) => const ForgetPasswordScreen(),
+                                builder: (context) => const MdpOublieScreen(),
                               ),
                             );
                           },

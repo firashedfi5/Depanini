@@ -1,5 +1,5 @@
 import 'package:depanini/screens/auth/signin_screen.dart';
-import 'package:depanini/screens/auth/verify_email_screen.dart';
+import 'package:depanini/screens/auth/email_verification_screen.dart';
 import 'package:depanini/screens/common/splash_screen.dart';
 import 'package:depanini/theme/theme_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -49,7 +49,7 @@ class AuthWrapper extends StatelessWidget {
           return const SplashScreen();
         }
         if (snapshot.hasData) {
-          return const VerifyEmailScreen();
+          return const EmailVerificationScreen();
         } else {
           return const SigninScreen();
         }

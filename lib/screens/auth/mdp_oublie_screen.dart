@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 
 final _auth = FirebaseAuth.instance;
 
-class ForgetPasswordScreen extends StatefulWidget {
-  const ForgetPasswordScreen({super.key});
+class MdpOublieScreen extends StatefulWidget {
+  const MdpOublieScreen({super.key});
   @override
   State<StatefulWidget> createState() {
-    return _ForgetPasswordScreenState();
+    return _MdpOublieScreenState();
   }
 }
 
-class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
+class _MdpOublieScreenState extends State<MdpOublieScreen> {
   final TextEditingController _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 

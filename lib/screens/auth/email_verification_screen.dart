@@ -10,14 +10,14 @@ import 'package:flutter/material.dart';
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 
-class VerifyEmailScreen extends StatefulWidget {
-  const VerifyEmailScreen({super.key});
+class EmailVerificationScreen extends StatefulWidget {
+  const EmailVerificationScreen({super.key});
 
   @override
-  State<VerifyEmailScreen> createState() => _VerifyEmailScreenState();
+  State<EmailVerificationScreen> createState() => _EmailVerificationScreenState();
 }
 
-class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
+class _EmailVerificationScreenState extends State<EmailVerificationScreen> {
   bool isEmailVerified = false;
   bool canResendEmail = false;
   Timer? timer;
@@ -57,12 +57,6 @@ class _VerifyEmailScreenState extends State<VerifyEmailScreen> {
       final adminDoc =
           await _firestore.collection('administrateurs').doc(uid).get();
       if (adminDoc.exists) return 'admin';
-
-      // Optional: check admin collection or specific UID/email
-      // final user = FirebaseAuth.instance.currentUser;
-      // if (user != null && user.email == 'admin@example.com') {
-      //   return 'admin';
-      // }
 
       return null;
     } catch (e) {

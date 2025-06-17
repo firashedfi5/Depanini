@@ -1,5 +1,5 @@
-import 'package:depanini/screens/auth/provider_description.dart';
-import 'package:depanini/screens/auth/verify_email_screen.dart';
+import 'package:depanini/screens/auth/prestataire_description.dart';
+import 'package:depanini/screens/auth/email_verification_screen.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:depanini/providers/user_information.dart';
@@ -11,14 +11,14 @@ final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 final _storage = FirebaseStorage.instance;
 
-class ChoosingScreen extends ConsumerStatefulWidget {
-  const ChoosingScreen({super.key});
+class ChoisirRoleScreen extends ConsumerStatefulWidget {
+  const ChoisirRoleScreen({super.key});
 
   @override
-  ConsumerState<ChoosingScreen> createState() => _ChoosingScreenState();
+  ConsumerState<ChoisirRoleScreen> createState() => _ChoisirRoleScreenState();
 }
 
-class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
+class _ChoisirRoleScreenState extends ConsumerState<ChoisirRoleScreen> {
   String _enetredRole = '';
 
   // ********************Image upload***************************
@@ -112,7 +112,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const VerifyEmailScreen(),
+                        builder: (context) => const EmailVerificationScreen(),
                       ),
                     );
                   }
@@ -185,7 +185,7 @@ class _ChoosingScreenState extends ConsumerState<ChoosingScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (contexte) => const ProviderDescription(),
+                    builder: (contexte) => const PrestataireDescription(),
                   ),
                 );
               },

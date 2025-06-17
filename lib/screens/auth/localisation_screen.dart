@@ -1,18 +1,18 @@
 import 'package:depanini/models/place.dart';
 import 'package:depanini/providers/user_information.dart';
-import 'package:depanini/screens/auth/choosing_screen.dart';
+import 'package:depanini/screens/auth/choisir_role_screen.dart';
 import 'package:depanini/widgets/location_input.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LocalizationScreen extends ConsumerStatefulWidget {
-  const LocalizationScreen({super.key});
+class LocalisationScreen extends ConsumerStatefulWidget {
+  const LocalisationScreen({super.key});
 
   @override
-  ConsumerState<LocalizationScreen> createState() => _LocalizationScreenState();
+  ConsumerState<LocalisationScreen> createState() => _LocalisationScreenState();
 }
 
-class _LocalizationScreenState extends ConsumerState<LocalizationScreen> {
+class _LocalisationScreenState extends ConsumerState<LocalisationScreen> {
   PlaceLocation? _selectedLocation;
 
   void _submit() {
@@ -21,9 +21,9 @@ class _LocalizationScreenState extends ConsumerState<LocalizationScreen> {
       ref
           .read(userInformationProvdier.notifier)
           .updateLocation(_selectedLocation!);
-      Navigator.of(
-        context,
-      ).push(MaterialPageRoute(builder: (context) => const ChoosingScreen()));
+      Navigator.of(context).push(
+        MaterialPageRoute(builder: (context) => const ChoisirRoleScreen()),
+      );
     } else {
       ScaffoldMessenger.of(context).clearSnackBars();
       ScaffoldMessenger.of(context).showSnackBar(

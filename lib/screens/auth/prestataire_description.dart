@@ -1,27 +1,29 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/constants/domains.dart';
 import 'package:depanini/providers/user_information.dart';
-import 'package:depanini/screens/auth/verify_email_screen.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:depanini/screens/auth/email_verification_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 final _storage = FirebaseStorage.instance;
 
-class ProviderDescription extends ConsumerStatefulWidget {
-  const ProviderDescription({super.key});
+class PrestataireDescription extends ConsumerStatefulWidget {
+  const PrestataireDescription({super.key});
 
   @override
-  ConsumerState<ProviderDescription> createState() =>
-      _ProviderDescriptionState();
+  ConsumerState<PrestataireDescription> createState() =>
+      _PrestataireDescriptionState();
 }
 
-class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
+class _PrestataireDescriptionState
+    extends ConsumerState<PrestataireDescription> {
   // **********List***********
   final List<Domains> _domains = Domains.values;
 
@@ -168,7 +170,9 @@ class _ProviderDescriptionState extends ConsumerState<ProviderDescription> {
       if (mounted) {
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const VerifyEmailScreen()),
+          MaterialPageRoute(
+            builder: (context) => const EmailVerificationScreen(),
+          ),
         );
       }
     } on FirebaseAuthException catch (error) {
