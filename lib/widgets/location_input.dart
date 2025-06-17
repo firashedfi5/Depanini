@@ -87,10 +87,6 @@ class _LocationInputState extends State<LocationInput> {
     }
 
     _savePlace(lat, lng);
-
-    // dev.log('Latitude: ${lat.toString()}');
-    // dev.log('Longitude: ${lng.toString()}');
-    // dev.log('Address: ${address.toString()}');
   }
 
   void _selectOnMap() async {

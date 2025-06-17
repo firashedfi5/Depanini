@@ -5,12 +5,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
-final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 
 class ChatroomsScreen extends StatelessWidget {
   const ChatroomsScreen({super.key});
 
+  // *Tfetchi les chatrooms eli mawjoud fehom l current user
   Stream<QuerySnapshot<Map<String, dynamic>>> _chatRoomsStream() {
     final currentUserEmail = _auth.currentUser?.email;
     if (currentUserEmail == null) {
@@ -24,6 +25,7 @@ class ChatroomsScreen extends StatelessWidget {
         .snapshots();
   }
 
+  // *Tfetchi e5er msg
   Stream<DocumentSnapshot<Map<String, dynamic>>> _lastMessageStream(
     String chatRoomId,
   ) {
@@ -41,6 +43,7 @@ class ChatroomsScreen extends StatelessWidget {
         .cast<DocumentSnapshot<Map<String, dynamic>>>();
   }
 
+  // *T7aded l username mte3 cha5s le5er
   String? determineOtherUsername(
     Map<String, dynamic>? data,
     String currentEmail,
@@ -54,6 +57,7 @@ class ChatroomsScreen extends StatelessWidget {
         : senderUsername;
   }
 
+  // *T7aded tasiwra mte3 cha5s le5er
   String? determineOtherProfilePicture(
     Map<String, dynamic>? data,
     String currentEmail,
@@ -67,6 +71,7 @@ class ChatroomsScreen extends StatelessWidget {
         : senderPic;
   }
 
+  // *T7aded l email mte3 cha5s le5er
   String? determineOtherEmail(Map<String, dynamic>? data, String currentEmail) {
     if (data == null) return null;
     final receiver = data['receiverEmail'];
