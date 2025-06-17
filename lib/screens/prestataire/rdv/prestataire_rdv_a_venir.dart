@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/place.dart';
 import 'package:depanini/models/rdv_model.dart';
-import 'package:depanini/screens/common/map.dart';
+import 'package:depanini/screens/commun/map.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';

@@ -1,6 +1,6 @@
 import 'package:depanini/screens/auth/signin_screen.dart';
 import 'package:depanini/screens/auth/email_verification_screen.dart';
-import 'package:depanini/screens/common/splash_screen.dart';
+import 'package:depanini/screens/commun/splash_screen.dart';
 import 'package:depanini/theme/theme_provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';

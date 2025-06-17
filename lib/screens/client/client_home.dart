@@ -3,7 +3,7 @@ import 'package:depanini/screens/client/client_annonces_screen.dart';
 import 'package:depanini/screens/client/client_home_screen.dart';
 import 'package:depanini/screens/client/client_profil_screen.dart';
 import 'package:depanini/screens/client/client_rdv_screen.dart';
-import 'package:depanini/screens/common/chatrooms_screen.dart';
+import 'package:depanini/screens/commun/chatrooms_screen.dart';
 import 'package:flutter/material.dart';
 
 class ClientHome extends StatefulWidget {

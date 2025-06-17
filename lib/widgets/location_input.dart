@@ -2,7 +2,7 @@ import 'dart:convert';
 
 // import 'dart:developer' as dev;
 import 'package:depanini/models/place.dart';
-import 'package:depanini/screens/common/map.dart';
+import 'package:depanini/screens/commun/map.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;

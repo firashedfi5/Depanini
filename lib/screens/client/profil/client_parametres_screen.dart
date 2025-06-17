@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/auth/signin_screen.dart';
 import 'package:depanini/screens/client/profil/client_info_personnelles.dart';
-import 'package:depanini/screens/common/change_location.dart';
-import 'package:depanini/screens/common/change_password_screen.dart';
+import 'package:depanini/screens/commun/change_location.dart';
+import 'package:depanini/screens/commun/change_password_screen.dart';
 import 'package:depanini/theme/theme_provider.dart';
 import 'package:depanini/theme/themes.dart';
 import 'package:firebase_auth/firebase_auth.dart';

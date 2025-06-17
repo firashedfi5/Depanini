@@ -5,7 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/feedback_model.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/client/rdv/demander_rdv.dart';
-import 'package:depanini/screens/common/chat_screen.dart';
+import 'package:depanini/screens/commun/chat_screen.dart';
 import 'package:depanini/widgets/feedback.dart';
 import 'package:depanini/widgets/image_container.dart';
 import 'package:firebase_auth/firebase_auth.dart';
