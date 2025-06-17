@@ -52,11 +52,8 @@ class _ChatMessagesState extends State<ChatMessages> {
   Widget build(BuildContext context) {
     final authenticatedUser = _auth.currentUser!;
 
-    // if (chatRoomId == null) {
-    //   return const Center(child: CircularProgressIndicator());
-    // }
-
     return StreamBuilder(
+      // *Tfetchi les msgs w tratebhom e5er msg yji mel louta
       stream:
           _firestore
               .collection('chat_rooms')

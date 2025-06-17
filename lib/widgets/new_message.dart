@@ -29,6 +29,7 @@ class _NewMessageState extends State<NewMessage> {
     _messageController.dispose();
   }
 
+  // *Tsajel el msg fel Firestore
   void _submitMessage() async {
     final enteredMessage = _messageController.text;
 
