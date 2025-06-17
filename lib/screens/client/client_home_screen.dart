@@ -6,7 +6,7 @@ import 'package:depanini/constants/domains.dart';
 import 'package:depanini/data/word_to_field.dart';
 import 'package:depanini/models/place.dart';
 import 'package:depanini/models/provider_account_model.dart';
-import 'package:depanini/screens/client/home/provider_info_screen.dart';
+import 'package:depanini/screens/client/home/info_du_prestataire_screen.dart';
 import 'package:depanini/screens/common/map.dart';
 import 'package:depanini/screens/common/notifications_screen.dart';
 // import 'package:depanini/screens/common/onboarding_screen.dart';
@@ -414,7 +414,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       context,
                       MaterialPageRoute(
                         builder:
-                            (context) => ProviderInfoScreen(
+                            (context) => InfoDuPrestataireScreen(
                               uid: snapshot.data![index].uid,
                               email: snapshot.data![index].email,
                             ),

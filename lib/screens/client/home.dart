@@ -1,9 +1,9 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:depanini/screens/client/client_post_screen.dart';
-import 'package:depanini/screens/client/client_rdv_screen.dart';
-import 'package:depanini/screens/common/chatrooms_screen.dart';
+import 'package:depanini/screens/client/client_annonces_screen.dart';
 import 'package:depanini/screens/client/client_home_screen.dart';
 import 'package:depanini/screens/client/client_profil_screen.dart';
+import 'package:depanini/screens/client/client_rdv_screen.dart';
+import 'package:depanini/screens/common/chatrooms_screen.dart';
 import 'package:flutter/material.dart';
 
 class Home extends StatefulWidget {
@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
   final List<Widget> _pages = [
     const HomeScreen(),
     const ClientRdvScreen(),
-    const ClientPostScreen(),
+    const ClientAnnoncesScreen(),
     const ChatroomsScreen(),
     const ProfilScreen(),
   ];

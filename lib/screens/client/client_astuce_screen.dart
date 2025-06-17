@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/constants/domains.dart';
 import 'package:depanini/data/word_to_field.dart';
 import 'package:depanini/models/astuce_model.dart';
-import 'package:depanini/screens/client/diy_astuces/astuce_screen.dart';
+import 'package:depanini/screens/client/astuces/astuce_screen.dart';
 import 'package:flutter/material.dart';
 // import 'dart:developer' as dev;
 

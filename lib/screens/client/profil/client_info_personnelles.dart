@@ -12,14 +12,14 @@ final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 final _storage = FirebaseStorage.instance;
 
-class ClientPersonalInfo extends StatefulWidget {
-  const ClientPersonalInfo({super.key});
+class ClientInfoPersonnelles extends StatefulWidget {
+  const ClientInfoPersonnelles({super.key});
 
   @override
-  State<ClientPersonalInfo> createState() => _ClientPersonalInfoState();
+  State<ClientInfoPersonnelles> createState() => _ClientInfoPersonnellesState();
 }
 
-class _ClientPersonalInfoState extends State<ClientPersonalInfo> {
+class _ClientInfoPersonnellesState extends State<ClientInfoPersonnelles> {
   String? originalUsername;
   String? originalPhoneNumber;
 

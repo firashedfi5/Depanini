@@ -3,9 +3,9 @@ import 'dart:developer' as dev;
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/post_model.dart';
-import 'package:depanini/screens/client/posts/edit_post_screen.dart';
-import 'package:depanini/screens/client/posts/new_post_screen.dart';
-import 'package:depanini/screens/client/posts/propostions_screen.dart';
+import 'package:depanini/screens/client/annonces/ajouter_annonce_screen.dart';
+import 'package:depanini/screens/client/annonces/modifier_annonce_screen.dart';
+import 'package:depanini/screens/client/annonces/propostions_screen.dart';
 import 'package:depanini/widgets/image_container.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,14 +14,14 @@ import 'package:intl/intl.dart';
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
-class ClientPostScreen extends StatefulWidget {
-  const ClientPostScreen({super.key});
+class ClientAnnoncesScreen extends StatefulWidget {
+  const ClientAnnoncesScreen({super.key});
 
   @override
-  State<ClientPostScreen> createState() => _ClientPostScreenState();
+  State<ClientAnnoncesScreen> createState() => _ClientAnnoncesScreenState();
 }
 
-class _ClientPostScreenState extends State<ClientPostScreen> {
+class _ClientAnnoncesScreenState extends State<ClientAnnoncesScreen> {
   List<PostModel> _postListed = [];
   var _isLoading = true;
   String? _error;
@@ -84,7 +84,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
   // *Temchi lel screen mte3 l add w tab3thelha l model
   void _addPost() async {
     await Navigator.of(context).push<PostModel>(
-      MaterialPageRoute(builder: (context) => const NewPostScreen()),
+      MaterialPageRoute(builder: (context) => const AjouterAnnonceScreen()),
     );
     _loadPosts();
     dev.log("Annonce crée");
@@ -259,7 +259,7 @@ class _ClientPostScreenState extends State<ClientPostScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder:
-                                      (context) => EditPostScreen(
+                                      (context) => ModifierAnnonceScreen(
                                         postId: _postListed[index].postId,
                                         originalDescription:
                                             _postListed[index].description,

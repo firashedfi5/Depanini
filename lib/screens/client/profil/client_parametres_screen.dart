@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/screens/auth/signin_screen.dart';
-import 'package:depanini/screens/client/profil/client_personal_info.dart';
+import 'package:depanini/screens/client/profil/client_info_personnelles.dart';
 import 'package:depanini/screens/common/change_location.dart';
 import 'package:depanini/screens/common/change_password_screen.dart';
 import 'package:depanini/theme/theme_provider.dart';
@@ -13,15 +13,16 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
-class ClientSettingsScreen extends ConsumerStatefulWidget {
-  const ClientSettingsScreen({super.key});
+class ClientParametresScreen extends ConsumerStatefulWidget {
+  const ClientParametresScreen({super.key});
 
   @override
-  ConsumerState<ClientSettingsScreen> createState() =>
-      _ClientSettingsScreenState();
+  ConsumerState<ClientParametresScreen> createState() =>
+      _ClientParametresScreenState();
 }
 
-class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
+class _ClientParametresScreenState
+    extends ConsumerState<ClientParametresScreen> {
   void showDeleteConfirmationDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -108,7 +109,7 @@ class _ClientSettingsScreenState extends ConsumerState<ClientSettingsScreen> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const ClientPersonalInfo(),
+                    builder: (context) => const ClientInfoPersonnelles(),
                   ),
                 );
               },

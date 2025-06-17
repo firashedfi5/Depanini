@@ -8,22 +8,23 @@ import 'package:intl/intl.dart';
 final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 
-class ClientPendingAppointment extends StatefulWidget {
-  const ClientPendingAppointment({super.key});
+class ClientRdvAnnule extends StatefulWidget {
+  const ClientRdvAnnule({super.key});
 
   @override
-  State<ClientPendingAppointment> createState() =>
-      _ClientPendingAppointmentState();
+  State<ClientRdvAnnule> createState() =>
+      _ClientRdvAnnuleState();
 }
 
-class _ClientPendingAppointmentState extends State<ClientPendingAppointment> {
+class _ClientRdvAnnuleState
+    extends State<ClientRdvAnnule> {
   // *******************************
-  Stream<List<RdvModel>> getPendingRdvsStream() {
+  Stream<List<RdvModel>> getCancelledRdvsStream() {
     return _firestore
         .collection('rdvs')
         .where('client_uid', isEqualTo: _auth.currentUser!.uid)
-        .where('status', isEqualTo: 'en_attente')
-        .orderBy('createdAt', descending: true)
+        .where('status', isEqualTo: 'annulé')
+        .orderBy('date', descending: false)
         .snapshots()
         .map(
           (snapshot) =>
@@ -56,7 +57,6 @@ class _ClientPendingAppointmentState extends State<ClientPendingAppointment> {
               }).toList(),
         );
   }
-
   // *******************************
 
   @override
@@ -66,7 +66,7 @@ class _ClientPendingAppointmentState extends State<ClientPendingAppointment> {
         top: false,
         bottom: false,
         child: StreamBuilder(
-          stream: getPendingRdvsStream(),
+          stream: getCancelledRdvsStream(),
           builder:
               (context, snapshot) => Builder(
                 builder: (context) {
@@ -80,7 +80,7 @@ class _ClientPendingAppointmentState extends State<ClientPendingAppointment> {
 
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(
-                      child: Text('Aucune réservation en attente'),
+                      child: Text('Aucune réservation annulé'),
                     );
                   }
 
@@ -169,18 +169,18 @@ class _ClientPendingAppointmentState extends State<ClientPendingAppointment> {
                                         Container(
                                           padding: const EdgeInsets.all(8.0),
                                           decoration: BoxDecoration(
-                                            color: Colors.orange.shade200
+                                            color: Colors.red.shade200
                                                 .withAlpha(50),
                                             borderRadius: BorderRadius.circular(
                                               16,
                                             ),
                                           ),
                                           child: Text(
-                                            'En attente',
+                                            'Annulé',
                                             style: Theme.of(
                                               context,
                                             ).textTheme.titleMedium!.copyWith(
-                                              color: Colors.orange,
+                                              color: Colors.red,
                                               fontWeight: FontWeight.bold,
                                             ),
                                           ),

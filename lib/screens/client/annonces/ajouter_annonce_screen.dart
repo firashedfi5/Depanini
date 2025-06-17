@@ -14,14 +14,14 @@ final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 final _storage = FirebaseStorage.instance;
 
-class NewPostScreen extends StatefulWidget {
-  const NewPostScreen({super.key});
+class AjouterAnnonceScreen extends StatefulWidget {
+  const AjouterAnnonceScreen({super.key});
 
   @override
-  State<NewPostScreen> createState() => _NewPostScreenState();
+  State<AjouterAnnonceScreen> createState() => _AjouterAnnonceScreenState();
 }
 
-class _NewPostScreenState extends State<NewPostScreen> {
+class _AjouterAnnonceScreenState extends State<AjouterAnnonceScreen> {
   final user = _auth.currentUser!;
   final uuid = const Uuid();
   late String postId;

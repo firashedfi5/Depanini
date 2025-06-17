@@ -13,8 +13,8 @@ final _auth = FirebaseAuth.instance;
 final _firestore = FirebaseFirestore.instance;
 final _storage = FirebaseStorage.instance;
 
-class EditPostScreen extends StatefulWidget {
-  const EditPostScreen({
+class ModifierAnnonceScreen extends StatefulWidget {
+  const ModifierAnnonceScreen({
     super.key,
     required this.postId,
     required this.originalDescription,
@@ -24,10 +24,10 @@ class EditPostScreen extends StatefulWidget {
   final String originalDescription;
 
   @override
-  State<EditPostScreen> createState() => _EditPostScreenState();
+  State<ModifierAnnonceScreen> createState() => _ModifierAnnonceScreenState();
 }
 
-class _EditPostScreenState extends State<EditPostScreen> {
+class _ModifierAnnonceScreenState extends State<ModifierAnnonceScreen> {
   DateTime? _selectedDate;
   final formatter = DateFormat.yMd();
   final TextEditingController _enteredDescription = TextEditingController();

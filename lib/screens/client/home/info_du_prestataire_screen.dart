@@ -18,16 +18,16 @@ import 'package:url_launcher/url_launcher.dart';
 final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-class ProviderInfoScreen extends StatefulWidget {
-  const ProviderInfoScreen({super.key, required this.email, required this.uid});
+class InfoDuPrestataireScreen extends StatefulWidget {
+  const InfoDuPrestataireScreen({super.key, required this.email, required this.uid});
   final String uid;
   final String email;
 
   @override
-  State<ProviderInfoScreen> createState() => _ProviderInfoScreenState();
+  State<InfoDuPrestataireScreen> createState() => _InfoDuPrestataireScreenState();
 }
 
-class _ProviderInfoScreenState extends State<ProviderInfoScreen> {
+class _InfoDuPrestataireScreenState extends State<InfoDuPrestataireScreen> {
   Future<List<FeedbackModel>> _feedbackList = Future.value([]);
   @override
   void initState() {

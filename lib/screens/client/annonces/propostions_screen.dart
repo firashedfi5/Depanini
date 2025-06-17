@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/proposal_model.dart';
-import 'package:depanini/screens/client/home/provider_info_screen.dart';
+import 'package:depanini/screens/client/home/info_du_prestataire_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -147,7 +147,7 @@ class _PropostionsScreenState extends State<PropostionsScreen> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder:
-                                  (context) => ProviderInfoScreen(
+                                  (context) => InfoDuPrestataireScreen(
                                     uid: proposals[index].prestataireUid,
                                     email: proposals[index].prestataireEmail,
                                   ),
