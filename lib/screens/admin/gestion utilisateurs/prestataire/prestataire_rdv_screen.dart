@@ -7,17 +7,17 @@ import 'package:intl/intl.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
-class PrRdvScreen extends StatefulWidget {
+class PrestataireRdvScreen extends StatefulWidget {
   final String uid;
   final String username;
 
-  const PrRdvScreen({super.key, required this.uid, required this.username});
+  const PrestataireRdvScreen({super.key, required this.uid, required this.username});
 
   @override
-  State<PrRdvScreen> createState() => _PrRdvScreenState();
+  State<PrestataireRdvScreen> createState() => _PrestataireRdvScreenState();
 }
 
-class _PrRdvScreenState extends State<PrRdvScreen> {
+class _PrestataireRdvScreenState extends State<PrestataireRdvScreen> {
   Color getStatusColor(String status) {
     switch (status) {
       case 'completé':

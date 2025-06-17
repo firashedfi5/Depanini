@@ -3,21 +3,22 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/client_account_model.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/models/unified_model.dart';
-import 'package:depanini/screens/admin/user%20management/client_info_screen.dart';
-import 'package:depanini/screens/admin/user%20management/prestataire_info_screen.dart';
+import 'package:depanini/screens/admin/gestion%20utilisateurs/client_info_screen.dart';
+import 'package:depanini/screens/admin/gestion%20utilisateurs/prestataire_info_screen.dart';
 import 'package:flutter/material.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
-class AdminUserManagementScreen extends StatefulWidget {
-  const AdminUserManagementScreen({super.key});
+class AdminGestionUtilisateursScreen extends StatefulWidget {
+  const AdminGestionUtilisateursScreen({super.key});
 
   @override
-  State<AdminUserManagementScreen> createState() =>
-      _AdminUserManagementScreenState();
+  State<AdminGestionUtilisateursScreen> createState() =>
+      _AdminGestionUtilisateursScreenState();
 }
 
-class _AdminUserManagementScreenState extends State<AdminUserManagementScreen> {
+class _AdminGestionUtilisateursScreenState
+    extends State<AdminGestionUtilisateursScreen> {
   int? usersCount;
   Future<List<UnifiedUser>> _foundedUsers = Future.value([]);
 

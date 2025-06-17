@@ -1,7 +1,7 @@
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:depanini/screens/admin/admin_diy_screen.dart';
+import 'package:depanini/screens/admin/admin_astuces_screen.dart';
+import 'package:depanini/screens/admin/admin_gestion_utilisateurs_screen.dart';
 import 'package:depanini/screens/admin/admin_profil_screen.dart';
-import 'package:depanini/screens/admin/admin_user_management_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -22,8 +22,8 @@ class _AdminHomeState extends State<AdminHome> {
   }
 
   final List<Widget> _pages = [
-    const AdminUserManagementScreen(),
-    const AdminDiyScreen(),
+    const AdminGestionUtilisateursScreen(),
+    const AdminAstucesScreen(),
     const AdminProfilScreen(),
   ];
 
@@ -37,9 +37,9 @@ class _AdminHomeState extends State<AdminHome> {
         animationDuration: const Duration(milliseconds: 300),
         onTap: _navigateGoogleNavbar,
         items: const [
-           FaIcon(FontAwesomeIcons.users),
-           Icon(Icons.tips_and_updates),
-           Icon(Icons.account_circle),
+          FaIcon(FontAwesomeIcons.users),
+          Icon(Icons.tips_and_updates),
+          Icon(Icons.account_circle),
         ],
       ),
     );

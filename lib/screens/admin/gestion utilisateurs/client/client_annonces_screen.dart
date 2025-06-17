@@ -8,16 +8,16 @@ import 'package:intl/intl.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
-class ClPostsScreen extends StatefulWidget {
+class ClientAnnoncesScreen extends StatefulWidget {
   final String uid;
   final String username;
-  const ClPostsScreen({super.key, required this.uid, required this.username});
+  const ClientAnnoncesScreen({super.key, required this.uid, required this.username});
 
   @override
-  State<ClPostsScreen> createState() => _ClPostsScreenState();
+  State<ClientAnnoncesScreen> createState() => _ClientAnnoncesScreenState();
 }
 
-class _ClPostsScreenState extends State<ClPostsScreen> {
+class _ClientAnnoncesScreenState extends State<ClientAnnoncesScreen> {
   List<PostModel> _postListed = [];
   var _isLoading = true;
   String? _error;

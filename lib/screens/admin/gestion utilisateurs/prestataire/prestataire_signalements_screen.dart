@@ -5,17 +5,17 @@ import 'package:intl/intl.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
-class PrReportsScreen extends StatefulWidget {
+class PrestataireSignalementsScreen extends StatefulWidget {
   final String uid;
   final String username;
 
-  const PrReportsScreen({super.key, required this.uid, required this.username});
+  const PrestataireSignalementsScreen({super.key, required this.uid, required this.username});
 
   @override
-  State<PrReportsScreen> createState() => _PrReportsScreenState();
+  State<PrestataireSignalementsScreen> createState() => _PrestataireSignalementsScreenState();
 }
 
-class _PrReportsScreenState extends State<PrReportsScreen> {
+class _PrestataireSignalementsScreenState extends State<PrestataireSignalementsScreen> {
   Future<List<ReportModel>> _reportList = Future.value([]);
 
   @override

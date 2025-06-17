@@ -4,9 +4,9 @@ import 'dart:developer' as dev;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/provider_account_model.dart';
-import 'package:depanini/screens/admin/user%20management/prestataire/pr_feedback_screen.dart';
-import 'package:depanini/screens/admin/user%20management/prestataire/pr_rdv_screen.dart';
-import 'package:depanini/screens/admin/user%20management/prestataire/pr_reports_screen.dart';
+import 'package:depanini/screens/admin/gestion%20utilisateurs/prestataire/prestataire_avis_screen.dart';
+import 'package:depanini/screens/admin/gestion%20utilisateurs/prestataire/prestataire_rdv_screen.dart';
+import 'package:depanini/screens/admin/gestion%20utilisateurs/prestataire/prestataire_signalements_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -425,7 +425,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder:
-                              (context) => PrReportsScreen(
+                              (context) => PrestataireSignalementsScreen(
                                 uid: widget.providerData.uid,
                                 username: widget.providerData.username,
                               ),
@@ -444,7 +444,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder:
-                                  (context) => PrFeedbackScreen(
+                                  (context) => PrestataireAvisScreen(
                                     uid: widget.providerData.uid,
                                     username: widget.providerData.username,
                                   ),
@@ -460,7 +460,7 @@ class _PrestataireInfoScreenState extends State<PrestataireInfoScreen> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder:
-                                  (context) => PrRdvScreen(
+                                  (context) => PrestataireRdvScreen(
                                     uid: widget.providerData.uid,
                                     username: widget.providerData.username,
                                   ),

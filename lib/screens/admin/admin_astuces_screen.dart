@@ -3,20 +3,20 @@ import 'dart:developer' as dev;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/astuce_model.dart';
-import 'package:depanini/screens/admin/diy/edit_diy_screen.dart';
-import 'package:depanini/screens/admin/diy/new_diy_screen.dart';
+import 'package:depanini/screens/admin/astuces/ajouter_astuce_screen.dart';
+import 'package:depanini/screens/admin/astuces/modifier_astuce_screen.dart';
 import 'package:flutter/material.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
-class AdminDiyScreen extends StatefulWidget {
-  const AdminDiyScreen({super.key});
+class AdminAstucesScreen extends StatefulWidget {
+  const AdminAstucesScreen({super.key});
 
   @override
-  State<AdminDiyScreen> createState() => _AdminDiyScreenState();
+  State<AdminAstucesScreen> createState() => _AdminAstucesScreenState();
 }
 
-class _AdminDiyScreenState extends State<AdminDiyScreen> {
+class _AdminAstucesScreenState extends State<AdminAstucesScreen> {
   List<AstuceModel> _astuceListed = [];
   var _isLoading = true;
   String? _error;
@@ -67,7 +67,7 @@ class _AdminDiyScreenState extends State<AdminDiyScreen> {
 
   void _addAstuce() async {
     await Navigator.of(context).push<AstuceModel>(
-      MaterialPageRoute(builder: (context) => const NewDiyScreen()),
+      MaterialPageRoute(builder: (context) => const AjouterAstuceScreen()),
     );
     _loadAstuces();
     dev.log("Astuce crée");
@@ -255,7 +255,7 @@ class _AdminDiyScreenState extends State<AdminDiyScreen> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder:
-                                (context) => EditDiyScreen(
+                                (context) => ModifierAstuceScreen(
                                   astuceId: astuce.id,
                                   originalDescription: astuce.description,
                                   originalTitle: astuce.titre,

@@ -9,8 +9,8 @@ import 'package:flutter/material.dart';
 final _firestore = FirebaseFirestore.instance;
 final _storage = FirebaseStorage.instance;
 
-class EditDiyScreen extends StatefulWidget {
-  const EditDiyScreen({
+class ModifierAstuceScreen extends StatefulWidget {
+  const ModifierAstuceScreen({
     super.key,
     required this.astuceId,
     required this.originalDescription,
@@ -22,10 +22,10 @@ class EditDiyScreen extends StatefulWidget {
   final String originalTitle;
 
   @override
-  State<EditDiyScreen> createState() => _EditDiyScreenState();
+  State<ModifierAstuceScreen> createState() => _ModifierAstuceScreenState();
 }
 
-class _EditDiyScreenState extends State<EditDiyScreen> {
+class _ModifierAstuceScreenState extends State<ModifierAstuceScreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _enteredDescription = TextEditingController();
   final TextEditingController _enteredTitle = TextEditingController();

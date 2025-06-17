@@ -11,14 +11,14 @@ import 'package:uuid/uuid.dart';
 final _firestore = FirebaseFirestore.instance;
 final _storage = FirebaseStorage.instance;
 
-class NewDiyScreen extends StatefulWidget {
-  const NewDiyScreen({super.key});
+class AjouterAstuceScreen extends StatefulWidget {
+  const AjouterAstuceScreen({super.key});
 
   @override
-  State<NewDiyScreen> createState() => _NewDiyScreenState();
+  State<AjouterAstuceScreen> createState() => _AjouterAstuceScreenState();
 }
 
-class _NewDiyScreenState extends State<NewDiyScreen> {
+class _AjouterAstuceScreenState extends State<AjouterAstuceScreen> {
   final uuid = const Uuid();
   late String astuceId;
   final List<Domains> _domains = Domains.values;

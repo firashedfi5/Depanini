@@ -1,16 +1,15 @@
+import 'dart:convert';
 import 'dart:developer' as dev;
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/client_account_model.dart';
-import 'package:depanini/screens/admin/user%20management/client/cl_posts_screen.dart';
-import 'package:depanini/screens/admin/user%20management/client/cl_rdv_screen.dart';
-import 'package:depanini/screens/admin/user%20management/client/cl_reports_screen.dart';
+import 'package:depanini/screens/admin/gestion%20utilisateurs/client/client_annonces_screen.dart';
+import 'package:depanini/screens/admin/gestion%20utilisateurs/client/client_rdv_screen.dart';
+import 'package:depanini/screens/admin/gestion%20utilisateurs/client/client_signalements_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-
 import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:intl/intl.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
@@ -351,7 +350,7 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder:
-                              (context) => ClReportsScreen(
+                              (context) => ClientSignalementsScreen(
                                 uid: widget.clientData.uid!,
                                 username: widget.clientData.username!,
                               ),
@@ -370,7 +369,7 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder:
-                                  (context) => ClPostsScreen(
+                                  (context) => ClientAnnoncesScreen(
                                     uid: widget.clientData.uid!,
                                     username: widget.clientData.username!,
                                   ),
@@ -386,7 +385,7 @@ class _ClientInfoScreenState extends State<ClientInfoScreen> {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder:
-                                  (context) => ClRdvScreen(
+                                  (context) => ClientRdvScreen(
                                     uid: widget.clientData.uid!,
                                     username: widget.clientData.username!,
                                   ),

@@ -5,17 +5,22 @@ import 'package:intl/intl.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
-class ClReportsScreen extends StatefulWidget {
+class ClientSignalementsScreen extends StatefulWidget {
   final String uid;
   final String username;
 
-  const ClReportsScreen({super.key, required this.uid, required this.username});
+  const ClientSignalementsScreen({
+    super.key,
+    required this.uid,
+    required this.username,
+  });
 
   @override
-  State<ClReportsScreen> createState() => _ClReportsScreenState();
+  State<ClientSignalementsScreen> createState() =>
+      _ClientSignalementsScreenState();
 }
 
-class _ClReportsScreenState extends State<ClReportsScreen> {
+class _ClientSignalementsScreenState extends State<ClientSignalementsScreen> {
   Future<List<ReportModel>> _reportList = Future.value([]);
 
   @override
@@ -42,7 +47,7 @@ class _ClReportsScreenState extends State<ClReportsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Reports de ${widget.username}')),
+      appBar: AppBar(title: Text('Signalements sur ${widget.username}')),
       body: FutureBuilder<List<ReportModel>>(
         future: _reportList,
         builder: (context, snapshot) {

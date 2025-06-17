@@ -5,21 +5,21 @@ import 'package:flutter/material.dart';
 
 final _firestore = FirebaseFirestore.instance;
 
-class PrFeedbackScreen extends StatefulWidget {
+class PrestataireAvisScreen extends StatefulWidget {
   final String uid;
   final String username;
 
-  const PrFeedbackScreen({
+  const PrestataireAvisScreen({
     super.key,
     required this.uid,
     required this.username,
   });
 
   @override
-  State<PrFeedbackScreen> createState() => _PrFeedbackScreenState();
+  State<PrestataireAvisScreen> createState() => _PrestataireAvisScreenState();
 }
 
-class _PrFeedbackScreenState extends State<PrFeedbackScreen> {
+class _PrestataireAvisScreenState extends State<PrestataireAvisScreen> {
   Future<List<FeedbackModel>> _feedbackList = Future.value([]);
 
   @override
