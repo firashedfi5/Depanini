@@ -16,7 +16,7 @@ class ClientRdvTermine extends StatefulWidget {
 }
 
 class _ClientRdvTermineState extends State<ClientRdvTermine> {
-  // *******************************
+  // *Tfetchi ken les RDV eli status mte3hom completé
   Stream<List<RdvModel>> getCompletedRdvsStream() {
     return _firestore
         .collection('rdvs')

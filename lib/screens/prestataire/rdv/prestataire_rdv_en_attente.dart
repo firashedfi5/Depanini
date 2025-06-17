@@ -18,9 +18,8 @@ class PrestataireRdvEnAttente extends StatefulWidget {
       _PrestataireRdvEnAttenteState();
 }
 
-class _PrestataireRdvEnAttenteState
-    extends State<PrestataireRdvEnAttente> {
-  // *******************************
+class _PrestataireRdvEnAttenteState extends State<PrestataireRdvEnAttente> {
+  // *Tfetchi ken les RDV eli status mte3hom en_attente
   Stream<List<RdvModel>> getPendingRdvsStream() {
     return _firestore
         .collection('rdvs')

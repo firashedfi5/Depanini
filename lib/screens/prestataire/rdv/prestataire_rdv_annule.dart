@@ -13,13 +13,11 @@ class PrestataireRdvAnnule extends StatefulWidget {
   const PrestataireRdvAnnule({super.key});
 
   @override
-  State<PrestataireRdvAnnule> createState() =>
-      _PrestataireRdvAnnuleState();
+  State<PrestataireRdvAnnule> createState() => _PrestataireRdvAnnuleState();
 }
 
-class _PrestataireRdvAnnuleState
-    extends State<PrestataireRdvAnnule> {
-  // *******************************
+class _PrestataireRdvAnnuleState extends State<PrestataireRdvAnnule> {
+  // *Tfetchi ken les RDV eli status mte3hom annulé
   Stream<List<RdvModel>> getCancelledRdvsStream() {
     return _firestore
         .collection('rdvs')

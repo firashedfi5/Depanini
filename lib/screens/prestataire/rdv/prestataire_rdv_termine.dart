@@ -13,13 +13,11 @@ class PrestataireRdvTermine extends StatefulWidget {
   const PrestataireRdvTermine({super.key});
 
   @override
-  State<PrestataireRdvTermine> createState() =>
-      _PrestataireRdvTermineState();
+  State<PrestataireRdvTermine> createState() => _PrestataireRdvTermineState();
 }
 
-class _PrestataireRdvTermineState
-    extends State<PrestataireRdvTermine> {
-  // *******************************
+class _PrestataireRdvTermineState extends State<PrestataireRdvTermine> {
+  // *Tfetchi ken les RDV eli status mte3hom completé
   Stream<List<RdvModel>> getCompletedRdvsStream() {
     return _firestore
         .collection('rdvs')

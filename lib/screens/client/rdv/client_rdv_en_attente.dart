@@ -12,12 +12,11 @@ class ClientRdvEnAttente extends StatefulWidget {
   const ClientRdvEnAttente({super.key});
 
   @override
-  State<ClientRdvEnAttente> createState() =>
-      _ClientRdvEnAttenteState();
+  State<ClientRdvEnAttente> createState() => _ClientRdvEnAttenteState();
 }
 
 class _ClientRdvEnAttenteState extends State<ClientRdvEnAttente> {
-  // *******************************
+  // *Tfetchi ken les RDV eli status mte3hom en_attente
   Stream<List<RdvModel>> getPendingRdvsStream() {
     return _firestore
         .collection('rdvs')
@@ -56,8 +55,6 @@ class _ClientRdvEnAttenteState extends State<ClientRdvEnAttente> {
               }).toList(),
         );
   }
-
-  // *******************************
 
   @override
   Widget build(BuildContext context) {

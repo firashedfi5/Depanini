@@ -12,13 +12,11 @@ class ClientRdvAnnule extends StatefulWidget {
   const ClientRdvAnnule({super.key});
 
   @override
-  State<ClientRdvAnnule> createState() =>
-      _ClientRdvAnnuleState();
+  State<ClientRdvAnnule> createState() => _ClientRdvAnnuleState();
 }
 
-class _ClientRdvAnnuleState
-    extends State<ClientRdvAnnule> {
-  // *******************************
+class _ClientRdvAnnuleState extends State<ClientRdvAnnule> {
+  // *Tfetchi ken les RDV eli status mte3hom annulé
   Stream<List<RdvModel>> getCancelledRdvsStream() {
     return _firestore
         .collection('rdvs')
@@ -57,7 +55,6 @@ class _ClientRdvAnnuleState
               }).toList(),
         );
   }
-  // *******************************
 
   @override
   Widget build(BuildContext context) {
