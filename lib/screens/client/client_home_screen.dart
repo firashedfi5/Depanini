@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
     }).toList();
   }
 
-  // *Compteur mte3 notification
+  // *Compteur mte3 notification en temps réel
   Stream<int> _notificationCountStream() {
     return _firestore
         .collection('notifications')
@@ -250,13 +250,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                             const NotificationsScreen(),
                                   ),
                                 );
-                                // Navigator.push(
-                                //   context,
-                                //   MaterialPageRoute(
-                                //     builder:
-                                //         (context) => const OnboardingScreen(),
-                                //   ),
-                                // );
                               },
                               icon: SizedBox(
                                 width: 30,
