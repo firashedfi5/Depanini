@@ -363,13 +363,15 @@ class _InfoDuPrestataireScreenState extends State<InfoDuPrestataireScreen> {
     return snapshot;
   }
 
-  //*
+  //* Fetchi les rdv terminé m3a prestataire mo3ayen w t7othom fi liste
+  //* Idha ken liste fergha section avis w section signalement indisponible
   Future<List<RdvModel>> getCompletedRdvsStream() async {
     final snapshot =
         await _firestore
             .collection('rdvs')
             .where('client_uid', isEqualTo: _auth.currentUser!.uid)
             .where('status', isEqualTo: 'completé')
+            .where('prestataire_uid', isEqualTo: widget.uid)
             .orderBy('date', descending: false)
             .get();
 
@@ -664,11 +666,22 @@ class _InfoDuPrestataireScreenState extends State<InfoDuPrestataireScreen> {
                       }
 
                       if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                        return const Center(child: SizedBox());
+                        return Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              'Un rendez-vous terminé avec ce prestataire est requis pour laisser un avis ou signaler un problème.',
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
+                          ),
+                        );
                       }
 
                       return // Rating Section
                       Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           Card(
                             color:
