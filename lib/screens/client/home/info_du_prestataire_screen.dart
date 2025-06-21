@@ -3,7 +3,9 @@ import 'dart:developer' as dev;
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:depanini/models/feedback_model.dart';
+import 'package:depanini/models/place.dart';
 import 'package:depanini/models/provider_account_model.dart';
+import 'package:depanini/models/rdv_model.dart';
 import 'package:depanini/screens/client/rdv/demander_rdv.dart';
 import 'package:depanini/screens/commun/chat_screen.dart';
 import 'package:depanini/widgets/feedback.dart';
@@ -19,12 +21,17 @@ final _auth = FirebaseAuth.instance;
 final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
 class InfoDuPrestataireScreen extends StatefulWidget {
-  const InfoDuPrestataireScreen({super.key, required this.email, required this.uid});
+  const InfoDuPrestataireScreen({
+    super.key,
+    required this.email,
+    required this.uid,
+  });
   final String uid;
   final String email;
 
   @override
-  State<InfoDuPrestataireScreen> createState() => _InfoDuPrestataireScreenState();
+  State<InfoDuPrestataireScreen> createState() =>
+      _InfoDuPrestataireScreenState();
 }
 
 class _InfoDuPrestataireScreenState extends State<InfoDuPrestataireScreen> {
@@ -356,6 +363,44 @@ class _InfoDuPrestataireScreenState extends State<InfoDuPrestataireScreen> {
     return snapshot;
   }
 
+  //*
+  Future<List<RdvModel>> getCompletedRdvsStream() async {
+    final snapshot =
+        await _firestore
+            .collection('rdvs')
+            .where('client_uid', isEqualTo: _auth.currentUser!.uid)
+            .where('status', isEqualTo: 'completé')
+            .orderBy('date', descending: false)
+            .get();
+
+    return snapshot.docs.map((doc) {
+      final data = doc.data();
+      return RdvModel(
+        id: doc.id,
+        clientUid: data['client_uid'],
+        clientUsername: data['client_username'],
+        clientProfilePicture: data['client_profile_picture'],
+        clientLocation: PlaceLocation(
+          latitude: data['client_Lat&Long'].latitude,
+          longitude: data['client_Lat&Long'].longitude,
+          address: data['client_location'],
+        ),
+        prestataireLocation: PlaceLocation(
+          latitude: data['prestataire_Lat&Long'].latitude,
+          longitude: data['prestataire_Lat&Long'].longitude,
+          address: data['prestataire_location'],
+        ),
+        prestataireUid: data['prestataire_uid'],
+        prestataireUsername: data['prestataire_username'],
+        prestataireProfilePicture: data['prestataire_profile_picture'],
+        service: data['service'],
+        date: (data['date'] as Timestamp).toDate(),
+        heure: data['heure'],
+        status: data['status'],
+      );
+    }).toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -602,186 +647,233 @@ class _InfoDuPrestataireScreenState extends State<InfoDuPrestataireScreen> {
 
                   const SizedBox(height: 20),
 
-                  // Rating Section
-                  Card(
-                    color:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Theme.of(
-                              context,
-                            ).colorScheme.secondaryContainer.withAlpha(100)
-                            : Theme.of(context).colorScheme.secondaryContainer,
-                    elevation: 2,
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
+                  FutureBuilder(
+                    future: getCompletedRdvsStream(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      }
+
+                      if (snapshot.hasError) {
+                        return Center(
+                          child: Text(
+                            snapshot.error.toString(),
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      }
+
+                      if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Center(child: SizedBox());
+                      }
+
+                      return // Rating Section
+                      Column(
                         children: [
-                          Text(
-                            'Donner une note',
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          const SizedBox(height: 16),
-                          RatingBar.builder(
-                            initialRating: rating,
-                            minRating: 1,
-                            itemCount: 5,
-                            itemSize: 32,
-                            allowHalfRating: true,
-                            glow: true,
-                            itemPadding: const EdgeInsets.symmetric(
-                              horizontal: 4,
-                            ),
-                            itemBuilder:
-                                (context, _) =>
-                                    const Icon(Icons.star, color: Colors.amber),
-                            onRatingUpdate: (value) => rating = value,
-                          ),
-                          const SizedBox(height: 16),
-                          SizedBox(
-                            // width: 210,
-                            child: FilledButton.icon(
-                              icon: const FaIcon(
-                                FontAwesomeIcons.solidFloppyDisk,
-                                size: 16,
-                              ),
-                              label: const Text('Enregistrer l\'évaluation'),
-                              onPressed: _submitRating,
-                              style: FilledButton.styleFrom(
-                                minimumSize: const Size(double.minPositive, 48),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // New Feedback Section
-                  Card(
-                    color:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Theme.of(
-                              context,
-                            ).colorScheme.secondaryContainer.withAlpha(100)
-                            : Theme.of(context).colorScheme.secondaryContainer,
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            'Avis',
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          const SizedBox(height: 12),
-                          // Existing feedbacks list
-                          SizedBox(
-                            height: 125,
-                            child: FutureBuilder<List<FeedbackModel>>(
-                              future: _feedbackList,
-                              builder: (context, snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-
-                                if (snapshot.hasError) {
-                                  return Center(
-                                    child: Text('Erreur: ${snapshot.error}'),
-                                  );
-                                }
-
-                                if (!snapshot.hasData ||
-                                    snapshot.data!.isEmpty) {
-                                  return const Center(
-                                    child: Text(
-                                      'Aucun avis ajouté pour le moment',
+                          Card(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .secondaryContainer
+                                        .withAlpha(100)
+                                    : Theme.of(
+                                      context,
+                                    ).colorScheme.secondaryContainer,
+                            elevation: 2,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                children: [
+                                  Text(
+                                    'Donner une note',
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  RatingBar.builder(
+                                    initialRating: rating,
+                                    minRating: 1,
+                                    itemCount: 5,
+                                    itemSize: 32,
+                                    allowHalfRating: true,
+                                    glow: true,
+                                    itemPadding: const EdgeInsets.symmetric(
+                                      horizontal: 4,
                                     ),
-                                  );
-                                }
-
-                                return ListView.builder(
-                                  scrollDirection: Axis.horizontal,
-                                  shrinkWrap: true,
-                                  physics: const BouncingScrollPhysics(),
-                                  itemCount: snapshot.data!.length,
-                                  itemBuilder:
-                                      (context, index) => FeedbackItem(
-                                        feedback: snapshot.data![index],
-                                        uid: widget.uid,
+                                    itemBuilder:
+                                        (context, _) => const Icon(
+                                          Icons.star,
+                                          color: Colors.amber,
+                                        ),
+                                    onRatingUpdate: (value) => rating = value,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  SizedBox(
+                                    // width: 210,
+                                    child: FilledButton.icon(
+                                      icon: const FaIcon(
+                                        FontAwesomeIcons.solidFloppyDisk,
+                                        size: 16,
                                       ),
-                                );
-                              },
+                                      label: const Text(
+                                        'Enregistrer l\'évaluation',
+                                      ),
+                                      onPressed: _submitRating,
+                                      style: FilledButton.styleFrom(
+                                        minimumSize: const Size(
+                                          double.minPositive,
+                                          48,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
-                          const SizedBox(height: 12),
-                          TextField(
-                            controller: _feedbackController,
-                            decoration: const InputDecoration(
-                              hintText: 'Écrivez votre avis...',
-                              border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.all(12),
+                          const SizedBox(height: 20),
+
+                          // New Feedback Section
+                          Card(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .secondaryContainer
+                                        .withAlpha(100)
+                                    : Theme.of(
+                                      context,
+                                    ).colorScheme.secondaryContainer,
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
                             ),
-                            maxLines: 3,
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(
+                                    'Avis',
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                  const SizedBox(height: 12),
+                                  // Existing feedbacks list
+                                  SizedBox(
+                                    height: 125,
+                                    child: FutureBuilder<List<FeedbackModel>>(
+                                      future: _feedbackList,
+                                      builder: (context, snapshot) {
+                                        if (snapshot.connectionState ==
+                                            ConnectionState.waiting) {
+                                          return const Center(
+                                            child: CircularProgressIndicator(),
+                                          );
+                                        }
+
+                                        if (snapshot.hasError) {
+                                          return Center(
+                                            child: Text(
+                                              'Erreur: ${snapshot.error}',
+                                            ),
+                                          );
+                                        }
+
+                                        if (!snapshot.hasData ||
+                                            snapshot.data!.isEmpty) {
+                                          return const Center(
+                                            child: Text(
+                                              'Aucun avis ajouté pour le moment',
+                                            ),
+                                          );
+                                        }
+
+                                        return ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          shrinkWrap: true,
+                                          physics:
+                                              const BouncingScrollPhysics(),
+                                          itemCount: snapshot.data!.length,
+                                          itemBuilder:
+                                              (context, index) => FeedbackItem(
+                                                feedback: snapshot.data![index],
+                                                uid: widget.uid,
+                                              ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                  const SizedBox(height: 12),
+                                  TextField(
+                                    controller: _feedbackController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Écrivez votre avis...',
+                                      border: OutlineInputBorder(),
+                                      contentPadding: EdgeInsets.all(12),
+                                    ),
+                                    maxLines: 3,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  FilledButton(
+                                    onPressed: _submitFeedback,
+                                    child: const Text('Soumettre'),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                          const SizedBox(height: 16),
-                          FilledButton(
-                            onPressed: _submitFeedback,
-                            child: const Text('Soumettre'),
+
+                          const SizedBox(height: 20),
+
+                          // New Reporting Section
+                          Card(
+                            color:
+                                Theme.of(context).brightness == Brightness.dark
+                                    ? Theme.of(context)
+                                        .colorScheme
+                                        .secondaryContainer
+                                        .withAlpha(100)
+                                    : Theme.of(
+                                      context,
+                                    ).colorScheme.secondaryContainer,
+                            elevation: 2,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: [
+                                  Text(
+                                    'Signaler un abus',
+                                    style:
+                                        Theme.of(context).textTheme.titleLarge,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  TextField(
+                                    controller: _reportController,
+                                    decoration: const InputDecoration(
+                                      hintText: 'Décrivez le problème...',
+                                      border: OutlineInputBorder(),
+                                      contentPadding: EdgeInsets.all(12),
+                                    ),
+                                    maxLines: 3,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  FilledButton(
+                                    onPressed: _submitReport,
+                                    child: const Text('Soumettre'),
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
                         ],
-                      ),
-                    ),
-                  ),
-
-                  const SizedBox(height: 20),
-
-                  // New Reporting Section
-                  Card(
-                    color:
-                        Theme.of(context).brightness == Brightness.dark
-                            ? Theme.of(
-                              context,
-                            ).colorScheme.secondaryContainer.withAlpha(100)
-                            : Theme.of(context).colorScheme.secondaryContainer,
-                    elevation: 2,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Text(
-                            'Signaler un abus',
-                            style: Theme.of(context).textTheme.titleLarge,
-                          ),
-                          const SizedBox(height: 16),
-                          TextField(
-                            controller: _reportController,
-                            decoration: const InputDecoration(
-                              hintText: 'Décrivez le problème...',
-                              border: OutlineInputBorder(),
-                              contentPadding: EdgeInsets.all(12),
-                            ),
-                            maxLines: 3,
-                          ),
-                          const SizedBox(height: 16),
-                          FilledButton(
-                            onPressed: _submitReport,
-                            child: const Text('Soumettre'),
-                          ),
-                        ],
-                      ),
-                    ),
+                      );
+                    },
                   ),
                 ],
               ),
