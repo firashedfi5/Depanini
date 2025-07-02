@@ -649,6 +649,8 @@ class _InfoDuPrestataireScreenState extends State<InfoDuPrestataireScreen> {
 
                   const SizedBox(height: 20),
 
+                  // *Idha ken liste feha rdv terminé ybayen les box (rate, feedback, report)
+                  // *Sinon yaffichi msg indicative
                   FutureBuilder(
                     future: getCompletedRdvsStream(),
                     builder: (context, snapshot) {
