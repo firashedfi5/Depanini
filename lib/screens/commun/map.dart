@@ -2,6 +2,7 @@ import 'package:depanini/models/place.dart';
 import 'package:depanini/models/provider_account_model.dart';
 import 'package:depanini/screens/client/home/info_du_prestataire_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
@@ -38,7 +39,7 @@ class _MapScreenState extends State<MapScreen> {
     PolylinePoints polylinePoints = PolylinePoints();
 
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      googleApiKey: 'AIzaSyBj1ZcnXcI0Wrt1QpNWLj70OMJP_ZVEpvs',
+      googleApiKey: dotenv.env['googleApiKey'],
       request: PolylineRequest(
         origin: PointLatLng(
           widget.location.latitude,
