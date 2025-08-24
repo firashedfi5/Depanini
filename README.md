@@ -99,29 +99,17 @@ Before running this project, make sure you have the following installed:
 - Valid Apple Developer account (for device testing)
 
 ## 🏗️ Project Structure
-
-
-## 📦 Dependencies
-
-### Main Dependencies
-
-- `flutter/material.dart` - Material Design components and widgets
-- `dartz` - Functional programming utilities (Either, Option types)
-- `dio` - Powerful HTTP client for API requests and interceptors
-- `flutter_bloc` - State management using BLoC pattern
-- `go_router` - Declarative routing and navigation
-- `google_nav_bar` - Animated bottom navigation bar with Google style
-- `shared_preferences` - Local key-value storage for app preferences
-- `skeletonizer` - Loading skeleton animations for better UX
-- `table_calendar` - Customizable calendar widget with events support
-- `flutter_native_splash` - Create native splash screens for iOS and Android
-
-### Dev Dependencies
-
-- `flutter_test` - Built-in testing framework for unit and widget tests
-- `flutter_lints` - Official Dart linting rules for code quality
-- `flutter_launcher_icons` - Generate app launcher icons for all platforms
-- `mockito` - Mock objects for unit testing and dependency isolation
+```
+lib/
+├── main.dart                          # 🚀 App entry point and initialization
+├── constants/                         # 📋 App-wide constants and configuration    
+├── data/                              # 💾 Data layer
+├── models/                            # 🏗️ Domain models
+├── providers                          # 🔄 State management
+├── screens                            # 📱 UI screens
+├── theme                              # 🎨 App theming and styling
+├── widgets                            # 🧩 Reusable UI components
+```
 
 ## 🔧 Configuration
 
@@ -175,7 +163,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) f
 
 If you have any questions or need help, please:
 
-1. Check the [Issues](https://github.com/firashedfi5/TaskZen/issues) page
+1. Check the [Issues](https://github.com/firashedfi5/Depanini/issues) page
 2. Create a new issue if your problem isn't already reported
 3. Contact me at: firashedfi4@gmail.com
 
