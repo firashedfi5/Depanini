@@ -49,11 +49,13 @@
 
 ## ✨ Features
 
-- **Task Management**: Create, read, update, and delete tasks with ease
-- **Task Status Filtering**: Filter tasks by status (To Do, In Progress, Completed) using filter chips
-- **Interactive Calendar**: View task count for each day with visual indicators and click on any day to see specific tasks
-- **Cross-platform**: Works on both iOS and Android
-- **Responsive Design**: Adapts to different screen sizes
+- **Authentication**: Secure signup/login with role-based access
+- **Service Discovery**: Search and book services by location/category
+- **Real-time Communication**: Chat system with push notifications
+- **Interactive Maps**: View provider locations and routes to clients
+- **Community Content**: DIY tips and service announcements
+- **Safety Features**: Reporting system and content moderation
+- **Admin Dashboard**: Complete system management
 
 ## 🚀 Getting Started
 
@@ -70,8 +72,8 @@ Before running this project, make sure you have the following installed:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/TaskZen.git
-   cd TaskZen
+   git clone https://github.com/firashedfi5/Depanini.git
+   cd Depanini
    ```
 
 2. **Install dependencies**
@@ -95,3 +97,95 @@ Before running this project, make sure you have the following installed:
 - Minimum iOS version: 11.0
 - Xcode 12.0 or higher
 - Valid Apple Developer account (for device testing)
+
+## 🏗️ Project Structure
+
+
+## 📦 Dependencies
+
+### Main Dependencies
+
+- `flutter/material.dart` - Material Design components and widgets
+- `dartz` - Functional programming utilities (Either, Option types)
+- `dio` - Powerful HTTP client for API requests and interceptors
+- `flutter_bloc` - State management using BLoC pattern
+- `go_router` - Declarative routing and navigation
+- `google_nav_bar` - Animated bottom navigation bar with Google style
+- `shared_preferences` - Local key-value storage for app preferences
+- `skeletonizer` - Loading skeleton animations for better UX
+- `table_calendar` - Customizable calendar widget with events support
+- `flutter_native_splash` - Create native splash screens for iOS and Android
+
+### Dev Dependencies
+
+- `flutter_test` - Built-in testing framework for unit and widget tests
+- `flutter_lints` - Official Dart linting rules for code quality
+- `flutter_launcher_icons` - Generate app launcher icons for all platforms
+- `mockito` - Mock objects for unit testing and dependency isolation
+
+## 🔧 Configuration
+
+### Environment Variables
+
+Create a `.env` file in the root directory:
+
+```env
+API_KEY=your-api-key
+```
+
+### Firebase Setup
+
+1. Add your `google-services.json` (Android) to `android/app/`
+2. Add your `GoogleService-Info.plist` (iOS) to `ios/Runner/`
+3. Initialize Firebase in `main.dart`
+
+## 🚀 Building for Production
+
+### Android (APK)
+
+```bash
+flutter build apk --release
+```
+
+### Android (App Bundle)
+
+```bash
+flutter build appbundle --release
+```
+
+### iOS
+
+```bash
+flutter build ios --release
+```
+
+## 🤝 Contributing
+
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE.md) file for details.
+
+## 📞 Support
+
+If you have any questions or need help, please:
+
+1. Check the [Issues](https://github.com/firashedfi5/TaskZen/issues) page
+2. Create a new issue if your problem isn't already reported
+3. Contact me at: firashedfi4@gmail.com
+
+## 🔄 Changelog
+
+### Version 1.0.0
+- Initial release
+- Basic functionality implemented
+- Cross-platform support
+
+---
+
+**Happy coding! 🎉**
